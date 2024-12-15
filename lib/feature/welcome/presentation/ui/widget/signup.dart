@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+class SignUp extends ConsumerStatefulWidget {
+  const SignUp({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpState();
 }
 
-class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+class _SignUpState extends ConsumerState<SignUp> {
 
   @override
   Widget build(BuildContext context) {

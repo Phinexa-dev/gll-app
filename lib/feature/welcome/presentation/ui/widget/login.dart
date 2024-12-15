@@ -3,14 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+class Login extends ConsumerStatefulWidget {
+  const Login({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginState extends ConsumerState<Login> {
 
   @override
   Widget build(BuildContext context) {
