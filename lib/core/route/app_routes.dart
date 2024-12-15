@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gll_app/core/route/route_name.dart';
-import 'package:gll_app/feature/signup/presentation/ui/widget/signup_screen.dart';
+import 'package:gll/core/route/route_name.dart';
+import 'package:gll/feature/signup/presentation/ui/widget/signup_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../feature/login/presentation/ui/widget/login_screen.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gll_app/core/route/router_provider.dart';
+import 'package:gll/core/route/router_provider.dart';
 
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});

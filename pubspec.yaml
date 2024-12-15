@@ -1,4 +1,4 @@
-name: gll_app
+name: gll
 description: "Orgnization management application"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -41,11 +41,11 @@ dependencies:
   dio: ^5.7.0
   #  https://pub.dev/packages/dio_http_formatter
   dio_http_formatter: ^3.3.0
-#  https://pub.dev/packages/freezed_annotation
+  #  https://pub.dev/packages/freezed_annotation
   freezed_annotation: ^2.4.4
-#  https://pub.dev/packages/json_annotation
+  #  https://pub.dev/packages/json_annotation
   json_annotation: ^4.9.0
-#  https://pub.dev/packages/intl
+  #  https://pub.dev/packages/intl
   intl: ^0.20.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,15 +62,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-#  https://pub.dev/packages/build_runner
+  #  https://pub.dev/packages/build_runner
   build_runner: ^2.4.13
-#  https://pub.dev/packages/retrofit_generator
+  #  https://pub.dev/packages/retrofit_generator
   retrofit_generator: ^9.1.5
-#  https://pub.dev/packages/json_serializable
+  #  https://pub.dev/packages/json_serializable
   json_serializable: ^6.9.0
-#  https://pub.dev/packages/freezed
+  #  https://pub.dev/packages/freezed
   freezed: ^2.5.7
-#  https://pub.dev/packages/riverpod_generator
+  #  https://pub.dev/packages/riverpod_generator
   riverpod_generator: ^2.6.3
 
 # For information on the generic Dart part of this file, see the

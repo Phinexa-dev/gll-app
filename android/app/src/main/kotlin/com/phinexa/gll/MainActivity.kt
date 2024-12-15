@@ -1,4 +1,4 @@
-package com.dcodeLabs.gll_app
+package com.phinexa.gll
 
 import io.flutter.embedding.android.FlutterActivity
 
