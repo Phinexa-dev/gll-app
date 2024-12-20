@@ -1,9 +1,9 @@
 
-enum MessageType { success, error, info }
+enum FeedbackType { success, error, info }
 
-class Message {
+class FeedbackModel {
   final String content;
-  final MessageType type;
+  final FeedbackType type;
 
-  Message({required this.content, required this.type});
+  FeedbackModel({required this.content, required this.type});
 }

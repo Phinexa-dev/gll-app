@@ -1,21 +1,21 @@
 import 'dart:async';
-import '../model/message.dart';
+import '../model/feedback.dart';
 
-class MessageService {
-  static final MessageService _instance = MessageService._internal();
-  factory MessageService() => _instance;
+class FeedbackService {
+  static final FeedbackService _instance = FeedbackService._internal();
+  factory FeedbackService() => _instance;
 
-  MessageService._internal();
+  FeedbackService._internal();
 
-  final StreamController<Message> _messageController = StreamController<Message>.broadcast();
+  final StreamController<FeedbackModel> _feedbackController = StreamController<FeedbackModel>.broadcast();
 
-  Stream<Message> get messages => _messageController.stream;
+  Stream<FeedbackModel> get feedbacks => _feedbackController.stream;
 
-  void showMessage(String content, MessageType type) {
-    _messageController.add(Message(content: content, type: type));
+  void snackBar(String content, FeedbackType type) {
+    _feedbackController.add(FeedbackModel(content: content, type: type));
   }
 
   void dispose() {
-    _messageController.close();
+    _feedbackController.close();
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../service/message_service.dart';
-import '../model/message.dart';
+import '../service/feedback_service.dart';
+import '../model/feedback.dart';
 
-final messageServiceProvider = Provider<MessageService>((ref) {
-  return MessageService();
+final feedbackServiceProvider = Provider<FeedbackService>((ref) {
+  return FeedbackService();
 });
 
-final messageStreamProvider = StreamProvider<Message>((ref) {
-  final messageService = ref.watch(messageServiceProvider);
-  return messageService.messages;
+final feedbackStreamProvider = StreamProvider<FeedbackModel>((ref) {
+  final feedbackService = ref.watch(feedbackServiceProvider);
+  return feedbackService.feedbacks;
 });
