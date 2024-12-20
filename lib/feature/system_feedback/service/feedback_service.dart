@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../model/feedback.dart';
 
 class FeedbackService {
@@ -11,8 +13,19 @@ class FeedbackService {
 
   Stream<FeedbackModel> get feedbacks => _feedbackController.stream;
 
-  void snackBar(String content, FeedbackType type) {
+  void showSnackBar(String content, FeedbackType type) {
     _feedbackController.add(FeedbackModel(content: content, type: type));
+  }
+
+  void showToast(String message, {ToastGravity gravity = ToastGravity.BOTTOM}) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: gravity,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   void dispose() {
