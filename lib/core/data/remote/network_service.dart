@@ -13,7 +13,7 @@ final networkServiceProvider = Provider<Dio>((ref) {
   );
 
   final dio = Dio(options);
-  final provider = ref.watch(networkServiceInterceptorProvider);
+  final provider = ref.watch(networkServiceInterceptorProvider(dio));
   dio.interceptors.addAll(
     [
       HttpFormatter(),
