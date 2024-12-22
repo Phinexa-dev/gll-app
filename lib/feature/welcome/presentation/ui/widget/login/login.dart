@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/widget/custom_text_field.dart';
+import 'package:gll/common/widget/start_button.dart';
+import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
+import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -12,6 +16,10 @@ class _LoginState extends ConsumerState<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
+
     return FractionallySizedBox(
       heightFactor: 0.65,
       child: Padding(
@@ -36,38 +44,9 @@ class _LoginState extends ConsumerState<Login> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email Address',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 2.0,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                  ),
+                  CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
                   const SizedBox(height: 16),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
+                  CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,103 +63,27 @@ class _LoginState extends ConsumerState<Login> {
                       // ),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text('Log In'),
-                  ),
+                  StartButton(
+                      label: 'Login',
+                      onPressed: () {
+                        // Login logic
+                      }
+                  )
                 ],
               ),
             ),
-            // Divider with "Sign in using" text
-            Row(
-              children: [
-                Expanded(
-                  child: Divider(
-                    color: Colors.grey.shade400,
-                    thickness: 1,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    'Sign in using',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    color: Colors.grey.shade400,
-                    thickness: 1,
-                  ),
-                ),
-              ],
-            ),
+
+            CustomDivider(label: 'Sign in using'),
+
             const SizedBox(height: 16),
-            // Second Section: Login with social media
+
             Expanded(
               flex: 1,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildSocialButton(
-                        icon: Icons.g_mobiledata,
-                        label: 'Google',
-                        color: Colors.red,
-                      ),
-                      _buildSocialButton(
-                        icon: Icons.apple,
-                        label: 'Apple',
-                        color: Colors.black,
-                      ),
-                      _buildSocialButton(
-                        icon: Icons.facebook,
-                        label: 'Facebook',
-                        color: Colors.blue,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // Show more options logic
-                        },
-                        icon: const Icon(Icons.more_horiz),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+              child: SocialMediaOptions(),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSocialButton({
-    required IconData icon,
-    required String label,
-    required Color color,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CircleAvatar(
-          backgroundColor: color.withOpacity(0.1),
-          child: Icon(icon, color: color),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(color: color),
-        ),
-      ],
     );
   }
 }
