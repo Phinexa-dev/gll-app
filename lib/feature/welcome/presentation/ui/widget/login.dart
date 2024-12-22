@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gll/core/route/route_name.dart';
-import 'package:go_router/go_router.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -23,7 +21,7 @@ class _LoginState extends ConsumerState<Login> {
           children: [
             Text("Login Screen"),
             IconButton(onPressed: () {
-              context.pushNamed(RouteName.signup);
+              // open the signup overlay
             }, icon: const Icon(Icons.login_outlined)),
           ],
         ),
