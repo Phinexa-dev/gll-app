@@ -44,7 +44,7 @@ class GetStarted extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     elevation: 8,
-                    shadowColor: Colors.yellow.withValues(),
+                    shadowColor: Color(0xFFE5C36C).withAlpha(150),
                     splashFactory: InkSplash.splashFactory,
                   ),
                   onPressed: () {

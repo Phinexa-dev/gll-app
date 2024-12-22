@@ -9,16 +9,16 @@ class Logo extends ConsumerWidget {
     return Container(
       height: MediaQuery.of(context).size.height / 3,
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [
-            Color(0xFFC6E9F5),
-            Color(0xFF7EC899),
-            Color(0xFF357F90),
+            Color(0xFFC6E9F5).withAlpha(51),
+            Color(0xFF7EC899).withAlpha(38),
+            Color(0xFF357F90).withAlpha(25),
             Colors.transparent,
           ],
           center: Alignment.topCenter,
-          radius: 0.8,
+          radius: 1,
         ),
       ),
       child: Padding(
