@@ -5,4 +5,5 @@ class RouteName{
   const RouteName._();
 
   static String get welcome => '/welcome';
+  static String get dashboard => '/dashboard';
 }

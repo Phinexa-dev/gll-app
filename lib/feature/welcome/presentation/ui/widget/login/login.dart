@@ -4,6 +4,8 @@ import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../../core/route/route_name.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -67,6 +69,7 @@ class _LoginState extends ConsumerState<Login> {
                       label: 'Login',
                       onPressed: () {
                         // Login logic
+                        context.pushNamed(RouteName.dashboard);
                       }
                   )
                 ],

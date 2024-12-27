@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
+import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -72,6 +74,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                       label: 'Create account',
                       onPressed: () {
                         // Login logic
+                        context.pushNamed(RouteName.dashboard);
                       }
                   )
                 ],
