@@ -55,6 +55,10 @@ dependencies:
   fluttertoast: ^8.2.10
   #  https://pub.dev/packages/equatable
   equatable: ^2.0.7
+  #  https://pub.dev/packages/google_fonts
+  google_fonts: ^6.2.1
+  #  https://pub.dev/packages/dotted_border
+  dotted_border: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -89,6 +93,7 @@ flutter:
   uses-material-design: true
   assets:
    - assets/welcome/
+   - assets/resources/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

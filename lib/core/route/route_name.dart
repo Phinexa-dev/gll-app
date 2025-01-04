@@ -6,4 +6,5 @@ class RouteName{
 
   static String get welcome => '/welcome';
   static String get dashboard => '/dashboard';
+  static String get createSip => '/createSip';
 }
