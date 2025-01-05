@@ -74,7 +74,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                       label: 'Create account',
                       onPressed: () {
                         // Login logic
-                        context.pushNamed(RouteName.dashboard);
+                        context.goNamed(RouteName.dashboard);
                       }
                   )
                 ],
