@@ -69,6 +69,7 @@ class _OtherScreenState extends ConsumerState<OtherScreen> {
                             trailing: Icon(Icons.arrow_forward_ios, color: theme.colorScheme.tertiary,size: 18,),
                             onTap: () {
                               // Handle item click
+                              context.pushNamed(settingsOptions[list][option]['route']!);
                             },
                           );
                         },
@@ -86,7 +87,7 @@ class _OtherScreenState extends ConsumerState<OtherScreen> {
             alignment: Alignment.bottomCenter,
             child: InkWell(
               onTap: () {
-                // Handle profile click
+                context.pushNamed(RouteName.profile);
               },
               child: ProfileBar(),
             ),

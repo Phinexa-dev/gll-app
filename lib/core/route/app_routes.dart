@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
+import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 import '../../feature/welcome/presentation/ui/screen/welcome_screen.dart';
 
@@ -20,4 +21,10 @@ final appRoutes = [
     parentNavigatorKey:navigationKey,
     builder: (context, state) => BottomBar(),
   ),
+  GoRoute(
+    path: RouteName.profile,
+    name: RouteName.profile,
+    parentNavigatorKey:navigationKey,
+    builder: (context, state) => ProfileScreen(),
+  )
 ];
