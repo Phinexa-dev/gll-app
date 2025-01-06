@@ -5,7 +5,7 @@ import 'app_routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
       return GoRouter(
-        initialLocation: RouteName.login,
+        initialLocation: RouteName.welcome,
         navigatorKey: navigationKey,
         routes: appRoutes,
       );

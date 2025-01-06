@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class RouteName{
   const RouteName._();
 
-  static String get login => '/login';
-  static String get signup => '/signup';
+  static String get welcome => '/welcome';
+  static String get dashboard => '/dashboard';
+  static String get createSip => '/createSip';
 }
