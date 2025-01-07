@@ -17,4 +17,5 @@ class RouteName{
   static String get faqs => '/faqs';
   static String get feedbacks => '/feedbacks';
   static String get help => '/help';
+  static String get createSip => '/createSip';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gll/common/theme/colors.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
@@ -6,11 +7,11 @@ class AppTheme {
     primaryColor: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
     colorScheme: ColorScheme.light(
-      primary: Colors.blue,
-      onPrimary: Colors.black,
+      primary: PhinexaColor.primaryColor,
+      onPrimary: PhinexaColor.black,
       secondary: Colors.blueAccent,
-      onSecondary: Colors.black,
-      onSurface: Colors.black,
+      onSecondary: PhinexaColor.black,
+      onSurface: PhinexaColor.black,
 
     ),
     // Add more theme properties as needed.

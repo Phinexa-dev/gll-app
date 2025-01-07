@@ -16,7 +16,7 @@ class StartButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+    Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFFE5C36C),
