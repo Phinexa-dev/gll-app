@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/route/route_name.dart';
 import 'custom_button.dart';
-import 'custom_icon_button.dart';
+import 'custom_event_icon_button.dart';
 import 'feature_card_widget.dart';
 import 'guest_avatar_widget.dart';
 
@@ -107,8 +107,8 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomIconButton(iconPath: "assets/home/calender_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
-                  CustomIconButton(iconPath: "assets/home/bell_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
+                  CustomEventIconButton(iconPath: "assets/home/calender_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
+                  CustomEventIconButton(iconPath: "assets/home/bell_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
                 ],
               ),
             ),

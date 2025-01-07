@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart'; // For SVG icons
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class CustomIconButton extends ConsumerWidget {
+class CustomEventIconButton extends ConsumerWidget {
   final String label;
   final VoidCallback onPressed;
   final double height;
   final String iconPath;
 
-  const CustomIconButton({
+  const CustomEventIconButton({
     super.key,
     required this.label,
     required this.onPressed,
