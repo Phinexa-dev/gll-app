@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gll/common/widget/event_view_screen_widget.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
 import 'package:gll/feature/home/presentation/ui/screen/pre_survay_screen.dart';
@@ -39,6 +40,12 @@ final appRoutes = [
     name: RouteName.events,
     parentNavigatorKey:navigationKey,
     builder: (context, state) => EventsScreen(),
+  ),
+  GoRoute(
+    path: RouteName.eventDetails,
+    name: RouteName.eventDetails,
+    parentNavigatorKey:navigationKey,
+    builder: (context, state) => EventViewScreenWidget(),
   ),
   GoRoute(
     path: RouteName.registrationForm,
