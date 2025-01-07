@@ -35,6 +35,7 @@ final appRoutes = [
     parentNavigatorKey:navigationKey,
     builder: (context, state) => EditProfileScreen(),
   ),
+  GoRoute(
     path: RouteName.createSip,
     name: RouteName.createSip,
     parentNavigatorKey:navigationKey,
