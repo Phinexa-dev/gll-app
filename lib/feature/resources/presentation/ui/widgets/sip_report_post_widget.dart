@@ -6,6 +6,7 @@ import 'package:gll/common/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/route/route_name.dart';
 import 'button_widget.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class SipReportPostWidget extends ConsumerWidget {
   final SipReport report;
@@ -61,7 +62,7 @@ class SipReportPostWidget extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                report.timestamp,
+                timeago.format(report.timestamp),
                 style: PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -204,7 +205,7 @@ class SipReport {
   final String userName;
   final String userAvatarUrl;
   final String? imageUrl;
-  final String timestamp;
+  final DateTime timestamp;
   final String postTitle;
   final String postLocation;
   final String impactText;
