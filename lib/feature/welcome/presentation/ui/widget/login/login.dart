@@ -69,7 +69,8 @@ class _LoginState extends ConsumerState<Login> {
                       label: 'Login',
                       onPressed: () {
                         // Login logic
-                        context.pushNamed(RouteName.dashboard);
+                        Navigator.pop(context);
+                        context.goNamed(RouteName.dashboard);
                       }
                   )
                 ],
