@@ -29,10 +29,10 @@ class CustomButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double buttonHorizontalPadding = btnSize == "small" ? 20 : btnSize == "medium" ? 20 : 30;
-    final double buttonVerticalPadding = btnSize == "small" ? 6 : btnSize == "medium" ? 8 : 10;
-    final double fontSize = btnSize == "small" ? 12 : btnSize == "medium" ? 16 : 18;
-    final double iconSize = btnSize == "small" ? 20 : btnSize == "medium" ? 30 : 40;
+    final double buttonHorizontalPadding = btnSize == "small" ? 14 : btnSize == "medium" ? 20 : 30;
+    final double buttonVerticalPadding = btnSize == "small" ? 4 : btnSize == "medium" ? 6 : 8;
+    final double fontSize = btnSize == "small" ? 12 : btnSize == "medium" ? 12 : 16;
+    final double iconSize = btnSize == "small" ? 18 : btnSize == "medium" ? 20 : 30;
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
