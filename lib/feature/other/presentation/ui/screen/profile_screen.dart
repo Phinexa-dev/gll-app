@@ -8,6 +8,8 @@ import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
 import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
 import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
+import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.dart';
+import 'package:gll/feature/other/presentation/ui/widget/socials/edit_socials.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/route/route_name.dart';
 import '../provider/certification_provider.dart';
@@ -113,8 +115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             backgroundColor: Colors.white,
                             isScrollControlled: true,
                             builder: (BuildContext context) {
-                              // return unimplemented
-                              return const Text('Unimplemented');
+                              return const EditSocials();
                             },
                           ).whenComplete(() {
                             // ref.read(animationVisibilityProvider.notifier).state = true;
@@ -148,8 +149,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 backgroundColor: Colors.white,
                                 isScrollControlled: true,
                                 builder: (BuildContext context) {
-                                  // return unimplemented
-                                  return const Text('Unimplemented');
+                                  return const ManageSkills();
                                 },
                               ).whenComplete(() {
                                 // ref.read(animationVisibilityProvider.notifier).state = true;
