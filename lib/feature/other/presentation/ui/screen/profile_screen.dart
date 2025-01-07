@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gll/common/widget/custom_button.dart';
+import 'package:gll/common/widget/custom_icon_button.dart';
 import 'package:gll/feature/other/presentation/ui/provider/professional_skills_provider.dart';
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
 import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
@@ -60,7 +60,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomButton(
+                  CustomIconButton(
                       label: 'Edit Profile',
                       textColour: Colors.white,
                       onPressed: () => context.pushNamed(RouteName.editProfile),
@@ -70,7 +70,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       iconColor: Colors.white,
                   ),
                   SizedBox(width: 10),
-                  CustomButton(
+                  CustomIconButton(
                     label: 'Settings',
                     textColour: Colors.black,
                     onPressed: () => context.pushNamed(RouteName.settings),

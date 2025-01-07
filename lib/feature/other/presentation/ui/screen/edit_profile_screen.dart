@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
-import '../../../../../common/widget/custom_button.dart';
+import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
 
 final formProvider = StateProvider((ref) => {
@@ -134,7 +134,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        CustomButton(
+                        CustomIconButton(
                           label: 'Cancel',
                           textColour: Colors.black,
                           onPressed: () => saveChanges,
@@ -142,7 +142,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           borderColor: Colors.blue,
                         ),
                         const SizedBox(width: 16),
-                        CustomButton(
+                        CustomIconButton(
                           label: 'Save Changes',
                           textColour: Colors.white,
                           onPressed: () => Navigator.pop(context),

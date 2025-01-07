@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gll/common/widget/custom_button.dart';
+import 'package:gll/common/widget/custom_icon_button.dart';
 
 class InfoTableWidget extends ConsumerWidget {
 
@@ -41,7 +41,7 @@ class InfoTableWidget extends ConsumerWidget {
                 ),
                 Visibility(
                   visible: onPressed != null,
-                  child: CustomButton(
+                  child: CustomIconButton(
                       label: 'edit',
                       textColour: Colors.black,
                       onPressed: onPressed == null? ()=>{} : onPressed!,

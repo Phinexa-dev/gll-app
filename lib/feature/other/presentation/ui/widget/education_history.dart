@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gll/common/widget/custom_button.dart';
+import 'package:gll/common/widget/custom_icon_button.dart';
 
 class EducationHistory extends ConsumerWidget {
 
@@ -26,7 +26,7 @@ class EducationHistory extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, left: 16.0),
+          padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +40,7 @@ class EducationHistory extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  CustomButton(
+                  CustomIconButton(
                     label: 'edit',
                     textColour: Colors.black,
                     onPressed: onPressedEdit,
@@ -49,7 +49,7 @@ class EducationHistory extends ConsumerWidget {
                     borderColor: Colors.blue,
                   ),
                   SizedBox(width: 10),
-                  CustomButton(
+                  CustomIconButton(
                     label: 'add',
                     textColour: Colors.black,
                     onPressed: onPressedAdd,
