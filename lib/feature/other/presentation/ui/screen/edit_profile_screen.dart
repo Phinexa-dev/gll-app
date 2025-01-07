@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
+import '../../../../../common/widget/custom_button.dart';
+import '../../../../../common/widget/custom_text_field.dart';
+
+final formProvider = StateProvider((ref) => {
+  'name': 'Bryan Cotly',
+  'email': 'bcotly@gmail.com',
+  'phoneCode': '+01',
+  'phoneNumber': '4165551234',
+  'location': 'Toronto, Canada',
+  'languages': 'English, French',
+  'interests': 'Leadership Development, Technology and Innovation in business, Environmental Sustainability Initiatives',
+});
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -10,29 +22,165 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController phoneController;
+  late TextEditingController locationController;
+  late TextEditingController languagesController;
+  late TextEditingController interestsController;
+
+  String phoneCode = '+01';
+
+  @override
+  void initState() {
+    super.initState();
+    final formValues = ref.read(formProvider);
+    nameController = TextEditingController(text: formValues['name']);
+    emailController = TextEditingController(text: formValues['email']);
+    phoneController = TextEditingController(text: formValues['phoneNumber']);
+    locationController = TextEditingController(text: formValues['location']);
+    languagesController = TextEditingController(text: formValues['languages']);
+    interestsController = TextEditingController(text: formValues['interests']);
+    phoneCode = formValues['phoneCode']!;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    locationController.dispose();
+    languagesController.dispose();
+    interestsController.dispose();
+    super.dispose();
+  }
+
+  void saveChanges() {
+    final updatedValues = {
+      'name': nameController.text,
+      'email': emailController.text,
+      'phoneCode': phoneCode,
+      'phoneNumber': phoneController.text,
+      'location': locationController.text,
+      'languages': languagesController.text,
+      'interests': interestsController.text,
+    };
+
+    print(updatedValues);
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.share_outlined),
-              SizedBox(width: 15),
-              Icon(Icons.more_vert_outlined),
+              Text('Edit Profile'),
+              const Row(
+                children: [
+                  Icon(Icons.share_outlined),
+                  SizedBox(width: 15),
+                  Icon(Icons.more_vert_outlined),
+                ],
+              ),
             ],
           )
       ),
       body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // profile & cover image
               ProfileCover(),
+
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildTextField(label: 'Name',controller: nameController,keyboardType: TextInputType.text),
+                    buildTextField(label: 'Email Address',controller: emailController,keyboardType: TextInputType.emailAddress),
+                    const SizedBox(height: 16),
+                    const Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        DropdownButton<String>(
+                          style: const TextStyle(color: Colors.grey),
+                          value: phoneCode,
+                          items: const [
+                            DropdownMenuItem(value: '+01', child: Text('+01')),
+                            DropdownMenuItem(value: '+91', child: Text('+91')),
+                            DropdownMenuItem(value: '+44', child: Text('+44')),
+                            DropdownMenuItem(value: '+61', child: Text('+61')),
+                          ],
+                          onChanged: (value) {
+                            setState(() => phoneCode = value!);
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(child: buildTextField(label: '',controller: phoneController,keyboardType: TextInputType.phone)),
+                      ],
+                    ),
+                    buildTextField(label: 'Location', controller: locationController,keyboardType:  TextInputType.text),
+                    buildTextField(label: 'Languages', controller: languagesController, keyboardType: TextInputType.text),
+                    buildTextField(label: 'Interests', controller: interestsController, keyboardType: TextInputType.text),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomButton(
+                          label: 'Cancel',
+                          textColour: Colors.black,
+                          onPressed: () => saveChanges,
+                          color: Colors.white,
+                          borderColor: Colors.blue,
+                        ),
+                        const SizedBox(width: 16),
+                        CustomButton(
+                          label: 'Save Changes',
+                          textColour: Colors.white,
+                          onPressed: () => Navigator.pop(context),
+                          color: Colors.blue,
+                          iconColor: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           )
+      ),
+    );
+  }
+
+  Widget buildTextField(
+      {
+        required String label,
+        required TextEditingController controller,
+        required TextInputType keyboardType,
+        String hint = 'required*',
+      }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label.isNotEmpty)
+            Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          const SizedBox(height: 8),
+          CustomTextField(
+              labelText: hint,
+              controller: controller,
+              keyboardType: keyboardType,
+          ),
+        ],
       ),
     );
   }
