@@ -4,13 +4,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/custom_button.dart';
 import 'package:gll/feature/other/presentation/ui/provider/professional_skills_provider.dart';
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
+import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
 import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
 import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/route/route_name.dart';
+import '../provider/certification_provider.dart';
+import '../provider/education_history_provider.dart';
 import '../provider/personal_detail_provider.dart';
 import '../provider/toggle_button_provider.dart';
+import '../widget/education_history.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -26,6 +30,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(socialInformationProvider);
     final skillsData = ref.watch(professionalSkillsProvider);
+    final educationData = ref.watch(educationHistoryProvider);
+    final certificationData = ref.watch(certificationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -156,9 +162,56 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                   // educational information
                   if(toggleButtonState[1]) ...[
-                    ListTile(
-                      title: Text('Educational Information'),
-                      subtitle: Text('Bryan Cotly'),
+                    EducationHistory(
+                        caption: 'Education History',
+                        color: Colors.black,
+                        data: educationData,
+                        onPressedEdit: ()=>{
+                          // ref.read(animationVisibilityProvider.notifier).state = false;
+                          // open the signup overlay
+                          showModalBottomSheet(
+                            // transitionAnimationController: _signUpAnimationController,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              // return unimplemented
+                              return const Text('Unimplemented');
+                            },
+                          ).whenComplete(() {
+                            // ref.read(animationVisibilityProvider.notifier).state = true;
+                          })
+                        },
+                        onPressedAdd: ()=>{
+                          // ref.read(animationVisibilityProvider.notifier).state = false;
+                          // open the signup overlay
+                          showModalBottomSheet(
+                            // transitionAnimationController: _signUpAnimationController,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              // return unimplemented
+                              return const Text('Unimplemented');
+                            },
+                          ).whenComplete(() {
+                            // ref.read(animationVisibilityProvider.notifier).state = true;
+                          })
+                        }
+                    ),
+
+                    SizedBox(height: 10),
+
+                    Certifications(
+                        caption: 'GLL Programs and Certifications',
+                        color: Colors.black,
+                        data: certificationData,
                     ),
                   ],
                 ],
