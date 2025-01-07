@@ -19,7 +19,7 @@ List<SipReport> reports = [
     postTitle: "Tree Planting Campaign",
     postLocation: "California, USA",
     impactText: '1,500+ trees planted',
-    description: 'We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration.',
+    description: 'We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration.',
     likeCount: 25,
     commentCount: 12,
     shareCount: 7,

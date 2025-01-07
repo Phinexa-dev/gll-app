@@ -12,7 +12,6 @@ class FloatingActionButtonWidget extends StatelessWidget {
     return FloatingActionButton(
       mini: true,
       onPressed: () {
-        // Login logic
         context.pushNamed(RouteName.createSip);
       },
       backgroundColor: PhinexaColor.primaryColor,
