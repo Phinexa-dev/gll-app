@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/custom_button.dart';
+import 'package:gll/feature/other/presentation/ui/provider/professional_skills_provider.dart';
+import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
 import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
+import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/route/route_name.dart';
+import '../provider/personal_detail_provider.dart';
 import '../provider/toggle_button_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -18,6 +23,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final toggleButtonState = ref.watch(toggleButtonProvider);
+    final contactData = ref.watch(personalDetailProvider);
+    final socialData = ref.watch(socialInformationProvider);
+    final skillsData = ref.watch(professionalSkillsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +61,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       iconVisible: true,
                       icon: Icons.chevron_right,
                       color: Colors.blue,
-                      btnSize: 'small',
                       iconColor: Colors.white,
                   ),
                   SizedBox(width: 10),
@@ -64,7 +71,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     iconVisible: true,
                     icon: Icons.settings,
                     color: Colors.white,
-                    btnSize: 'small',
                     borderColor: Colors.blue,
                   ),
                 ],
@@ -76,17 +82,79 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             // toggle information
             CustomToggleBar(),
 
-            // display the selected information
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Column(
                 children: [
+                  // personal information
                   if(toggleButtonState[0]) ...[
-                    ListTile(
-                      title: Text('Personal Information'),
-                      subtitle: Text('Bryan Cotly'),
+                    InfoTableWidget(
+                        caption: 'Contact Information',
+                        data: contactData,
+                    ),
+                    InfoTableWidget(
+                        caption: 'Socials',
+                        data: socialData,
+                        onPressed: ()=>{
+                          // ref.read(animationVisibilityProvider.notifier).state = false;
+                          // open the signup overlay
+                          showModalBottomSheet(
+                            // transitionAnimationController: _signUpAnimationController,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              // return unimplemented
+                              return const Text('Unimplemented');
+                            },
+                          ).whenComplete(() {
+                            // ref.read(animationVisibilityProvider.notifier).state = true;
+                          })
+                        }
+                    ),
+                    Stack(
+                      children: [
+                        Positioned(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1 + skillsData.length * MediaQuery.of(context).size.height * 0.06,
+                            child: SvgPicture.asset(
+                              'assets/more/profile_skills_bg.svg',
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        InfoTableWidget(
+                            caption: 'Professional Skills',
+                            color: Colors.black,
+                            data: skillsData,
+                            onPressed: ()=>{
+                              // ref.read(animationVisibilityProvider.notifier).state = false;
+                              // open the signup overlay
+                              showModalBottomSheet(
+                                // transitionAnimationController: _signUpAnimationController,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                ),
+                                backgroundColor: Colors.white,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  // return unimplemented
+                                  return const Text('Unimplemented');
+                                },
+                              ).whenComplete(() {
+                                // ref.read(animationVisibilityProvider.notifier).state = true;
+                              })
+                            }
+                        ),
+                      ],
                     ),
                   ],
+
+                  // educational information
                   if(toggleButtonState[1]) ...[
                     ListTile(
                       title: Text('Educational Information'),
@@ -96,7 +164,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             
             // footer
             Align(
