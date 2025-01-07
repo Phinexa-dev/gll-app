@@ -125,4 +125,8 @@ class PhinexaFont {
     fontSize: 24,
     fontWeight: FontWeight.w600,
   );
+  static final TextStyle headingExLarge = baseStyle.copyWith(
+    fontSize: 26,
+    fontWeight: FontWeight.w600,
+  );
 }

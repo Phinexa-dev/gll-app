@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomFormTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
   final bool autofocus;
   final double? height;
 
-  const CustomTextField({
+  const CustomFormTextField({
     super.key,
     this.controller,
     this.labelText,
