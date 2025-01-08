@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/colors.dart';
 import 'package:gll/feature/events/presentation/ui/screen/events_screen.dart';
 import 'package:gll/feature/forum/presentation/ui/screen/forum_screen.dart';
 import 'package:gll/feature/home/presentation/ui/screen/home_screen.dart';
@@ -40,7 +41,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
         elevation: 10,
         // showSelectedLabels: false,
         // showUnselectedLabels: false,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: PhinexaColor.primaryColor,
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: const Color(0xFF526480),
         items: [
