@@ -6,6 +6,10 @@ class RouteName{
 
   static String get welcome => '/welcome';
   static String get dashboard => '/dashboard';
+  static String get events => '/events';
+  static String get eventDetails => '/eventDetails';
+  static String get registrationForm => '/registrationForm';
+  static String get preSurvey => '/preSurvey';
   static String get profile => '/profile';
   static String get editProfile => '/editProfile';
   static String get settings => '/settings';
@@ -18,4 +22,6 @@ class RouteName{
   static String get feedbacks => '/feedbacks';
   static String get help => '/help';
   static String get createSip => '/createSip';
+  static String get resourceMore => '/resourceMore';
+  static String get reportMore => '/reportMore';
 }

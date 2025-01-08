@@ -15,11 +15,11 @@ List<SipReport> reports = [
   SipReport(
     userName: "Alice Johnson",
     userAvatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106',
-    timestamp: '1 hour ago',
+    timestamp: DateTime.now().subtract(Duration(hours: 1)),
     postTitle: "Tree Planting Campaign",
     postLocation: "California, USA",
     impactText: '1,500+ trees planted',
-    description: 'We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration.',
+    description: 'We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration. We planted over 1,500 trees in the forest area, contributing to the environment and wildlife restoration.',
     likeCount: 25,
     commentCount: 12,
     shareCount: 7,
@@ -29,7 +29,7 @@ List<SipReport> reports = [
   SipReport(
     userName: "John Smith",
     userAvatarUrl: 'https://farm4.staticflickr.com/3075/3168662394_7d7103de7d_z_d.jpg',
-    timestamp: '3 hours ago',
+    timestamp: DateTime.now().subtract(Duration(hours: 3)),
     postTitle: "Beach Cleanup",
     postLocation: "Sydney, Australia",
     impactText: '300 kg of waste collected',
@@ -43,7 +43,7 @@ List<SipReport> reports = [
   SipReport(
     userName: "Samantha Green",
     userAvatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106',
-    timestamp: '5 hours ago',
+    timestamp: DateTime.now().subtract(Duration(hours: 4)),
     postTitle: "Water Conservation Initiative",
     postLocation: "New York, USA",
     impactText: '500 homes reduced water usage',
@@ -57,7 +57,7 @@ List<SipReport> reports = [
   SipReport(
     userName: "David Brown",
     userAvatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106',
-    timestamp: '6 hours ago',
+    timestamp: DateTime.now().subtract(Duration(hours: 6)),
     postTitle: "Solar Panel Installation Program",
     postLocation: "Berlin, Germany",
     impactText: '100+ homes powered by solar energy',
@@ -71,7 +71,7 @@ List<SipReport> reports = [
   SipReport(
     userName: "Michael Carter",
     userAvatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106',
-    timestamp: '8 hours ago',
+    timestamp: DateTime.now().subtract(Duration(hours: 8)),
     postTitle: "Food Drive for Homeless",
     postLocation: "London, UK",
     impactText: '500 meals distributed',
@@ -85,7 +85,7 @@ List<SipReport> reports = [
   SipReport(
     userName: "Sophia Turner",
     userAvatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106',
-    timestamp: '10 hours ago',
+    timestamp: DateTime.now().subtract(Duration(hours:10)),
     postTitle: "Charity Run for Cancer Research",
     postLocation: "Toronto, Canada",
     impactText: 'Raised 10,000 for cancer research',

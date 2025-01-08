@@ -15,6 +15,8 @@ class PhinexaColor {
   static const Color lightestBlack = Colors.black26;
   static const Color grey = Color(0xFFB3B3B3);
   static const Color lightGrey = Color(0xFFDCDCDF);
+  static const Color lightBlue = Color(0xFF3993A1);
+  static const Color extraLightBlue = Color(0xFFDBF0F2);
   static const Color lighterGrey = Color(0xFFF7F7F7);
   static const Color darkGrey = Color(0xFF625f6a);
   static const Color darkBlue = Color(0xFF2D525D);

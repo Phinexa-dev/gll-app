@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
-import '../widgets/custom_text_field.dart';
+import '../../../../../common/widget/custom_form_text_field.dart';
 
 
 class SipCreateScreen extends ConsumerStatefulWidget {
@@ -31,7 +31,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
               children: [
                 Text("Create SIP Report",style: PhinexaFont.headingLarge,),
                 SizedBox(height: 12,),
-                CustomTextField(
+                CustomFormTextField(
                   labelText: 'SPI Title*',
                   hintText: 'Community Clean-Up Initiative',
                   obscureText: false,
@@ -40,7 +40,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                   },
                 ),
                 SizedBox(height: 12,),
-                CustomTextField(
+                CustomFormTextField(
                   labelText: 'Description*',
                   hintText: 'Impact - 2,000+ residents benefited',
                   obscureText: false,
@@ -53,7 +53,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                 SizedBox(height: 24,),
                 _buildUploader(context),
                 SizedBox(height: 12,),
-                CustomTextField(
+                CustomFormTextField(
                   labelText: 'Link',
                   hintText: 'URL',
                   obscureText: false,
@@ -70,7 +70,6 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
         margin: EdgeInsets.all(20),
           child: CustomButton(label: "Post",height: 40,onPressed: ()=>(),)),
       );
-
   }
 }
 

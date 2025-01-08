@@ -84,6 +84,8 @@ dev_dependencies:
   freezed: ^2.5.7
   #  https://pub.dev/packages/riverpod_generator
   riverpod_generator: ^2.6.3
+  #  https://pub.dev/packages/timeago
+  timeago: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -95,6 +97,7 @@ flutter:
    - assets/welcome/
    - assets/more/
    - assets/resources/
+   - assets/home/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
