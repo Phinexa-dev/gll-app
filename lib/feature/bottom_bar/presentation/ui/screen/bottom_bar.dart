@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/feature/events/presentation/ui/screen/events_screen.dart';
-import 'package:gll/feature/forum/presentation/ui/screen/forum_screen.dart';
 import 'package:gll/feature/home/presentation/ui/screen/home_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/other_screen.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/resources_screen.dart';
@@ -21,7 +20,6 @@ class _BottomBarState extends ConsumerState<BottomBar> {
     const HomeScreen(),
     const ResourcesScreen(),
     const EventsScreen(),
-    const ForumScreen(),
     const OtherScreen(),
   ];
 
@@ -51,19 +49,14 @@ class _BottomBarState extends ConsumerState<BottomBar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            activeIcon: Icon(Icons.search),
+            icon: Icon(Icons.folder_outlined),
+            activeIcon: Icon(Icons.folder),
             label: 'Resources',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            activeIcon: Icon(Icons.add_circle),
+            icon: Icon(Icons.calendar_today_outlined),
+            activeIcon: Icon(Icons.calendar_today),
             label: 'Events',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            activeIcon: Icon(Icons.notifications),
-            label: 'Forum',
           ),
           BottomNavigationBarItem(
             // three dots
