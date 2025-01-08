@@ -26,7 +26,8 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title:  Text('Resources',style: PhinexaFont.headingSmall,),
+          automaticallyImplyLeading: false,
+          title:  Center(child: Text('Resources',style: PhinexaFont.headingSmall,)),
         ),
         body: CustomScrollView(
           slivers: [
