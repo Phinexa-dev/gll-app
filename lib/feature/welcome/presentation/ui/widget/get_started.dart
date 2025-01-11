@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/signup/signup.dart';
+import '../../../../../common/theme/fonts.dart';
 import '../provider/animation_visibility_provider.dart';
 import 'login/login.dart';
 
@@ -130,15 +131,15 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
                             color: Colors.white,
                           ),
                           children: [
-                            const TextSpan(
+                            TextSpan(
                               text: 'Already have an account? ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
+                              style: PhinexaFont.baseStyle.copyWith(
+                                color: Colors.white,
                               ),
                             ),
-                            const TextSpan(
+                            TextSpan(
                               text: 'Log in',
-                              style: TextStyle(
+                              style: PhinexaFont.baseStyle.copyWith(
                                 color: Color(0xFFE5C36C),
                                 decoration: TextDecoration.underline,
                               ),

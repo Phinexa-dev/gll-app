@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
 import 'package:gll/feature/other/presentation/ui/provider/professional_skills_provider.dart';
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
@@ -55,8 +56,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ProfileCover(),
 
             // user information
-            Text('Bryan Cotly', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('bcotly@gll.com', style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.grey)),
+            Text('Bryan Cotly', style: PhinexaFont.headingESmall.copyWith(fontWeight: FontWeight.bold)),
+            Text('bcotly@gll.com', style: PhinexaFont.captionRegular.copyWith(color: Colors.grey)),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
@@ -220,9 +221,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             SizedBox(height: 5),
             
             // footer
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Text("Respect user privacy. Do not share or misuse profile information.",textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey)),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text("Respect user privacy. Do not share or misuse profile information.",textAlign: TextAlign.center, style: PhinexaFont.footnoteRegular.copyWith(fontSize: 11, color: Colors.grey)),
+              ),
             )
         ],
       )

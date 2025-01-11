@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 import '../provider/toggle_button_provider.dart';
 
 class CustomToggleBar extends ConsumerWidget {
@@ -40,7 +41,7 @@ class CustomToggleBar extends ConsumerWidget {
               minHeight:40,
             ),
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Text('Personal', style: const TextStyle(fontSize: 14)),
+            child: Text('Personal', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[0]? Colors.black : Colors.grey)),
           ),
           Container(
             decoration: BoxDecoration(
@@ -52,7 +53,7 @@ class CustomToggleBar extends ConsumerWidget {
               minHeight:40,
             ),
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Text('Educational', style: const TextStyle(fontSize: 14)),
+            child: Text('Educational', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[1]? Colors.black : Colors.grey)),
           ),
         ],
       ),

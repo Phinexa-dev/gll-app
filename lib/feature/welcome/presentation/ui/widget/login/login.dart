@@ -5,6 +5,7 @@ import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../../common/theme/fonts.dart';
 import '../../../../../../core/route/route_name.dart';
 
 class Login extends ConsumerStatefulWidget {
@@ -40,9 +41,7 @@ class _LoginState extends ConsumerState<Login> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Login',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: PhinexaFont.headingLarge,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -56,7 +55,10 @@ class _LoginState extends ConsumerState<Login> {
                       Row(
                         children: [
                           Checkbox(value: false, onChanged: (_) {}),
-                          const Text('Remember me'),
+                          Text(
+                              'Remember me',
+                               style: PhinexaFont.captionRegular,
+                          ),
                         ],
                       ),
                       // TextButton(

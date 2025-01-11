@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class CustomDivider extends ConsumerWidget {
 
@@ -29,7 +30,9 @@ class CustomDivider extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             label,
-            style: TextStyle(color: Colors.grey),
+            style: PhinexaFont.baseStyle.copyWith(
+              color: Colors.grey,
+            ),
           ),
         ),
         Expanded(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class CustomIconButton extends ConsumerWidget {
   final String label;
@@ -59,7 +60,7 @@ class CustomIconButton extends ConsumerWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: PhinexaFont.baseStyle.copyWith(
               fontSize: fontSize,
               color: textColour,
             ),
@@ -74,7 +75,7 @@ class CustomIconButton extends ConsumerWidget {
       )
           : Text(
         label,
-        style: TextStyle(
+        style: PhinexaFont.baseStyle.copyWith(
           fontSize: fontSize,
           color: textColour,
         ),

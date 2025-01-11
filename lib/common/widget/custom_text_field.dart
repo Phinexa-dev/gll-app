@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
@@ -27,7 +28,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         decoration: InputDecoration(
           labelText: labelText,
-          labelStyle: TextStyle(
+          labelStyle: PhinexaFont.labelRegular.copyWith(
             color: Colors.grey,
           ),
           border: OutlineInputBorder(

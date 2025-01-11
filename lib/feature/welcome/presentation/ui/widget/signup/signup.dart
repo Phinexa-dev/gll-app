@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/core/route/route_name.dart';
@@ -44,16 +45,14 @@ class _SignUpState extends ConsumerState<SignUp> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Sign Up',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: PhinexaFont.headingLarge,
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Enter your details below',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      style: PhinexaFont.captionRegular.copyWith(
                         color: Colors.grey,
                       ),
                     ),

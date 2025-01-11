@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class SocialMediaOptions extends ConsumerWidget {
 
@@ -55,7 +56,9 @@ class SocialMediaOptions extends ConsumerWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(color: color),
+          style: PhinexaFont.captionRegular.copyWith(
+              color: color
+          ),
         ),
       ],
     );

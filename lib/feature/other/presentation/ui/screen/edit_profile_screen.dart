@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
@@ -80,7 +81,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Edit Profile'),
+              Text('Edit Profile', style: PhinexaFont.headingESmall,),
               const Row(
                 children: [
                   Icon(Icons.share_outlined),
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           )
       ),
       body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -106,18 +107,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     buildTextField(label: 'Name',controller: nameController,keyboardType: TextInputType.text),
                     buildTextField(label: 'Email Address',controller: emailController,keyboardType: TextInputType.emailAddress),
                     const SizedBox(height: 16),
-                    const Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                    Text('Phone Number', style:  PhinexaFont.labelRegular.copyWith(fontWeight: FontWeight.normal, color: Colors.grey)),
                     const SizedBox(height: 8),
                     Row(
                       children: [
                         DropdownButton<String>(
-                          style: const TextStyle(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                          alignment: Alignment.center,
+                          itemHeight: 60,
+                          style: PhinexaFont.labelRegular.copyWith(
+                            color: Colors.grey,
+                          ),
                           value: phoneCode,
                           items: const [
-                            DropdownMenuItem(value: '+01', child: Text('+01')),
-                            DropdownMenuItem(value: '+91', child: Text('+91')),
-                            DropdownMenuItem(value: '+44', child: Text('+44')),
-                            DropdownMenuItem(value: '+61', child: Text('+61')),
+                            DropdownMenuItem(value: '+01', alignment: Alignment.center, child: Text('+01'),),
+                            DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
+                            DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
+                            DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
                           ],
                           onChanged: (value) {
                             setState(() => phoneCode = value!);
@@ -173,7 +179,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (label.isNotEmpty)
-            Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+            Text(label, style: PhinexaFont.labelRegular.copyWith(fontWeight: FontWeight.normal, color: Colors.grey)),
           const SizedBox(height: 8),
           CustomTextField(
               labelText: hint,
