@@ -10,15 +10,15 @@ import '../widgets/search_bar_widget.dart';
 
 class ResourcesScreen extends ConsumerStatefulWidget {
   const ResourcesScreen({super.key});
+
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ResourcesScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ResourcesScreenState();
 }
 
 class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     final tabIndex = ref.watch(tabIndexProvider);
 
     return DefaultTabController(
@@ -27,7 +27,11 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title:  Center(child: Text('Resources',style: PhinexaFont.headingSmall,)),
+          title: Center(
+              child: Text(
+            'Resources',
+            style: PhinexaFont.headingSmall,
+          )),
         ),
         body: CustomScrollView(
           slivers: [
@@ -57,11 +61,9 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
             ),
           ],
         ),
-        floatingActionButton: tabIndex == 0
-            ? FloatingActionButtonWidget()
-            : null,
+        floatingActionButton:
+            tabIndex == 0 ? FloatingActionButtonWidget() : null,
       ),
     );
   }
 }
-
