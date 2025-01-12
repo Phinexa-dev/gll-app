@@ -24,12 +24,14 @@ class PhinexaColor {
   static const Color lightGreen = Color(0xFFDAF1E0);
   static const Color red = Color(0xFFFF5C5C);
   static const Color certficateBg = Color(0xFFF1FAFA);
+  static const Color testimonialBg = Color(0xFFCED6E7);
 
   static const Color titleTextColor = Colors.black;
   static const Color subTitleTextColor = Colors.black54;
   static Color bgColor = const Color(0xFFF9F9F9);
   static Color shadowGrey = const Color(0x333E404D);
   static Color shadowGreyDark = const Color(0x463E404D);
+
   // static Color shadowColor = PhinexaColor.primaryColor.withOpacity(0.4);
 
   static Color errorColor = const Color(0xffdc3535);
@@ -108,6 +110,4 @@ class PhinexaColor {
     ],
     // Add more gradient lists as needed
   ];
-
 }
-
