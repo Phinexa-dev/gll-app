@@ -36,85 +36,101 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-            ClipRRect(
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                (loadingProgress.expectedTotalBytes ?? 1)
-                            : null,
-                      ),
+          ClipRRect(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return SizedBox(
+                  height: 200,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
                     ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image, size: 100),
-              ),
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.broken_image, size: 100),
             ),
-            SizedBox(height: 24,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Leadership Academy",
-                    style: PhinexaFont.headingLarge,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                  SizedBox( height: 12,),
-                  Text(
-                    "Feb 10, 2025, 9:00 AM - 5:00 PM",
-                    style: PhinexaFont.contentRegular
-                        .copyWith(color: PhinexaColor.darkGrey),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                  Text(
-                    "Green Earth Conference Center, San Francisco, CA",
-                    style: PhinexaFont.contentRegular
-                        .copyWith(color: PhinexaColor.darkGrey),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                  SizedBox(height: 24,),
-                  CustomButton(
-                    label: "Register Now",
-                    height: 40,
-                    onPressed: () {
-                      context.pushNamed(RouteName.registrationForm);
-                    },
-                  ),
-                ],
-              ),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Leadership Academy",
+                  style: PhinexaFont.headingLarge,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  "Feb 10, 2025, 9:00 AM - 5:00 PM",
+                  style: PhinexaFont.contentRegular
+                      .copyWith(color: PhinexaColor.darkGrey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                Text(
+                  "Green Earth Conference Center, San Francisco, CA",
+                  style: PhinexaFont.contentRegular
+                      .copyWith(color: PhinexaColor.darkGrey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                CustomButton(
+                  label: "Register Now",
+                  height: 40,
+                  onPressed: () {
+                    context.pushNamed(RouteName.registrationForm);
+                  },
+                ),
+              ],
             ),
-            _buildGuestSpeakerSection(context),
-            _buildAboutEventSection(context),
-            _buildFeaturesSection(context),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomEventIconButton(iconPath: "assets/home/calender_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
-                  CustomEventIconButton(iconPath: "assets/home/bell_icon.svg",label: "Add to Calendar",onPressed: ()=>(),height: 40,),
-                ],
-              ),
+          ),
+          _buildGuestSpeakerSection(context),
+          _buildAboutEventSection(context),
+          _buildFeaturesSection(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomEventIconButton(
+                  iconPath: "assets/home/calender_icon.svg",
+                  label: "Add to Calendar",
+                  onPressed: () => (),
+                  height: 40,
+                ),
+                CustomEventIconButton(
+                  iconPath: "assets/home/bell_icon.svg",
+                  label: "Add to Calendar",
+                  onPressed: () => (),
+                  height: 40,
+                ),
+              ],
             ),
+          ),
           SizedBox(height: 24),
-        ],)
-      ),
+        ],
+      )),
     );
   }
 }
@@ -190,7 +206,9 @@ Widget _buildAboutEventSection(BuildContext context) {
         "About the Event",
         style: PhinexaFont.headingLarge,
       ),
-      SizedBox(height: 24,),
+      SizedBox(
+        height: 24,
+      ),
       RichText(
         text: TextSpan(
           style: PhinexaFont.highlightRegular,
@@ -210,62 +228,66 @@ Widget _buildAboutEventSection(BuildContext context) {
           ],
         ),
       ),
-      SizedBox(height: 24,),
-    ]),
-  );
-}
-
-Widget _buildFeaturesSection(BuildContext context) {
-
-  final List<Map<String, String>> featureList = [
-    {
-      'iconPath': 'assets/home/leaf.svg',
-      'featureTitle': 'Guest speakers environmental organizations',
-      'featureDescription': 'Focus on practical strategies for youth leadership in environmental advocacy.',
-    },
-    {
-      'iconPath': 'assets/home/family.svg',
-      'featureTitle': 'Youth Leadership in Environmental Issues',
-      'featureDescription': 'Inspire young leaders to engage with climate change initiatives.',
-    },
-    {
-      'iconPath': 'assets/home/medical.svg',
-      'featureTitle': 'Global Environmental Action',
-      'featureDescription': 'Join global efforts for environmental preservation and sustainable living.',
-    },
-    {
-      'iconPath': 'assets/home/quiz.svg',
-      'featureTitle': 'Innovative Solutions for Sustainability',
-      'featureDescription': 'Showcase innovative solutions for sustainability in everyday life.',
-    },
-  ];
-
-
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox( // Constraining GridView height
-        height: 500, // Adjust the height as needed
-        child:  GridView.builder(
-          physics: NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 3 /4,
-            ),
-            itemCount: featureList.length,
-            itemBuilder: (context, index) {
-              final feature = featureList[index];
-              return FeatureCardWidget(
-                iconPath: feature['iconPath']!,
-                featureTitle: feature['featureTitle']!,
-                featureDescription: feature['featureDescription']!,
-              );
-            },
-        ),
+      SizedBox(
+        height: 24,
       ),
     ]),
   );
 }
 
+Widget _buildFeaturesSection(BuildContext context) {
+  final List<Map<String, String>> featureList = [
+    {
+      'iconPath': 'assets/home/leaf.svg',
+      'featureTitle': 'Guest speakers environmental organizations',
+      'featureDescription':
+          'Focus on practical strategies for youth leadership in environmental advocacy.',
+    },
+    {
+      'iconPath': 'assets/home/family.svg',
+      'featureTitle': 'Youth Leadership in Environmental Issues',
+      'featureDescription':
+          'Inspire young leaders to engage with climate change initiatives.',
+    },
+    {
+      'iconPath': 'assets/home/medical.svg',
+      'featureTitle': 'Global Environmental Action',
+      'featureDescription':
+          'Join global efforts for environmental preservation and sustainable living.',
+    },
+    {
+      'iconPath': 'assets/home/quiz.svg',
+      'featureTitle': 'Innovative Solutions for Sustainability',
+      'featureDescription':
+          'Showcase innovative solutions for sustainability in everyday life.',
+    },
+  ];
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SizedBox(
+        // Constraining GridView height
+        height: 500, // Adjust the height as needed
+        child: GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 3 / 4,
+          ),
+          itemCount: featureList.length,
+          itemBuilder: (context, index) {
+            final feature = featureList[index];
+            return FeatureCardWidget(
+              iconPath: feature['iconPath']!,
+              featureTitle: feature['featureTitle']!,
+              featureDescription: feature['featureDescription']!,
+            );
+          },
+        ),
+      ),
+    ]),
+  );
+}
