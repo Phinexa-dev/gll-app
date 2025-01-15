@@ -122,28 +122,28 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                       },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomIconButton(
-                        label: 'Cancel',
-                        textColour: Colors.black,
-                        onPressed: () => Navigator.pop(context),
-                        color: Colors.white,
-                        borderColor: Colors.blue,
-                      ),
-                      const SizedBox(width: 16),
-                      CustomIconButton(
-                        label: 'Save Changes',
-                        textColour: Colors.white,
-                        onPressed: () => saveChanges,
-                        color: Colors.blue,
-                        iconColor: Colors.white,
-                      ),
-                    ],
-                  ),
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomIconButton(
+                  label: 'Cancel',
+                  textColour: Colors.black,
+                  onPressed: () => Navigator.pop(context),
+                  color: Colors.white,
+                  borderColor: Colors.blue,
+                ),
+                const SizedBox(width: 16),
+                CustomIconButton(
+                  label: 'Save Changes',
+                  textColour: Colors.white,
+                  onPressed: () => saveChanges,
+                  color: Colors.blue,
+                  iconColor: Colors.white,
+                ),
+              ],
             ),
           ],
         ),

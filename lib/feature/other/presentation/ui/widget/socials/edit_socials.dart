@@ -95,28 +95,28 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
                   const SizedBox(height: 16),
                   CustomTextField(labelText: 'X', controller: xUrlController, keyboardType: TextInputType.url),
                   const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomIconButton(
-                        label: 'Cancel',
-                        textColour: Colors.black,
-                        onPressed: () => saveChanges,
-                        color: Colors.white,
-                        borderColor: Colors.blue,
-                      ),
-                      const SizedBox(width: 16),
-                      CustomIconButton(
-                        label: 'Save Changes',
-                        textColour: Colors.white,
-                        onPressed: () => Navigator.pop(context),
-                        color: Colors.blue,
-                        iconColor: Colors.white,
-                      ),
-                    ],
-                  ),
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomIconButton(
+                  label: 'Cancel',
+                  textColour: Colors.black,
+                  onPressed: () => saveChanges,
+                  color: Colors.white,
+                  borderColor: Colors.blue,
+                ),
+                const SizedBox(width: 16),
+                CustomIconButton(
+                  label: 'Save Changes',
+                  textColour: Colors.white,
+                  onPressed: () => Navigator.pop(context),
+                  color: Colors.blue,
+                  iconColor: Colors.white,
+                ),
+              ],
             ),
           ],
         ),
