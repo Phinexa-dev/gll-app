@@ -7,6 +7,7 @@ import 'package:gll/feature/other/presentation/ui/provider/professional_skills_p
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
 import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
 import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
+import 'package:gll/feature/other/presentation/ui/widget/educational_history/add_educational_history.dart';
 import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.dart';
@@ -199,7 +200,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             isScrollControlled: true,
                             builder: (BuildContext context) {
                               // return unimplemented
-                              return const Text('Unimplemented');
+                              return AddEducationalHistory();
                             },
                           ).whenComplete(() {
                             // ref.read(animationVisibilityProvider.notifier).state = true;

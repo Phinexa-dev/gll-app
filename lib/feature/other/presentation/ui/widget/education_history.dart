@@ -80,7 +80,7 @@ class EducationHistory extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(data[item]['institution']!, style: PhinexaFont.captionRegular),
-                      Text(data[item]['year']!, style: PhinexaFont.footnoteRegular.copyWith(fontSize:11 ,color: Colors.grey)),
+                      Text("${data[item]['startDate']!} - ${data[item]['endDate']!}", style: PhinexaFont.footnoteRegular.copyWith(fontSize:11 ,color: Colors.grey)),
                     ],
                   ),
                   leading: SvgPicture.asset('assets/more/${data[item]['icon']}', width: 30, height: 30, alignment: Alignment.topLeft,),

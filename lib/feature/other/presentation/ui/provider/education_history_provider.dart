@@ -1,18 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final educationHistoryProvider = Provider<List<Map<String, String>>>((ref) {
+final educationHistoryProvider = StateProvider<List<Map<String, String>>>((ref) {
   return [
     {
+      "id": "1",
       "degree": "Master of Business Administration (MBA)",
       "institution": "University of Toronto",
-      "year": "2017 -2020",
+      "startDate": "2017",
+      "endDate": "2020",
       "icon": "masters.svg"
     },
     {
+      "id": "2",
       "degree": "Bachelor of Commerce (BCom)",
       "institution": "McGill University",
-      "year": "2018 - 2020",
+      "startDate": "2018",
+      "endDate": "2020",
       "icon": "bachelor.svg"
     },
   ];
 });
+
+final addButtonPressedProvider = StateProvider<bool>((ref) => false);
+
+final editButtonPressedProvider = StateProvider<bool>((ref) => false);
