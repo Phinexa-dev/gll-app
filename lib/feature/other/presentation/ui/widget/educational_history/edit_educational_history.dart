@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/educational_history/education_history_form.dart';
 import '../../../../../../common/widget/custom_icon_button.dart';
+import '../../provider/education_history_provider.dart';
 
-class AddEducationalHistory extends ConsumerStatefulWidget {
-  const AddEducationalHistory({super.key});
+class EditEducationalHistory extends ConsumerStatefulWidget {
+  const EditEducationalHistory({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AddEducationalHistoryState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _EditEducationalHistoryState();
 }
 
-class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
+class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory> {
 
   @override
   void initState() {
@@ -30,8 +31,10 @@ class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
   @override
   Widget build(BuildContext context) {
 
+    final history = ref.watch(educationHistoryProvider);
+
     return FractionallySizedBox(
-      heightFactor: 0.45,
+      heightFactor: 0.1 + 2 * 0.32,
       // resizeToAvoidBottomInset: true,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -40,7 +43,7 @@ class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 1,
+                flex: 3,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +58,21 @@ class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
                           ),
                         ),
                       ),
-                      EducationHistoryForm(),
+                      // EducationHistoryForm(),
+                      // list of education history form in the length of history and with a divider
+                      for (var i = 0; i < history.length; i++)
+                        Column(
+                          children: [
+                            EducationHistoryForm(
+                              id: history[i]['id']!,
+                              school: history[i]['institution']!,
+                              degree: history[i]['degree']!,
+                              startDate: history[i]['startDate']!,
+                              endDate: history[i]['endDate']!,
+                            ),
+                            if (i != history.length - 1) const Divider(),
+                          ],
+                        ),
                     ],
                   ),
                 ),
@@ -72,7 +89,7 @@ class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
                   ),
                   const SizedBox(width: 16),
                   CustomIconButton(
-                    label: 'Add',
+                    label: 'Save Changes',
                     textColour: Colors.white,
                     onPressed: () => saveChanges(),
                     color: Colors.blue,
