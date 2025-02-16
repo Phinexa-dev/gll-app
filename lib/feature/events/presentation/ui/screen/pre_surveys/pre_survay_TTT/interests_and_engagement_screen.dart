@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-import '../../../../../../common/widget/custom_button.dart';
-import '../../../../../../common/widget/custom_form_text_field.dart';
-import '../../widgets/multi_select_checkbox_widget.dart';
+import '../../../../../../../common/widget/custom_button.dart';
+import '../../../../../../../common/widget/custom_form_text_field.dart';
+import '../../../widgets/multi_select_checkbox_widget.dart';
 
-class InterestsAndEngagementScreen extends ConsumerStatefulWidget {
-  const InterestsAndEngagementScreen({super.key});
+class TTInterestsAndEngagementScreen extends ConsumerStatefulWidget {
+  const TTInterestsAndEngagementScreen({super.key});
 
   @override
-  _InterestsAndEngagementScreenState createState() =>
-      _InterestsAndEngagementScreenState();
+  _TTInterestsAndEngagementScreenState createState() =>
+      _TTInterestsAndEngagementScreenState();
 }
 
-class _InterestsAndEngagementScreenState
-    extends ConsumerState<InterestsAndEngagementScreen> {
+class _TTInterestsAndEngagementScreenState
+    extends ConsumerState<TTInterestsAndEngagementScreen> {
   late TextEditingController phoneController;
   late TextEditingController fullNameController;
   late TextEditingController sponsoringOrgController;
@@ -45,7 +45,8 @@ class _InterestsAndEngagementScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey', style: PhinexaFont.headingSmall),
+        title: Text('Pre Survey - Train the Trainer',
+            style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -72,13 +73,31 @@ class _InterestsAndEngagementScreenState
                   "Communication and Feedback",
                   "Mindset",
                   "Sustainable Impact Projects",
+                  "Delivering content with clarity and impact",
+                  "Other"
                 ],
                 onSelectionChanged: (selectedAnswers) {
                   print("Selected Topics: $selectedAnswers");
                 },
               ),
+              CustomFormTextField(
+                hintText: "If there any other mention here..",
+                autofocus: true,
+                obscureText: false,
+              ),
               SizedBox(
                 height: 10,
+              ),
+              CustomFormTextField(
+                labelText:
+                    "Are there specific challenges or concerns you have about facilitating workshops or training sessions?",
+                hintText: 'I ...',
+                obscureText: false,
+                height: 110,
+                maxLines: 10,
+                onChanged: (value) {
+                  print(value);
+                },
               ),
               SizedBox(
                 height: 30,

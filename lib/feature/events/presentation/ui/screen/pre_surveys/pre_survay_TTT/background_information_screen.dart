@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../../common/widget/custom_button.dart';
-import '../../../../../../common/widget/custom_form_text_field.dart';
-import '../../../../../../core/data/local/ countries.dart';
-import '../../../../../../core/route/route_name.dart';
-import '../../widgets/custom_dropdown.dart';
-import '../../widgets/custom_radio_button_widget.dart';
+import '../../../../../../../common/widget/custom_button.dart';
+import '../../../../../../../common/widget/custom_form_text_field.dart';
+import '../../../../../../../core/data/local/ countries.dart';
+import '../../../../../../../core/route/route_name.dart';
+import '../../../widgets/custom_dropdown.dart';
+import '../../../widgets/custom_radio_button_widget.dart';
 
 class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
   const TTBackgroundInformationScreen({super.key});

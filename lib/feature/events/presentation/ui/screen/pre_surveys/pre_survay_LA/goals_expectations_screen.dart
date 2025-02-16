@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:gll/feature/home/presentation/ui/widgets/custom_square_box_selection_widget.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../../common/widget/custom_button.dart';
-import '../../../../../../common/widget/custom_form_text_field.dart';
-import '../../../../../../core/route/route_name.dart';
-import '../../provider/survey_grid_notifier.dart';
-import '../../widgets/custom_radio_button_widget.dart';
+import '../../../../../../../common/widget/custom_button.dart';
+import '../../../../../../../common/widget/custom_form_text_field.dart';
+import '../../../../../../../core/route/route_name.dart';
+import '../../../../../../home/presentation/ui/provider/survey_grid_notifier.dart';
+import '../../../widgets/custom_radio_button_widget.dart';
+import '../../../widgets/custom_square_box_selection_widget.dart';
 
-class TTGoalsExpectationsScreen extends ConsumerStatefulWidget {
-  const TTGoalsExpectationsScreen({super.key});
+class GoalsExpectationsScreen extends ConsumerStatefulWidget {
+  const GoalsExpectationsScreen({super.key});
 
   @override
-  _TTGoalsExpectationsScreenState createState() =>
-      _TTGoalsExpectationsScreenState();
+  _GoalsExpectationsScreenState createState() =>
+      _GoalsExpectationsScreenState();
 }
 
-class _TTGoalsExpectationsScreenState
-    extends ConsumerState<TTGoalsExpectationsScreen> {
+class _GoalsExpectationsScreenState
+    extends ConsumerState<GoalsExpectationsScreen> {
   late TextEditingController phoneController;
   late TextEditingController fullNameController;
   late TextEditingController sponsoringOrgController;
@@ -50,8 +50,7 @@ class _TTGoalsExpectationsScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey - Train the Trainer',
-            style: PhinexaFont.headingSmall),
+        title: Text('Pre Survey', style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -84,24 +83,7 @@ class _TTGoalsExpectationsScreenState
                 height: 10,
               ),
               CustomFormTextField(
-                customLabelText: Text.rich(
-                  TextSpan(
-                    text:
-                        'What skills or knowledge do you hope to gain from the ',
-                    style: PhinexaFont.contentRegular,
-                    children: [
-                      TextSpan(
-                        text: 'Train the Trainer',
-                        style: PhinexaFont.contentRegular
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: ' session?',
-                        style: PhinexaFont.contentRegular,
-                      ),
-                    ],
-                  ),
-                ),
+                labelText: 'What skills or knowledge do you hope to gain?',
                 hintText: 'Soft skills',
                 obscureText: false,
                 height: 110,
@@ -115,7 +97,7 @@ class _TTGoalsExpectationsScreenState
               ),
               CustomSquareBoxSelectionWidget(
                 question:
-                    "How confident are you in your ability to lead and facilitate learning experiences right  now?",
+                    "How confident are you in your leadership abilities right now?",
                 firstGrade: "Not confident",
                 lastGrade: "Very confident",
                 responses: responses,
@@ -167,18 +149,6 @@ class _TTGoalsExpectationsScreenState
                       .updateResponse(question, value);
                 },
               ),
-              CustomSquareBoxSelectionWidget(
-                question:
-                    "How would you rate your ability to engage and motivate others?",
-                firstGrade: "Need improvements",
-                lastGrade: "Excellent",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  ref
-                      .read(surveyGridResponseProvider.notifier)
-                      .updateResponse(question, value);
-                },
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -190,8 +160,8 @@ class _TTGoalsExpectationsScreenState
                       icon: Icons.chevron_right_rounded,
                       height: 40,
                       onPressed: () {
-                        context.pushNamed(
-                            RouteName.ttInterestsAndEngagementScreen);
+                        context
+                            .pushNamed(RouteName.interestsAndEngagementScreen);
                       },
                     ),
                   ),

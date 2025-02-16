@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../common/widget/custom_form_number_field.dart';
 import '../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../core/route/route_name.dart';
-import '../provider/ phone_number_provider.dart';
+import '../../../../home/presentation/ui/provider/ phone_number_provider.dart';
 import '../widgets/custom_dropdown.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
@@ -145,7 +145,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 label: "Pre Survey",
                 height: 40,
                 onPressed: () {
-                  context.pushNamed(RouteName.ttPreSurvey);
+                  context.pushNamed(RouteName.tttOverallProgramFeedbackScreen);
                 },
               ),
               SizedBox(height: 24),
