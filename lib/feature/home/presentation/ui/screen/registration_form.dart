@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../../common/widget/custom_form_number_field.dart';
 import '../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../core/route/route_name.dart';
 import '../provider/ phone_number_provider.dart';
-import '../widgets/GenderDropdown.dart';
+import '../widgets/custom_dropdown.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
   const RegistrationForm({super.key});
@@ -111,6 +112,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
               CustomFormTextField(
                 labelText: 'Age',
                 hintText: 'Age',
+                keyboardType: TextInputType.number,
                 controller: ageController,
                 obscureText: false,
                 onChanged: (value) {
@@ -118,8 +120,10 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 },
               ),
               SizedBox(height: 12),
-              GenderDropdown(
+              CustomDropdown(
+                fieldName: "Gender",
                 selectedGender: selectedGender,
+                items: ["Male", "Female", "Not listed/Other"],
                 onChanged: (value) {
                   setState(() {
                     selectedGender = value;
@@ -141,7 +145,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 label: "Pre Survey",
                 height: 40,
                 onPressed: () {
-                  context.pushNamed(RouteName.preSurvey);
+                  context.pushNamed(RouteName.ttPreSurvey);
                 },
               ),
               SizedBox(height: 24),
@@ -160,6 +164,3 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     );
   }
 }
-
-
-

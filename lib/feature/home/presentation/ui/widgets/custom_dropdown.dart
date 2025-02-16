@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class GenderDropdown extends StatelessWidget {
+class CustomDropdown extends StatelessWidget {
   final String? selectedGender;
+  final String fieldName;
   final ValueChanged<String?> onChanged;
+  final List<String> items;
 
-  const GenderDropdown({
+  const CustomDropdown({
     super.key,
     this.selectedGender,
+    required this.fieldName,
     required this.onChanged,
+    required this.items,
   });
 
   @override
@@ -21,7 +25,7 @@ class GenderDropdown extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            'Gender',
+            fieldName,
             style: PhinexaFont.contentRegular,
           ),
         ),
@@ -29,7 +33,6 @@ class GenderDropdown extends StatelessWidget {
         DropdownButtonFormField<String>(
           style: PhinexaFont.contentRegular,
           decoration: InputDecoration(
-            labelText: null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -45,15 +48,17 @@ class GenderDropdown extends StatelessWidget {
           value: selectedGender,
           hint: Text(
             'Select Gender',
-            style: PhinexaFont.contentRegular.copyWith(color: PhinexaColor.grey),
+            style:
+                PhinexaFont.contentRegular.copyWith(color: PhinexaColor.grey),
           ),
-          items: ['Male', 'Female', 'Other']
+          items: items
               .map((gender) => DropdownMenuItem<String>(
-            value: gender,
-            child: Text(gender),
-          ))
+                    value: gender,
+                    child: Text(gender),
+                  ))
               .toList(),
           onChanged: onChanged,
+          menuMaxHeight: items.length > 10 ? 400 : null,
         ),
       ],
     );

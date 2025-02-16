@@ -14,7 +14,12 @@ class RouteName {
 
   static String get registrationForm => '/registrationForm';
 
-  static String get preSurvey => '/preSurvey';
+  static String get ttPreSurvey => '/ttPreSurvey';
+
+  static String get ttGoalsExpectationsScreen => '/ttGoalsExpectationsScreen';
+
+  static String get ttInterestsAndEngagementScreen =>
+      '/ttInterestsAndEngagementScreen';
 
   static String get profile => '/profile';
 
