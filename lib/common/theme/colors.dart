@@ -45,6 +45,8 @@ class PhinexaColor {
   static Color shadowColor = const Color(0xff000000).withOpacity(0.01);
   static Color transparent = Colors.transparent;
   static Color primaryBlue = const Color(0xff007afc);
+  static Color primaryLightBlue = const Color(0xFF43A2B5);
+  static Color primaryExLightBlue = const Color(0xFFBBE2E6);
   static Color primaryPurple = const Color(0xFF7C40FF);
   static Color primary300 = const Color(0xffC8E6C9);
   static Color primary200 = const Color(0xffE4F3E5);

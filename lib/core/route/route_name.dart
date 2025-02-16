@@ -14,7 +14,64 @@ class RouteName {
 
   static String get registrationForm => '/registrationForm';
 
+  ///TTT PreSurvey Routes
+  static String get ttPreSurvey => '/ttPreSurvey';
+
+  static String get ttGoalsExpectationsScreen => '/ttGoalsExpectationsScreen';
+
+  static String get ttInterestsAndEngagementScreen =>
+      '/ttInterestsAndEngagementScreen';
+
+  ///LA PreSurvey Routes
   static String get preSurvey => '/preSurvey';
+
+  static String get goalsExpectationsScreen => '/goalsExpectationsScreen';
+
+  static String get interestsAndEngagementScreen =>
+      '/interestsAndEngagementScreen';
+
+  ///LA PostSurvey Routes
+  static String get laOverallProgramFeedbackScreen =>
+      '/laOverallProgramFeedbackScreen';
+
+  static String get laModuleSpecificFeedbackScreen =>
+      '/laModuleSpecificFeedbackScreen';
+
+  static String get laTrainerFacilitationFeedbackScreen =>
+      '/laTrainerFacilitationFeedbackScreen';
+
+  static String get laApplicationOfSkillsScreen =>
+      '/laApplicationOfSkillsScreen';
+
+  ///TTT PostSurvey Routes
+  static String get tttOverallProgramFeedbackScreen =>
+      '/tttOverallProgramFeedbackScreen';
+
+  static String get tttModuleSpecificFeedbackScreen =>
+      '/tttModuleSpecificFeedbackScreen';
+
+  static String get tttTrainerFacilitationFeedbackScreen =>
+      '/tttTrainerFacilitationFeedbackScreen';
+
+  static String get tttApplicationOfSkillsScreen =>
+      '/tttApplicationOfSkillsScreen';
+
+  ///SIP PostSurvey Routes
+  static String get sipProjectOverviewScreen => '/sipProjectOverviewScreen';
+
+  static String get sipSkillsApplicationScreen => '/sipSkillsApplicationScreen';
+
+  static String get sipProjectImpactScreen => '/sipProjectImpactScreen';
+
+  static String get sipLeadershipGrowthScreen => '/sipLeadershipGrowthScreen';
+
+  static String get sipChallengesAndSupportScreen =>
+      '/sipChallengesAndSupportScreen';
+
+  static String get sipSuggestionsForImprovementScreen =>
+      '/sipChallengesAndSupportScreen';
+
+  ///End
 
   static String get profile => '/profile';
 
