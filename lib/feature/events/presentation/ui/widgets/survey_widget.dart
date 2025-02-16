@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-import '../../../data/survey_response_model.dart';
+import '../../../../home/data/survey_response_model.dart';
 
 class SurveyWidget extends StatefulWidget {
   final String title;
