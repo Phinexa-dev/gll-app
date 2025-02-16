@@ -14,6 +14,9 @@ import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_view_mo
 import 'package:go_router/go_router.dart';
 
 import '../../feature/events/presentation/ui/screen/events_screen.dart';
+import '../../feature/home/presentation/ui/screen/pre_survay/background_information_screen.dart';
+import '../../feature/home/presentation/ui/screen/pre_survay/goals_expectations_screen.dart';
+import '../../feature/home/presentation/ui/screen/pre_survay/interests_and_engagement_screen.dart';
 import '../../feature/home/presentation/ui/screen/pre_survay_trainer/goals_expectations_screen.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
@@ -71,6 +74,24 @@ final appRoutes = [
     name: RouteName.registrationForm,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => RegistrationForm(),
+  ),
+  GoRoute(
+    path: RouteName.preSurvey,
+    name: RouteName.preSurvey,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => BackgroundInformationScreen(),
+  ),
+  GoRoute(
+    path: RouteName.goalsExpectationsScreen,
+    name: RouteName.goalsExpectationsScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => GoalsExpectationsScreen(),
+  ),
+  GoRoute(
+    path: RouteName.interestsAndEngagementScreen,
+    name: RouteName.interestsAndEngagementScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => InterestsAndEngagementScreen(),
   ),
   GoRoute(
     path: RouteName.ttPreSurvey,

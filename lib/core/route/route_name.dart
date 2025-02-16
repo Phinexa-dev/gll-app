@@ -21,6 +21,13 @@ class RouteName {
   static String get ttInterestsAndEngagementScreen =>
       '/ttInterestsAndEngagementScreen';
 
+  static String get preSurvey => '/preSurvey';
+
+  static String get goalsExpectationsScreen => '/goalsExpectationsScreen';
+
+  static String get interestsAndEngagementScreen =>
+      '/interestsAndEngagementScreen';
+
   static String get profile => '/profile';
 
   static String get editProfile => '/editProfile';
