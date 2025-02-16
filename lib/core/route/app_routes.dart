@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/widget/event_view_screen_widget.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
-import 'package:gll/feature/home/presentation/ui/screen/pre_survay_screen.dart';
+import 'package:gll/feature/home/presentation/ui/screen/pre_survay_trainer/background_information_screen.dart';
+import 'package:gll/feature/home/presentation/ui/screen/pre_survay_trainer/interests_and_engagement_screen.dart';
 import 'package:gll/feature/home/presentation/ui/screen/registration_form.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
@@ -13,6 +14,7 @@ import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_view_mo
 import 'package:go_router/go_router.dart';
 
 import '../../feature/events/presentation/ui/screen/events_screen.dart';
+import '../../feature/home/presentation/ui/screen/pre_survay_trainer/goals_expectations_screen.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
 import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
@@ -71,10 +73,22 @@ final appRoutes = [
     builder: (context, state) => RegistrationForm(),
   ),
   GoRoute(
-    path: RouteName.preSurvey,
-    name: RouteName.preSurvey,
+    path: RouteName.ttPreSurvey,
+    name: RouteName.ttPreSurvey,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => PreSurvayScreen(),
+    builder: (context, state) => TTBackgroundInformationScreen(),
+  ),
+  GoRoute(
+    path: RouteName.ttGoalsExpectationsScreen,
+    name: RouteName.ttGoalsExpectationsScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => TTGoalsExpectationsScreen(),
+  ),
+  GoRoute(
+    path: RouteName.ttInterestsAndEngagementScreen,
+    name: RouteName.ttInterestsAndEngagementScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => TTInterestsAndEngagementScreen(),
   ),
   GoRoute(
     path: RouteName.resourceMore,
