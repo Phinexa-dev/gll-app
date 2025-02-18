@@ -7,16 +7,16 @@ import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../widgets/survey_question_widget.dart';
 
-class LAModuleSpecificFeedbackScreen extends ConsumerStatefulWidget {
-  const LAModuleSpecificFeedbackScreen({super.key});
+class SIPSkillsApplicationScreen extends ConsumerStatefulWidget {
+  const SIPSkillsApplicationScreen({super.key});
 
   @override
-  _LAModuleSpecificFeedbackScreenState createState() =>
-      _LAModuleSpecificFeedbackScreenState();
+  _SIPSkillsApplicationScreenState createState() =>
+      _SIPSkillsApplicationScreenState();
 }
 
-class _LAModuleSpecificFeedbackScreenState
-    extends ConsumerState<LAModuleSpecificFeedbackScreen> {
+class _SIPSkillsApplicationScreenState
+    extends ConsumerState<SIPSkillsApplicationScreen> {
   @override
   void initState() {
     super.initState();
@@ -27,8 +27,14 @@ class _LAModuleSpecificFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Post Survey-Leadership Academy',
-            style: PhinexaFont.highlightAccent),
+        title: Flexible(
+          child: Text(
+            'Post Survey - SIP',
+            style: PhinexaFont.highlightAccent,
+            maxLines: 2, // Allow text to break into two lines
+            overflow: TextOverflow.ellipsis, // Show '...' if text overflows
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -40,65 +46,40 @@ class _LAModuleSpecificFeedbackScreenState
                 height: 20,
               ),
               Text(
-                "Module Specific Feedback",
+                "Skills Application",
                 style: PhinexaFont.headingLarge,
               ),
               SizedBox(
                 height: 20,
               ),
               Text(
-                "For each module, please indicate how strongly you agree with the statement:  \"This module was relevant, engaging, and beneficial to youth leadership training.\"",
+                "Please indicate your level of agreement with the following statements",
                 style: PhinexaFont.highlightRegular,
               ),
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "Day 1",
-                style: PhinexaFont.headingLarge,
-              ),
-              SizedBox(
-                height: 20,
-              ),
               SurveyQuestion(
-                  question: "Sustainable Development Goals, Vision Trees"),
+                  question:
+                      "I was able to apply the leadership skills I learned during the Leadership  Academy to my project"),
               SizedBox(
                 height: 15,
               ),
               SurveyQuestion(
                   question:
-                      "Leadership 101: Direction, Alignment, and Commitment"),
+                      "The Sustainable Impact Plan module helped me structure and execute my  project effectively"),
               SizedBox(
                 height: 15,
               ),
-              SurveyQuestion(question: "Perspectives and Mindset"),
+              SurveyQuestion(
+                  question:
+                      "I felt confident in leading my team or community during the project"),
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "Day 2",
-                style: PhinexaFont.headingLarge,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SurveyQuestion(question: "Communication & Feedback/SBI"),
-              SizedBox(
-                height: 15,
-              ),
-              SurveyQuestion(question: "Values and Actions"),
-              SizedBox(
-                height: 15,
-              ),
-              SurveyQuestion(question: "Working in Teams"),
-              SizedBox(
-                height: 15,
-              ),
-              SurveyQuestion(question: "Change Happens"),
-              SizedBox(
-                height: 15,
-              ),
-              SurveyQuestion(question: "Sustainable Impact Plan "),
+              SurveyQuestion(
+                  question:
+                      "I was able to handle challenges or setbacks during the project using the  leadership skill I learned"),
               SizedBox(
                 height: 10,
               ),
@@ -113,8 +94,7 @@ class _LAModuleSpecificFeedbackScreenState
                       icon: Icons.chevron_right_rounded,
                       height: 40,
                       onPressed: () {
-                        context.pushNamed(
-                            RouteName.laTrainerFacilitationFeedbackScreen);
+                        context.pushNamed(RouteName.sipProjectImpactScreen);
                       },
                     ),
                   ),

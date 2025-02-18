@@ -29,7 +29,7 @@ class _LATrainerFacilitationFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Post Leadership Academy Survey',
+        title: Text('Post Survey-Leadership Academy',
             style: PhinexaFont.highlightAccent),
       ),
       body: SingleChildScrollView(
@@ -50,7 +50,7 @@ class _LATrainerFacilitationFeedbackScreenState
               ),
               Text(
                 "For each facilitator, please rate their performance",
-                style: PhinexaFont.contentRegular,
+                style: PhinexaFont.highlightRegular,
               ),
               SizedBox(
                 height: 20,

@@ -45,7 +45,7 @@ class _LAOverallProgramFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Post Leadership Academy Survey',
+        title: Text('Post Survey-Leadership Academy',
             style: PhinexaFont.highlightAccent),
       ),
       body: SingleChildScrollView(

@@ -5,6 +5,10 @@ import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/application_of_skills_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/module_specific_feedback_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/trainer_facilitation_feedback_screen.dart';
+import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/leadership_growth_screen.dart';
+import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_impact_screen.dart';
+import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
+import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
@@ -174,6 +178,32 @@ final appRoutes = [
     name: RouteName.tttApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => TTTApplicationOfSkillsScreen(),
+  ),
+
+  ///SIP PostSurvey Routes
+  GoRoute(
+    path: RouteName.sipProjectOverviewScreen,
+    name: RouteName.sipProjectOverviewScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SIPProjectOverviewScreen(),
+  ),
+  GoRoute(
+    path: RouteName.sipSkillsApplicationScreen,
+    name: RouteName.sipSkillsApplicationScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SIPSkillsApplicationScreen(),
+  ),
+  GoRoute(
+    path: RouteName.sipProjectImpactScreen,
+    name: RouteName.sipProjectImpactScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SIPProjectImpactScreen(),
+  ),
+  GoRoute(
+    path: RouteName.sipLeadershipGrowthScreen,
+    name: RouteName.sipLeadershipGrowthScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SIPLeadershipGrowthScreen(),
   ),
   GoRoute(
     path: RouteName.resourceMore,
