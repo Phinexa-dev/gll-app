@@ -65,12 +65,6 @@ class RouteName {
 
   static String get sipLeadershipGrowthScreen => '/sipLeadershipGrowthScreen';
 
-  static String get sipChallengesAndSupportScreen =>
-      '/sipChallengesAndSupportScreen';
-
-  static String get sipSuggestionsForImprovementScreen =>
-      '/sipChallengesAndSupportScreen';
-
   ///End
 
   static String get profile => '/profile';
