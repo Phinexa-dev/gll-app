@@ -27,7 +27,7 @@ class _LAModuleSpecificFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Post Leadership Academy Survey',
+        title: Text('Post Survey-Leadership Academy',
             style: PhinexaFont.highlightAccent),
       ),
       body: SingleChildScrollView(
@@ -48,7 +48,7 @@ class _LAModuleSpecificFeedbackScreenState
               ),
               Text(
                 "For each module, please indicate how strongly you agree with the statement:  \"This module was relevant, engaging, and beneficial to youth leadership training.\"",
-                style: PhinexaFont.contentRegular,
+                style: PhinexaFont.highlightRegular,
               ),
               SizedBox(
                 height: 20,

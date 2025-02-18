@@ -145,7 +145,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 label: "Pre Survey",
                 height: 40,
                 onPressed: () {
-                  context.pushNamed(RouteName.tttOverallProgramFeedbackScreen);
+                  context.pushNamed(RouteName.sipProjectOverviewScreen);
                 },
               ),
               SizedBox(height: 24),

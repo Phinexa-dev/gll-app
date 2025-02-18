@@ -31,7 +31,7 @@ class _TTTTrainerFacilitationFeedbackScreenState
       appBar: AppBar(
         title: Flexible(
           child: Text(
-            'Post-Leadership Academy Train the Trainer Survey',
+            'Post Survey - Train the Trainer',
             style: PhinexaFont.highlightAccent,
             maxLines: 2, // Allow text to break into two lines
             overflow: TextOverflow.ellipsis, // Show '...' if text overflows
@@ -56,7 +56,7 @@ class _TTTTrainerFacilitationFeedbackScreenState
               ),
               Text(
                 "For each facilitator, please rate their performance",
-                style: PhinexaFont.contentRegular,
+                style: PhinexaFont.highlightRegular,
               ),
               SizedBox(
                 height: 20,
