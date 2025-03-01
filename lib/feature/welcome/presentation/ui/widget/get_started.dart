@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/start_button.dart';
-import 'package:gll/feature/welcome/presentation/ui/widget/signup/signup.dart';
 import '../../../../../common/theme/fonts.dart';
+import '../../../../login/presentation/ui/screen/login.dart';
+import '../../../../signup/presentation/ui/screen/signup.dart';
 import '../provider/animation_visibility_provider.dart';
-import 'login/login.dart';
 
 class GetStarted extends ConsumerStatefulWidget {
   const GetStarted({super.key});
