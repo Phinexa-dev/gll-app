@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/remote/network_service.dart';
-import 'package:gll/feature/login/data/dto/request/sign_up_request.dart';
-import 'package:gll/feature/login/data/dto/response/sign_up_response.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../dto/request/sign_up_request.dart';
+import '../../dto/response/sign_up_response.dart';
 part 'signup_api.g.dart';
 
 final signUpApiProvider = Provider<SignupApi>((ref) {
