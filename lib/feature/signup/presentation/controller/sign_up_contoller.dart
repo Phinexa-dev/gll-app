@@ -78,4 +78,10 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     }
   }
 
+  void setFormData(Map<String, dynamic> formData) {
+    state = state.copyWith(
+      signUpForm: formData,
+    );
+  }
+
 }

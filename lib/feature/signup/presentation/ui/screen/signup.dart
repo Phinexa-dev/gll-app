@@ -4,9 +4,13 @@ import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/core/route/route_name.dart';
+import 'package:gll/feature/signup/presentation/controller/sign_up_contoller.dart';
+import 'package:gll/feature/system_feedback/model/feedback.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
 import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../system_feedback/provider/feedback_provider.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -21,6 +25,26 @@ class _SignUpState extends ConsumerState<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+
+    final feedBackService = ref.read(feedbackServiceProvider);
+
+    // final isLoading = ref.watch(signUpControllerProvider.select((value) => value.isLoading));
+    final isLoading = ref.watch(signUpControllerProvider).isLoading;
+    final isSuccess = ref.watch(signUpControllerProvider).isSuccess;
+    final isFailure = ref.watch(signUpControllerProvider).isFailure;
+
+    if(isSuccess != null && isSuccess){
+      // use system feedback to show the success message
+      feedBackService.showSnackBar("Registration successful", FeedbackType.success);
+      Navigator.pop(context);
+      context.goNamed(RouteName.welcome);
+    }
+
+    if(isFailure != null && isFailure){
+      final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
+      // use system feedback to show the error message
+      feedBackService.showSnackBar(errorMessage?? "Registration failed", FeedbackType.error);
+    }
 
     final TextEditingController fullNameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
@@ -96,10 +120,24 @@ class _SignUpState extends ConsumerState<SignUp> {
                   StartButton(
                       iconVisible: true,
                       label: 'Create account',
-                      onPressed: () {
-                        // Login logic
-                        Navigator.pop(context);
-                        context.goNamed(RouteName.dashboard);
+                      onPressed: () async {
+                        // Sign up logic
+                        final formData = {
+                          'fullName': fullNameController.text,
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                          'confirmPassword': confirmPasswordController.text,
+                          'dialCode': phoneCode,
+                          'phoneNumber': phoneNumberController.text,
+                        };
+
+                        //set the form data to the controller
+                        ref.read(signUpControllerProvider.notifier).setFormData(formData);
+                        //call the sign up method
+                        final result = await ref.read(signUpControllerProvider.notifier).signUp();
+
+                        // Navigator.pop(context);
+                        // context.goNamed(RouteName.dashboard);
                       }
                   )
                 ],
