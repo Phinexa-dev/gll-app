@@ -17,6 +17,8 @@ class SignUp extends ConsumerStatefulWidget {
 
 class _SignUpState extends ConsumerState<SignUp> {
 
+  String phoneCode = '+94';
+
   @override
   Widget build(BuildContext context) {
 
@@ -62,11 +64,34 @@ class _SignUpState extends ConsumerState<SignUp> {
                   const SizedBox(height: 8),
                   CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
                   const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      DropdownButton<String>(
+                        borderRadius: BorderRadius.circular(8),
+                        alignment: Alignment.center,
+                        itemHeight: 60,
+                        style: PhinexaFont.labelRegular.copyWith(
+                          color: Colors.grey,
+                        ),
+                        value: phoneCode,
+                        items: const [
+                          DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94'),),
+                          DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
+                          DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
+                          DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
+                        ],
+                        onChanged: (value) {
+                          setState(() => phoneCode = value!);
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(child: buildTextField(label: '',controller: phoneNumberController,keyboardType: TextInputType.phone, hint: 'Phone Number*')),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
                   CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
                   const SizedBox(height: 8),
                   CustomTextField(labelText: 'Confirm Password', controller: confirmPasswordController, obscureText: true),
-                  const SizedBox(height: 8),
-                  CustomTextField(labelText: 'Phone Number', controller: phoneNumberController, keyboardType: TextInputType.phone),
                   const SizedBox(height: 16),
                   StartButton(
                       iconVisible: true,
@@ -81,16 +106,41 @@ class _SignUpState extends ConsumerState<SignUp> {
               ),
             ),
 
-            CustomDivider(label: 'Or'),
+            // CustomDivider(label: 'Or'),
 
-            const SizedBox(height: 16),
+            // const SizedBox(height: 16),
 
-            Expanded(
-              flex: 1,
-              child: SocialMediaOptions(),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: SocialMediaOptions(),
+            // ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildTextField(
+      {
+        required String label,
+        required TextEditingController controller,
+        required TextInputType keyboardType,
+        String hint = 'required*',
+      }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label.isNotEmpty)
+            Text(label, style: PhinexaFont.labelRegular.copyWith(fontWeight: FontWeight.normal, color: Colors.grey)),
+          const SizedBox(height: 8),
+          CustomTextField(
+            labelText: hint,
+            controller: controller,
+            keyboardType: keyboardType,
+          ),
+        ],
       ),
     );
   }
