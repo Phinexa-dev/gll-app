@@ -34,8 +34,8 @@ class _LoginState extends ConsumerState<Login> {
     if(isSuccess != null && isSuccess){
       // use system feedback to show the success message
       feedBackService.showToast("Registration successful", type: FeedbackType.success);
-      Navigator.pop(context);
-      context.goNamed(RouteName.welcome);
+      // Navigator.pop(context);
+      context.goNamed(RouteName.dashboard);
     }
 
     if(isFailure != null && isFailure){

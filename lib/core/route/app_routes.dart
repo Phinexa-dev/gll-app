@@ -5,12 +5,17 @@ import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/sip_create_screen.dart';
 import 'package:go_router/go_router.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
+import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
 import '../../feature/welcome/presentation/ui/screen/welcome_screen.dart';
 
 
 final navigationKey = GlobalKey<NavigatorState>();
 
 final appRoutes = [
+  GoRoute(
+    path: RouteName.splash,
+    builder: (context, state) => const SplashScreen(),
+  ),
   GoRoute(
     path: RouteName.welcome,
     name: RouteName.welcome,
