@@ -2,18 +2,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/local/secure_storage/Isecure_storage.dart';
 import '../../local/secure_storage/secure_storage.dart';
 import '../../local/secure_storage/secure_storage_const.dart';
+import '../../remote/network_service.dart';
+import '../../remote/token/itoken_service.dart';
+import '../../remote/token/token_service.dart';
 import 'iuser_service.dart';
 import 'model/user_model.dart';
 
 final userServiceProvider = Provider<IUserService>((ref) {
   final secureStorage = ref.watch(secureStorageProvider);
-  return UserService(secureStorage);
+  final dio = ref.watch(networkServiceProvider);
+  final tokenService = ref.watch(tokenServiceProvider(dio));
+  return UserService(secureStorage, tokenService);
 });
 
 class UserService implements IUserService {
   final ISecureStorage _secureStorage;
+  final ITokenService _tokenService;
 
-  UserService(this._secureStorage);
+  UserService(this._secureStorage, this._tokenService);
+
+  @override
+  Future<bool> isUserLoggedIn() async {
+    final hasToken = await _tokenService.hasToken();
+    final user = await getUser();
+
+    return hasToken && user != null;
+  }
 
   @override
   Future<void> clearUser() {
