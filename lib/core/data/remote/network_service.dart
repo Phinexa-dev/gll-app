@@ -7,6 +7,7 @@ import 'network_service_interceptor.dart';
 final networkServiceProvider = Provider<Dio>((ref) {
   final options = BaseOptions(
     baseUrl: dotenv.get('BASE_URL'),
+    contentType: 'application/json',
     connectTimeout: const Duration(seconds: 60),
     receiveTimeout: const Duration(seconds: 60),
     sendTimeout: const Duration(seconds: 60),
@@ -16,7 +17,11 @@ final networkServiceProvider = Provider<Dio>((ref) {
   final provider = ref.watch(networkServiceInterceptorProvider(dio));
   dio.interceptors.addAll(
     [
-      HttpFormatter(),
+      HttpFormatter(
+        loggingFilter: (request, response, error) {
+          return true;
+        },
+      ),
       provider,
     ]
   );

@@ -32,10 +32,11 @@ class _SignUpState extends ConsumerState<SignUp> {
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
     final isSuccess = ref.watch(signUpControllerProvider).isSuccess;
     final isFailure = ref.watch(signUpControllerProvider).isFailure;
+    final formData = ref.watch(signUpControllerProvider).signUpForm;
 
     if(isSuccess != null && isSuccess){
       // use system feedback to show the success message
-      feedBackService.showSnackBar("Registration successful", FeedbackType.success);
+      feedBackService.showToast("Registration successful", type: FeedbackType.success);
       Navigator.pop(context);
       context.goNamed(RouteName.welcome);
     }
@@ -43,14 +44,14 @@ class _SignUpState extends ConsumerState<SignUp> {
     if(isFailure != null && isFailure){
       final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
       // use system feedback to show the error message
-      feedBackService.showSnackBar(errorMessage?? "Registration failed", FeedbackType.error);
+      feedBackService.showToast(errorMessage?? "Registration failed", type: FeedbackType.error);
     }
 
-    final TextEditingController fullNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
-    final TextEditingController phoneNumberController = TextEditingController();
+    final TextEditingController fullNameController = TextEditingController(text: formData?['fullName']?? "");
+    final TextEditingController emailController = TextEditingController(text: formData?['email']?? "");
+    final TextEditingController passwordController = TextEditingController(text: formData?['password']?? "");
+    final TextEditingController confirmPasswordController = TextEditingController(text: formData?['confirmPassword']?? "");
+    final TextEditingController phoneNumberController = TextEditingController(text: formData?['phoneNumber']?? "");
 
 
     return FractionallySizedBox(

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/signup/application/sign_up_service.dart';
 import 'package:gll/feature/signup/presentation/state/sign_up_state.dart';
@@ -68,12 +69,12 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       );
 
     }
-    catch(e){
+    on DioException catch(e){
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: e.toString(),
+        errorMessage: e.response?.statusMessage?? 'An error occurred',
       );
     }
   }

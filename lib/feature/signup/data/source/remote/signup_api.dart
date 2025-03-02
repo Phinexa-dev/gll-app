@@ -12,6 +12,7 @@ final signUpApiProvider = Provider<SignupApi>((ref) {
 });
 
 @RestApi()
+@Header('Content-Type : application/json')
 abstract class SignupApi {
   factory SignupApi(Dio dio) => _SignupApi(dio);
 
