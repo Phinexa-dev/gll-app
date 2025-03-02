@@ -1,10 +1,17 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/data/dto/request/education/add_education/add_education_request.dart';
 import 'package:gll/feature/other/data/dto/request/education/update_education/update_education_data_request.dart';
 import 'package:gll/feature/other/domain/model/education/education_data_model.dart';
 import '../../data/dto/response/education/education_data_response.dart';
+import '../../data/repository/education/education_repository.dart';
 import '../../data/repository/education/ieducation_repository.dart';
 import 'ieducation_service.dart';
+
+final educationServiceProvider = Provider<EducationService>((ref) {
+  final educationRepository = ref.watch(educationRepositoryProvider);
+  return EducationService(educationRepository);
+});
 
 final class EducationService implements IEducationService {
   final IEducationRepository _educationRepository;

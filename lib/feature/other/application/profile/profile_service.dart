@@ -1,9 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/data/dto/request/profile/edit_profile/edit_profile_request.dart';
 import 'package:gll/feature/other/domain/model/profile/profile_data_model.dart';
 import '../../data/repository/profile/iprofile_repository.dart';
+import '../../data/repository/profile/profile_repository.dart';
 import 'iprofile_service.dart';
+
+final profileServiceProvider = Provider<ProfileService>((ref) {
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  return ProfileService(profileRepository);
+});
 
 final class ProfileService implements IProfileService {
   final IProfileRepository _profileRepository;

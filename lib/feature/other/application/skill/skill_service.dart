@@ -1,8 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/data/dto/request/skill/add_skill_request.dart';
 import 'package:gll/feature/other/domain/model/skill/skill_data_model.dart';
 import '../../data/repository/skill/iskill_repository.dart';
+import '../../data/repository/skill/skill_repository.dart';
 import 'i_skill_service.dart';
+
+final skillServiceProvider = Provider<SkillService>((ref) {
+  final skillRepository = ref.watch(skillRepositoryProvider);
+  return SkillService(skillRepository);
+});
 
 final class SkillService implements ISkillService {
   final ISkillRepository _skillRepository;
