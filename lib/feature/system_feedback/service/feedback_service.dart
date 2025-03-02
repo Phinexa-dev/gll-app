@@ -17,12 +17,14 @@ class FeedbackService {
     _feedbackController.add(FeedbackModel(content: content, type: type));
   }
 
-  void showToast(String message, {ToastGravity gravity = ToastGravity.BOTTOM}) {
+  void showToast(String message, {ToastGravity gravity = ToastGravity.BOTTOM, FeedbackType type = FeedbackType.info}) {
+    final bgColor = type == FeedbackType.success? Colors.green : type == FeedbackType.error? Colors.red: Colors.black54;
+    // final textColor = type == FeedbackType.success? Colors.white : Colors.white;
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: gravity,
-      backgroundColor: Colors.black54,
+      backgroundColor: bgColor,
       textColor: Colors.white,
       fontSize: 16.0,
     );
