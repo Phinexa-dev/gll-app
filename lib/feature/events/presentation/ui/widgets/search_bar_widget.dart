@@ -3,7 +3,12 @@ import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
 class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({super.key});
+  final TextEditingController controller;
+
+  const SearchBarWidget({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,11 @@ class SearchBarWidget extends StatelessWidget {
           const SizedBox(width: 8.0),
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                 hintText: "Search events",
-                hintStyle: PhinexaFont.highlightRegular.copyWith(color: PhinexaColor.grey),
+                hintStyle: PhinexaFont.highlightRegular
+                    .copyWith(color: PhinexaColor.grey),
                 border: InputBorder.none,
               ),
             ),
