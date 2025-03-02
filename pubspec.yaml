@@ -88,6 +88,12 @@ dev_dependencies:
   timeago: ^3.1.0
   #  https://pub.dev/packages/google_maps_flutter
   google_maps_flutter: ^2.10.0
+  # https://pub.dev/packages/syncfusion_flutter_pdf
+  syncfusion_flutter_pdf: ^28.2.6
+  # https://pub.dev/packages/open_file
+  open_file: ^3.5.10
+  # https://pub.dev/packages/geocoding
+  geocoding: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
