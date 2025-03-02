@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
+import 'package:gll/feature/other/presentation/controller/profile/profile_controller.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../../common/widget/custom_icon_button.dart';
+import '../../../../../system_feedback/model/feedback.dart';
+import '../../../../../system_feedback/provider/feedback_provider.dart';
 
 final mockSocialProvider = StateProvider((ref) => {
   'personalBlog': 'https://www.bryancotly.com',
@@ -47,19 +51,41 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
   }
 
   void saveChanges() {
-    final updatedValues = {
-      'personalBlog': personalBlogUrlController.text,
+
+    final formData = {
       'facebook': facebookUrlController.text,
-      'linkedIn': linkedInUrlController.text,
+      'blog': personalBlogUrlController.text,
       'instagram': instagramUrlController.text,
       'x': xUrlController.text,
+      'twitter': linkedInUrlController.text,
     };
 
-    print(updatedValues);
+    //set the form data to the controller
+    ref.read(profileControllerProvider.notifier).setFormData(formData);
+    ref.read(profileControllerProvider.notifier).editSocials();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final isLoading = ref.watch(profileControllerProvider).isLoading;
+    final isSuccess = ref.watch(profileControllerProvider).isSuccess;
+    final isFailure = ref.watch(profileControllerProvider).isFailure;
+
+    if(isSuccess != null && isSuccess){
+
+      final feedBackService = ref.read(feedbackServiceProvider);
+      // use system feedback to show the success message
+      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
+      context.pop();
+    }
+
+    if(isFailure != null && isFailure){
+      final feedBackService = ref.read(feedbackServiceProvider);
+      final errorMessage = ref.watch(profileControllerProvider).errorMessage;
+      // use system feedback to show the error message
+      feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
+    }
 
     return FractionallySizedBox(
       heightFactor: 0.65,
@@ -104,7 +130,7 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
                 CustomIconButton(
                   label: 'Cancel',
                   textColour: Colors.black,
-                  onPressed: () => saveChanges,
+                  onPressed: () => Navigator.pop(context),
                   color: Colors.white,
                   borderColor: Colors.blue,
                 ),
@@ -112,7 +138,7 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
                 CustomIconButton(
                   label: 'Save Changes',
                   textColour: Colors.white,
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => saveChanges(),
                   color: Colors.blue,
                   iconColor: Colors.white,
                 ),

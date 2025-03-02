@@ -81,7 +81,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
       final feedBackService = ref.read(feedbackServiceProvider);
       // use system feedback to show the success message
-      feedBackService.showToast("Registration successful", type: FeedbackType.success);
+      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
       // context.goNamed(RouteName.dashboard);
     }
 
@@ -89,7 +89,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       final feedBackService = ref.read(feedbackServiceProvider);
       final errorMessage = ref.watch(profileControllerProvider).errorMessage;
       // use system feedback to show the error message
-      feedBackService.showToast(errorMessage?? "Registration failed", type: FeedbackType.error);
+      feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
     }
 
     return Scaffold(
