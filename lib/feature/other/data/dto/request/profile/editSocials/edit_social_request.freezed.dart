@@ -21,15 +21,15 @@ EditSocialRequest _$EditSocialRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$EditSocialRequest {
   @JsonKey(name: "faceBook")
-  dynamic get faceBook => throw _privateConstructorUsedError;
+  String? get faceBook => throw _privateConstructorUsedError;
   @JsonKey(name: "blog")
-  dynamic get blog => throw _privateConstructorUsedError;
+  String? get blog => throw _privateConstructorUsedError;
   @JsonKey(name: "twitter")
-  dynamic get twitter => throw _privateConstructorUsedError;
+  String? get twitter => throw _privateConstructorUsedError;
   @JsonKey(name: "x")
-  dynamic get x => throw _privateConstructorUsedError;
+  String? get x => throw _privateConstructorUsedError;
   @JsonKey(name: "instagram")
-  dynamic get instagram => throw _privateConstructorUsedError;
+  String? get instagram => throw _privateConstructorUsedError;
 
   /// Serializes this EditSocialRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,11 +48,11 @@ abstract class $EditSocialRequestCopyWith<$Res> {
       _$EditSocialRequestCopyWithImpl<$Res, EditSocialRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: "faceBook") dynamic faceBook,
-      @JsonKey(name: "blog") dynamic blog,
-      @JsonKey(name: "twitter") dynamic twitter,
-      @JsonKey(name: "x") dynamic x,
-      @JsonKey(name: "instagram") dynamic instagram});
+      {@JsonKey(name: "faceBook") String? faceBook,
+      @JsonKey(name: "blog") String? blog,
+      @JsonKey(name: "twitter") String? twitter,
+      @JsonKey(name: "x") String? x,
+      @JsonKey(name: "instagram") String? instagram});
 }
 
 /// @nodoc
@@ -80,23 +80,23 @@ class _$EditSocialRequestCopyWithImpl<$Res, $Val extends EditSocialRequest>
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       blog: freezed == blog
           ? _value.blog
           : blog // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       twitter: freezed == twitter
           ? _value.twitter
           : twitter // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       x: freezed == x
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       instagram: freezed == instagram
           ? _value.instagram
           : instagram // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
     ) as $Val);
   }
 }
@@ -110,11 +110,11 @@ abstract class _$$EditSocialRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "faceBook") dynamic faceBook,
-      @JsonKey(name: "blog") dynamic blog,
-      @JsonKey(name: "twitter") dynamic twitter,
-      @JsonKey(name: "x") dynamic x,
-      @JsonKey(name: "instagram") dynamic instagram});
+      {@JsonKey(name: "faceBook") String? faceBook,
+      @JsonKey(name: "blog") String? blog,
+      @JsonKey(name: "twitter") String? twitter,
+      @JsonKey(name: "x") String? x,
+      @JsonKey(name: "instagram") String? instagram});
 }
 
 /// @nodoc
@@ -140,23 +140,23 @@ class __$$EditSocialRequestImplCopyWithImpl<$Res>
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       blog: freezed == blog
           ? _value.blog
           : blog // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       twitter: freezed == twitter
           ? _value.twitter
           : twitter // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       x: freezed == x
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       instagram: freezed == instagram
           ? _value.instagram
           : instagram // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
     ));
   }
 }
@@ -176,19 +176,19 @@ class _$EditSocialRequestImpl implements _EditSocialRequest {
 
   @override
   @JsonKey(name: "faceBook")
-  final dynamic faceBook;
+  final String? faceBook;
   @override
   @JsonKey(name: "blog")
-  final dynamic blog;
+  final String? blog;
   @override
   @JsonKey(name: "twitter")
-  final dynamic twitter;
+  final String? twitter;
   @override
   @JsonKey(name: "x")
-  final dynamic x;
+  final String? x;
   @override
   @JsonKey(name: "instagram")
-  final dynamic instagram;
+  final String? instagram;
 
   @override
   String toString() {
@@ -200,22 +200,19 @@ class _$EditSocialRequestImpl implements _EditSocialRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EditSocialRequestImpl &&
-            const DeepCollectionEquality().equals(other.faceBook, faceBook) &&
-            const DeepCollectionEquality().equals(other.blog, blog) &&
-            const DeepCollectionEquality().equals(other.twitter, twitter) &&
-            const DeepCollectionEquality().equals(other.x, x) &&
-            const DeepCollectionEquality().equals(other.instagram, instagram));
+            (identical(other.faceBook, faceBook) ||
+                other.faceBook == faceBook) &&
+            (identical(other.blog, blog) || other.blog == blog) &&
+            (identical(other.twitter, twitter) || other.twitter == twitter) &&
+            (identical(other.x, x) || other.x == x) &&
+            (identical(other.instagram, instagram) ||
+                other.instagram == instagram));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(faceBook),
-      const DeepCollectionEquality().hash(blog),
-      const DeepCollectionEquality().hash(twitter),
-      const DeepCollectionEquality().hash(x),
-      const DeepCollectionEquality().hash(instagram));
+  int get hashCode =>
+      Object.hash(runtimeType, faceBook, blog, twitter, x, instagram);
 
   /// Create a copy of EditSocialRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -236,11 +233,11 @@ class _$EditSocialRequestImpl implements _EditSocialRequest {
 
 abstract class _EditSocialRequest implements EditSocialRequest {
   const factory _EditSocialRequest(
-          {@JsonKey(name: "faceBook") final dynamic faceBook,
-          @JsonKey(name: "blog") final dynamic blog,
-          @JsonKey(name: "twitter") final dynamic twitter,
-          @JsonKey(name: "x") final dynamic x,
-          @JsonKey(name: "instagram") final dynamic instagram}) =
+          {@JsonKey(name: "faceBook") final String? faceBook,
+          @JsonKey(name: "blog") final String? blog,
+          @JsonKey(name: "twitter") final String? twitter,
+          @JsonKey(name: "x") final String? x,
+          @JsonKey(name: "instagram") final String? instagram}) =
       _$EditSocialRequestImpl;
 
   factory _EditSocialRequest.fromJson(Map<String, dynamic> json) =
@@ -248,19 +245,19 @@ abstract class _EditSocialRequest implements EditSocialRequest {
 
   @override
   @JsonKey(name: "faceBook")
-  dynamic get faceBook;
+  String? get faceBook;
   @override
   @JsonKey(name: "blog")
-  dynamic get blog;
+  String? get blog;
   @override
   @JsonKey(name: "twitter")
-  dynamic get twitter;
+  String? get twitter;
   @override
   @JsonKey(name: "x")
-  dynamic get x;
+  String? get x;
   @override
   @JsonKey(name: "instagram")
-  dynamic get instagram;
+  String? get instagram;
 
   /// Create a copy of EditSocialRequest
   /// with the given fields replaced by the non-null parameter values.

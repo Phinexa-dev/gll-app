@@ -58,7 +58,7 @@ class _EditProfileApi implements EditProfileApi {
   }
 
   @override
-  Future<EditProfileResponse> editSkills(
+  Future<EditProfileResponse> editSocials(
     EditSocialRequest data,
     int userId,
   ) async {

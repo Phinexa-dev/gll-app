@@ -29,10 +29,10 @@ final class ProfileRepository implements IProfileRepository {
   }
 
   @override
-  Future<EditProfileResponse> editSkills(EditSocialRequest data, int userId) async {
+  Future<EditProfileResponse> editSocials(EditSocialRequest data, int userId) async {
     try {
 
-      final response = await _profileApi.editSkills(data, userId);
+      final response = await _profileApi.editSocials(data, userId);
       return response;
 
     } on DioException catch (_) {

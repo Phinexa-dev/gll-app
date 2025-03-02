@@ -30,9 +30,9 @@ final class ProfileService implements IProfileService {
   }
 
   @override
-  Future<bool> editSkills(EditSocialRequest data, int userId) async {
+  Future<bool> editSocials(EditSocialRequest data, int userId) async {
     try {
-      final response = await _profileRepository.editSkills(data, userId);
+      final response = await _profileRepository.editSocials(data, userId);
 
       // final profileDataModel = _mapToProfileDataModel(response);
       return true;

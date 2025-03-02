@@ -19,7 +19,7 @@ class EditProfileRequest with _$EditProfileRequest {
     @JsonKey(name: "languages")
     String? languages,
     @JsonKey(name: "userIntrests")
-    dynamic userIntrests,
+    String? userInterests,
   }) = _EditProfileRequest;
 
   factory EditProfileRequest.fromJson(Map<String, dynamic> json) => _$EditProfileRequestFromJson(json);

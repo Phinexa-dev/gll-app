@@ -7,15 +7,15 @@ part 'edit_social_request.g.dart';
 class EditSocialRequest with _$EditSocialRequest {
   const factory EditSocialRequest({
     @JsonKey(name: "faceBook")
-    dynamic faceBook,
+    String? faceBook,
     @JsonKey(name: "blog")
-    dynamic blog,
+    String? blog,
     @JsonKey(name: "twitter")
-    dynamic twitter,
+    String? twitter,
     @JsonKey(name: "x")
-    dynamic x,
+    String? x,
     @JsonKey(name: "instagram")
-    dynamic instagram,
+    String? instagram,
   }) = _EditSocialRequest;
 
   factory EditSocialRequest.fromJson(Map<String, dynamic> json) => _$EditSocialRequestFromJson(json);

@@ -9,11 +9,11 @@ part of 'edit_social_request.dart';
 _$EditSocialRequestImpl _$$EditSocialRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$EditSocialRequestImpl(
-      faceBook: json['faceBook'],
-      blog: json['blog'],
-      twitter: json['twitter'],
-      x: json['x'],
-      instagram: json['instagram'],
+      faceBook: json['faceBook'] as String?,
+      blog: json['blog'] as String?,
+      twitter: json['twitter'] as String?,
+      x: json['x'] as String?,
+      instagram: json['instagram'] as String?,
     );
 
 Map<String, dynamic> _$$EditSocialRequestImplToJson(

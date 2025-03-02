@@ -6,5 +6,5 @@ abstract interface class IProfileService {
 
   Future<bool> editProfile(EditProfileRequest data, int userId);
 
-  Future<bool> editSkills(EditSocialRequest data, int userId);
+  Future<bool> editSocials(EditSocialRequest data, int userId);
 }

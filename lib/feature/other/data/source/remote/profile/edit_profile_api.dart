@@ -22,5 +22,5 @@ abstract class EditProfileApi {
   Future<EditProfileResponse> editProfile(@Body() EditProfileRequest data, @Path('id') int userId);
 
   @POST('/user/:id')
-  Future<EditProfileResponse> editSkills(@Body() EditSocialRequest data, @Path('id') int userId);
+  Future<EditProfileResponse> editSocials(@Body() EditSocialRequest data, @Path('id') int userId);
 }

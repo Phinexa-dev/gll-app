@@ -15,7 +15,7 @@ _$EditProfileRequestImpl _$$EditProfileRequestImplFromJson(
       mobileNumber: json['mobileNumber'] as String?,
       country: json['country'] as String?,
       languages: json['languages'] as String?,
-      userIntrests: json['userIntrests'],
+      userInterests: json['userIntrests'] as String?,
     );
 
 Map<String, dynamic> _$$EditProfileRequestImplToJson(
@@ -27,5 +27,5 @@ Map<String, dynamic> _$$EditProfileRequestImplToJson(
       'mobileNumber': instance.mobileNumber,
       'country': instance.country,
       'languages': instance.languages,
-      'userIntrests': instance.userIntrests,
+      'userIntrests': instance.userInterests,
     };
