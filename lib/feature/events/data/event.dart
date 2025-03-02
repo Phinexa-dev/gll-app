@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
-
 class SubEvent {
   final DateTime startDate;
   final DateTime endDate;
-  final RichText description;
+  final String description;
 
   SubEvent({
     required this.startDate,
