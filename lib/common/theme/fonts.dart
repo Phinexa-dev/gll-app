@@ -1,14 +1,11 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'colors.dart';
 
 class PhinexaFont {
   static TextStyle baseStyle = GoogleFonts.poppins(
-    textStyle: TextStyle(
-      height: 1.4,
-      color: PhinexaColor.textColor
-    )
-  );
+      textStyle: TextStyle(height: 1.4, color: PhinexaColor.textColor));
 
   // Styles for body
   static final TextStyle footnoteSemiRegular = baseStyle.copyWith(
@@ -54,6 +51,10 @@ class PhinexaFont {
   static final TextStyle cardTipRegular = baseStyle.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w300,
+  );
+  static final TextStyle cardTipEmphasis = baseStyle.copyWith(
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
   );
   static final TextStyle contentRegular = baseStyle.copyWith(
     fontSize: 14,
@@ -117,12 +118,20 @@ class PhinexaFont {
     fontSize: 20,
     fontWeight: FontWeight.w600,
   );
+  static final TextStyle headingRegularSmall = baseStyle.copyWith(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
   static final TextStyle headingMedium = baseStyle.copyWith(
     fontSize: 22,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headingLarge = baseStyle.copyWith(
     fontSize: 24,
+    fontWeight: FontWeight.w600,
+  );
+  static final TextStyle headingExLarge = baseStyle.copyWith(
+    fontSize: 26,
     fontWeight: FontWeight.w600,
   );
 }

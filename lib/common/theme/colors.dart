@@ -15,6 +15,8 @@ class PhinexaColor {
   static const Color lightestBlack = Colors.black26;
   static const Color grey = Color(0xFFB3B3B3);
   static const Color lightGrey = Color(0xFFDCDCDF);
+  static const Color lightBlue = Color(0xFF3993A1);
+  static const Color extraLightBlue = Color(0xFFDBF0F2);
   static const Color lighterGrey = Color(0xFFF7F7F7);
   static const Color darkGrey = Color(0xFF625f6a);
   static const Color darkBlue = Color(0xFF2D525D);
@@ -22,12 +24,14 @@ class PhinexaColor {
   static const Color lightGreen = Color(0xFFDAF1E0);
   static const Color red = Color(0xFFFF5C5C);
   static const Color certficateBg = Color(0xFFF1FAFA);
+  static const Color testimonialBg = Color(0xFFCED6E7);
 
   static const Color titleTextColor = Colors.black;
   static const Color subTitleTextColor = Colors.black54;
   static Color bgColor = const Color(0xFFF9F9F9);
   static Color shadowGrey = const Color(0x333E404D);
   static Color shadowGreyDark = const Color(0x463E404D);
+
   // static Color shadowColor = PhinexaColor.primaryColor.withOpacity(0.4);
 
   static Color errorColor = const Color(0xffdc3535);
@@ -41,6 +45,8 @@ class PhinexaColor {
   static Color shadowColor = const Color(0xff000000).withOpacity(0.01);
   static Color transparent = Colors.transparent;
   static Color primaryBlue = const Color(0xff007afc);
+  static Color primaryLightBlue = const Color(0xFF43A2B5);
+  static Color primaryExLightBlue = const Color(0xFFBBE2E6);
   static Color primaryPurple = const Color(0xFF7C40FF);
   static Color primary300 = const Color(0xffC8E6C9);
   static Color primary200 = const Color(0xffE4F3E5);
@@ -106,6 +112,4 @@ class PhinexaColor {
     ],
     // Add more gradient lists as needed
   ];
-
 }
-

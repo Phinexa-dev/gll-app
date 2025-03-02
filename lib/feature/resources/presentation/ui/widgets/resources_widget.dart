@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
-import '../screen/certification_tab_screen.dart';
+import '../../../../../core/route/route_name.dart';
+import '../screen/resources_tab_screen.dart';
 
 class ResourcesWidget extends ConsumerWidget {
+  final Resource resource;
 
-  const ResourcesWidget({super.key,});
+  const ResourcesWidget({super.key, required this.resource});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +40,7 @@ class ResourcesWidget extends ConsumerWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
-                'assets/resources/leadership_academic.png',
+                resource.imagePath,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -47,7 +51,7 @@ class ResourcesWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sustainable Development Goals in Action',
+                    resource.title,
                     style: PhinexaFont.highlightEmphasis,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -60,17 +64,18 @@ class ResourcesWidget extends ConsumerWidget {
                         size: 16.0,
                         color: PhinexaColor.grey,
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(width: 8),
                       Text(
-                          'April 5, 2025',
-                          style: PhinexaFont.labelRegular.copyWith(
-                              color: PhinexaColor.grey)
+                        DateFormat('MMMM d, yyyy').format(resource.date),
+                        style: PhinexaFont.labelRegular.copyWith(
+                          color: PhinexaColor.grey,
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Interactive session on using design thinking to solve local challenges.',
+                    resource.description,
                     style: PhinexaFont.labelRegular,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
@@ -78,7 +83,10 @@ class ResourcesWidget extends ConsumerWidget {
                   SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
-                      // Implement navigation or action
+                      context.pushNamed(
+                        RouteName.resourceMore,
+                        extra: resource,
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PhinexaColor.primaryColor,

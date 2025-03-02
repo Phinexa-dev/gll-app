@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/route/route_name.dart';
 import 'button_widget.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class SipReportPostWidget extends ConsumerWidget {
   final SipReport report;
@@ -30,7 +33,7 @@ class SipReportPostWidget extends ConsumerWidget {
           const SizedBox(height: 8),
           _buildPostDescription(),
           const SizedBox(height: 16),
-          _buildViewReportButton(),
+          _buildViewReportButton(context),
           const SizedBox(height: 12),
           _buildInteractionButtons(),
           const SizedBox(height: 12),
@@ -59,7 +62,7 @@ class SipReportPostWidget extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                report.timestamp,
+                timeago.format(report.timestamp),
                 style: PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -155,10 +158,15 @@ class SipReportPostWidget extends ConsumerWidget {
   }
 
   // View Report button
-  Widget _buildViewReportButton() {
+  Widget _buildViewReportButton(BuildContext context,) {
     return CustomButton(
       label: "View Report",
-      onPressed: () => print("pressed view report"),
+      onPressed: () {
+      context.pushNamed(
+        RouteName.reportMore,
+        extra: report,
+      );
+    },
       height: 30,
     );
   }
@@ -197,7 +205,7 @@ class SipReport {
   final String userName;
   final String userAvatarUrl;
   final String? imageUrl;
-  final String timestamp;
+  final DateTime timestamp;
   final String postTitle;
   final String postLocation;
   final String impactText;

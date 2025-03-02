@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomFormTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
@@ -17,40 +17,46 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final bool autofocus;
   final double? height;
+  final Widget? customLabelText;
 
-  const CustomTextField({
-    super.key,
-    this.controller,
-    this.labelText,
-    this.hintText,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.obscureText = false,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction = TextInputAction.done,
-    this.onChanged,
-    this.onSubmitted,
-    this.enabled = true,
-    this.maxLines = 1,
-    this.autofocus = false,
-    this.height, // Height can be provided here
-  });
+  const CustomFormTextField(
+      {super.key,
+      this.controller,
+      this.labelText,
+      this.hintText,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.onChanged,
+      this.onSubmitted,
+      this.enabled = true,
+      this.maxLines = 1,
+      this.autofocus = false,
+      this.height,
+      this.customLabelText});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (labelText != null)
+        if (customLabelText != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: customLabelText!,
+          )
+        else if (labelText != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
-                labelText!,
-                style: PhinexaFont.contentRegular
+              labelText!,
+              style: PhinexaFont.contentRegular,
             ),
           ),
         Container(
-          height: height, 
+          height: height,
           child: TextField(
             controller: controller,
             obscureText: obscureText,
@@ -62,7 +68,8 @@ class CustomTextField extends StatelessWidget {
             autofocus: autofocus,
             maxLines: maxLines,
             decoration: InputDecoration(
-              hintStyle: PhinexaFont.highlightRegular.copyWith(color: PhinexaColor.grey),
+              hintStyle: PhinexaFont.highlightRegular
+                  .copyWith(color: PhinexaColor.grey),
               hintText: hintText,
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
