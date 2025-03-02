@@ -5,7 +5,7 @@ abstract interface class ISkillRepository {
 
   Future<List<SkillResponse>> getSkills();
 
-  Future<void> addSkill(AddSkillRequest data);
+  Future<void> addSkill(List<AddSkillRequest> data);
 
   Future<SkillResponse> deleteSkill(int skillId);
 

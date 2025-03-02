@@ -17,7 +17,7 @@ final class SkillService implements ISkillService {
   SkillService(this._skillRepository);
 
   @override
-  Future<bool> addSkill(AddSkillRequest data) async {
+  Future<bool> addSkill(List<AddSkillRequest> data) async {
     try {
       final response = await _skillRepository.addSkill(data);
 

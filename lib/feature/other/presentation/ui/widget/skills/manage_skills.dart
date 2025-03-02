@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../../common/widget/custom_text_field.dart';
+import '../../../../../system_feedback/model/feedback.dart';
+import '../../../../../system_feedback/provider/feedback_provider.dart';
+import '../../../controller/skill/skill_controller.dart';
 
 final mockSkillsProvider = StateProvider<List<String>>((ref) =>
   [
@@ -37,16 +40,39 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
   }
 
   void saveChanges() {
-    final updatedValues = {
-    };
 
-    print(updatedValues);
+    // final formData = {
+    //   'skill': searchSkillsController.text,
+    // };
+    //
+    // //set the form data to the controller
+    // ref.read(skillControllerProvider.notifier).setFormData(formData);
+    // ref.read(skillControllerProvider.notifier).addSkill();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final skills = ref.watch(mockSkillsProvider);
+    final isLoading = ref.watch(skillControllerProvider).isLoading;
+    final isSuccess = ref.watch(skillControllerProvider).isSuccess;
+    final isFailure = ref.watch(skillControllerProvider).isFailure;
+
+    if(isSuccess != null && isSuccess){
+
+      final feedBackService = ref.read(feedbackServiceProvider);
+      // use system feedback to show the success message
+      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
+      // context.goNamed(RouteName.dashboard);
+    }
+
+    if(isFailure != null && isFailure){
+      final feedBackService = ref.read(feedbackServiceProvider);
+      final errorMessage = ref.watch(skillControllerProvider).errorMessage;
+      // use system feedback to show the error message
+      feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
+    }
+
+    final skills = ref.watch(skillControllerProvider).skills;
 
     return FractionallySizedBox(
       heightFactor: skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
@@ -111,7 +137,7 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                       itemCount: skills.length <= 8 ? skills.length : 8,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(skills[index]),
+                          title: Text(skills[index].skill),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete_outline, color: Colors.red),
                             onPressed: () {
@@ -139,7 +165,7 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                 CustomIconButton(
                   label: 'Save Changes',
                   textColour: Colors.white,
-                  onPressed: () => saveChanges,
+                  onPressed: () => Navigator.pop(context),
                   color: Colors.blue,
                   iconColor: Colors.white,
                 ),

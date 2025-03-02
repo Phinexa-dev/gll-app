@@ -17,7 +17,7 @@ final class SkillRepository implements ISkillRepository {
   SkillRepository(this._skillApi);
 
   @override
-  Future<void> addSkill(AddSkillRequest data) async {
+  Future<void> addSkill(List<AddSkillRequest> data) async {
     try {
 
       await _skillApi.addSkill(data);

@@ -15,11 +15,13 @@ import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.da
 import 'package:gll/feature/other/presentation/ui/widget/socials/edit_socials.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/route/route_name.dart';
+import '../../controller/skill/skill_controller.dart';
 import '../provider/certification_provider.dart';
 import '../provider/education_history_provider.dart';
 import '../provider/personal_detail_provider.dart';
 import '../provider/toggle_button_provider.dart';
 import '../widget/education_history.dart';
+import '../widget/skills/skills_table.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -34,7 +36,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final toggleButtonState = ref.watch(toggleButtonProvider);
     final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(socialInformationProvider);
-    final skillsData = ref.watch(professionalSkillsProvider);
+    final skillsData = ref.watch(skillControllerProvider).skills;
     final educationData = ref.watch(educationHistoryProvider);
     final certificationData = ref.watch(certificationProvider);
 
@@ -136,7 +138,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                           ),
                         ),
-                        InfoTableWidget(
+                        SkillsTableWidget(
                             caption: 'Professional Skills',
                             color: Colors.black,
                             data: skillsData,

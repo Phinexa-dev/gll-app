@@ -57,11 +57,11 @@ class _ManageSkillsApi implements ManageSkillsApi {
   }
 
   @override
-  Future<void> addSkill(AddSkillRequest data) async {
+  Future<void> addSkill(List<AddSkillRequest> data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = data.map((e) => e.toJson()).toList();
     final _options = _setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,

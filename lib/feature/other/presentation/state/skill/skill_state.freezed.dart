@@ -22,6 +22,7 @@ mixin _$SkillState {
   String? get errorMessage => throw _privateConstructorUsedError;
   Map<String, dynamic>? get form => throw _privateConstructorUsedError;
   List<SkillDataModel> get skills => throw _privateConstructorUsedError;
+  List<String> get unsavedSkills => throw _privateConstructorUsedError;
 
   /// Create a copy of SkillState
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +43,8 @@ abstract class $SkillStateCopyWith<$Res> {
       bool? isFailure,
       String? errorMessage,
       Map<String, dynamic>? form,
-      List<SkillDataModel> skills});
+      List<SkillDataModel> skills,
+      List<String> unsavedSkills});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$SkillStateCopyWithImpl<$Res, $Val extends SkillState>
     Object? errorMessage = freezed,
     Object? form = freezed,
     Object? skills = null,
+    Object? unsavedSkills = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -92,6 +95,10 @@ class _$SkillStateCopyWithImpl<$Res, $Val extends SkillState>
           ? _value.skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<SkillDataModel>,
+      unsavedSkills: null == unsavedSkills
+          ? _value.unsavedSkills
+          : unsavedSkills // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -110,7 +117,8 @@ abstract class _$$SkillStateImplCopyWith<$Res>
       bool? isFailure,
       String? errorMessage,
       Map<String, dynamic>? form,
-      List<SkillDataModel> skills});
+      List<SkillDataModel> skills,
+      List<String> unsavedSkills});
 }
 
 /// @nodoc
@@ -132,6 +140,7 @@ class __$$SkillStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? form = freezed,
     Object? skills = null,
+    Object? unsavedSkills = null,
   }) {
     return _then(_$SkillStateImpl(
       isLoading: null == isLoading
@@ -158,6 +167,10 @@ class __$$SkillStateImplCopyWithImpl<$Res>
           ? _value._skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<SkillDataModel>,
+      unsavedSkills: null == unsavedSkills
+          ? _value._unsavedSkills
+          : unsavedSkills // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -171,9 +184,11 @@ class _$SkillStateImpl implements _SkillState {
       this.isFailure,
       this.errorMessage,
       final Map<String, dynamic>? form = const {},
-      final List<SkillDataModel> skills = const []})
+      final List<SkillDataModel> skills = const [],
+      final List<String> unsavedSkills = const []})
       : _form = form,
-        _skills = skills;
+        _skills = skills,
+        _unsavedSkills = unsavedSkills;
 
   @override
   @JsonKey()
@@ -204,9 +219,18 @@ class _$SkillStateImpl implements _SkillState {
     return EqualUnmodifiableListView(_skills);
   }
 
+  final List<String> _unsavedSkills;
+  @override
+  @JsonKey()
+  List<String> get unsavedSkills {
+    if (_unsavedSkills is EqualUnmodifiableListView) return _unsavedSkills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_unsavedSkills);
+  }
+
   @override
   String toString() {
-    return 'SkillState(isLoading: $isLoading, isSuccess: $isSuccess, isFailure: $isFailure, errorMessage: $errorMessage, form: $form, skills: $skills)';
+    return 'SkillState(isLoading: $isLoading, isSuccess: $isSuccess, isFailure: $isFailure, errorMessage: $errorMessage, form: $form, skills: $skills, unsavedSkills: $unsavedSkills)';
   }
 
   @override
@@ -223,7 +247,9 @@ class _$SkillStateImpl implements _SkillState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._form, _form) &&
-            const DeepCollectionEquality().equals(other._skills, _skills));
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
+            const DeepCollectionEquality()
+                .equals(other._unsavedSkills, _unsavedSkills));
   }
 
   @override
@@ -234,7 +260,8 @@ class _$SkillStateImpl implements _SkillState {
       isFailure,
       errorMessage,
       const DeepCollectionEquality().hash(_form),
-      const DeepCollectionEquality().hash(_skills));
+      const DeepCollectionEquality().hash(_skills),
+      const DeepCollectionEquality().hash(_unsavedSkills));
 
   /// Create a copy of SkillState
   /// with the given fields replaced by the non-null parameter values.
@@ -252,7 +279,8 @@ abstract class _SkillState implements SkillState {
       final bool? isFailure,
       final String? errorMessage,
       final Map<String, dynamic>? form,
-      final List<SkillDataModel> skills}) = _$SkillStateImpl;
+      final List<SkillDataModel> skills,
+      final List<String> unsavedSkills}) = _$SkillStateImpl;
 
   @override
   bool get isLoading;
@@ -266,6 +294,8 @@ abstract class _SkillState implements SkillState {
   Map<String, dynamic>? get form;
   @override
   List<SkillDataModel> get skills;
+  @override
+  List<String> get unsavedSkills;
 
   /// Create a copy of SkillState
   /// with the given fields replaced by the non-null parameter values.

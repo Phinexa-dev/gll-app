@@ -13,5 +13,6 @@ class SkillState with _$SkillState {
     String? errorMessage,
     @Default({}) Map<String, dynamic>? form,
     @Default([]) List<SkillDataModel> skills,
+    @Default([]) List<String> unsavedSkills,
   }) = _SkillState;
 }

@@ -4,7 +4,7 @@ import 'package:gll/feature/other/application/skill/skill_service.dart';
 import 'package:gll/feature/other/data/dto/request/skill/add_skill_request.dart';
 import 'package:gll/feature/other/presentation/state/skill/skill_state.dart';
 
-final profileControllerProvider = AutoDisposeNotifierProvider<SkillController, SkillState>(SkillController.new);
+final skillControllerProvider = AutoDisposeNotifierProvider<SkillController, SkillState>(SkillController.new);
 
 class SkillController extends AutoDisposeNotifier<SkillState> {
 
@@ -64,7 +64,7 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
 
       final addSkillRequest = AddSkillRequest(skill: skill);
 
-      final result = await ref.read(skillServiceProvider).addSkill(addSkillRequest);
+      final result = await ref.read(skillServiceProvider).addSkill([addSkillRequest]);
 
       if (result) {
         await getSkills();

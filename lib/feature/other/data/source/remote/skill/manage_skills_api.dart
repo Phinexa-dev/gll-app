@@ -21,7 +21,7 @@ abstract class ManageSkillsApi {
   Future<List<SkillResponse>> getSkills();
 
   @POST('/userprofessionalskill')
-  Future<void> addSkill(@Body() AddSkillRequest data);
+  Future<void> addSkill(@Body() List<AddSkillRequest> data);
 
   @DELETE('/userprofessionalskill/{id}')
   Future<SkillResponse> deleteSkill(@Path('id') int skillId);

@@ -5,7 +5,7 @@ abstract interface class ISkillService {
 
   Future<List<SkillDataModel>> getSkills();
 
-  Future<bool> addSkill(AddSkillRequest data);
+  Future<bool> addSkill(List<AddSkillRequest> data);
 
   Future<bool> deleteSkill(int skillId);
 }
