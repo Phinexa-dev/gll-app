@@ -18,9 +18,9 @@ final editProfileApiProvider = Provider<EditProfileApi>((ref) {
 abstract class EditProfileApi {
   factory EditProfileApi(Dio dio) => _EditProfileApi(dio);
 
-  @POST('/user/:id')
+  @PATCH('/user/{id}')
   Future<EditProfileResponse> editProfile(@Body() EditProfileRequest data, @Path('id') int userId);
 
-  @POST('/user/:id')
+  @PATCH('/user/{id}')
   Future<EditProfileResponse> editSocials(@Body() EditSocialRequest data, @Path('id') int userId);
 }

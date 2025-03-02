@@ -25,7 +25,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final languages = state.form?['languages'];
 
 
-    if (email.isEmpty || dialCode.isEmpty || phoneNumber.isEmpty || country.isEmpty || interests.isEmpty || languages.isEmpty) {
+    if (email == null || fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -80,7 +80,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final x = state.form?['x'];
     final instagram = state.form?['instagram'];
 
-    if (facebook.isEmpty || blog.isEmpty || twitter.isEmpty || x.isEmpty || instagram.isEmpty) {
+    if (facebook == null || blog == null || twitter == null || x == null || instagram == null) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,

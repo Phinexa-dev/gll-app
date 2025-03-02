@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/feature/other/presentation/controller/profile/profile_controller.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
-
-final formProvider = StateProvider((ref) => {
-  'name': 'Bryan Cotly',
-  'email': 'bcotly@gmail.com',
-  'phoneCode': '+01',
-  'phoneNumber': '4165551234',
-  'location': 'Toronto, Canada',
-  'languages': 'English, French',
-  'interests': 'Leadership Development, Technology and Innovation in business, Environmental Sustainability Initiatives',
-});
+import '../../../../../core/route/route_name.dart';
+import '../../../../system_feedback/model/feedback.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -32,19 +27,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController languagesController;
   late TextEditingController interestsController;
 
-  String phoneCode = '+01';
+  String phoneCode = '+94';
 
   @override
   void initState() {
     super.initState();
-    final formValues = ref.read(formProvider);
-    nameController = TextEditingController(text: formValues['name']);
-    emailController = TextEditingController(text: formValues['email']);
-    phoneController = TextEditingController(text: formValues['phoneNumber']);
-    locationController = TextEditingController(text: formValues['location']);
-    languagesController = TextEditingController(text: formValues['languages']);
-    interestsController = TextEditingController(text: formValues['interests']);
-    phoneCode = formValues['phoneCode']!;
+    final formValues = ref.read(profileControllerProvider).form;
+    nameController = TextEditingController(text: formValues?['name'] ?? "");
+    emailController = TextEditingController(text: formValues?['email'] ?? "");
+    phoneController = TextEditingController(text: formValues?['phoneNumber'] ?? "");
+    locationController = TextEditingController(text: formValues?['location'] ?? "");
+    languagesController = TextEditingController(text: formValues?['languages']?? "");
+    interestsController = TextEditingController(text: formValues?['interests'] ?? "");
+    phoneCode = formValues?['phoneCode']?? "+94";
   }
 
   @override
@@ -58,22 +53,44 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     super.dispose();
   }
 
-  void saveChanges() {
-    final updatedValues = {
-      'name': nameController.text,
+  void saveChanges() async {
+
+    final formData = {
+      'fullName': nameController.text,
       'email': emailController.text,
-      'phoneCode': phoneCode,
+      'dialCode': phoneCode,
       'phoneNumber': phoneController.text,
-      'location': locationController.text,
+      'country': locationController.text,
       'languages': languagesController.text,
       'interests': interestsController.text,
     };
 
-    print(updatedValues);
+    //set the form data to the controller
+    ref.read(profileControllerProvider.notifier).setFormData(formData);
+    ref.read(profileControllerProvider.notifier).editProfile();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final isLoading = ref.watch(profileControllerProvider).isLoading;
+    final isSuccess = ref.watch(profileControllerProvider).isSuccess;
+    final isFailure = ref.watch(profileControllerProvider).isFailure;
+
+    if(isSuccess != null && isSuccess){
+
+      final feedBackService = ref.read(feedbackServiceProvider);
+      // use system feedback to show the success message
+      feedBackService.showToast("Registration successful", type: FeedbackType.success);
+      // context.goNamed(RouteName.dashboard);
+    }
+
+    if(isFailure != null && isFailure){
+      final feedBackService = ref.read(feedbackServiceProvider);
+      final errorMessage = ref.watch(profileControllerProvider).errorMessage;
+      // use system feedback to show the error message
+      feedBackService.showToast(errorMessage?? "Registration failed", type: FeedbackType.error);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +137,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           ),
                           value: phoneCode,
                           items: const [
-                            DropdownMenuItem(value: '+01', alignment: Alignment.center, child: Text('+01'),),
+                            DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94'),),
                             DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
                             DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
                             DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
@@ -143,7 +160,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         CustomIconButton(
                           label: 'Cancel',
                           textColour: Colors.black,
-                          onPressed: () => saveChanges,
+                          onPressed: () => Navigator.pop(context),
                           color: Colors.white,
                           borderColor: Colors.blue,
                         ),
@@ -151,7 +168,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         CustomIconButton(
                           label: 'Save Changes',
                           textColour: Colors.white,
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => saveChanges(),
                           color: Colors.blue,
                           iconColor: Colors.white,
                         ),

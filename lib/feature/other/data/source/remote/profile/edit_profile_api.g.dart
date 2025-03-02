@@ -31,13 +31,13 @@ class _EditProfileApi implements EditProfileApi {
     final _headers = <String, dynamic>{};
     final _data = data;
     final _options = _setStreamType<EditProfileResponse>(Options(
-      method: 'POST',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/user/:id',
+          '/user/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -67,13 +67,13 @@ class _EditProfileApi implements EditProfileApi {
     final _headers = <String, dynamic>{};
     final _data = data;
     final _options = _setStreamType<EditProfileResponse>(Options(
-      method: 'POST',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/user/:id',
+          '/user/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -43,9 +43,9 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
   }
 
   Future<void> addSkill() async {
-    final skill = state.form!['skill'] as String;
+    final skill = state.form!['skill'];
 
-    if (skill.isEmpty) {
+    if (skill == null) {
       // state = state.copyWith(
       //   isSuccess: false,
       //   isFailure: true,

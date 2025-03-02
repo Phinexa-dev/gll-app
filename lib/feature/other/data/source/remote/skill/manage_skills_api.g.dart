@@ -94,7 +94,7 @@ class _ManageSkillsApi implements ManageSkillsApi {
     )
         .compose(
           _dio.options,
-          '/userprofessionalskill/:id',
+          '/userprofessionalskill/${skillId}',
           queryParameters: queryParameters,
           data: _data,
         )

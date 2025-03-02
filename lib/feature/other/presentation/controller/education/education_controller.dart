@@ -5,7 +5,7 @@ import 'package:gll/feature/other/data/dto/request/education/add_education/add_e
 import 'package:gll/feature/other/data/dto/request/education/update_education/update_education_data_request.dart';
 import 'package:gll/feature/other/presentation/state/educaation/education_state.dart';
 
-final profileControllerProvider = AutoDisposeNotifierProvider<EducationController, EducationState>(EducationController.new);
+final educationControllerProvider = AutoDisposeNotifierProvider<EducationController, EducationState>(EducationController.new);
 
 class EducationController extends AutoDisposeNotifier<EducationState> {
 

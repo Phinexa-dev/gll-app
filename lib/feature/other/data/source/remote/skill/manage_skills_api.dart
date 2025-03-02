@@ -23,6 +23,6 @@ abstract class ManageSkillsApi {
   @POST('/userprofessionalskill')
   Future<void> addSkill(@Body() AddSkillRequest data);
 
-  @DELETE('/userprofessionalskill/:id')
+  @DELETE('/userprofessionalskill/{id}')
   Future<SkillResponse> deleteSkill(@Path('id') int skillId);
 }

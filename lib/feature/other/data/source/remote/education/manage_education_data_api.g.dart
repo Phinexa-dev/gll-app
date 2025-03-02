@@ -107,7 +107,7 @@ class _ManageEducationDataApi implements ManageEducationDataApi {
     )
         .compose(
           _dio.options,
-          '/education/:id',
+          '/education/${educationDataId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -140,7 +140,7 @@ class _ManageEducationDataApi implements ManageEducationDataApi {
     )
         .compose(
           _dio.options,
-          '/education/:id',
+          '/education/${educationDataId}',
           queryParameters: queryParameters,
           data: _data,
         )

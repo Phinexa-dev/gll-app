@@ -24,9 +24,9 @@ abstract class ManageEducationDataApi {
   @POST('/education')
   Future<EducationDataResponse> addEducationData(@Body() AddEducationRequest data);
 
-  @PATCH('/education/:id')
+  @PATCH('/education/{id}')
   Future<EducationDataResponse> editEducationData(@Body() UpdateEducationDataRequest data, @Path('id') int educationDataId);
 
-  @DELETE('/education/:id')
+  @DELETE('/education/{id}')
   Future<EducationDataResponse> deleteEducationData(@Path('id') int educationDataId);
 }
