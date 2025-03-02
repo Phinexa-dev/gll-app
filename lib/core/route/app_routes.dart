@@ -89,7 +89,10 @@ final appRoutes = [
     path: RouteName.registrationForm,
     name: RouteName.registrationForm,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => RegistrationForm(),
+    builder: (context, state) {
+      final isTTT = state.extra as bool;
+      return RegistrationForm(isTTT: isTTT);
+    },
   ),
 
   ///LA PreSurvey Routes

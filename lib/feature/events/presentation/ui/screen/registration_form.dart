@@ -11,7 +11,9 @@ import '../../../../home/presentation/ui/provider/ phone_number_provider.dart';
 import '../widgets/custom_dropdown.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
-  const RegistrationForm({super.key});
+  final bool isTTT;
+
+  const RegistrationForm({super.key, required this.isTTT});
 
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
@@ -145,7 +147,11 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 label: "Pre Survey",
                 height: 40,
                 onPressed: () {
-                  context.pushNamed(RouteName.sipProjectOverviewScreen);
+                  if (widget.isTTT) {
+                    context.pushNamed(RouteName.ttPreSurvey);
+                  } else {
+                    context.pushNamed(RouteName.preSurvey);
+                  }
                 },
               ),
               SizedBox(height: 24),
@@ -153,14 +159,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
           ),
         ),
       ),
-      // bottomNavigationBar: Container(
-      //   margin: const EdgeInsets.all(20),
-      //   child: CustomButton(
-      //     label: "Pre Survey",
-      //     height: 40,
-      //     onPressed: () => {},
-      //   ),
-      // ),
     );
   }
 }

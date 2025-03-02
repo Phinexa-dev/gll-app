@@ -17,6 +17,7 @@ class Event {
   final String subTitle;
   final List<SubEvent> subEvents;
   final String ledBy;
+  final bool isTTT;
 
   Event(
       {required this.title,
@@ -24,7 +25,8 @@ class Event {
       required this.venue,
       required this.subTitle,
       required this.subEvents,
-      required this.ledBy});
+      required this.ledBy,
+      required this.isTTT});
 
   DateTime get startDate => subEvents.first.startDate;
 

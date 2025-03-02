@@ -91,16 +91,45 @@ class EventViewScreenWidget extends ConsumerWidget {
                   style: PhinexaFont.highlightEmphasis
                       .copyWith(color: PhinexaColor.primaryLightBlue),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomButton(
-                  label: "Register Now",
-                  height: 40,
-                  onPressed: () {
-                    context.pushNamed(RouteName.registrationForm);
-                  },
-                ),
+                if (true)
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CustomButton(
+                        label: "Register Now",
+                        height: 40,
+                        onPressed: () {
+                          context.pushNamed(RouteName.registrationForm,
+                              extra: event.isTTT ? true : false);
+                        },
+                      ),
+                    ],
+                  ),
+                if (true)
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CustomButton(
+                        label: "Post Survey",
+                        height: 40,
+                        onPressed: () {
+                          if (event.isTTT) {
+                            context.pushNamed(
+                              RouteName.tttOverallProgramFeedbackScreen,
+                            );
+                          } else {
+                            context.pushNamed(
+                              RouteName.laOverallProgramFeedbackScreen,
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),

@@ -10,6 +10,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       image: "assets/events/event_1.png",
       subTitle: 'Led by Empowering Tomorrow’s Leaders Today!',
       ledBy: '',
+      isTTT: false,
       subEvents: [
         SubEvent(
           startDate: DateTime(2025, 3, 6, 8, 30),
@@ -25,6 +26,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       venue: "Civil Resource Center, Skopje, Macedonia",
       subTitle: 'Prepare to lead. Empower to impact. Join us!',
       ledBy: 'Led by Master Trainers Macedonia',
+      isTTT: true,
       subEvents: [
         SubEvent(
             startDate: DateTime(2025, 3, 13, 8, 30),
@@ -40,6 +42,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       subTitle: 'Empowering Tomorrow’s Leaders Today!',
       ledBy:
           'Led by Global Master Trainers from Macedonia and the U.S, this immersive experience takes place in Sarajevo, Bosia',
+      isTTT: true,
       subEvents: [
         SubEvent(
             startDate: DateTime(2025, 4, 2, 8, 30),
@@ -60,6 +63,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       subTitle: 'Empowering Tomorrow’s Leaders Today!',
       ledBy:
           'Led by Global Master Trainers from Nepal, India, Macedonia, and the U.S, this immersive experience takes place at the world-class HMTX Headquarters.',
+      isTTT: true,
       subEvents: [
         SubEvent(
             startDate: DateTime(2025, 5, 1, 8, 30),

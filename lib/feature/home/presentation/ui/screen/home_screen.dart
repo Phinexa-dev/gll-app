@@ -228,7 +228,7 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
               label: "Register Now",
               height: 40,
               onPressed: () {
-                context.pushNamed(RouteName.registrationForm);
+                context.pushNamed(RouteName.registrationForm, extra: true);
               },
             ),
           ],
