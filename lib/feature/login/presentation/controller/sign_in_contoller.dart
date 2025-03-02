@@ -46,8 +46,8 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
 
       state = state.copyWith(
         isLoading: false,
-        isSuccess: result,
-        isFailure: !result,
+        isSuccess: result.success,
+        isFailure: !result.success,
       );
 
     }
