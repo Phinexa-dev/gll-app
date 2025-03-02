@@ -10,6 +10,7 @@ import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
+import '../../../../events/data/event_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -147,9 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 }
 
 Widget _buildEventSection(BuildContext context, WidgetRef ref) {
-  String imageUrl =
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+  final events = ref.watch(eventProvider);
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
     child: Column(
@@ -181,30 +180,14 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
         ),
         GestureDetector(
           onTap: () {
-            context.pushNamed(RouteName.eventDetails);
+            context.pushNamed(RouteName.eventDetails, extra: events.first);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              imageUrl,
+            child: Image.asset(
+              events.first.image, // Change this to your asset path
               fit: BoxFit.cover,
               width: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return SizedBox(
-                  height: 100,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              (loadingProgress.expectedTotalBytes ?? 1)
-                          : null,
-                    ),
-                  ),
-                );
-              },
               errorBuilder: (context, error, stackTrace) =>
                   const Icon(Icons.broken_image, size: 100),
             ),
@@ -217,7 +200,7 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
               height: 12,
             ),
             Text(
-              'Leadership Academy',
+              events.first.title,
               style: PhinexaFont.featureEmphasis,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -232,7 +215,7 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
               height: 5,
             ),
             Text(
-              DateFormat('MMMM d, yyyy').format(DateTime.now()),
+              DateFormat('MMMM d, yyyy').format(events.first.startDate),
               style:
                   PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
               overflow: TextOverflow.ellipsis,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:gll/feature/other/presentation/ui/provider/events_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -96,7 +97,44 @@ class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
       onMapCreated: (controller) {
         _mapController = controller;
       },
+      onTap: (LatLng latLng) async {
+        await _getCountryName(latLng);
+      },
     );
+  }
+
+  Future<void> _getCountryName(LatLng latLng) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+
+      if (placemarks.isNotEmpty && placemarks.first.country != null) {
+        String country = placemarks.first.country!;
+        print("You clicked in: $country");
+        List<Location> locations = await locationFromAddress(country);
+
+        if (locations.isNotEmpty) {
+          double lat = locations.first.latitude;
+          double lng = locations.first.longitude;
+
+          LatLng countryLatLng = LatLng(lat, lng);
+
+          if (_mapController != null) {
+            _mapController!.animateCamera(
+              CameraUpdate.newLatLngZoom(countryLatLng, 5), // Set zoom level
+            );
+          }
+
+          print("Coordinates for $country: Latitude: $lat, Longitude: $lng");
+        } else {
+          print("No results found for $country.");
+        }
+      } else {
+        print("No country found for this location.");
+      }
+    } catch (e) {
+      print("Error getting country name: $e");
+    }
   }
 }
 
