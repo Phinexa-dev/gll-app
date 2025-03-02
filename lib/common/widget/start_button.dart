@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class StartButton extends ConsumerWidget {
   final String label;
@@ -38,8 +39,7 @@ class StartButton extends ConsumerWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: PhinexaFont.labelRegular.copyWith(
                   color: Colors.black,
                 ),
               ),

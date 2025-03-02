@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
 
 class InfoTableWidget extends ConsumerWidget {
@@ -34,10 +35,7 @@ class InfoTableWidget extends ConsumerWidget {
               children: [
                 Text(
                   caption,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: PhinexaFont.featureBold,
                 ),
                 Visibility(
                   visible: onPressed != null,
@@ -72,15 +70,14 @@ class InfoTableWidget extends ConsumerWidget {
                       children: [
                         Text(
                           trimString(data.entries.elementAt(i).key, 15),
-                          style: TextStyle(
-                            fontSize: 15,
+                          style: PhinexaFont.labelRegular.copyWith(
                             color: color,
                           ),
                         ),
                         Expanded(
                           child: Text(
                             trimString(data.entries.elementAt(i).value, 20),
-                            style: TextStyle(
+                            style: PhinexaFont.captionAccent.copyWith(
                               fontSize: 13,
                               color: color,
                             ),

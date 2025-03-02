@@ -1,0 +1,25 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:convert';
+
+part 'sign_up_request.freezed.dart';
+part 'sign_up_request.g.dart';
+
+@freezed
+class SignUpRequest with _$SignUpRequest {
+  const factory SignUpRequest({
+    @JsonKey(name: "fullName")
+    required String fullName,
+    @JsonKey(name: "email")
+    required String email,
+    @JsonKey(name: "dialCode")
+    required String dialCode,
+    @JsonKey(name: "mobileNumber")
+    required String mobileNumber,
+    @JsonKey(name: "password")
+    required String password,
+    @JsonKey(name: "confirmPassword")
+    required String confirmPassword,
+  }) = _SignUpRequest;
+
+  factory SignUpRequest.fromJson(Map<String, dynamic> json) => _$SignUpRequestFromJson(json);
+}

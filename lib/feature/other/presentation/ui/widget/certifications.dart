@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../common/theme/fonts.dart';
+
 class Certifications extends ConsumerWidget {
 
   const Certifications({
@@ -27,10 +29,7 @@ class Certifications extends ConsumerWidget {
             children: [
               Text(
                 caption,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: PhinexaFont.featureBold,
               ),
             ],
           ),
@@ -60,14 +59,14 @@ class Certifications extends ConsumerWidget {
                             title: Container(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               alignment: Alignment.centerLeft,
-                              child: Text(trimString(data[item]['program']!, 28), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                              child: Text(trimString(data[item]['program']!, 28), style: PhinexaFont.cardTipRegular.copyWith(fontWeight: FontWeight.bold)),
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(data[item]['lab']!, style: const TextStyle(fontSize: 12)),
-                                Text(data[item]['year']!, style: TextStyle(fontSize: 11, color: Colors.black54)),
+                                Text(data[item]['lab']!, style: PhinexaFont.captionSemiRegular),
+                                Text(data[item]['year']!, style: PhinexaFont.footnoteRegular.copyWith(fontSize: 11, color: Colors.black54)),
                               ],
                             ),
                             trailing: Image(
@@ -81,8 +80,7 @@ class Certifications extends ConsumerWidget {
                             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 5.0, bottom: 15.0),
                             child: Text(
                               data[item]['description']!,
-                              style: TextStyle(
-                                fontSize: 12,
+                              style: PhinexaFont.captionSemiRegular.copyWith(
                                 color: Colors.grey[500],
                               ),
                             ),

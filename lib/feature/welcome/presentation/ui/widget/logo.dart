@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/fonts.dart';
 
 class Logo extends ConsumerWidget {
   const Logo({super.key});
@@ -45,18 +46,18 @@ class Logo extends ConsumerWidget {
                   color: Colors.white,
                 ),
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: 'Connect, learn, and grow\n',
-                    style: TextStyle(
+                    style: PhinexaFont.headingLarge.copyWith(
                       fontWeight: FontWeight.normal,
+                      color: Colors.white,
                     ),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: 'with our global community',
-                    style: TextStyle(
+                    style: PhinexaFont.headingESmall.copyWith(
                       fontWeight: FontWeight.normal,
                       color: Colors.grey,
-                      fontSize: 20,
                     ),
                   ),
                 ],

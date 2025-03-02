@@ -20,6 +20,14 @@ class TokenService implements ITokenService {
   TokenService(this._dio, this._secureStorage);
 
   @override
+  Future<bool> hasToken() async {
+    final accessToken = await _secureStorage.read(key: accessTokenKey);
+    final refreshToken = await _secureStorage.read(key: refreshTokenKey);
+
+    return accessToken != null && refreshToken != null;
+  }
+
+  @override
   Future<void> clearTokens() {
     return Future.wait([
       _secureStorage.delete(key: accessTokenKey),

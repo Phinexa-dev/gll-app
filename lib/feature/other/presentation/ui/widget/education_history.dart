@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
 
 class EducationHistory extends ConsumerWidget {
@@ -33,10 +34,7 @@ class EducationHistory extends ConsumerWidget {
             children: [
               Text(
                 caption,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: PhinexaFont.featureBold,
               ),
               Row(
                 children: [
@@ -75,14 +73,14 @@ class EducationHistory extends ConsumerWidget {
                   title: Container(
                     padding: const EdgeInsets.symmetric( vertical: 2),
                     alignment: Alignment.centerLeft,
-                    child: Text(data[item]['degree']!, style: TextStyle(fontSize:14)),
+                    child: Text(data[item]['degree']!, style: PhinexaFont.cardTipRegular),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(data[item]['institution']!, style: TextStyle(fontSize:12)),
-                      Text(data[item]['year']!, style: TextStyle(fontSize:11 ,color: Colors.grey)),
+                      Text(data[item]['institution']!, style: PhinexaFont.captionRegular),
+                      Text("${data[item]['startDate']!} - ${data[item]['endDate']!}", style: PhinexaFont.footnoteRegular.copyWith(fontSize:11 ,color: Colors.grey)),
                     ],
                   ),
                   leading: SvgPicture.asset('assets/more/${data[item]['icon']}', width: 30, height: 30, alignment: Alignment.topLeft,),
