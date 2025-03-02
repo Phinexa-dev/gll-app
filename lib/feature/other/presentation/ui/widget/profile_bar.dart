@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/data/local/auth/auth_notifier.dart';
+import '../../../../../core/data/local/user/user_service.dart';
+import '../../../../../core/data/remote/network_service.dart';
+import '../../../../../core/data/remote/token/token_service.dart';
 import '../../../../../core/route/route_name.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
 
 class ProfileBar extends ConsumerStatefulWidget {
   const ProfileBar({super.key});
@@ -53,10 +58,23 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
           const Spacer(),
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.red),
-            onPressed: () {
+            onPressed: () async {
               // Handle logout
-              // context.pushNamed(RouteName.welcome);
-              context.go(RouteName.welcome);
+
+              // TODO: temporary solution
+              final userService = ref.read(userServiceProvider);
+              final dio = ref.read(networkServiceProvider);
+              final tokenService = ref.read(tokenServiceProvider(dio));
+
+              await userService.clearUser();
+              await tokenService.clearTokens();
+
+              // notify the router
+              final authNotifier = ref.read(routerNotifierProvider);
+              await authNotifier.updateAuthState();
+
+              final feedbackService = ref.read(feedbackServiceProvider);
+              feedbackService.showToast("Logged Out");
             },
           ),
         ],
