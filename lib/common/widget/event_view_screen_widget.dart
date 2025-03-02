@@ -2,27 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/feature/events/data/event.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/route/route_name.dart';
 import 'custom_button.dart';
-import 'custom_event_icon_button.dart';
-import 'feature_card_widget.dart';
-import 'guest_avatar_widget.dart';
 
-class EventViewScreenWidget extends ConsumerStatefulWidget {
-  const EventViewScreenWidget({super.key});
+class EventViewScreenWidget extends ConsumerWidget {
+  final Event event;
+
+  const EventViewScreenWidget({super.key, required this.event});
 
   @override
-  _EventViewScreenWidgetState createState() => _EventViewScreenWidgetState();
-}
-
-class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
-  @override
-  Widget build(BuildContext context) {
-    String imageUrl =
-        "https://plus.unsplash.com/premium_photo-1719943510748-4b4354fbcf56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PhinexaColor.transparent,
@@ -37,26 +30,10 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
           child: Column(
         children: [
           ClipRRect(
-            child: Image.network(
-              imageUrl,
+            child: Image.asset(
+              event.image, // Change this to your asset path
               fit: BoxFit.cover,
               width: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              (loadingProgress.expectedTotalBytes ?? 1)
-                          : null,
-                    ),
-                  ),
-                );
-              },
               errorBuilder: (context, error, stackTrace) =>
                   const Icon(Icons.broken_image, size: 100),
             ),
@@ -70,8 +47,8 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Leadership Academy",
-                  style: PhinexaFont.headingLarge,
+                  event.title,
+                  style: PhinexaFont.headingDoubleExLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -79,21 +56,43 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
                   height: 12,
                 ),
                 Text(
-                  "Feb 10, 2025, 9:00 AM - 5:00 PM",
+                  formatEventDateTime(event.startDate, event.endDate),
                   style: PhinexaFont.contentRegular
                       .copyWith(color: PhinexaColor.darkGrey),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
                 Text(
-                  "Green Earth Conference Center, San Francisco, CA",
-                  style: PhinexaFont.contentRegular
+                  event.venue,
+                  style: PhinexaFont.captionRegular
                       .copyWith(color: PhinexaColor.darkGrey),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
                 SizedBox(
                   height: 24,
+                ),
+                Text(
+                  event.subTitle,
+                  style: PhinexaFont.headingMedium,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ...event.subEvents
+                    .map((subEvent) =>
+                        _buildSubEventComponent(context, subEvent))
+                    .toList(),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  event.ledBy,
+                  style: PhinexaFont.highlightEmphasis
+                      .copyWith(color: PhinexaColor.primaryLightBlue),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 CustomButton(
                   label: "Register Now",
@@ -105,29 +104,6 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
               ],
             ),
           ),
-          _buildGuestSpeakerSection(context),
-          _buildAboutEventSection(context),
-          _buildFeaturesSection(context),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomEventIconButton(
-                  iconPath: "assets/home/calender_icon.svg",
-                  label: "Add to Calendar",
-                  onPressed: () => (),
-                  height: 40,
-                ),
-                CustomEventIconButton(
-                  iconPath: "assets/home/bell_icon.svg",
-                  label: "Add to Calendar",
-                  onPressed: () => (),
-                  height: 40,
-                ),
-              ],
-            ),
-          ),
           SizedBox(height: 24),
         ],
       )),
@@ -135,159 +111,54 @@ class _EventViewScreenWidgetState extends ConsumerState<EventViewScreenWidget> {
   }
 }
 
-Widget _buildGuestSpeakerSection(BuildContext context) {
-  final List<Map<String, String>> guests = [
-    {
-      'imageUrl':
-          "https://plus.unsplash.com/premium_photo-1682614309378-68ff39240020?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      'guestName': "Dr. Ayesha Ahmed",
-    },
-    {
-      'imageUrl':
-          "https://plus.unsplash.com/premium_photo-1682614309378-68ff39240020?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      'guestName': "Dr. Johnathan Doe",
-    },
-    {
-      'imageUrl':
-          "https://plus.unsplash.com/premium_photo-1682614309378-68ff39240020?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      'guestName': "Dr. Emilyan Clark",
-    },
-    {
-      'imageUrl':
-          "https://plus.unsplash.com/premium_photo-1682614309378-68ff39240020?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      'guestName': "Dr. Michael Smith",
-    },
-  ];
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(
-        height: 24,
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Guest Speakers",
-              style: PhinexaFont.featureEmphasis,
-            ),
-            Text(
-              "See All",
-              style: PhinexaFont.highlightRegular
-                  .copyWith(color: PhinexaColor.primaryColor),
-            ),
-          ],
-        ),
-      ),
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: guests.map((guest) {
-            return GuestAvatarWidget(
-              imageUrl: guest['imageUrl']!,
-              guestName: guest['guestName']!,
-            );
-          }).toList(),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _buildAboutEventSection(BuildContext context) {
+Widget _buildSubEventComponent(BuildContext context, SubEvent subEvent) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "About the Event",
-        style: PhinexaFont.headingLarge,
-      ),
-      SizedBox(
-        height: 24,
-      ),
-      RichText(
-        text: TextSpan(
-          style: PhinexaFont.highlightRegular,
-          children: [
-            TextSpan(
-              text:
-                  'Join us for an inspiring session with leaders from Greenpeace, WWF, and other prominent environmental organizations.\n\n',
-            ),
-            TextSpan(
-              text:
-                  'Learn about their journeys, challenges, and the impactful work they are doing to combat climate change.\n\n',
-            ),
-            TextSpan(
-              text:
-                  'Get practical tips on how you can contribute and make a difference in your community.',
-            ),
-          ],
-        ),
-      ),
-      SizedBox(
-        height: 24,
-      ),
-    ]),
-  );
-}
-
-Widget _buildFeaturesSection(BuildContext context) {
-  final List<Map<String, String>> featureList = [
-    {
-      'iconPath': 'assets/home/leaf.svg',
-      'featureTitle': 'Guest speakers environmental organizations',
-      'featureDescription':
-          'Focus on practical strategies for youth leadership in environmental advocacy.',
-    },
-    {
-      'iconPath': 'assets/home/family.svg',
-      'featureTitle': 'Youth Leadership in Environmental Issues',
-      'featureDescription':
-          'Inspire young leaders to engage with climate change initiatives.',
-    },
-    {
-      'iconPath': 'assets/home/medical.svg',
-      'featureTitle': 'Global Environmental Action',
-      'featureDescription':
-          'Join global efforts for environmental preservation and sustainable living.',
-    },
-    {
-      'iconPath': 'assets/home/quiz.svg',
-      'featureTitle': 'Innovative Solutions for Sustainability',
-      'featureDescription':
-          'Showcase innovative solutions for sustainability in everyday life.',
-    },
-  ];
-
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(
-        // Constraining GridView height
-        height: 500, // Adjust the height as needed
-        child: GridView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 3 / 4,
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: PhinexaFont.highlightRegular,
+            children: [
+              TextSpan(
+                style: PhinexaFont.highlightRegular.copyWith(
+                    color: PhinexaColor.primaryLightBlue,
+                    fontWeight: FontWeight.bold),
+                text: formatSubEventDateRange(
+                    subEvent.startDate, subEvent.endDate),
+              ),
+              TextSpan(
+                text: subEvent.description,
+                style: PhinexaFont.highlightRegular
+                    .copyWith(color: PhinexaColor.darkGrey),
+              ),
+            ],
           ),
-          itemCount: featureList.length,
-          itemBuilder: (context, index) {
-            final feature = featureList[index];
-            return FeatureCardWidget(
-              iconPath: feature['iconPath']!,
-              featureTitle: feature['featureTitle']!,
-              featureDescription: feature['featureDescription']!,
-            );
-          },
         ),
-      ),
-    ]),
+      ],
+    ),
   );
+}
+
+String formatEventDateTime(DateTime startDate, DateTime endDate) {
+  final dateFormat = DateFormat('MMM d, yyyy');
+  final timeFormat = DateFormat('h:mm a');
+
+  String formattedDate = dateFormat.format(startDate);
+  String formattedStartTime = timeFormat.format(startDate);
+  String formattedEndTime = timeFormat.format(endDate);
+
+  return "$formattedDate, $formattedStartTime - $formattedEndTime";
+}
+
+String formatSubEventDateRange(DateTime startDate, DateTime endDate) {
+  final monthFormat = DateFormat('MMMM');
+  final dayFormat = DateFormat('d');
+
+  String formattedMonth = monthFormat.format(startDate);
+  String formattedStartDay = dayFormat.format(startDate);
+  String formattedEndDay = dayFormat.format(endDate);
+
+  return "$formattedMonth $formattedStartDay - $formattedEndDay : ";
 }
