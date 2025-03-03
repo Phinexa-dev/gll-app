@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../core/route/route_name.dart';
-import '../../../../../../home/presentation/ui/provider/survey_grid_notifier.dart';
+import '../../../provider/survey_grid_notifier.dart';
+import '../../../provider/survey_radio_response_provider.dart';
+import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
@@ -20,33 +22,31 @@ class GoalsExpectationsScreen extends ConsumerStatefulWidget {
 
 class _GoalsExpectationsScreenState
     extends ConsumerState<GoalsExpectationsScreen> {
-  late TextEditingController phoneController;
-  late TextEditingController fullNameController;
-  late TextEditingController sponsoringOrgController;
-  late TextEditingController regionController;
-  late TextEditingController ageController;
-  late TextEditingController genderController;
-  late TextEditingController educationController;
-  String? selectedGender;
-  String? selectedCountryOrigin;
-  String? selectedCountryResidence;
-  String? selectedStatus;
-
+  late TextEditingController interestController;
+  late TextEditingController skillsController;
+  late TextEditingController ledTeam;
   @override
   void initState() {
     super.initState();
+    interestController = TextEditingController();
+    skillsController = TextEditingController();
+    ledTeam = TextEditingController();
 
-    fullNameController = TextEditingController();
-    sponsoringOrgController = TextEditingController();
-    regionController = TextEditingController();
-    ageController = TextEditingController();
-    genderController = TextEditingController();
-    educationController = TextEditingController();
+    final surveyResponses = ref.read(surveyTextFieldResponseProvider);
+
+    interestController.text = surveyResponses[
+            'Why are you interested in this leadership workshop?'] ??
+        '';
+    ledTeam.text = surveyResponses[
+            'Have you ever led a team, project, or group activity? If yes, please describe briefly'] ??
+        '';
+    skillsController.text =
+        surveyResponses['What skills or knowledge do you hope to gain?'] ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-    final responses = ref.watch(surveyGridResponseProvider);
+    final gridResponses = ref.watch(surveyGridResponseProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -73,10 +73,15 @@ class _GoalsExpectationsScreenState
                     'Why are you interested in this leadership workshop?',
                 hintText: 'I am ...',
                 obscureText: false,
+                controller: interestController,
                 height: 110,
                 maxLines: 10,
                 onChanged: (value) {
-                  print(value);
+                  ref
+                      .read(surveyTextFieldResponseProvider.notifier)
+                      .updateResponse(
+                          'Why are you interested in this leadership workshop?',
+                          value);
                 },
               ),
               SizedBox(
@@ -85,11 +90,16 @@ class _GoalsExpectationsScreenState
               CustomFormTextField(
                 labelText: 'What skills or knowledge do you hope to gain?',
                 hintText: 'Soft skills',
+                controller: skillsController,
                 obscureText: false,
                 height: 110,
                 maxLines: 10,
                 onChanged: (value) {
-                  print(value);
+                  ref
+                      .read(surveyTextFieldResponseProvider.notifier)
+                      .updateResponse(
+                          'What skills or knowledge do you hope to gain?',
+                          value);
                 },
               ),
               SizedBox(
@@ -100,7 +110,7 @@ class _GoalsExpectationsScreenState
                     "How confident are you in your leadership abilities right now?",
                 firstGrade: "Not confident",
                 lastGrade: "Very confident",
-                responses: responses,
+                responses: gridResponses,
                 onResponseSelected: (question, value) {
                   ref
                       .read(surveyGridResponseProvider.notifier)
@@ -119,7 +129,9 @@ class _GoalsExpectationsScreenState
                 question:
                     "Have you ever led a team, project, or group activity?",
                 onChanged: (bool? value) {
-                  print("Selected: $value");
+                  ref.read(radioQuestionResponseProvider.notifier).updateResponse(
+                      "Have you ever led a team, project, or group activity?",
+                      value);
                 },
               ),
               SizedBox(
@@ -130,9 +142,12 @@ class _GoalsExpectationsScreenState
                 hintText: 'I work ...',
                 obscureText: false,
                 height: 110,
+                controller: ledTeam,
                 maxLines: 10,
                 onChanged: (value) {
-                  print(value);
+                  ref.read(surveyTextFieldResponseProvider.notifier).updateResponse(
+                      'Have you ever led a team, project, or group activity? If yes, please describe briefly',
+                      value);
                 },
               ),
               SizedBox(
@@ -142,7 +157,7 @@ class _GoalsExpectationsScreenState
                 question: "How comfortable are you with public speaking?",
                 firstGrade: "Not comfortable",
                 lastGrade: "Very comfortable",
-                responses: responses,
+                responses: gridResponses,
                 onResponseSelected: (question, value) {
                   ref
                       .read(surveyGridResponseProvider.notifier)

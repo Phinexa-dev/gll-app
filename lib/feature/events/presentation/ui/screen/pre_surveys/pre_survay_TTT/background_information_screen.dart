@@ -20,13 +20,8 @@ class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
 
 class _TTBackgroundInformationScreenState
     extends ConsumerState<TTBackgroundInformationScreen> {
-  late TextEditingController phoneController;
   late TextEditingController fullNameController;
-  late TextEditingController sponsoringOrgController;
-  late TextEditingController regionController;
   late TextEditingController ageController;
-  late TextEditingController genderController;
-  late TextEditingController educationController;
   String? selectedGender;
   String? selectedCountryOrigin;
   String? selectedCountryResidence;
@@ -35,13 +30,8 @@ class _TTBackgroundInformationScreenState
   @override
   void initState() {
     super.initState();
-
     fullNameController = TextEditingController();
-    sponsoringOrgController = TextEditingController();
-    regionController = TextEditingController();
     ageController = TextEditingController();
-    genderController = TextEditingController();
-    educationController = TextEditingController();
   }
 
   @override

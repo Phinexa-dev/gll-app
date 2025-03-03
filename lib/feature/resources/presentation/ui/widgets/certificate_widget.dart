@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/feature/resources/presentation/ui/widgets/save_file_web.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import '../screen/certification_tab_screen.dart';
 
 class CertificateWidget extends ConsumerWidget {
   final Certificate certificate;
+
   const CertificateWidget({super.key, required this.certificate});
 
   @override
@@ -14,7 +18,7 @@ class CertificateWidget extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Container(
-        margin:  EdgeInsets.only(top: 30),
+        margin: EdgeInsets.only(top: 30),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: PhinexaColor.certficateBg,
@@ -93,39 +97,87 @@ class CertificateWidget extends ConsumerWidget {
 
 Widget _buildCompletedChip(BuildContext context) {
   return Chip(
-        avatar: Icon(Icons.check, color: PhinexaColor.darkGrey),
-        label: Text(
-          'Completed',
-          style: PhinexaFont.captionEmphasis.copyWith(color: PhinexaColor.darkGrey)
-        ),
-        backgroundColor: PhinexaColor.lightGreen,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: PhinexaColor.darkGreen,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(50),
-        ),
+    avatar: Icon(Icons.check, color: PhinexaColor.darkGrey),
+    label: Text('Completed',
+        style:
+            PhinexaFont.captionEmphasis.copyWith(color: PhinexaColor.darkGrey)),
+    backgroundColor: PhinexaColor.lightGreen,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(
+        color: PhinexaColor.darkGreen,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.circular(50),
+    ),
   );
 }
 
 Widget _buildShareButton(BuildContext context) {
   return ElevatedButton.icon(
-        onPressed: () {
-          print('Share button pressed');
-        },
-        icon: Text(
-          'Share',
-          style: PhinexaFont.contentAccent.copyWith(color: PhinexaColor.white)
-        ),
-        label: Icon(Icons.share_outlined,color: PhinexaColor.white,),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: PhinexaColor.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
-      );
+    onPressed: () {
+      createCertificate();
+    },
+    icon: Text('Share',
+        style: PhinexaFont.contentAccent.copyWith(color: PhinexaColor.white)),
+    label: Icon(
+      Icons.share_outlined,
+      color: PhinexaColor.white,
+    ),
+    style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: PhinexaColor.primaryColor,
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+    ),
+  );
+}
 
+Future<void> createCertificate() async {
+  //Create a PDF document.
+  final PdfDocument document = PdfDocument();
+  document.pageSettings.orientation = PdfPageOrientation.landscape;
+  document.pageSettings.margins.all = 0;
+  //Add page to the PDF
+  final PdfPage page = document.pages.add();
+  //Get the page size
+  final Size pageSize = page.getClientSize();
+  //Draw image
+  page.graphics.drawImage(PdfBitmap(await _readImageData('certificate.jpg')),
+      Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+  //Create font
+  final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 22);
+  final PdfFont controlFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
+  final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 16);
+  double x = _calculateXPosition("Name", nameFont, pageSize.width);
+  page.graphics.drawString("Name", nameFont,
+      bounds: Rect.fromLTWH(x, 253, 0, 0),
+      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+  x = _calculateXPosition("CourseNAme", controlFont, pageSize.width);
+  page.graphics.drawString("CourseNAme", controlFont,
+      bounds: Rect.fromLTWH(x, 340, 0, 0),
+      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+  final String dateText = 'on ' + "CourseNAme";
+  x = _calculateXPosition(dateText, dateFont, pageSize.width);
+  page.graphics.drawString(dateText, dateFont,
+      bounds: Rect.fromLTWH(x, 385, 0, 0),
+      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+  //Save and launch the document
+  final List<int> bytes = await document.save();
+  //Dispose the document.
+  document.dispose();
+  //Save and launch file.
+  await FileSaveHelper.saveAndLaunchFile(bytes, 'Certificate.pdf');
+}
+
+double _calculateXPosition(String text, PdfFont font, double pageWidth) {
+  final Size textSize =
+      font.measureString(text, layoutArea: Size(pageWidth, 0));
+  return (pageWidth - textSize.width) / 2;
+}
+
+Future<List<int>> _readImageData(String name) async {
+  final ByteData data = await rootBundle.load('assets/resources/$name');
+  return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 }

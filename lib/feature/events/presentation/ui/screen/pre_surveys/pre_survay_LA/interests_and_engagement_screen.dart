@@ -4,6 +4,8 @@ import 'package:gll/common/theme/fonts.dart';
 
 import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
+import '../../../provider/combine_response.dart';
+import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/multi_select_checkbox_widget.dart';
 
 class InterestsAndEngagementScreen extends ConsumerStatefulWidget {
@@ -16,28 +18,23 @@ class InterestsAndEngagementScreen extends ConsumerStatefulWidget {
 
 class _InterestsAndEngagementScreenState
     extends ConsumerState<InterestsAndEngagementScreen> {
-  late TextEditingController phoneController;
-  late TextEditingController fullNameController;
-  late TextEditingController sponsoringOrgController;
-  late TextEditingController regionController;
-  late TextEditingController ageController;
-  late TextEditingController genderController;
-  late TextEditingController educationController;
-  String? selectedGender;
-  String? selectedCountryOrigin;
-  String? selectedCountryResidence;
-  String? selectedStatus;
+  late TextEditingController accessibilityController;
+  late TextEditingController knowBeforeController;
 
   @override
   void initState() {
     super.initState();
+    accessibilityController = TextEditingController();
+    knowBeforeController = TextEditingController();
 
-    fullNameController = TextEditingController();
-    sponsoringOrgController = TextEditingController();
-    regionController = TextEditingController();
-    ageController = TextEditingController();
-    genderController = TextEditingController();
-    educationController = TextEditingController();
+    final surveyResponses = ref.read(surveyTextFieldResponseProvider);
+
+    accessibilityController.text = surveyResponses[
+            'Do you have any accessibility needs or accommodations we should be aware of?'] ??
+        '';
+    knowBeforeController.text = surveyResponses[
+            "Is there anything else you'd like us to know before the workshop?"] ??
+        '';
   }
 
   @override
@@ -73,9 +70,6 @@ class _InterestsAndEngagementScreenState
                   "Mindset",
                   "Sustainable Impact Projects",
                 ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
               ),
               SizedBox(
                 height: 10,
@@ -98,9 +92,6 @@ class _InterestsAndEngagementScreenState
                   "Role-playing scenarios",
                   "Lectures/presentations"
                 ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
               ),
               SizedBox(
                 height: 10,
@@ -110,10 +101,13 @@ class _InterestsAndEngagementScreenState
                     "Do you have any accessibility needs or accommodations we should be aware of?",
                 hintText: 'I do need ...',
                 obscureText: false,
+                controller: accessibilityController,
                 height: 110,
                 maxLines: 10,
                 onChanged: (value) {
-                  print(value);
+                  ref.read(surveyTextFieldResponseProvider.notifier).updateResponse(
+                      'Do you have any accessibility needs or accommodations we should be aware of?',
+                      value);
                 },
               ),
               SizedBox(
@@ -127,11 +121,14 @@ class _InterestsAndEngagementScreenState
                 labelText:
                     "Is there anything else you'd like us to know before the workshop?",
                 hintText: 'I work ...',
+                controller: knowBeforeController,
                 obscureText: false,
                 height: 110,
                 maxLines: 10,
                 onChanged: (value) {
-                  print(value);
+                  ref.read(surveyTextFieldResponseProvider.notifier).updateResponse(
+                      "Is there anything else you'd like us to know before the workshop?",
+                      value);
                 },
               ),
               Container(
@@ -139,7 +136,13 @@ class _InterestsAndEngagementScreenState
                 child: CustomButton(
                   label: "Register",
                   height: 40,
-                  onPressed: () {},
+                  onPressed: () {
+                    final responses = combineSurveyResponses(
+                        ref, "Pre Leadership Academy Workshop Survey");
+                    clearSurveyResponses(ref);
+
+                    print(responses);
+                  },
                 ),
               ),
             ],

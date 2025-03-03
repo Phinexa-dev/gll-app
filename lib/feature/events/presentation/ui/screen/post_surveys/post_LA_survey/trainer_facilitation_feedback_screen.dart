@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
-import '../../../../../../home/presentation/ui/provider/survey_grid_notifier.dart';
+import '../../../provider/survey_grid_notifier.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
 class LATrainerFacilitationFeedbackScreen extends ConsumerStatefulWidget {

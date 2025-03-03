@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/widget/event_view_screen_widget.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
+import 'package:gll/feature/events/data/event.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/application_of_skills_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/module_specific_feedback_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/trainer_facilitation_feedback_screen.dart';
@@ -85,13 +86,19 @@ final appRoutes = [
     path: RouteName.eventDetails,
     name: RouteName.eventDetails,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => EventViewScreenWidget(),
+    builder: (context, state) {
+      final event = state.extra as Event;
+      return EventViewScreenWidget(event: event);
+    },
   ),
   GoRoute(
     path: RouteName.registrationForm,
     name: RouteName.registrationForm,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => RegistrationForm(),
+    builder: (context, state) {
+      final isTTT = state.extra as bool;
+      return RegistrationForm(isTTT: isTTT);
+    },
   ),
 
   ///LA PreSurvey Routes
