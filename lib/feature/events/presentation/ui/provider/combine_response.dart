@@ -6,23 +6,20 @@ import 'package:gll/feature/home/presentation/ui/provider/%20phone_number_provid
 
 import '../widgets/multi_select_checkbox_widget.dart';
 
-Map<String, dynamic> combineSurveyResponses(WidgetRef ref, String surveyName) {
+Future<Map<String, dynamic>> combineSurveyResponses(WidgetRef ref) async {
   final multiSelectResponses = ref.read(surveyMultiSelectResponseProvider);
   final gridResponses = ref.read(surveyGridResponseProvider);
   final radioResponses = ref.read(radioQuestionResponseProvider);
   final textFieldResponses = ref.read(surveyTextFieldResponseProvider);
 
-  final combinedResponses = {
-    'surveyname': surveyName,
-    'responses': {
-      'phoneNumber': ref.watch(phoneNumberProvider).fullPhoneNumber,
-      'multiSelect': multiSelectResponses,
-      'grid': gridResponses,
-      'radio': radioResponses,
-      'textFields': textFieldResponses,
-    },
+  final responses = {
+    'phoneNumber': ref.watch(phoneNumberProvider).fullPhoneNumber,
+    'multiSelect': multiSelectResponses,
+    'grid': gridResponses,
+    'radio': radioResponses,
+    'textFields': textFieldResponses,
   };
-  return combinedResponses;
+  return responses;
 }
 
 void clearSurveyResponses(WidgetRef ref) {

@@ -15,6 +15,6 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   }
 
   void clearPhoneNumber() {
-    state = state.copyWith(countryCode: "", phoneNumber: "");
+    state = state.copyWith(countryCode: "+94", phoneNumber: "");
   }
 }

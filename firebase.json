@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"gll-mobile-app","appId":"1:670907179172:android:e0464ae3c5bea65fd6c631","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"gll-mobile-app","configurations":{"android":"1:670907179172:android:e0464ae3c5bea65fd6c631","ios":"1:670907179172:ios:dffaf7c642dd51ccd6c631"}}}}}}

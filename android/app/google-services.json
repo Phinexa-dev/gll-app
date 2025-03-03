@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "670907179172",
+    "firebase_url": "https://gll-mobile-app-default-rtdb.firebaseio.com",
+    "project_id": "gll-mobile-app",
+    "storage_bucket": "gll-mobile-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670907179172:android:e0464ae3c5bea65fd6c631",
+        "android_client_info": {
+          "package_name": "com.phinexa.gll"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqAmJYxoQFe1xN6tMgXJYq9ju9zFMaC7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

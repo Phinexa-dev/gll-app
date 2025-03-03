@@ -8,7 +8,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       title: "Leadership Academy",
       venue: "Civil Resource Center, Shtip, Macedonia",
       image: "assets/events/event_1.png",
-      subTitle: 'Led by Empowering Tomorrow’s Leaders Today!',
+      subTitle: 'Empowering Tomorrow’s Leaders Today!',
       ledBy: '',
       isTTT: false,
       subEvents: [
