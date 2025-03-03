@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,6 +29,15 @@ class _BackgroundInformationScreenState
   String? selectedCountryOrigin;
   String? selectedCountryResidence;
   String? selectedStatus;
+  bool? selectedLeadershipProgram;
+
+  final _fullNameError = ValueNotifier<String?>(null);
+  final _ageError = ValueNotifier<String?>(null);
+  final _genderError = ValueNotifier<String?>(null);
+  final _countryOriginError = ValueNotifier<String?>(null);
+  final _countryResidenceError = ValueNotifier<String?>(null);
+  final _statusError = ValueNotifier<String?>(null);
+  final _radioError = ValueNotifier<String?>(null);
 
   @override
   void initState() {
@@ -40,6 +50,8 @@ class _BackgroundInformationScreenState
 
     fullNameController.text = surveyResponses['Full name'] ?? '';
     ageController.text = surveyResponses['Age'] ?? '';
+    selectedLeadershipProgram = ref.read(radioQuestionResponseProvider)[
+        "Have you participated in a leadership program or workshop before?"];
 
     _updateDropdownSelections(surveyResponses);
   }
@@ -51,6 +63,75 @@ class _BackgroundInformationScreenState
       selectedCountryResidence = surveyResponses['Country of residence'];
       selectedStatus = surveyResponses['Current status'];
     });
+  }
+
+  void _submitForm() {
+    // Perform custom validation logic here
+    bool isValid = true;
+
+    // Validate Full Name
+    if (fullNameController.text.isEmpty) {
+      _fullNameError.value = 'Please enter your full name';
+      isValid = false;
+    } else {
+      _fullNameError.value = null;
+    }
+
+    // Validate Age
+    if (ageController.text.isEmpty) {
+      _ageError.value = 'Please enter your age';
+      isValid = false;
+    } else {
+      _ageError.value = null;
+    }
+
+    // Validate Gender
+    if (selectedGender == null) {
+      _genderError.value = 'Please select your gender identity';
+      isValid = false;
+    } else {
+      _genderError.value = null;
+    }
+
+    // Validate Country of Origin
+    if (selectedCountryOrigin == null) {
+      _countryOriginError.value = 'Please select your country of origin';
+      isValid = false;
+    } else {
+      _countryOriginError.value = null;
+    }
+
+    // Validate Country of Residence
+    if (selectedCountryResidence == null) {
+      _countryResidenceError.value = 'Please select your country of residence';
+      isValid = false;
+    } else {
+      _countryResidenceError.value = null;
+    }
+
+    // Validate Status
+    if (selectedStatus == null) {
+      _statusError.value = 'Please select your current status';
+      isValid = false;
+    } else {
+      _statusError.value = null;
+    }
+
+    if (selectedLeadershipProgram == null) {
+      _radioError.value =
+          'Please select if you have participated in a leadership program';
+      isValid = false;
+    } else {
+      _radioError.value = null;
+    }
+
+    // If the form is valid, go to the next screen
+    if (isValid) {
+      context.pushNamed(RouteName.goalsExpectationsScreen);
+    } else {
+      // Optionally show a snackbar or handle invalid form
+      print("Form is not valid");
+    }
   }
 
   @override
@@ -69,104 +150,209 @@ class _BackgroundInformationScreenState
               SizedBox(height: 20),
               Text("Background Information", style: PhinexaFont.headingLarge),
               SizedBox(height: 5),
-              CustomFormTextField(
-                labelText: 'Full name',
-                hintText: 'Full Name',
-                controller: fullNameController,
-                autofocus: true,
-                obscureText: false,
-                onChanged: (value) {
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('Full name', value);
+
+              // Full Name Field with custom validation
+              ValueListenableBuilder<String?>(
+                // Full Name error display
+                valueListenable: _fullNameError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomFormTextField(
+                        labelText: 'Full name',
+                        hintText: 'Full Name',
+                        controller: fullNameController,
+                        autofocus: true,
+                        obscureText: false,
+                        onChanged: (value) {
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Full name', value);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
               SizedBox(height: 5),
-              CustomFormTextField(
-                labelText: 'Age',
-                hintText: 'Age',
-                keyboardType: TextInputType.number,
-                controller: ageController,
-                obscureText: false,
-                onChanged: (value) {
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('Age', value);
+
+              // Age Field with custom validation
+              ValueListenableBuilder<String?>(
+                // Age error display
+                valueListenable: _ageError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomFormTextField(
+                        labelText: 'Age',
+                        hintText: 'Age',
+                        keyboardType: TextInputType.number,
+                        controller: ageController,
+                        obscureText: false,
+                        onChanged: (value) {
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Age', value);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
               SizedBox(height: 5),
-              CustomDropdown(
-                fieldName: "What is your gender identity",
-                selectedGender: selectedGender,
-                items: ["Male", "Female", "Not listed/Other"],
-                onChanged: (value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('What is your gender identity', value!);
+
+              ValueListenableBuilder<String?>(
+                // Age error display
+                valueListenable: _genderError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropdown(
+                        fieldName: "What is your gender identity",
+                        selectedGender: selectedGender,
+                        items: ["Male", "Female", "Not listed/Other"],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = value;
+                          });
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse(
+                                  'What is your gender identity', value!);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
+                },
+              ),
+
+              SizedBox(height: 5),
+
+              ValueListenableBuilder<String?>(
+                // Country of origin error display
+                valueListenable: _countryOriginError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropdown(
+                        fieldName: "Country of origin",
+                        selectedGender: selectedCountryOrigin,
+                        items: countries,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCountryOrigin = value;
+                          });
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Country of origin', value!);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
               SizedBox(height: 5),
-              CustomDropdown(
-                fieldName: "Country of origin",
-                selectedGender: selectedCountryOrigin,
-                items: countries,
-                onChanged: (value) {
-                  setState(() {
-                    selectedCountryOrigin = value;
-                  });
-                  // Store the selected value in Riverpod
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('Country of origin', value!);
+
+              ValueListenableBuilder<String?>(
+                // Country of residence error display
+                valueListenable: _countryResidenceError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropdown(
+                        fieldName: "Country of residence",
+                        selectedGender: selectedCountryResidence,
+                        items: countries,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCountryResidence = value;
+                          });
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Country of residence', value!);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
               SizedBox(height: 5),
-              CustomDropdown(
-                fieldName: "Country of residence",
-                selectedGender: selectedCountryResidence,
-                items: countries,
-                onChanged: (value) {
-                  setState(() {
-                    selectedCountryResidence = value;
-                  });
-                  // Store the selected value in Riverpod
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('Country of residence', value!);
-                },
-              ),
-              SizedBox(height: 5),
-              CustomDropdown(
-                fieldName: "Current status",
-                selectedGender: selectedStatus,
-                items: [
-                  "High school student",
-                  "College student",
-                  "Working professional"
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    selectedStatus = value;
-                  });
-                  // Store the selected value in Riverpod
-                  ref
-                      .read(surveyTextFieldResponseProvider.notifier)
-                      .updateResponse('Current status', value!);
+
+              ValueListenableBuilder<String?>(
+                // Status error display
+                valueListenable: _statusError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropdown(
+                        fieldName: "Current status",
+                        selectedGender: selectedStatus,
+                        items: [
+                          "High school student",
+                          "College student",
+                          "Working professional"
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedStatus = value;
+                          });
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Current status', value!);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
               SizedBox(height: 10),
-              CustomRadioQuestion(
-                question:
-                    "Have you participated in a leadership program or workshop before?",
-                onChanged: (bool? value) {
-                  ref.read(radioQuestionResponseProvider.notifier).updateResponse(
-                      "Have you participated in a leadership program or workshop before?",
-                      value);
+
+              ValueListenableBuilder<String?>(
+                // Radio button error display
+                valueListenable: _radioError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomRadioQuestion(
+                        question:
+                            "Have you participated in a leadership program or workshop before?",
+                        onChanged: (bool? value) {
+                          setState(() {
+                            selectedLeadershipProgram = value;
+                          });
+                          ref
+                              .read(radioQuestionResponseProvider.notifier)
+                              .updateResponse(
+                                  "Have you participated in a leadership program or workshop before?",
+                                  value);
+                        },
+                      ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
                 },
               ),
+
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -178,9 +364,7 @@ class _BackgroundInformationScreenState
                       label: "Next",
                       icon: Icons.chevron_right_rounded,
                       height: 40,
-                      onPressed: () {
-                        context.pushNamed(RouteName.goalsExpectationsScreen);
-                      },
+                      onPressed: _submitForm,
                     ),
                   ),
                 ],

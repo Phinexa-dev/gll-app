@@ -32,15 +32,13 @@ import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/b
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
-
-import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
 import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
 import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
 import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
+import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
 import '../../feature/welcome/presentation/ui/screen/welcome_screen.dart';
 
 final navigationKey = GlobalKey<NavigatorState>();
-
 final appRoutes = [
   GoRoute(
     path: RouteName.splash,
