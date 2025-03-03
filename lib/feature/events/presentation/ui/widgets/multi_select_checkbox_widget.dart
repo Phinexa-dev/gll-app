@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class MultiSelectCheckboxWidget extends StatefulWidget {
+import '../provider/multi_select_response_provider.dart';
+
+// Provider to store multi-select responses
+final surveyMultiSelectResponseProvider =
+    StateNotifierProvider<SurveyMultiSelectNotifier, Map<String, List<String>>>(
+        (ref) => SurveyMultiSelectNotifier());
+
+class MultiSelectCheckboxWidget extends ConsumerStatefulWidget {
   final String question;
   final List<String> answers;
-  final Function(List<String>) onSelectionChanged;
 
   const MultiSelectCheckboxWidget({
     super.key,
     required this.question,
     required this.answers,
-    required this.onSelectionChanged,
   });
 
   @override
@@ -19,8 +25,20 @@ class MultiSelectCheckboxWidget extends StatefulWidget {
       _MultiSelectCheckboxWidgetState();
 }
 
-class _MultiSelectCheckboxWidgetState extends State<MultiSelectCheckboxWidget> {
-  final Set<String> _selectedAnswers = {};
+class _MultiSelectCheckboxWidgetState
+    extends ConsumerState<MultiSelectCheckboxWidget> {
+  Set<String> _selectedAnswers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Load previously selected answers from Riverpod state
+    final storedAnswers =
+        ref.read(surveyMultiSelectResponseProvider).containsKey(widget.question)
+            ? ref.read(surveyMultiSelectResponseProvider)[widget.question]!
+            : [];
+    _selectedAnswers = Set<String>.from(storedAnswers);
+  }
 
   void _onCheckboxChanged(bool? isChecked, String answer) {
     setState(() {
@@ -31,7 +49,10 @@ class _MultiSelectCheckboxWidgetState extends State<MultiSelectCheckboxWidget> {
       }
     });
 
-    widget.onSelectionChanged(_selectedAnswers.toList());
+    // Update Riverpod state
+    ref
+        .read(surveyMultiSelectResponseProvider.notifier)
+        .updateResponse(widget.question, _selectedAnswers.toList());
   }
 
   @override

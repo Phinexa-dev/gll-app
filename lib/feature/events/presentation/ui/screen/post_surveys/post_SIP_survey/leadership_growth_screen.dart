@@ -5,7 +5,6 @@ import 'package:gll/common/theme/fonts.dart';
 import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
-import '../../../widgets/multi_select_checkbox_widget.dart';
 
 class SIPLeadershipGrowthScreen extends ConsumerStatefulWidget {
   const SIPLeadershipGrowthScreen({super.key});
@@ -71,23 +70,23 @@ class _SIPLeadershipGrowthScreenState
               SizedBox(
                 height: 20,
               ),
-              MultiSelectCheckboxWidget(
-                question: "What challenges did you face during your project?",
-                answers: [
-                  "Direction unclear (goal)",
-                  "Alignment poor- responsibility/resources (role)",
-                  "Commitment Insufficient (soul)",
-                  "Poor Communication",
-                  "Unforeseen External Factors (Change)",
-                  "Lack of mentorship support",
-                  "Plan not realistic",
-                  "Deadline too short",
-                  "Other",
-                ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
-              ),
+              // MultiSelectCheckboxWidget(
+              //   question: "What challenges did you face during your project?",
+              //   answers: [
+              //     "Direction unclear (goal)",
+              //     "Alignment poor- responsibility/resources (role)",
+              //     "Commitment Insufficient (soul)",
+              //     "Poor Communication",
+              //     "Unforeseen External Factors (Change)",
+              //     "Lack of mentorship support",
+              //     "Plan not realistic",
+              //     "Deadline too short",
+              //     "Other",
+              //   ],
+              //   onSelectionChanged: (selectedAnswers) {
+              //     print("Selected Topics: $selectedAnswers");
+              //   },
+              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 50),
                 child: CustomFormTextField(
@@ -125,20 +124,20 @@ class _SIPLeadershipGrowthScreenState
               SizedBox(
                 height: 15,
               ),
-              MultiSelectCheckboxWidget(
-                question:
-                    "Which of the tools and resources provided during the Academy helpful in  executing your project?",
-                answers: [
-                  "DAC - Direction, Alignment, Commitment",
-                  "Mindset",
-                  "Communication and Feedback",
-                  "Values and Actions",
-                  "Dealing with Change",
-                ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
-              ),
+              // MultiSelectCheckboxWidget(
+              //   question:
+              //       "Which of the tools and resources provided during the Academy helpful in  executing your project?",
+              //   answers: [
+              //     "DAC - Direction, Alignment, Commitment",
+              //     "Mindset",
+              //     "Communication and Feedback",
+              //     "Values and Actions",
+              //     "Dealing with Change",
+              //   ],
+              //   onSelectionChanged: (selectedAnswers) {
+              //     print("Selected Topics: $selectedAnswers");
+              //   },
+              // ),
               SizedBox(
                 height: 30,
               ),

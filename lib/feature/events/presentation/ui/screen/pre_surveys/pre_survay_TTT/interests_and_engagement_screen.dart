@@ -4,7 +4,6 @@ import 'package:gll/common/theme/fonts.dart';
 
 import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
-import '../../../widgets/multi_select_checkbox_widget.dart';
 
 class TTInterestsAndEngagementScreen extends ConsumerStatefulWidget {
   const TTInterestsAndEngagementScreen({super.key});
@@ -64,22 +63,22 @@ class _TTInterestsAndEngagementScreenState
               SizedBox(
                 height: 20,
               ),
-              MultiSelectCheckboxWidget(
-                question:
-                    "What topics are you most excited to explore in this workshop? (Check all that apply)",
-                answers: [
-                  "Effective Leadership",
-                  "UN Sustainable Development Goals",
-                  "Communication and Feedback",
-                  "Mindset",
-                  "Sustainable Impact Projects",
-                  "Delivering content with clarity and impact",
-                  "Other"
-                ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
-              ),
+              // MultiSelectCheckboxWidget(
+              //   question:
+              //       "What topics are you most excited to explore in this workshop? (Check all that apply)",
+              //   answers: [
+              //     "Effective Leadership",
+              //     "UN Sustainable Development Goals",
+              //     "Communication and Feedback",
+              //     "Mindset",
+              //     "Sustainable Impact Projects",
+              //     "Delivering content with clarity and impact",
+              //     "Other"
+              //   ],
+              //   onSelectionChanged: (selectedAnswers) {
+              //     print("Selected Topics: $selectedAnswers");
+              //   },
+              // ),
               CustomFormTextField(
                 hintText: "If there any other mention here..",
                 autofocus: true,
@@ -109,18 +108,18 @@ class _TTInterestsAndEngagementScreenState
               SizedBox(
                 height: 20,
               ),
-              MultiSelectCheckboxWidget(
-                question: "How do you prefer to learn? (Check all that apply)",
-                answers: [
-                  "Hands-on activities",
-                  "Group discussions",
-                  "Role-playing scenarios",
-                  "Lectures/presentations"
-                ],
-                onSelectionChanged: (selectedAnswers) {
-                  print("Selected Topics: $selectedAnswers");
-                },
-              ),
+              // MultiSelectCheckboxWidget(
+              //   question: "How do you prefer to learn? (Check all that apply)",
+              //   answers: [
+              //     "Hands-on activities",
+              //     "Group discussions",
+              //     "Role-playing scenarios",
+              //     "Lectures/presentations"
+              //   ],
+              //   onSelectionChanged: (selectedAnswers) {
+              //     print("Selected Topics: $selectedAnswers");
+              //   },
+              // ),
               SizedBox(
                 height: 10,
               ),
