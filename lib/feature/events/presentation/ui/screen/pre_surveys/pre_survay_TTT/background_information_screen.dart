@@ -14,7 +14,8 @@ import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
 class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
-  const TTBackgroundInformationScreen({super.key});
+  final String eventIdentity;
+  const TTBackgroundInformationScreen({super.key, required this.eventIdentity});
 
   @override
   _TTBackgroundInformationScreenState createState() =>
@@ -151,7 +152,8 @@ class _TTBackgroundInformationScreenState
     }
 
     if (isValid) {
-      context.pushNamed(RouteName.ttGoalsExpectationsScreen);
+      context.pushNamed(RouteName.ttGoalsExpectationsScreen,
+          extra: widget.eventIdentity);
     }
   }
 

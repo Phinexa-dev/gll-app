@@ -19,8 +19,9 @@ Future<void> uploadSurveyData(
 
     // Sanitize email for Firebase keys (Firebase keys can't contain `.` or `#`, etc.)
     String safeEmail = user.email.replaceAll('.', '_').replaceAll('@', '_');
+    String safeSurvey = survey.replaceAll('.', '_').replaceAll('@', '_');
 
-    await databaseRef.child("$survey/$safeEmail/response").set(responses);
+    await databaseRef.child("$safeSurvey/$safeEmail/response").set(responses);
 
     print("Survey data uploaded successfully!");
   } catch (error) {

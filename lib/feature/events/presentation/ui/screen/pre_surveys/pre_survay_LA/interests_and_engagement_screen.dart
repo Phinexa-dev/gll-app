@@ -14,7 +14,9 @@ import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/multi_select_checkbox_widget.dart';
 
 class InterestsAndEngagementScreen extends ConsumerStatefulWidget {
-  const InterestsAndEngagementScreen({super.key});
+  final String eventIdentity;
+
+  const InterestsAndEngagementScreen({super.key, required this.eventIdentity});
 
   @override
   _InterestsAndEngagementScreenState createState() =>
@@ -89,12 +91,11 @@ class _InterestsAndEngagementScreenState
 
     if (isValid) {
       final responses = await combineSurveyResponses(ref);
-      uploadSurveyData(ref, responses, "pre_leadership_academy_survey");
+      uploadSurveyData(ref, responses, widget.eventIdentity);
       clearSurveyResponses(ref);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        GoRouter.of(navigationKey.currentContext!)
-            .pushReplacementNamed(RouteName.events);
+        GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
       });
     }
   }

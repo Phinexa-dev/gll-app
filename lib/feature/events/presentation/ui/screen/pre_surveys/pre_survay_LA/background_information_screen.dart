@@ -14,7 +14,9 @@ import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
 class BackgroundInformationScreen extends ConsumerStatefulWidget {
-  const BackgroundInformationScreen({super.key});
+  final String eventIdentity;
+
+  const BackgroundInformationScreen({super.key, required this.eventIdentity});
 
   @override
   _BackgroundInformationScreenState createState() =>
@@ -127,7 +129,8 @@ class _BackgroundInformationScreenState
 
     // If the form is valid, go to the next screen
     if (isValid) {
-      context.pushNamed(RouteName.goalsExpectationsScreen);
+      context.pushNamed(RouteName.goalsExpectationsScreen,
+          extra: widget.eventIdentity);
     } else {
       // Optionally show a snackbar or handle invalid form
       print("Form is not valid");

@@ -14,7 +14,9 @@ import '../../../widgets/custom_radio_button_widget.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
 class GoalsExpectationsScreen extends ConsumerStatefulWidget {
-  const GoalsExpectationsScreen({super.key});
+  final String eventIdentity;
+
+  const GoalsExpectationsScreen({super.key, required this.eventIdentity});
 
   @override
   _GoalsExpectationsScreenState createState() =>
@@ -115,7 +117,8 @@ class _GoalsExpectationsScreenState
     }
 
     if (isValid) {
-      context.pushNamed(RouteName.interestsAndEngagementScreen);
+      context.pushNamed(RouteName.interestsAndEngagementScreen,
+          extra: widget.eventIdentity);
     }
   }
 

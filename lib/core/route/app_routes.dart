@@ -94,8 +94,19 @@ final appRoutes = [
     name: RouteName.registrationForm,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final isTTT = state.extra as bool;
-      return RegistrationForm(isTTT: isTTT);
+      if (state.extra is! Map<String, dynamic>) {
+        throw Exception(
+            'Invalid extra parameter: Expected Map<String, dynamic>');
+      }
+
+      final extras = state.extra as Map<String, dynamic>;
+      final isTTT = extras['isTTT'] as bool;
+      final eventIdentity = extras['eventIdentity'] as String;
+
+      return RegistrationForm(
+        isTTT: isTTT,
+        eventIdentity: eventIdentity,
+      );
     },
   ),
 
@@ -104,19 +115,34 @@ final appRoutes = [
     path: RouteName.preSurvey,
     name: RouteName.preSurvey,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => BackgroundInformationScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return BackgroundInformationScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.goalsExpectationsScreen,
     name: RouteName.goalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => GoalsExpectationsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return GoalsExpectationsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.interestsAndEngagementScreen,
     name: RouteName.interestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => InterestsAndEngagementScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return InterestsAndEngagementScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///TT PreSurvey Routes
@@ -124,19 +150,34 @@ final appRoutes = [
     path: RouteName.ttPreSurvey,
     name: RouteName.ttPreSurvey,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTBackgroundInformationScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTBackgroundInformationScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.ttGoalsExpectationsScreen,
     name: RouteName.ttGoalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTGoalsExpectationsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTGoalsExpectationsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.ttInterestsAndEngagementScreen,
     name: RouteName.ttInterestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTInterestsAndEngagementScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTInterestsAndEngagementScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///LA PostSurvey Routes
