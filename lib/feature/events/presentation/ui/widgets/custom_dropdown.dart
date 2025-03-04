@@ -7,14 +7,15 @@ class CustomDropdown extends StatelessWidget {
   final String fieldName;
   final ValueChanged<String?> onChanged;
   final List<String> items;
+  final String hint;
 
-  const CustomDropdown({
-    super.key,
-    this.selectedGender,
-    required this.fieldName,
-    required this.onChanged,
-    required this.items,
-  });
+  const CustomDropdown(
+      {super.key,
+      this.selectedGender,
+      required this.fieldName,
+      required this.onChanged,
+      required this.items,
+      required this.hint});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class CustomDropdown extends StatelessWidget {
           ),
           value: selectedGender,
           hint: Text(
-            'Select Gender',
+            hint,
             style:
                 PhinexaFont.contentRegular.copyWith(color: PhinexaColor.grey),
           ),

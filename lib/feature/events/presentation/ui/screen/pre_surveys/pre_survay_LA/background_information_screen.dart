@@ -14,7 +14,9 @@ import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
 class BackgroundInformationScreen extends ConsumerStatefulWidget {
-  const BackgroundInformationScreen({super.key});
+  final String eventIdentity;
+
+  const BackgroundInformationScreen({super.key, required this.eventIdentity});
 
   @override
   _BackgroundInformationScreenState createState() =>
@@ -127,7 +129,8 @@ class _BackgroundInformationScreenState
 
     // If the form is valid, go to the next screen
     if (isValid) {
-      context.pushNamed(RouteName.goalsExpectationsScreen);
+      context.pushNamed(RouteName.goalsExpectationsScreen,
+          extra: widget.eventIdentity);
     } else {
       // Optionally show a snackbar or handle invalid form
       print("Form is not valid");
@@ -217,6 +220,7 @@ class _BackgroundInformationScreenState
                       CustomDropdown(
                         fieldName: "What is your gender identity",
                         selectedGender: selectedGender,
+                        hint: "Gender",
                         items: ["Male", "Female", "Not listed/Other"],
                         onChanged: (value) {
                           setState(() {
@@ -248,6 +252,7 @@ class _BackgroundInformationScreenState
                         fieldName: "Country of origin",
                         selectedGender: selectedCountryOrigin,
                         items: countries,
+                        hint: "Country",
                         onChanged: (value) {
                           setState(() {
                             selectedCountryOrigin = value;
@@ -275,6 +280,7 @@ class _BackgroundInformationScreenState
                       CustomDropdown(
                         fieldName: "Country of residence",
                         selectedGender: selectedCountryResidence,
+                        hint: "Country",
                         items: countries,
                         onChanged: (value) {
                           setState(() {
@@ -302,6 +308,7 @@ class _BackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "Current status",
+                        hint: "Status",
                         selectedGender: selectedStatus,
                         items: [
                           "High school student",

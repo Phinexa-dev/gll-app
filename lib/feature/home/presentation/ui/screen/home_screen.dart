@@ -228,8 +228,11 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
               label: "Register Now",
               height: 40,
               onPressed: () {
-                context.pushNamed(RouteName.registrationForm,
-                    extra: events.first.isTTT);
+                context.pushNamed(RouteName.registrationForm, extra: {
+                  'isTTT': events.first.isTTT,
+                  'eventIdentity':
+                      '${events.first.title}_${DateFormat('yyyy_MM_dd').format(events.first.startDate)}',
+                });
               },
             ),
           ],

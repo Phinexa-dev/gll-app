@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/events/presentation/ui/provider/survey_grid_notifier.dart';
 import 'package:gll/feature/events/presentation/ui/provider/survey_radio_response_provider.dart';
+import 'package:gll/feature/events/presentation/ui/provider/survey_radio_string_response_provider.dart';
 import 'package:gll/feature/events/presentation/ui/provider/text_and_dropdown_reponses_provider.dart';
 import 'package:gll/feature/home/presentation/ui/provider/%20phone_number_provider.dart';
 
@@ -11,13 +12,17 @@ Future<Map<String, dynamic>> combineSurveyResponses(WidgetRef ref) async {
   final gridResponses = ref.read(surveyGridResponseProvider);
   final radioResponses = ref.read(radioQuestionResponseProvider);
   final textFieldResponses = ref.read(surveyTextFieldResponseProvider);
+  final valuedRadioResponses = ref.read(radioStringQuestionResponseProvider);
 
   final responses = {
-    'phoneNumber': ref.watch(phoneNumberProvider).fullPhoneNumber,
+    if (ref.watch(phoneNumberProvider).phoneNumber != null &&
+        ref.watch(phoneNumberProvider).phoneNumber != "")
+      'phoneNumber': ref.watch(phoneNumberProvider).fullPhoneNumber,
     'multiSelect': multiSelectResponses,
     'grid': gridResponses,
     'radio': radioResponses,
     'textFields': textFieldResponses,
+    'valuedRadioResponses': valuedRadioResponses
   };
   return responses;
 }
@@ -28,4 +33,5 @@ void clearSurveyResponses(WidgetRef ref) {
   ref.read(surveyGridResponseProvider.notifier).state = {};
   ref.read(radioQuestionResponseProvider.notifier).state = {};
   ref.read(surveyTextFieldResponseProvider.notifier).state = {};
+  ref.read(radioStringQuestionResponseProvider.notifier).state = {};
 }

@@ -5,6 +5,7 @@ class RadioQuestionNotifier extends StateNotifier<Map<String, bool?>> {
 
   void updateResponse(String question, bool? response) {
     state = {...state, question: response};
+    print(state);
   }
 
   void clearRadioResponses() {

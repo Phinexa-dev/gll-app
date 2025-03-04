@@ -15,8 +15,10 @@ import '../widgets/custom_dropdown.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
   final bool isTTT;
+  final String eventIdentity;
 
-  const RegistrationForm({super.key, required this.isTTT});
+  const RegistrationForm(
+      {super.key, required this.isTTT, required this.eventIdentity});
 
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
@@ -120,9 +122,9 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
 
     if (isValid) {
       if (widget.isTTT) {
-        context.pushNamed(RouteName.ttPreSurvey);
+        context.pushNamed(RouteName.ttPreSurvey, extra: widget.eventIdentity);
       } else {
-        context.pushNamed(RouteName.preSurvey);
+        context.pushNamed(RouteName.preSurvey, extra: widget.eventIdentity);
       }
     }
   }
@@ -256,7 +258,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 },
               ),
               SizedBox(height: 12),
-
               // Gender Dropdown
               ValueListenableBuilder<String?>(
                 valueListenable: _genderError,
@@ -266,6 +267,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                     children: [
                       CustomDropdown(
                         fieldName: "Gender",
+                        hint: "Gender",
                         selectedGender: selectedGender,
                         items: ["Male", "Female", "Not listed/Other"],
                         onChanged: (value) {

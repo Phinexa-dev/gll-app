@@ -14,7 +14,8 @@ import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
 class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
-  const TTBackgroundInformationScreen({super.key});
+  final String eventIdentity;
+  const TTBackgroundInformationScreen({super.key, required this.eventIdentity});
 
   @override
   _TTBackgroundInformationScreenState createState() =>
@@ -151,7 +152,8 @@ class _TTBackgroundInformationScreenState
     }
 
     if (isValid) {
-      context.pushNamed(RouteName.ttGoalsExpectationsScreen);
+      context.pushNamed(RouteName.ttGoalsExpectationsScreen,
+          extra: widget.eventIdentity);
     }
   }
 
@@ -236,6 +238,7 @@ class _TTBackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "What is your gender identity",
+                        hint: "Gender",
                         selectedGender: selectedGender,
                         items: ["Male", "Female", "Not listed/Other"],
                         onChanged: (value) {
@@ -265,6 +268,7 @@ class _TTBackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "Country of origin",
+                        hint: "Country",
                         selectedGender: selectedCountryOrigin,
                         items: countries,
                         onChanged: (value) {
@@ -293,6 +297,7 @@ class _TTBackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "Country of residence",
+                        hint: "Country",
                         selectedGender: selectedCountryResidence,
                         items: countries,
                         onChanged: (value) {
@@ -321,6 +326,7 @@ class _TTBackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "Current status",
+                        hint: "Country",
                         selectedGender: selectedStatus,
                         items: [
                           "High school student",

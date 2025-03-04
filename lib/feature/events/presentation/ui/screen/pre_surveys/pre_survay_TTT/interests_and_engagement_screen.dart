@@ -14,7 +14,10 @@ import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/multi_select_checkbox_widget.dart';
 
 class TTInterestsAndEngagementScreen extends ConsumerStatefulWidget {
-  const TTInterestsAndEngagementScreen({super.key});
+  final String eventIdentity;
+
+  const TTInterestsAndEngagementScreen(
+      {super.key, required this.eventIdentity});
 
   @override
   _TTInterestsAndEngagementScreenState createState() =>
@@ -120,12 +123,11 @@ class _TTInterestsAndEngagementScreenState
 
     if (isValid) {
       final responses = await combineSurveyResponses(ref);
-      uploadSurveyData(ref, responses, "pre_train_the_trainer_survey");
+      uploadSurveyData(ref, responses, 'Pre_Survey_${widget.eventIdentity}');
       clearSurveyResponses(ref);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        GoRouter.of(navigationKey.currentContext!)
-            .pushReplacementNamed(RouteName.events);
+        GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
       });
     }
   }

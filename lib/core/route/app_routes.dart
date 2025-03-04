@@ -94,8 +94,19 @@ final appRoutes = [
     name: RouteName.registrationForm,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final isTTT = state.extra as bool;
-      return RegistrationForm(isTTT: isTTT);
+      if (state.extra is! Map<String, dynamic>) {
+        throw Exception(
+            'Invalid extra parameter: Expected Map<String, dynamic>');
+      }
+
+      final extras = state.extra as Map<String, dynamic>;
+      final isTTT = extras['isTTT'] as bool;
+      final eventIdentity = extras['eventIdentity'] as String;
+
+      return RegistrationForm(
+        isTTT: isTTT,
+        eventIdentity: eventIdentity,
+      );
     },
   ),
 
@@ -104,19 +115,34 @@ final appRoutes = [
     path: RouteName.preSurvey,
     name: RouteName.preSurvey,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => BackgroundInformationScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return BackgroundInformationScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.goalsExpectationsScreen,
     name: RouteName.goalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => GoalsExpectationsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return GoalsExpectationsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.interestsAndEngagementScreen,
     name: RouteName.interestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => InterestsAndEngagementScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return InterestsAndEngagementScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///TT PreSurvey Routes
@@ -124,19 +150,34 @@ final appRoutes = [
     path: RouteName.ttPreSurvey,
     name: RouteName.ttPreSurvey,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTBackgroundInformationScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTBackgroundInformationScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.ttGoalsExpectationsScreen,
     name: RouteName.ttGoalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTGoalsExpectationsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTGoalsExpectationsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.ttInterestsAndEngagementScreen,
     name: RouteName.ttInterestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTInterestsAndEngagementScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTInterestsAndEngagementScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///LA PostSurvey Routes
@@ -144,25 +185,45 @@ final appRoutes = [
     path: RouteName.laOverallProgramFeedbackScreen,
     name: RouteName.laOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAOverallProgramFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAOverallProgramFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laModuleSpecificFeedbackScreen,
     name: RouteName.laModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAModuleSpecificFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAModuleSpecificFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laTrainerFacilitationFeedbackScreen,
     name: RouteName.laTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LATrainerFacilitationFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LATrainerFacilitationFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laApplicationOfSkillsScreen,
     name: RouteName.laApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAApplicationOfSkillsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAApplicationOfSkillsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///TTT PostSurvey Routes
@@ -170,25 +231,45 @@ final appRoutes = [
     path: RouteName.tttOverallProgramFeedbackScreen,
     name: RouteName.tttOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTOverallProgramFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTOverallProgramFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttModuleSpecificFeedbackScreen,
     name: RouteName.tttModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTModuleSpecificFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTModuleSpecificFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttTrainerFacilitationFeedbackScreen,
     name: RouteName.tttTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTTrainerFacilitationFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTTrainerFacilitationFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttApplicationOfSkillsScreen,
     name: RouteName.tttApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTApplicationOfSkillsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTApplicationOfSkillsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///SIP PostSurvey Routes

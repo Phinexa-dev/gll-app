@@ -14,7 +14,9 @@ import '../../../widgets/custom_radio_button_widget.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
 class TTGoalsExpectationsScreen extends ConsumerStatefulWidget {
-  const TTGoalsExpectationsScreen({super.key});
+  final String eventIdentity;
+
+  const TTGoalsExpectationsScreen({super.key, required this.eventIdentity});
 
   @override
   _TTGoalsExpectationsScreenState createState() =>
@@ -127,7 +129,8 @@ class _TTGoalsExpectationsScreenState
     }
 
     if (isValid) {
-      context.pushNamed(RouteName.ttInterestsAndEngagementScreen);
+      context.pushNamed(RouteName.ttInterestsAndEngagementScreen,
+          extra: widget.eventIdentity);
     }
   }
 
