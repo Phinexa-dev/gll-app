@@ -267,6 +267,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                     children: [
                       CustomDropdown(
                         fieldName: "Gender",
+                        hint: "Gender",
                         selectedGender: selectedGender,
                         items: ["Male", "Female", "Not listed/Other"],
                         onChanged: (value) {

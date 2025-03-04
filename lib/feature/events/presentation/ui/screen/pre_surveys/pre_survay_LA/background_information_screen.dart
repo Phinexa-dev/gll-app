@@ -220,6 +220,7 @@ class _BackgroundInformationScreenState
                       CustomDropdown(
                         fieldName: "What is your gender identity",
                         selectedGender: selectedGender,
+                        hint: "Gender",
                         items: ["Male", "Female", "Not listed/Other"],
                         onChanged: (value) {
                           setState(() {
@@ -251,6 +252,7 @@ class _BackgroundInformationScreenState
                         fieldName: "Country of origin",
                         selectedGender: selectedCountryOrigin,
                         items: countries,
+                        hint: "Country",
                         onChanged: (value) {
                           setState(() {
                             selectedCountryOrigin = value;
@@ -278,6 +280,7 @@ class _BackgroundInformationScreenState
                       CustomDropdown(
                         fieldName: "Country of residence",
                         selectedGender: selectedCountryResidence,
+                        hint: "Country",
                         items: countries,
                         onChanged: (value) {
                           setState(() {
@@ -305,6 +308,7 @@ class _BackgroundInformationScreenState
                     children: [
                       CustomDropdown(
                         fieldName: "Current status",
+                        hint: "Status",
                         selectedGender: selectedStatus,
                         items: [
                           "High school student",
