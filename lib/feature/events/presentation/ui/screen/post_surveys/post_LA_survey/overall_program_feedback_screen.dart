@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../provider/survey_radio_string_response_provider.dart';
+import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/survey_question_widget.dart';
 
 class LAOverallProgramFeedbackScreen extends ConsumerStatefulWidget {
@@ -223,6 +224,9 @@ class _LAOverallProgramFeedbackScreenState
         _selectedDate = picked;
         _dateError.value = null;
       });
+      ref
+          .read(surveyTextFieldResponseProvider.notifier)
+          .updateResponse("Date", _selectedDate.toString());
     }
   }
 
