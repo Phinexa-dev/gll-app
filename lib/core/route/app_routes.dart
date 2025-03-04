@@ -231,25 +231,45 @@ final appRoutes = [
     path: RouteName.tttOverallProgramFeedbackScreen,
     name: RouteName.tttOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTOverallProgramFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTOverallProgramFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttModuleSpecificFeedbackScreen,
     name: RouteName.tttModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTModuleSpecificFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTModuleSpecificFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttTrainerFacilitationFeedbackScreen,
     name: RouteName.tttTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTTrainerFacilitationFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTTrainerFacilitationFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.tttApplicationOfSkillsScreen,
     name: RouteName.tttApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => TTTApplicationOfSkillsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return TTTApplicationOfSkillsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///SIP PostSurvey Routes

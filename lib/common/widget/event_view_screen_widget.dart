@@ -122,8 +122,9 @@ class EventViewScreenWidget extends ConsumerWidget {
                         onPressed: () {
                           if (event.isTTT) {
                             context.pushNamed(
-                              RouteName.tttOverallProgramFeedbackScreen,
-                            );
+                                RouteName.tttOverallProgramFeedbackScreen,
+                                extra:
+                                    '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}');
                           } else {
                             context.pushNamed(
                                 RouteName.laOverallProgramFeedbackScreen,
