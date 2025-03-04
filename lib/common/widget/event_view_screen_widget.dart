@@ -126,8 +126,9 @@ class EventViewScreenWidget extends ConsumerWidget {
                             );
                           } else {
                             context.pushNamed(
-                              RouteName.laOverallProgramFeedbackScreen,
-                            );
+                                RouteName.laOverallProgramFeedbackScreen,
+                                extra:
+                                    '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}');
                           }
                         },
                       ),

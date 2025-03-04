@@ -5,6 +5,7 @@ class SurveyGridNotifier extends StateNotifier<Map<String, int>> {
 
   void updateResponse(String question, int response) {
     state = {...state, question: response};
+    print(state);
   }
 
   void clearGridResponses() {
