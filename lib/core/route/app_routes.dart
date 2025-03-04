@@ -185,25 +185,45 @@ final appRoutes = [
     path: RouteName.laOverallProgramFeedbackScreen,
     name: RouteName.laOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAOverallProgramFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAOverallProgramFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laModuleSpecificFeedbackScreen,
     name: RouteName.laModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAModuleSpecificFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAModuleSpecificFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laTrainerFacilitationFeedbackScreen,
     name: RouteName.laTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LATrainerFacilitationFeedbackScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LATrainerFacilitationFeedbackScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
   GoRoute(
     path: RouteName.laApplicationOfSkillsScreen,
     name: RouteName.laApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
-    builder: (context, state) => LAApplicationOfSkillsScreen(),
+    builder: (context, state) {
+      final eventIdentity = state.extra as String;
+      return LAApplicationOfSkillsScreen(
+        eventIdentity: eventIdentity,
+      );
+    },
   ),
 
   ///TTT PostSurvey Routes
