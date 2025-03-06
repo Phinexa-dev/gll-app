@@ -271,19 +271,24 @@ Widget _buildEventSectionContent(
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-            SizedBox(height: 12),
+
             // Conditionally render the Register Now button
             if (!hasRegistered)
-              CustomButton(
-                label: "Register Now",
-                height: 40,
-                onPressed: () {
-                  context.pushNamed(RouteName.registrationForm, extra: {
-                    'isTTT': event.isTTT,
-                    'eventIdentity':
-                        '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
-                  });
-                },
+              Column(
+                children: [
+                  SizedBox(height: 12),
+                  CustomButton(
+                    label: "Register Now",
+                    height: 40,
+                    onPressed: () {
+                      context.pushNamed(RouteName.registrationForm, extra: {
+                        'isTTT': event.isTTT,
+                        'eventIdentity':
+                            '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+                      });
+                    },
+                  ),
+                ],
               ),
           ],
         )
@@ -451,7 +456,7 @@ Widget _buildSipMapSection(BuildContext context) {
             height: 24,
           ),
           CustomButton(
-            label: "Explorer More",
+            label: "Explore More",
             height: 40,
             onPressed: () {
               context.pushNamed(RouteName.worldMap);
