@@ -32,6 +32,7 @@ import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/in
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/background_information_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
+import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
 import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
@@ -329,6 +330,17 @@ final appRoutes = [
       final sipDetail = state.extra as SipDetail;
       return CampDetailScreen(
         sipDetail: sipDetail,
+      );
+    },
+  ),
+  GoRoute(
+    path: RouteName.pdfViewer,
+    name: RouteName.pdfViewer,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) {
+      final pdfAssetPath = state.extra as String;
+      return PdfViewerScreen(
+        pdfAssetPath: pdfAssetPath,
       );
     },
   ),

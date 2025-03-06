@@ -15,6 +15,7 @@ import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../events/application/survey_upload_service.dart';
 import '../../../../events/data/event.dart';
 import '../../../../events/data/event_provider.dart';
+import '../widgets/pdf_viewer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -417,10 +418,11 @@ Widget _buildHowItWorksSection(BuildContext context) {
             height: 15,
           ),
           CustomButton(
-            label: "Casecading Model",
+            label: "Cascading Model",
             height: 40,
             onPressed: () {
-              context.pushNamed(RouteName.worldMap);
+              context.pushNamed(RouteName.pdfViewer,
+                  extra: "assets/pdf/casacading_model.pdf");
             },
           ),
         ],

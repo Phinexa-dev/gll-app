@@ -5,9 +5,12 @@ class RouteName {
   const RouteName._();
 
   static String get splash => '/splash';
+
   static String get welcome => '/welcome';
 
   static String get dashboard => '/dashboard';
+
+  static String get pdfViewer => '/pdfViewer';
 
   static String get events => '/events';
 
