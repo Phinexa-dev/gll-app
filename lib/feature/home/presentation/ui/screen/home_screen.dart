@@ -130,7 +130,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             textAlign: TextAlign.left,
                             text: TextSpan(
                               text:
-                                  'Global Learning Lab (GL2) is a youth leadership development organization operating in 6 countries across 3 continents. By empowering young leaders, GL2 fosters sustainable community impact projects and builds resilience through collaboration and mentorship.',
+                                  'Global Learning Lab (GL2) works to empower youth across the world with the leadership skills they need to to make the difference they want to see in their communities',
                               style: PhinexaFont.highlightRegular,
                             ),
                           ),
@@ -333,13 +333,13 @@ Widget _buildHowItWorksSection(BuildContext context) {
           SizedBox(
             height: 12,
           ),
-          Text("Sustainable Impact Projects (SIPs)",
+          Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
               style: PhinexaFont.featureEmphasis),
           SizedBox(
             height: 12,
           ),
           Text(
-              "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
+              " The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
               style: PhinexaFont.contentRegular),
         ],
       ),
@@ -370,13 +370,13 @@ Widget _buildHowItWorksSection(BuildContext context) {
                   SizedBox(
                     height: 12,
                   ),
-                  Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
+                  Text("Sustainable Impact Projects (SIPs)",
                       style: PhinexaFont.featureEmphasis),
                   SizedBox(
                     height: 12,
                   ),
                   Text(
-                      " The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
+                      "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
                       style: PhinexaFont.contentRegular),
                 ],
               ),
@@ -413,6 +413,16 @@ Widget _buildHowItWorksSection(BuildContext context) {
           Text(
               "The Path to Global Trainer is a structured journey that transforms a Leadership Academy participant into a certified trainer and eventually a global leadership ambassador.",
               style: PhinexaFont.contentRegular),
+          SizedBox(
+            height: 15,
+          ),
+          CustomButton(
+            label: "Casecading Model",
+            height: 40,
+            onPressed: () {
+              context.pushNamed(RouteName.worldMap);
+            },
+          ),
         ],
       ),
     ),

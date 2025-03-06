@@ -35,7 +35,6 @@ class _BackgroundInformationScreenState
 
   final _fullNameError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
-  final _genderError = ValueNotifier<String?>(null);
   final _countryOriginError = ValueNotifier<String?>(null);
   final _countryResidenceError = ValueNotifier<String?>(null);
   final _statusError = ValueNotifier<String?>(null);
@@ -60,7 +59,6 @@ class _BackgroundInformationScreenState
 
   void _updateDropdownSelections(Map<String, String?> surveyResponses) {
     setState(() {
-      selectedGender = surveyResponses['What is your gender identity'];
       selectedCountryOrigin = surveyResponses['Country of origin'];
       selectedCountryResidence = surveyResponses['Country of residence'];
       selectedStatus = surveyResponses['Current status'];
@@ -85,14 +83,6 @@ class _BackgroundInformationScreenState
       isValid = false;
     } else {
       _ageError.value = null;
-    }
-
-    // Validate Gender
-    if (selectedGender == null) {
-      _genderError.value = 'Please select your gender identity';
-      isValid = false;
-    } else {
-      _genderError.value = null;
     }
 
     // Validate Country of Origin
@@ -200,36 +190,6 @@ class _BackgroundInformationScreenState
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)
                               .updateResponse('Age', value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 5),
-
-              ValueListenableBuilder<String?>(
-                // Age error display
-                valueListenable: _genderError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomDropdown(
-                        fieldName: "What is your gender identity",
-                        selectedGender: selectedGender,
-                        hint: "Gender",
-                        items: ["Male", "Female", "Not listed/Other"],
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value;
-                          });
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'What is your gender identity', value!);
                         },
                       ),
                       if (error != null)

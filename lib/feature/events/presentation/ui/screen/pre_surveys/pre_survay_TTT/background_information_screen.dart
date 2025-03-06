@@ -15,6 +15,7 @@ import '../../../widgets/custom_radio_button_widget.dart';
 
 class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
   final String eventIdentity;
+
   const TTBackgroundInformationScreen({super.key, required this.eventIdentity});
 
   @override
@@ -28,7 +29,6 @@ class _TTBackgroundInformationScreenState
   late TextEditingController ageController;
   late TextEditingController workshopDescriptionController;
 
-  String? selectedGender;
   String? selectedCountryOrigin;
   String? selectedCountryResidence;
   String? selectedStatus;
@@ -37,7 +37,6 @@ class _TTBackgroundInformationScreenState
 
   final _fullNameError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
-  final _genderError = ValueNotifier<String?>(null);
   final _countryOriginError = ValueNotifier<String?>(null);
   final _countryResidenceError = ValueNotifier<String?>(null);
   final _statusError = ValueNotifier<String?>(null);
@@ -57,7 +56,6 @@ class _TTBackgroundInformationScreenState
 
     fullNameController.text = surveyResponses['Full name'] ?? '';
     ageController.text = surveyResponses['Age'] ?? '';
-    selectedGender = surveyResponses['What is your gender identity'];
     selectedCountryOrigin = surveyResponses['Country of origin'];
     selectedCountryResidence = surveyResponses['Country of residence'];
     selectedStatus = surveyResponses['Current status'];
@@ -90,14 +88,6 @@ class _TTBackgroundInformationScreenState
       isValid = false;
     } else {
       _ageError.value = null;
-    }
-
-    // Gender Validation
-    if (selectedGender == null) {
-      _genderError.value = 'Please select your gender identity';
-      isValid = false;
-    } else {
-      _genderError.value = null;
     }
 
     // Country of Origin Validation
@@ -219,36 +209,6 @@ class _TTBackgroundInformationScreenState
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)
                               .updateResponse('Age', value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 5),
-
-              // Gender Dropdown
-              ValueListenableBuilder<String?>(
-                valueListenable: _genderError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomDropdown(
-                        fieldName: "What is your gender identity",
-                        hint: "Gender",
-                        selectedGender: selectedGender,
-                        items: ["Male", "Female", "Not listed/Other"],
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value;
-                          });
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'What is your gender identity', value!);
                         },
                       ),
                       if (error != null)

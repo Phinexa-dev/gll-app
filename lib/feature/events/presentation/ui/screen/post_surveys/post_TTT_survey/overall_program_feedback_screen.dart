@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
+import '../../../../../../../common/theme/colors.dart';
+import '../../../provider/combine_response.dart';
 import '../../../provider/survey_radio_string_response_provider.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/survey_question_widget.dart';
@@ -64,6 +66,13 @@ class _TTTOverallProgramFeedbackScreenState
             maxLines: 2, // Allow text to break into two lines
             overflow: TextOverflow.ellipsis, // Show '...' if text overflows
           ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: PhinexaColor.black),
+          onPressed: () {
+            Navigator.pop(context);
+            clearSurveyResponses(ref);
+          },
         ),
       ),
       body: SingleChildScrollView(

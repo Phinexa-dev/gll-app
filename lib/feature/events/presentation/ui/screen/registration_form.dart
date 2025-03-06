@@ -30,6 +30,8 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   late TextEditingController sponsoringOrgController;
   late TextEditingController ageController;
   late TextEditingController educationController;
+  late TextEditingController
+      genderDescriptionController; // New controller for gender description
   String? selectedGender;
 
   final _fullNameError = ValueNotifier<String?>(null);
@@ -38,6 +40,8 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   final _ageError = ValueNotifier<String?>(null);
   final _genderError = ValueNotifier<String?>(null);
   final _educationError = ValueNotifier<String?>(null);
+  final _genderDescriptionError =
+      ValueNotifier<String?>(null); // New error notifier for gender description
 
   @override
   void initState() {
@@ -53,7 +57,10 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     ageController = TextEditingController(text: surveyResponses['Age'] ?? '');
     educationController =
         TextEditingController(text: surveyResponses['Education'] ?? '');
-    selectedGender = surveyResponses['What is your gender identity'];
+    genderDescriptionController = TextEditingController(
+        text: surveyResponses['Gender Description'] ??
+            ''); // Initialize the new controller
+    selectedGender = surveyResponses['Gender'];
   }
 
   @override
@@ -63,6 +70,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     sponsoringOrgController.dispose();
     ageController.dispose();
     educationController.dispose();
+    genderDescriptionController.dispose(); // Dispose the new controller
     super.dispose();
   }
 
@@ -108,8 +116,13 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     if (selectedGender == null) {
       _genderError.value = 'Please select your gender';
       isValid = false;
+    } else if (selectedGender == 'Non-binary/Prefer to self-describe' &&
+        genderDescriptionController.text.isEmpty) {
+      _genderDescriptionError.value = 'Please describe your gender';
+      isValid = false;
     } else {
       _genderError.value = null;
+      _genderDescriptionError.value = null;
     }
 
     // Education Validation
@@ -258,6 +271,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 },
               ),
               SizedBox(height: 12),
+
               // Gender Dropdown
               ValueListenableBuilder<String?>(
                 valueListenable: _genderError,
@@ -269,17 +283,44 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                         fieldName: "Gender",
                         hint: "Gender",
                         selectedGender: selectedGender,
-                        items: ["Male", "Female", "Not listed/Other"],
+                        items: [
+                          "Male",
+                          "Female",
+                          "Non-binary/Prefer to self-describe"
+                        ],
                         onChanged: (value) {
                           setState(() {
                             selectedGender = value;
                           });
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'What is your gender identity', value!);
+                              .updateResponse('Gender', value!);
                         },
                       ),
+                      if (selectedGender ==
+                          'Non-binary/Prefer to self-describe')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 12),
+                            CustomFormTextField(
+                              labelText: 'Describe your gender',
+                              hintText: 'Enter your gender description',
+                              controller: genderDescriptionController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        'Gender Description', value);
+                              },
+                              obscureText: false,
+                            ),
+                            if (_genderDescriptionError.value != null)
+                              Text(_genderDescriptionError.value!,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        ),
                       if (error != null)
                         Text(error, style: TextStyle(color: PhinexaColor.red)),
                     ],
