@@ -34,7 +34,7 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
     final history = ref.watch(educationHistoryProvider);
 
     return FractionallySizedBox(
-      heightFactor: 0.1 + 2 * 0.32,
+      heightFactor: 0.1 + 1 * 0.34,
       // resizeToAvoidBottomInset: true,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -58,21 +58,7 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
                           ),
                         ),
                       ),
-                      // EducationHistoryForm(),
-                      // list of education history form in the length of history and with a divider
-                      for (var i = 0; i < history.length; i++)
-                        Column(
-                          children: [
-                            EducationHistoryForm(
-                              id: history[i]['id']!,
-                              school: history[i]['institution']!,
-                              degree: history[i]['degree']!,
-                              startDate: history[i]['startDate']!,
-                              endDate: history[i]['endDate']!,
-                            ),
-                            if (i != history.length - 1) const Divider(),
-                          ],
-                        ),
+                      EducationHistoryForm(),
                     ],
                   ),
                 ),
