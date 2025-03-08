@@ -57,7 +57,7 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
               child: SizedBox(height: 16),
             ),
             const SliverFillRemaining(
-              child: TabBarWidget(), // This should work now
+              child: TabBarWidget(),
             ),
           ],
         ),

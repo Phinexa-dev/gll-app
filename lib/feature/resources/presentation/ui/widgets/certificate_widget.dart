@@ -135,39 +135,75 @@ Widget _buildShareButton(BuildContext context) {
 }
 
 Future<void> createCertificate() async {
-  //Create a PDF document.
+  // Create a new PDF document
   final PdfDocument document = PdfDocument();
   document.pageSettings.orientation = PdfPageOrientation.landscape;
   document.pageSettings.margins.all = 0;
-  //Add page to the PDF
+
+  // Add a page to the PDF
   final PdfPage page = document.pages.add();
-  //Get the page size
+
+  // Get the page size
   final Size pageSize = page.getClientSize();
-  //Draw image
-  page.graphics.drawImage(PdfBitmap(await _readImageData('certificate.jpg')),
-      Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-  //Create font
+
+  // Load the background PNG image
+  final PdfBitmap backgroundImage =
+      PdfBitmap(await _readImageData('ttt_certificate.png'));
+
+  // Draw the background image on the page
+  page.graphics.drawImage(
+    backgroundImage,
+    Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
+  );
+
+  // Create fonts
   final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 22);
-  final PdfFont controlFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
+  final PdfFont courseFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
   final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 16);
+
+  // Draw "Name" text
   double x = _calculateXPosition("Name", nameFont, pageSize.width);
-  page.graphics.drawString("Name", nameFont,
-      bounds: Rect.fromLTWH(x, 253, 0, 0),
-      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
-  x = _calculateXPosition("CourseNAme", controlFont, pageSize.width);
-  page.graphics.drawString("CourseNAme", controlFont,
-      bounds: Rect.fromLTWH(x, 340, 0, 0),
-      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
-  final String dateText = 'on ' + "CourseNAme";
+  page.graphics.drawString(
+    "Name",
+    nameFont,
+    bounds: Rect.fromLTWH(x, 253, 0, 0),
+    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
+  );
+
+  // Draw "CourseName" text
+  x = _calculateXPosition("CourseName", courseFont, pageSize.width);
+  page.graphics.drawString(
+    "CourseName",
+    courseFont,
+    bounds: Rect.fromLTWH(x, 340, 0, 0),
+    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
+  );
+
+  // Draw date text
+  final String dateText = 'on ' + "CourseName";
   x = _calculateXPosition(dateText, dateFont, pageSize.width);
-  page.graphics.drawString(dateText, dateFont,
-      bounds: Rect.fromLTWH(x, 385, 0, 0),
-      brush: PdfSolidBrush(PdfColor(20, 58, 86)));
-  //Save and launch the document
+  page.graphics.drawString(
+    dateText,
+    dateFont,
+    bounds: Rect.fromLTWH(x, 385, 0, 0),
+    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
+  );
+
+  // Load the signature PNG image
+  final PdfBitmap signatureImage =
+      PdfBitmap(await _readImageData('robin_signature.png'));
+
+  // Draw the signature image on the certificate
+  page.graphics.drawImage(
+    signatureImage,
+    Rect.fromLTWH(pageSize.width - 350, pageSize.height - 220, 110, 40),
+  );
+
+  // Save and launch the document
   final List<int> bytes = await document.save();
-  //Dispose the document.
   document.dispose();
-  //Save and launch file.
+
+  // Save and launch the file
   await FileSaveHelper.saveAndLaunchFile(bytes, 'Certificate.pdf');
 }
 
@@ -177,7 +213,55 @@ double _calculateXPosition(String text, PdfFont font, double pageWidth) {
   return (pageWidth - textSize.width) / 2;
 }
 
-Future<List<int>> _readImageData(String name) async {
+Future<Uint8List> _readImageData(String name) async {
   final ByteData data = await rootBundle.load('assets/resources/$name');
   return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 }
+
+// Future<void> createCertificate() async {
+//   //Create a PDF document.
+//   final PdfDocument document = PdfDocument();
+//   document.pageSettings.orientation = PdfPageOrientation.landscape;
+//   document.pageSettings.margins.all = 0;
+//   //Add page to the PDF
+//   final PdfPage page = document.pages.add();
+//   //Get the page size
+//   final Size pageSize = page.getClientSize();
+//   //Draw image
+//   page.graphics.drawImage(PdfBitmap(await _readImageData('certificate.jpg')),
+//       Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+//   //Create font
+//   final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 22);
+//   final PdfFont controlFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
+//   final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 16);
+//   double x = _calculateXPosition("Name", nameFont, pageSize.width);
+//   page.graphics.drawString("Name", nameFont,
+//       bounds: Rect.fromLTWH(x, 253, 0, 0),
+//       brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+//   x = _calculateXPosition("CourseNAme", controlFont, pageSize.width);
+//   page.graphics.drawString("CourseNAme", controlFont,
+//       bounds: Rect.fromLTWH(x, 340, 0, 0),
+//       brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+//   final String dateText = 'on ' + "CourseNAme";
+//   x = _calculateXPosition(dateText, dateFont, pageSize.width);
+//   page.graphics.drawString(dateText, dateFont,
+//       bounds: Rect.fromLTWH(x, 385, 0, 0),
+//       brush: PdfSolidBrush(PdfColor(20, 58, 86)));
+//   //Save and launch the document
+//   final List<int> bytes = await document.save();
+//   //Dispose the document.
+//   document.dispose();
+//   //Save and launch file.
+//   await FileSaveHelper.saveAndLaunchFile(bytes, 'Certificate.pdf');
+// }
+//
+// double _calculateXPosition(String text, PdfFont font, double pageWidth) {
+//   final Size textSize =
+//       font.measureString(text, layoutArea: Size(pageWidth, 0));
+//   return (pageWidth - textSize.width) / 2;
+// }
+//
+// Future<List<int>> _readImageData(String name) async {
+//   final ByteData data = await rootBundle.load('assets/resources/$name');
+//   return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+// }
