@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/start_button.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../common/theme/fonts.dart';
+import '../../../../../core/route/route_name.dart';
 import '../../../../login/presentation/ui/screen/login.dart';
 import '../../../../signup/presentation/ui/screen/signup.dart';
 import '../provider/animation_visibility_provider.dart';
@@ -85,43 +87,15 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
                       isGlow: true,
                       label: 'Get Started',
                       onPressed: () {
-                        ref.read(animationVisibilityProvider.notifier).state = false;
-                        // open the signup overlay
-                        showModalBottomSheet(
-                          transitionAnimationController: _signUpAnimationController,
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
-                          backgroundColor: Colors.white,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) {
-                            return const SignUp();
-                          },
-                        ).whenComplete(() {
-                          ref.read(animationVisibilityProvider.notifier).state = true;
-                        });
+                        // go to sign up screen
+                        context.pushNamed(RouteName.signUp);
                       }
                     ),
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        ref.read(animationVisibilityProvider.notifier).state = false;
-                        // open the login overlay
-                        showModalBottomSheet(
-                          transitionAnimationController: _signInAnimationController,
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
-                          backgroundColor: Colors.white,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) {
-                            return const Login();
-                          },
-                        ).whenComplete(() {
-                          ref.read(animationVisibilityProvider.notifier).state = true;
-                        });
+                        // go to login screen
+                        context.pushNamed(RouteName.signIn);
                       },
                       child: RichText(
                         textAlign: TextAlign.center,
@@ -140,7 +114,7 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
                             TextSpan(
                               text: 'Log in',
                               style: PhinexaFont.baseStyle.copyWith(
-                                color: Color(0xFFE5C36C),
+                                color: Color(0xFF54AFBC),
                                 decoration: TextDecoration.underline,
                               ),
                             ),

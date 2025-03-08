@@ -11,12 +11,14 @@ import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
+import 'package:gll/feature/login/presentation/ui/screen/login.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/sip_map.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/sip_create_screen.dart';
 import 'package:gll/feature/resources/presentation/ui/widgets/resources_view_more_widget.dart';
 import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_view_more.dart';
+import 'package:gll/feature/signup/presentation/ui/screen/signup.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../feature/events/presentation/ui/screen/events_screen.dart';
@@ -49,6 +51,18 @@ final appRoutes = [
     name: RouteName.welcome,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => WelcomeScreen(),
+  ),
+  GoRoute(
+    path: RouteName.signIn,
+    name: RouteName.signIn,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => Login(),
+  ),
+  GoRoute(
+    path: RouteName.signUp,
+    name: RouteName.signUp,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SignUp(),
   ),
   GoRoute(
     path: RouteName.dashboard,

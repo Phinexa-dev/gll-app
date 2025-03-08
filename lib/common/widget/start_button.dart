@@ -20,7 +20,7 @@ class StartButton extends ConsumerWidget {
     Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFE5C36C),
+        backgroundColor: const Color(0xFF3993A1),
         padding: const EdgeInsets.symmetric(
           horizontal: 34,
           vertical: 6,
@@ -40,14 +40,14 @@ class StartButton extends ConsumerWidget {
               Text(
                 label,
                 style: PhinexaFont.labelRegular.copyWith(
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(width: 8),
               const Icon(
                 Icons.chevron_right,
                 size: 30,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ],
           )
@@ -55,7 +55,7 @@ class StartButton extends ConsumerWidget {
             label,
             style: const TextStyle(
               fontSize: 16,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
     );
