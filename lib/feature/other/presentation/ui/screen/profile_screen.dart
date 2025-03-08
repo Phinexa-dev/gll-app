@@ -171,25 +171,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         caption: 'Education History',
                         color: Colors.black,
                         data: educationData,
-                        onPressedEdit: ()=>{
-                          // ref.read(animationVisibilityProvider.notifier).state = false;
-                          // open the signup overlay
-                          showModalBottomSheet(
-                            // transitionAnimationController: _signUpAnimationController,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                            ),
-                            backgroundColor: Colors.white,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                              // return unimplemented
-                              return EditEducationalHistory();
-                            },
-                          ).whenComplete(() {
-                            // ref.read(animationVisibilityProvider.notifier).state = true;
-                          })
-                        },
+                        // onPressedEdit: ()=>{
+                        //   // ref.read(animationVisibilityProvider.notifier).state = false;
+                        //   // open the signup overlay
+                        //   showModalBottomSheet(
+                        //     // transitionAnimationController: _signUpAnimationController,
+                        //     context: context,
+                        //     shape: const RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        //     ),
+                        //     backgroundColor: Colors.white,
+                        //     isScrollControlled: true,
+                        //     builder: (BuildContext context) {
+                        //       // return unimplemented
+                        //       return EditEducationalHistory();
+                        //     },
+                        //   ).whenComplete(() {
+                        //     // ref.read(animationVisibilityProvider.notifier).state = true;
+                        //   })
+                        // },
                         onPressedAdd: ()=>{
                           // ref.read(animationVisibilityProvider.notifier).state = false;
                           // open the signup overlay
