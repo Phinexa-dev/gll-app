@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:gll/feature/other/presentation/ui/provider/events_provider.dart';
+import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../data/local/map_custom_style.dart';
 import '../provider/location_provider.dart';
-import 'event_bottom_sheet_content.dart';
+import '../provider/sip_details_provider.dart';
+import 'country_sip_detail_bottom_sheet_widget.dart';
 
 class MapViewWidget extends ConsumerStatefulWidget {
   const MapViewWidget({super.key});
@@ -16,94 +17,45 @@ class MapViewWidget extends ConsumerStatefulWidget {
 }
 
 class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
-  late BitmapDescriptor customMarker;
-  final Set<Marker> _markers = {};
   GoogleMapController? _mapController;
 
   @override
   void initState() {
     super.initState();
-    _loadCustomMarker();
-  }
-
-  Future<void> _loadCustomMarker() async {
-    customMarker =
-        await createCustomMarker('assets/more/map_marker.png', width: 70);
-    _generateMarkersFromEvents(); // Generate markers after loading the custom marker
-  }
-
-  Future<BitmapDescriptor> createCustomMarker(String imagePath,
-      {int width = 50}) async {
-    final imageConfig =
-        ImageConfiguration(size: Size(width.toDouble(), width.toDouble()));
-    return BitmapDescriptor.asset(imageConfig, imagePath);
-  }
-
-  void _generateMarkersFromEvents() {
-    final eventList = ref.read(eventListProvider);
-
-    setState(() {
-      for (var event in eventList) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(event.id),
-            icon: customMarker,
-            position: event.latLng,
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return EventBottomSheetContent(event: event);
-                },
-              );
-            },
-            infoWindow: InfoWindow(
-              title: event.title,
-              snippet: event.location,
-              onTap: () {
-                // Action when InfoWindow is tapped
-                print('InfoWindow for ${event.title} tapped!');
-              },
-            ),
-          ),
-        );
-      }
-    });
-  }
-
-  void _moveCamera(LatLng position) {
-    if (_mapController != null) {
-      _mapController!.animateCamera(
-        CameraUpdate.newLatLng(position),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final currentPosition = ref.watch(selectedLocationProvider);
-
-    // Update the camera position when the current position changes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _moveCamera(currentPosition);
+      _mapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(currentPosition, 5),
+      );
     });
 
     return GoogleMap(
       style: mapStyle,
-      initialCameraPosition: CameraPosition(
-          target: LatLng(37.42796133580664, -122.085749655962), zoom: 15),
-      markers: _markers,
+      initialCameraPosition:
+          CameraPosition(target: LatLng(7.8731, 80.7718), zoom: 5),
       onMapCreated: (controller) {
         _mapController = controller;
       },
       onTap: (LatLng latLng) async {
-        await _getCountryName(latLng);
+        await _getCountryName(latLng, context);
       },
     );
   }
 
-  Future<void> _getCountryName(LatLng latLng) async {
+  void _showCountryBottomSheet(BuildContext context, SipDetail sipDetail) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return CountryBottomSheet(sipDetail: sipDetail);
+      },
+    );
+  }
+
+  Future<void> _getCountryName(LatLng latLng, BuildContext context) async {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
@@ -111,6 +63,15 @@ class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
       if (placemarks.isNotEmpty && placemarks.first.country != null) {
         String country = placemarks.first.country!;
         print("You clicked in: $country");
+
+        final sipDetail = ref.watch(sipDetailByCountryProvider(country));
+
+        if (sipDetail != null) {
+          _showCountryBottomSheet(context, sipDetail);
+        } else {
+          print('No SIP found for this country');
+        }
+
         List<Location> locations = await locationFromAddress(country);
 
         if (locations.isNotEmpty) {

@@ -8,9 +8,14 @@ import 'package:intl/intl.dart';
 
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
+import '../../../../../core/data/local/user/model/user_model.dart';
+import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
+import '../../../../events/application/survey_upload_service.dart';
+import '../../../../events/data/event.dart';
 import '../../../../events/data/event_provider.dart';
+import '../widgets/pdf_viewer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -126,7 +131,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             textAlign: TextAlign.left,
                             text: TextSpan(
                               text:
-                                  'Global Learning Lab (GL2) is a youth leadership development organization operating in 6 countries across 3 continents. By empowering young leaders, GL2 fosters sustainable community impact projects and builds resilience through collaboration and mentorship.',
+                                  'Global Learning Lab (GL2) works to empower youth across the world with the leadership skills they need to to make the difference they want to see in their communities',
                               style: PhinexaFont.highlightRegular,
                             ),
                           ),
@@ -149,14 +154,66 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 Widget _buildEventSection(BuildContext context, WidgetRef ref) {
   final events = ref.watch(eventProvider);
+  final userFuture = ref.watch(userServiceProvider).getUser();
+
+  return FutureBuilder<UserModel?>(
+    future: userFuture,
+    builder: (context, userSnapshot) {
+      if (userSnapshot.connectionState == ConnectionState.waiting) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      if (userSnapshot.hasError || userSnapshot.data == null) {
+        return _buildEventSectionContent(context, ref, events.first, false);
+      }
+
+      final user = userSnapshot.data!;
+      final userEmail = user.email;
+
+      if (userEmail == null) {
+        return _buildEventSectionContent(context, ref, events.first, false);
+      }
+
+      // Retrieve registered events for the current user
+      final registeredEventsFuture = _getUserSurveyNames(ref, userEmail);
+
+      return FutureBuilder<List<String>>(
+        future: registeredEventsFuture,
+        builder: (context, registeredEventsSnapshot) {
+          if (registeredEventsSnapshot.connectionState ==
+              ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (registeredEventsSnapshot.hasError) {
+            return Center(child: Text("Failed to load registered events."));
+          }
+
+          final registeredEvents = registeredEventsSnapshot.data ?? [];
+
+          // Generate the event identity for the current event
+          final eventIdentity =
+              'Pre_Survey_${events.first.title}_${DateFormat('yyyy_MM_dd').format(events.first.startDate)}';
+
+          // Check if the user has already registered for the event
+          final hasRegistered = registeredEvents.contains(eventIdentity);
+
+          return _buildEventSectionContent(
+              context, ref, events.first, hasRegistered);
+        },
+      );
+    },
+  );
+}
+
+Widget _buildEventSectionContent(
+    BuildContext context, WidgetRef ref, Event event, bool hasRegistered) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 12,
-        ),
+        SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -175,17 +232,15 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
             )
           ],
         ),
-        SizedBox(
-          height: 12,
-        ),
+        SizedBox(height: 12),
         GestureDetector(
           onTap: () {
-            context.pushNamed(RouteName.eventDetails, extra: events.first);
+            context.pushNamed(RouteName.eventDetails, extra: event);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              events.first.image, // Change this to your asset path
+              event.image, // Change this to your asset path
               fit: BoxFit.cover,
               width: double.infinity,
               errorBuilder: (context, error, stackTrace) =>
@@ -196,11 +251,9 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 12,
-            ),
+            SizedBox(height: 12),
             Text(
-              events.first.title,
+              event.title,
               style: PhinexaFont.featureEmphasis,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -211,30 +264,33 @@ Widget _buildEventSection(BuildContext context, WidgetRef ref) {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 5),
             Text(
-              DateFormat('MMMM d, yyyy').format(events.first.startDate),
+              DateFormat('MMMM d, yyyy').format(event.startDate),
               style:
                   PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-            SizedBox(
-              height: 12,
-            ),
-            CustomButton(
-              label: "Register Now",
-              height: 40,
-              onPressed: () {
-                context.pushNamed(RouteName.registrationForm, extra: {
-                  'isTTT': events.first.isTTT,
-                  'eventIdentity':
-                      '${events.first.title}_${DateFormat('yyyy_MM_dd').format(events.first.startDate)}',
-                });
-              },
-            ),
+
+            // Conditionally render the Register Now button
+            if (!hasRegistered)
+              Column(
+                children: [
+                  SizedBox(height: 12),
+                  CustomButton(
+                    label: "Register Now",
+                    height: 40,
+                    onPressed: () {
+                      context.pushNamed(RouteName.registrationForm, extra: {
+                        'isTTT': event.isTTT,
+                        'eventIdentity':
+                            '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+                      });
+                    },
+                  ),
+                ],
+              ),
           ],
         )
       ],
@@ -278,13 +334,13 @@ Widget _buildHowItWorksSection(BuildContext context) {
           SizedBox(
             height: 12,
           ),
-          Text("Sustainable Impact Projects (SIPs)",
+          Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
               style: PhinexaFont.featureEmphasis),
           SizedBox(
             height: 12,
           ),
           Text(
-              "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
+              " The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
               style: PhinexaFont.contentRegular),
         ],
       ),
@@ -315,13 +371,13 @@ Widget _buildHowItWorksSection(BuildContext context) {
                   SizedBox(
                     height: 12,
                   ),
-                  Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
+                  Text("Sustainable Impact Projects (SIPs)",
                       style: PhinexaFont.featureEmphasis),
                   SizedBox(
                     height: 12,
                   ),
                   Text(
-                      " The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
+                      "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
                       style: PhinexaFont.contentRegular),
                 ],
               ),
@@ -358,6 +414,17 @@ Widget _buildHowItWorksSection(BuildContext context) {
           Text(
               "The Path to Global Trainer is a structured journey that transforms a Leadership Academy participant into a certified trainer and eventually a global leadership ambassador.",
               style: PhinexaFont.contentRegular),
+          SizedBox(
+            height: 15,
+          ),
+          CustomButton(
+            label: "Cascading Model",
+            height: 40,
+            onPressed: () {
+              context.pushNamed(RouteName.pdfViewer,
+                  extra: "assets/pdf/casacading_model.pdf");
+            },
+          ),
         ],
       ),
     ),
@@ -401,7 +468,7 @@ Widget _buildSipMapSection(BuildContext context) {
             height: 24,
           ),
           CustomButton(
-            label: "Explorer More",
+            label: "Explore More",
             height: 40,
             onPressed: () {
               context.pushNamed(RouteName.worldMap);
@@ -411,4 +478,13 @@ Widget _buildSipMapSection(BuildContext context) {
       ),
     ),
   ]);
+}
+
+Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
+  try {
+    return await retrieveSurveyNames(ref, email);
+  } catch (error) {
+    print("Failed to retrieve survey names: $error");
+    return [];
+  }
 }

@@ -10,6 +10,7 @@ class SurveyTextFieldNotifier extends StateNotifier<Map<String, String>> {
 
   void updateResponse(String fieldName, String value) {
     state = {...state, fieldName: value};
+    print(state);
   }
 
   void clearTextFieldResponses() {

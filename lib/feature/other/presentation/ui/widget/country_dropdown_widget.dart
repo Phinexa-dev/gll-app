@@ -16,11 +16,9 @@ class CountryDropdownWidget extends ConsumerStatefulWidget {
 class _CountryDropdownWidgetState extends ConsumerState<CountryDropdownWidget> {
   String? _selectedCountry;
   final List<Map<String, dynamic>> _countries = [
-    {'name': 'India', 'latLng': LatLng(20.5937, 78.9629)},
+    {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},
+    {'name': 'Macedonia', 'latLng': LatLng(41.6086, 21.7453)},
     {'name': 'United States', 'latLng': LatLng(37.0902, -95.7129)},
-    {'name': 'Canada', 'latLng': LatLng(56.1304, -106.3468)},
-    {'name': 'United Kingdom', 'latLng': LatLng(51.5074, -0.1278)},
-    {'name': 'Australia', 'latLng': LatLng(-25.2744, 133.7751)},
   ];
 
   @override
