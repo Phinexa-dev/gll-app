@@ -8,6 +8,7 @@ import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../core/route/app_routes.dart';
 import '../../../../../../../core/route/route_name.dart';
+import '../../../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../../application/survey_upload_service.dart';
 import '../../../provider/combine_response.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
@@ -93,7 +94,7 @@ class _InterestsAndEngagementScreenState
       final responses = await combineSurveyResponses(ref);
       uploadSurveyData(ref, responses, 'Pre_Survey_${widget.eventIdentity}');
       clearSurveyResponses(ref);
-
+      ref.read(navProvider.notifier).onItemTapped(2);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
       });

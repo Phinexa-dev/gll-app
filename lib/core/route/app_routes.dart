@@ -11,6 +11,7 @@ import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
+import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/login/presentation/ui/screen/login.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
@@ -38,6 +39,8 @@ import '../../feature/other/presentation/ui/screen/about_us/about_us.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/other/presentation/ui/screen/feedbacks/feedbacks.dart';
 import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
+import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
+import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
 import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
 import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
@@ -343,9 +346,20 @@ final appRoutes = [
     name: RouteName.campMoreDetail,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final event = state.extra as CampEvent;
+      final sipDetail = state.extra as SipDetail;
       return CampDetailScreen(
-        event: event,
+        sipDetail: sipDetail,
+      );
+    },
+  ),
+  GoRoute(
+    path: RouteName.pdfViewer,
+    name: RouteName.pdfViewer,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) {
+      final pdfAssetPath = state.extra as String;
+      return PdfViewerScreen(
+        pdfAssetPath: pdfAssetPath,
       );
     },
   ),

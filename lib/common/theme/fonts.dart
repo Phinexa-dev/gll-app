@@ -76,6 +76,10 @@ class PhinexaFont {
     fontSize: 15,
     fontWeight: FontWeight.w400,
   );
+  static final TextStyle labelMedium = baseStyle.copyWith(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+  );
   static final TextStyle highlightRegular = baseStyle.copyWith(
     fontSize: 16,
     fontWeight: FontWeight.w400,
@@ -125,6 +129,10 @@ class PhinexaFont {
   static final TextStyle headingMedium = baseStyle.copyWith(
     fontSize: 22,
     fontWeight: FontWeight.w600,
+  );
+  static final TextStyle headingLargeSemiMedium = baseStyle.copyWith(
+    fontSize: 24,
+    fontWeight: FontWeight.w500,
   );
   static final TextStyle headingLarge = baseStyle.copyWith(
     fontSize: 24,
