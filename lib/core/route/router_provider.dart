@@ -19,8 +19,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       // no authentication routes
       final publicRoutes = [
         RouteName.welcome,
-        // RouteName.login,
-        // RouteName.signup,
+        RouteName.signIn,
+        RouteName.signUp,
         // RouteName.forgotPassword
       ];
 

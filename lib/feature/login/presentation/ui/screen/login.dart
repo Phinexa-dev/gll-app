@@ -33,7 +33,7 @@ class _LoginState extends ConsumerState<Login> {
 
     if(isSuccess != null && isSuccess){
       // use system feedback to show the success message
-      feedBackService.showToast("Registration successful", type: FeedbackType.success);
+      feedBackService.showToast("Login successful", type: FeedbackType.success);
       // Navigator.pop(context);
       context.goNamed(RouteName.dashboard);
     }
@@ -41,88 +41,90 @@ class _LoginState extends ConsumerState<Login> {
     if(isFailure != null && isFailure){
       final errorMessage = ref.watch(signInControllerProvider).errorMessage;
       // use system feedback to show the error message
-      feedBackService.showToast(errorMessage?? "Registration failed", type: FeedbackType.error);
+      feedBackService.showToast(errorMessage?? "Login failed", type: FeedbackType.error);
     }
 
     final TextEditingController emailController = TextEditingController(text: formData?['email']?? "");
     final TextEditingController passwordController = TextEditingController(text: formData?['password']?? "");
 
 
-    return FractionallySizedBox(
-      heightFactor: 0.65,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Login',
-                      style: PhinexaFont.headingLarge,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
-                  const SizedBox(height: 16),
-                  CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(value: false, onChanged: (_) {}),
-                          Text(
-                              'Remember me',
-                               style: PhinexaFont.captionRegular,
-                          ),
-                        ],
+    return Scaffold(
+      body: FractionallySizedBox(
+        heightFactor: 0.65,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Login',
+                        style: PhinexaFont.headingLarge,
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text('Forgot Password?'),
-                      // ),
-                    ],
-                  ),
-                  StartButton(
-                      label: 'Login',
-                      onPressed: () async {
-                        // Login logic
-                        final formData = {
-                          'email': emailController.text,
-                          'password': passwordController.text,
-                        };
-
-                        //set the form data to the controller
-                        ref.read(signInControllerProvider.notifier).setFormData(formData);
-                        //call the sign up method
-                        final result = await ref.read(signInControllerProvider.notifier).signIn();
-
-                        // Navigator.pop(context);
-                        // context.goNamed(RouteName.dashboard);
-                      }
-                  )
-                ],
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
+                    const SizedBox(height: 16),
+                    CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(value: false, onChanged: (_) {}),
+                            Text(
+                                'Remember me',
+                                 style: PhinexaFont.captionRegular,
+                            ),
+                          ],
+                        ),
+                        // TextButton(
+                        //   onPressed: () {},
+                        //   child: const Text('Forgot Password?'),
+                        // ),
+                      ],
+                    ),
+                    StartButton(
+                        label: 'Login',
+                        onPressed: () async {
+                          // Login logic
+                          final formData = {
+                            'email': emailController.text,
+                            'password': passwordController.text,
+                          };
+      
+                          //set the form data to the controller
+                          ref.read(signInControllerProvider.notifier).setFormData(formData);
+                          //call the sign up method
+                          final result = await ref.read(signInControllerProvider.notifier).signIn();
+      
+                          // Navigator.pop(context);
+                          // context.goNamed(RouteName.dashboard);
+                        }
+                    )
+                  ],
+                ),
               ),
-            ),
-
-            // CustomDivider(label: 'Sign in using'),
-
-            // const SizedBox(height: 16),
-
-            // Expanded(
-            //   flex: 1,
-            //   child: SocialMediaOptions(),
-            // ),
-          ],
+      
+              // CustomDivider(label: 'Sign in using'),
+      
+              // const SizedBox(height: 16),
+      
+              // Expanded(
+              //   flex: 1,
+              //   child: SocialMediaOptions(),
+              // ),
+            ],
+          ),
         ),
       ),
     );

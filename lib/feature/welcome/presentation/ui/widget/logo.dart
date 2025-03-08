@@ -50,12 +50,12 @@ class Logo extends ConsumerWidget {
                     text: 'Connect, learn, and grow\n',
                     style: PhinexaFont.headingLarge.copyWith(
                       fontWeight: FontWeight.normal,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                   TextSpan(
                     text: 'with our global community',
-                    style: PhinexaFont.headingESmall.copyWith(
+                    style: PhinexaFont.headingLarge.copyWith(
                       fontWeight: FontWeight.normal,
                       color: Colors.grey,
                     ),

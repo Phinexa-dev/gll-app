@@ -7,6 +7,9 @@ class RouteName {
   static String get splash => '/splash';
   static String get welcome => '/welcome';
 
+  static String get signIn => '/login';
+  static String get signUp => '/signup';
+
   static String get dashboard => '/dashboard';
 
   static String get events => '/events';

@@ -54,106 +54,108 @@ class _SignUpState extends ConsumerState<SignUp> {
     final TextEditingController phoneNumberController = TextEditingController(text: formData?['phoneNumber']?? "");
 
 
-    return FractionallySizedBox(
-      heightFactor: 0.8,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Sign Up',
-                      style: PhinexaFont.headingLarge,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Enter your details below',
-                      style: PhinexaFont.captionRegular.copyWith(
-                        color: Colors.grey,
+    return Scaffold(
+      body: FractionallySizedBox(
+        heightFactor: 0.8,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Sign Up',
+                        style: PhinexaFont.headingLarge,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(labelText: 'Full Name', controller: fullNameController),
-                  const SizedBox(height: 8),
-                  CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      DropdownButton<String>(
-                        borderRadius: BorderRadius.circular(8),
-                        alignment: Alignment.center,
-                        itemHeight: 60,
-                        style: PhinexaFont.labelRegular.copyWith(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Enter your details below',
+                        style: PhinexaFont.captionRegular.copyWith(
                           color: Colors.grey,
                         ),
-                        value: phoneCode,
-                        items: const [
-                          DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94'),),
-                          DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
-                          DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
-                          DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
-                        ],
-                        onChanged: (value) {
-                          setState(() => phoneCode = value!);
-                        },
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(child: buildTextField(label: '',controller: phoneNumberController,keyboardType: TextInputType.phone, hint: 'Phone Number*')),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
-                  const SizedBox(height: 8),
-                  CustomTextField(labelText: 'Confirm Password', controller: confirmPasswordController, obscureText: true),
-                  const SizedBox(height: 16),
-                  StartButton(
-                      iconVisible: true,
-                      label: 'Create account',
-                      onPressed: () async {
-                        // Sign up logic
-                        final formData = {
-                          'fullName': fullNameController.text,
-                          'email': emailController.text,
-                          'password': passwordController.text,
-                          'confirmPassword': confirmPasswordController.text,
-                          'dialCode': phoneCode,
-                          'phoneNumber': phoneNumberController.text,
-                        };
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(labelText: 'Full Name', controller: fullNameController),
+                    const SizedBox(height: 8),
+                    CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        DropdownButton<String>(
+                          borderRadius: BorderRadius.circular(8),
+                          alignment: Alignment.center,
+                          itemHeight: 60,
+                          style: PhinexaFont.labelRegular.copyWith(
+                            color: Colors.grey,
+                          ),
+                          value: phoneCode,
+                          items: const [
+                            DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94'),),
+                            DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
+                            DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
+                            DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
+                          ],
+                          onChanged: (value) {
+                            setState(() => phoneCode = value!);
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(child: buildTextField(label: '',controller: phoneNumberController,keyboardType: TextInputType.phone, hint: 'Phone Number*')),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
+                    const SizedBox(height: 8),
+                    CustomTextField(labelText: 'Confirm Password', controller: confirmPasswordController, obscureText: true),
+                    const SizedBox(height: 16),
+                    StartButton(
+                        iconVisible: true,
+                        label: 'Create account',
+                        onPressed: () async {
+                          // Sign up logic
+                          final formData = {
+                            'fullName': fullNameController.text,
+                            'email': emailController.text,
+                            'password': passwordController.text,
+                            'confirmPassword': confirmPasswordController.text,
+                            'dialCode': phoneCode,
+                            'phoneNumber': phoneNumberController.text,
+                          };
 
-                        //set the form data to the controller
-                        ref.read(signUpControllerProvider.notifier).setFormData(formData);
-                        //call the sign up method
-                        final result = await ref.read(signUpControllerProvider.notifier).signUp();
+                          //set the form data to the controller
+                          ref.read(signUpControllerProvider.notifier).setFormData(formData);
+                          //call the sign up method
+                          final result = await ref.read(signUpControllerProvider.notifier).signUp();
 
-                        // Navigator.pop(context);
-                        // context.goNamed(RouteName.dashboard);
-                      }
-                  )
-                ],
+                          // Navigator.pop(context);
+                          // context.goNamed(RouteName.dashboard);
+                        }
+                    )
+                  ],
+                ),
               ),
-            ),
 
-            // CustomDivider(label: 'Or'),
+              // CustomDivider(label: 'Or'),
 
-            // const SizedBox(height: 16),
+              // const SizedBox(height: 16),
 
-            // Expanded(
-            //   flex: 1,
-            //   child: SocialMediaOptions(),
-            // ),
-          ],
+              // Expanded(
+              //   flex: 1,
+              //   child: SocialMediaOptions(),
+              // ),
+            ],
+          ),
         ),
       ),
     );
