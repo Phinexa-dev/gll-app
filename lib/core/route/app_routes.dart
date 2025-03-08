@@ -13,6 +13,7 @@ import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
 import 'package:gll/feature/login/presentation/ui/screen/login.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
+import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/sip_map.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/sip_create_screen.dart';
@@ -33,7 +34,9 @@ import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/in
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/background_information_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
+import '../../feature/other/presentation/ui/screen/about_us/about_us.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
+import '../../feature/other/presentation/ui/screen/feedbacks/feedbacks.dart';
 import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
 import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
 import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
@@ -345,5 +348,23 @@ final appRoutes = [
         event: event,
       );
     },
+  ),
+  GoRoute(
+    path: RouteName.feedbacks,
+    name: RouteName.feedbacks,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => Feedbacks(),
+  ),
+  GoRoute(
+    path: RouteName.aboutGL2,
+    name: RouteName.aboutGL2,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => AboutUs(),
+  ),
+  GoRoute(
+    path: RouteName.contactUs,
+    name: RouteName.contactUs,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => ContactUs(),
   ),
 ];
