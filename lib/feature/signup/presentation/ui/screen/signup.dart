@@ -11,6 +11,7 @@ import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.
 import 'package:go_router/go_router.dart';
 
 import '../../../../system_feedback/provider/feedback_provider.dart';
+import '../../../../welcome/presentation/ui/widget/logo.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -55,35 +56,59 @@ class _SignUpState extends ConsumerState<SignUp> {
 
 
     return Scaffold(
-      body: FractionallySizedBox(
-        heightFactor: 0.8,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 4,
+        resizeToAvoidBottomInset: true,
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Logo(heightFactor: 10/3.2),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Sign Up',
-                        style: PhinexaFont.headingLarge,
+                        style: PhinexaFont.headingDoubleExLarge,
                       ),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Enter your details below',
-                        style: PhinexaFont.captionRegular.copyWith(
-                          color: Colors.grey,
-                        ),
-                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: PhinexaFont.labelRegular.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () => context.pushNamed(RouteName.signIn),
+                                child: Text(
+                                  'Login',
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                              const Icon(
+                                Icons.chevron_right,
+                                size: 30,
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(labelText: 'Full Name', controller: fullNameController),
@@ -120,8 +145,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     CustomTextField(labelText: 'Confirm Password', controller: confirmPasswordController, obscureText: true),
                     const SizedBox(height: 16),
                     StartButton(
-                        iconVisible: true,
-                        label: 'Create account',
+                        label: 'Sign Up',
                         onPressed: () async {
                           // Sign up logic
                           final formData = {
@@ -141,22 +165,23 @@ class _SignUpState extends ConsumerState<SignUp> {
                           // Navigator.pop(context);
                           // context.goNamed(RouteName.dashboard);
                         }
-                    )
+                    ),
+
+                    // CustomDivider(label: 'Or'),
+
+                    // const SizedBox(height: 16),
+
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: SocialMediaOptions(),
+                    // ),
                   ],
                 ),
               ),
-
-              // CustomDivider(label: 'Or'),
-
-              // const SizedBox(height: 16),
-
-              // Expanded(
-              //   flex: 1,
-              //   child: SocialMediaOptions(),
-              // ),
-            ],
+            ),
           ),
-        ),
+          // SizedBox(height: MediaQuery.of(context).size.height / 10),
+        ],
       ),
     );
   }

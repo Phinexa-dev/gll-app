@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/feature/login/presentation/controller/sign_in_contoller.dart';
@@ -49,16 +50,21 @@ class _LoginState extends ConsumerState<Login> {
 
 
     return Scaffold(
-      body: FractionallySizedBox(
-        heightFactor: 0.65,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 3,
+      body: Column(
+        children: [
+          // SVG as background
+          Expanded(
+            flex: 14,
+            child: SvgPicture.asset(
+              'assets/welcome/login_bg.svg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            flex: 15,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,31 +73,96 @@ class _LoginState extends ConsumerState<Login> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Login',
-                        style: PhinexaFont.headingLarge,
+                        style: PhinexaFont.headingDoubleExLarge,
                       ),
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Don\'t have an account?',
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(EdgeInsets.zero),
+                                    ),
+                                    onPressed: () => context.pushNamed(RouteName.signUp),
+                                    child: Text(
+                                      'Create Account',
+                                      style: PhinexaFont.labelRegular.copyWith(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.chevron_right,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(labelText: 'Email Address', controller: emailController, keyboardType: TextInputType.emailAddress),
                     const SizedBox(height: 16),
                     CustomTextField(labelText: 'Password', controller: passwordController, obscureText: true),
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Row(
+                    //       children: [
+                    //         Checkbox(value: false, onChanged: (_) {}),
+                    //         Text(
+                    //             'Remember me',
+                    //              style: PhinexaFont.captionRegular,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     // TextButton(
+                    //     //   onPressed: () {},
+                    //     //   child: const Text('Forgot Password?'),
+                    //     // ),
+                    //   ],
+                    // ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Checkbox(value: false, onChanged: (_) {}),
                             Text(
-                                'Remember me',
-                                 style: PhinexaFont.captionRegular,
+                              'Forgot Password?',
+                              style: PhinexaFont.labelRegular.copyWith(
+                                color: Colors.black,
+                              ),
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                              ),
+                              onPressed: () => context.pushNamed(RouteName.welcome),
+                              child: Text(
+                                'Reset Password',
+                                style: PhinexaFont.labelRegular.copyWith(
+                                  color: Colors.blue,
+                                ),
+                              ),
                             ),
                           ],
-                        ),
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: const Text('Forgot Password?'),
-                        // ),
-                      ],
+                        )
                     ),
                     StartButton(
                         label: 'Login',
@@ -101,12 +172,12 @@ class _LoginState extends ConsumerState<Login> {
                             'email': emailController.text,
                             'password': passwordController.text,
                           };
-      
+
                           //set the form data to the controller
                           ref.read(signInControllerProvider.notifier).setFormData(formData);
                           //call the sign up method
                           final result = await ref.read(signInControllerProvider.notifier).signIn();
-      
+
                           // Navigator.pop(context);
                           // context.goNamed(RouteName.dashboard);
                         }
@@ -114,18 +185,9 @@ class _LoginState extends ConsumerState<Login> {
                   ],
                 ),
               ),
-      
-              // CustomDivider(label: 'Sign in using'),
-      
-              // const SizedBox(height: 16),
-      
-              // Expanded(
-              //   flex: 1,
-              //   child: SocialMediaOptions(),
-              // ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -55,7 +55,7 @@ class StartButton extends ConsumerWidget {
             label,
             style: const TextStyle(
               fontSize: 16,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
     );
