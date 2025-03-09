@@ -31,23 +31,20 @@ class _SignUpState extends ConsumerState<SignUp> {
     final isFailure = ref.watch(signUpControllerProvider).isFailure;
     final formData = ref.watch(signUpControllerProvider).signUpForm;
 
-    // Use a post-frame callback to handle navigation
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isSuccess != null && isSuccess) {
-        // Show success toast
-        feedBackService.showToast("Registration successful",
-            type: FeedbackType.success);
-        // Navigate to the welcome screen
-        context.pushNamed(RouteName.welcome);
-      }
+    if (isSuccess != null && isSuccess) {
+      // Show success toast
+      feedBackService.showToast("Registration successful",
+          type: FeedbackType.success);
+      // Navigate to the welcome screen
+      context.pushNamed(RouteName.welcome);
+    }
 
-      if (isFailure != null && isFailure) {
-        final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
-        // Show error toast
-        feedBackService.showToast(errorMessage ?? "Registration failed",
-            type: FeedbackType.error);
-      }
-    });
+    if (isFailure != null && isFailure) {
+      final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
+      // Show error toast
+      feedBackService.showToast(errorMessage ?? "Registration failed",
+          type: FeedbackType.error);
+    }
 
     final TextEditingController fullNameController =
         TextEditingController(text: formData?['fullName'] ?? "");
