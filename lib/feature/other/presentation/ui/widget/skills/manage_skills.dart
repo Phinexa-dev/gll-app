@@ -75,7 +75,7 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
     final skills = ref.watch(skillControllerProvider).skills;
 
     return FractionallySizedBox(
-      heightFactor: skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
+      heightFactor: skills.isEmpty? 0.4 : skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Column(
@@ -133,7 +133,14 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                   ),
                   const SizedBox(height: 8),
                   Expanded(
-                    child: ListView.builder(
+                    child:
+                    skills.isEmpty
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: const Center(child: Text('No skills added yet')),
+                        )
+                        :
+                    ListView.builder(
                       itemCount: skills.length <= 8 ? skills.length : 8,
                       itemBuilder: (context, index) {
                         return ListTile(
@@ -156,17 +163,19 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
               children: [
                 CustomIconButton(
                   label: 'Cancel',
+                  isBold: true,
                   textColour: Colors.black,
                   onPressed: () => Navigator.pop(context),
                   color: Colors.white,
-                  borderColor: Colors.blue,
+                  borderColor: Color(0xFF3993A1),
                 ),
                 const SizedBox(width: 16),
                 CustomIconButton(
                   label: 'Save Changes',
+                  isBold: true,
                   textColour: Colors.white,
                   onPressed: () => Navigator.pop(context),
-                  color: Colors.blue,
+                  color: Color(0xFF3993A1),
                   iconColor: Colors.white,
                 ),
               ],

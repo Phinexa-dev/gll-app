@@ -77,7 +77,7 @@ class _OtherScreenState extends ConsumerState<OtherScreen> {
                                 height: 40),
                             trailing: Icon(
                               Icons.arrow_forward_ios,
-                              color: theme.colorScheme.tertiary,
+                              color: Color(0xFF3993A1),
                               size: 18,
                             ),
                             onTap: () {

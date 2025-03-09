@@ -74,7 +74,7 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
           ),
           const Spacer(),
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.red),
+            icon: const Icon(Icons.logout, color: Color(0xFFE87878)),
             onPressed: () async {
               // Handle logout
 

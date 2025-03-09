@@ -114,7 +114,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ProfileCover(),
+              ProfileCover(
+                editEnabled: true,
+              ),
 
               Form(
                 key: _formKey,
@@ -159,17 +161,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: [
                         CustomIconButton(
                           label: 'Cancel',
+                          isBold: true,
                           textColour: Colors.black,
                           onPressed: () => Navigator.pop(context),
                           color: Colors.white,
-                          borderColor: Colors.blue,
+                          borderColor: Color(0xFF3993A1),
                         ),
                         const SizedBox(width: 16),
                         CustomIconButton(
                           label: 'Save Changes',
+                          isBold: true,
                           textColour: Colors.white,
                           onPressed: () => saveChanges(),
-                          color: Colors.blue,
+                          color: Color(0xFF3993A1),
                           iconColor: Colors.white,
                         ),
                       ],
