@@ -8,6 +8,7 @@ import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/data/remote/token/token_service.dart';
 import '../../../../../core/presentation/provider/user_notifier_provider.dart';
+import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 
 class ProfileBar extends ConsumerStatefulWidget {
@@ -88,7 +89,7 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
               // notify the router
               final authNotifier = ref.read(routerNotifierProvider);
               await authNotifier.updateAuthState();
-
+              ref.read(navProvider.notifier).onItemTapped(0);
               final feedbackService = ref.read(feedbackServiceProvider);
               feedbackService.showToast("Logged Out");
             },
