@@ -11,6 +11,7 @@ import '../../../../../../../../common/theme/fonts.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
+import '../../state/sign_in_state.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -26,23 +27,25 @@ class _LoginState extends ConsumerState<Login> {
 
     // Watch the loading state
     final isLoading = ref.watch(signInControllerProvider).isLoading;
-    final isSuccess = ref.watch(signInControllerProvider).isSuccess;
-    final isFailure = ref.watch(signInControllerProvider).isFailure;
     final formData = ref.watch(signInControllerProvider).signInForm;
 
-    if (isSuccess != null && isSuccess) {
-      // Show success toast
-      feedBackService.showToast("Login successful", type: FeedbackType.success);
-      // Navigate to the dashboard
-      context.goNamed(RouteName.dashboard);
-    }
+    ref.listen<SignInState>(
+      signInControllerProvider,
+          (previous, next) {
+        if (next.isSuccess != null && next.isSuccess == true) {
 
-    if (isFailure != null && isFailure) {
-      final errorMessage = ref.watch(signInControllerProvider).errorMessage;
-      // Show error toast
-      feedBackService.showToast(errorMessage ?? "Login failed",
-          type: FeedbackType.error);
-    }
+          feedBackService.showToast("Login successful", type: FeedbackType.success);
+          context.goNamed(RouteName.dashboard);
+
+        } else if (next.isFailure != null && next.isFailure == true) {
+
+          final errorMessage = ref.watch(signInControllerProvider).errorMessage;
+          feedBackService.showToast(errorMessage ?? "Login failed",
+              type: FeedbackType.error);
+
+        }
+      },
+    );
 
     final TextEditingController emailController =
         TextEditingController(text: formData?['email'] ?? "");

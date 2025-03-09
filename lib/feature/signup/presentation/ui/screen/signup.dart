@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../welcome/presentation/ui/widget/logo.dart';
+import '../../state/sign_up_state.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -27,24 +28,27 @@ class _SignUpState extends ConsumerState<SignUp> {
 
     // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
-    final isSuccess = ref.watch(signUpControllerProvider).isSuccess;
-    final isFailure = ref.watch(signUpControllerProvider).isFailure;
     final formData = ref.watch(signUpControllerProvider).signUpForm;
 
-    if (isSuccess != null && isSuccess) {
-      // Show success toast
-      feedBackService.showToast("Registration successful",
-          type: FeedbackType.success);
-      // Navigate to the welcome screen
-      context.pushNamed(RouteName.welcome);
-    }
+    ref.listen<SignUpState>(
+      signUpControllerProvider,
+          (previous, next) {
+        if (next.isSuccess != null && next.isSuccess == true) {
 
-    if (isFailure != null && isFailure) {
-      final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
-      // Show error toast
-      feedBackService.showToast(errorMessage ?? "Registration failed",
-          type: FeedbackType.error);
-    }
+          feedBackService.showToast("Registration successful",
+              type: FeedbackType.success);
+          context.goNamed(RouteName.welcome);
+
+        } else if (next.isFailure != null && next.isFailure == true) {
+
+          final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
+          // Show error toast
+          feedBackService.showToast(errorMessage ?? "Registration failed",
+              type: FeedbackType.error);
+
+        }
+      },
+    );
 
     final TextEditingController fullNameController =
         TextEditingController(text: formData?['fullName'] ?? "");
@@ -208,6 +212,24 @@ class _SignUpState extends ConsumerState<SignUp> {
                             await ref
                                 .read(signUpControllerProvider.notifier)
                                 .signUp();
+
+                            // final isSuccess = ref.watch(signUpControllerProvider).isSuccess;
+                            // final isFailure = ref.watch(signUpControllerProvider).isFailure;
+                            //
+                            // if (isSuccess != null && isSuccess) {
+                            //   // Show success toast
+                            //   feedBackService.showToast("Registration successful",
+                            //       type: FeedbackType.success);
+                            //   // Navigate to the welcome screen
+                            //   context.goNamed(RouteName.welcome);
+                            // }
+                            //
+                            // if (isFailure != null && isFailure) {
+                            //   final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
+                            //   // Show error toast
+                            //   feedBackService.showToast(errorMessage ?? "Registration failed",
+                            //       type: FeedbackType.error);
+                            // }
                           },
                         ),
                       ],
@@ -222,7 +244,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           if (isLoading)
             Container(
               color:
-                  Colors.black.withOpacity(0.5), // Semi-transparent background
+                  Colors.black.withAlpha(128), // Semi-transparent background
               child: Center(
                 child: CircularProgressIndicator(
                   color: Colors.white, // Customize the color if needed
