@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/feature/resources/presentation/ui/widgets/save_file_web.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
+import '../../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../screen/certification_tab_screen.dart';
 
 class CertificateWidget extends ConsumerWidget {
@@ -85,7 +87,7 @@ class CertificateWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildCompletedChip(context),
-                _buildShareButton(context),
+                _buildShareButton(context, ref),
               ],
             ),
           ],
@@ -112,10 +114,10 @@ Widget _buildCompletedChip(BuildContext context) {
   );
 }
 
-Widget _buildShareButton(BuildContext context) {
+Widget _buildShareButton(BuildContext context, WidgetRef ref) {
   return ElevatedButton.icon(
     onPressed: () {
-      createCertificate();
+      createCertificate(ref);
     },
     icon: Text('Share',
         style: PhinexaFont.contentAccent.copyWith(color: PhinexaColor.white)),
@@ -134,11 +136,12 @@ Widget _buildShareButton(BuildContext context) {
   );
 }
 
-Future<void> createCertificate() async {
+Future<void> createCertificate(WidgetRef ref) async {
   // Create a new PDF document
   final PdfDocument document = PdfDocument();
   document.pageSettings.orientation = PdfPageOrientation.landscape;
   document.pageSettings.margins.all = 0;
+  final userState = ref.watch(userNotifierProvider);
 
   // Add a page to the PDF
   final PdfPage page = document.pages.add();
@@ -157,36 +160,35 @@ Future<void> createCertificate() async {
   );
 
   // Create fonts
-  final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 22);
-  final PdfFont courseFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
-  final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 16);
+  final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
+  final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 10);
 
   // Draw "Name" text
-  double x = _calculateXPosition("Name", nameFont, pageSize.width);
+  double x = _calculateXPosition(
+      userState.user?.fullName ?? 'Guest', nameFont, pageSize.width);
   page.graphics.drawString(
-    "Name",
+    userState.user?.fullName ?? 'Guest',
     nameFont,
-    bounds: Rect.fromLTWH(x, 253, 0, 0),
-    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
+    bounds: Rect.fromLTWH(x, 229, 0, 0),
+    brush: PdfSolidBrush(PdfColor(0, 0, 0)),
   );
 
-  // Draw "CourseName" text
-  x = _calculateXPosition("CourseName", courseFont, pageSize.width);
+  String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  x = _calculateXPosition(formattedDate, dateFont, pageSize.width);
   page.graphics.drawString(
-    "CourseName",
-    courseFont,
-    bounds: Rect.fromLTWH(x, 340, 0, 0),
-    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
-  );
-
-  // Draw date text
-  final String dateText = 'on ' + "CourseName";
-  x = _calculateXPosition(dateText, dateFont, pageSize.width);
-  page.graphics.drawString(
-    dateText,
+    formattedDate,
     dateFont,
-    bounds: Rect.fromLTWH(x, 385, 0, 0),
-    brush: PdfSolidBrush(PdfColor(20, 58, 86)),
+    bounds: Rect.fromLTWH(x - 140, 354, 0, 0),
+    brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+  );
+
+  final String locationText = "Sri Lanka";
+  x = _calculateXPosition(locationText, dateFont, pageSize.width);
+  page.graphics.drawString(
+    locationText,
+    dateFont,
+    bounds: Rect.fromLTWH(x + 145, 354, 0, 0),
+    brush: PdfSolidBrush(PdfColor(0, 0, 0)),
   );
 
   // Load the signature PNG image

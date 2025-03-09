@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gll/common/theme/colors.dart';
-import 'package:gll/feature/other/presentation/ui/widget/map_view_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
+import '../../../../../common/theme/colors.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
-import '../../../../../core/data/local/user/model/user_model.dart';
-import '../../../../../core/data/local/user/user_service.dart';
+import '../../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../events/application/survey_upload_service.dart';
 import '../../../../events/data/event.dart';
 import '../../../../events/data/event_provider.dart';
-import '../widgets/pdf_viewer.dart';
+import '../../../../other/presentation/ui/widget/map_view_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -25,21 +22,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    } else if (hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    String getGreeting() {
-      final hour = DateTime.now().hour;
-      if (hour < 12) {
-        return 'Good Morning';
-      } else if (hour < 17) {
-        return 'Good Afternoon';
-      } else {
-        return 'Good Evening';
-      }
-    }
-
-    String imageUrl =
-        'https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fwww.gravatar.com%2Favatar%2F2c7d99fe281ecd3bcd65ab915bac6dd5%3Fs%3D250';
+    final userState = ref.watch(userNotifierProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,10 +49,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      imageUrl,
-                    ),
                     radius: 24,
+                    child: Icon(Icons.person),
                   ),
                 ),
                 Padding(
@@ -64,13 +58,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(getGreeting(),
-                          style: PhinexaFont.labelRegular
-                              .copyWith(color: PhinexaColor.darkGrey)),
+                      Text(
+                        getGreeting(),
+                        style: PhinexaFont.labelRegular
+                            .copyWith(color: PhinexaColor.darkGrey),
+                      ),
                       SizedBox(
                         width: 200,
                         child: Text(
-                          'Bryan Cotly',
+                          userState.user?.fullName ?? 'Guest',
                           style: PhinexaFont.highlightEmphasis,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -88,403 +84,331 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 height: 28,
                 width: 28,
               ),
-            )
+            ),
           ],
         ),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(children: [
-          Transform.translate(
-            offset: Offset(0, -40),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: SvgPicture.asset(
-                'assets/home/home_screen_bg.svg',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Transform.translate(
+                offset: Offset(0, -40),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: SvgPicture.asset(
+                    'assets/home/home_screen_bg.svg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: Offset(0, -50),
+                child: Column(
+                  children: [
+                    _buildWelcomeSection(),
+                    _buildEventSection(ref),
+                    _buildHowItWorksSection(),
+                    _buildSipMapSection(context),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWelcomeSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Empowering Youth to Lead and Innovate Globally',
+              style: PhinexaFont.headingExLarge,
+            ),
+          ),
+          SizedBox(height: 24),
+          RichText(
+            textAlign: TextAlign.left,
+            text: TextSpan(
+              text:
+                  'Global Learning Lab (GL2) works to empower youth across the world with the leadership skills they need to make the difference they want to see in their communities.',
+              style: PhinexaFont.highlightRegular,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEventSection(WidgetRef ref) {
+    final events = ref.watch(eventProvider);
+    final userState = ref.watch(userNotifierProvider);
+
+    if (events.isEmpty) {
+      return Center(child: Text("No events available."));
+    }
+
+    final event = events.first;
+    final userEmail = userState.user?.email;
+
+    return FutureBuilder<List<String>>(
+      future: userEmail != null
+          ? _getUserSurveyNames(ref, userEmail)
+          : Future.value([]),
+      builder: (context, snapshot) {
+        final hasRegistered = snapshot.data?.contains(
+              'Pre_Survey_${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+            ) ??
+            false;
+
+        return _buildEventSectionContent(context, ref, event, hasRegistered);
+      },
+    );
+  }
+
+  Widget _buildEventSectionContent(
+      BuildContext context, WidgetRef ref, Event event, bool hasRegistered) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Events", style: PhinexaFont.headingLarge),
+              IconButton(
+                icon: Icon(Icons.chevron_right_rounded, size: 30),
+                onPressed: () {
+                  ref.read(navProvider.notifier).onItemTapped(2);
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          GestureDetector(
+            onTap: () {
+              context.pushNamed(RouteName.eventDetails, extra: event);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                event.image,
                 fit: BoxFit.cover,
+                width: double.infinity,
+                errorBuilder: (context, error, stackTrace) =>
+                    Icon(Icons.broken_image, size: 100),
               ),
             ),
           ),
-          Transform.translate(
-            offset: Offset(0, -50),
-            child: Column(
-              children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 12),
+              Text(event.title,
+                  style: PhinexaFont.featureEmphasis,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2),
+              Text('Registration and Information',
+                  style: PhinexaFont.contentRegular),
+              SizedBox(height: 5),
+              Text(
+                DateFormat('MMMM d, yyyy').format(event.startDate),
+                style: PhinexaFont.captionRegular
+                    .copyWith(color: PhinexaColor.grey),
+              ),
+              if (!hasRegistered)
                 Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text:
-                                  'Empowering Youth to Lead and Innovate Globally',
-                              style: PhinexaFont.headingExLarge,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.left,
-                            text: TextSpan(
-                              text:
-                                  'Global Learning Lab (GL2) works to empower youth across the world with the leadership skills they need to to make the difference they want to see in their communities',
-                              style: PhinexaFont.highlightRegular,
-                            ),
-                          ),
-                        ],
-                      ),
+                    SizedBox(height: 12),
+                    CustomButton(
+                      label: "Register Now",
+                      height: 40,
+                      onPressed: () {
+                        context.pushNamed(RouteName.registrationForm, extra: {
+                          'isTTT': event.isTTT,
+                          'eventIdentity':
+                              '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+                        });
+                      },
                     ),
                   ],
                 ),
-                _buildEventSection(context, ref),
-                _buildHowItWorksSection(context),
-                _buildSipMapSection(context)
-              ],
-            ),
+            ],
           ),
-        ]),
-      )),
+        ],
+      ),
     );
   }
-}
 
-Widget _buildEventSection(BuildContext context, WidgetRef ref) {
-  final events = ref.watch(eventProvider);
-  final userFuture = ref.watch(userServiceProvider).getUser();
-
-  return FutureBuilder<UserModel?>(
-    future: userFuture,
-    builder: (context, userSnapshot) {
-      if (userSnapshot.connectionState == ConnectionState.waiting) {
-        return Center(child: CircularProgressIndicator());
-      }
-
-      if (userSnapshot.hasError || userSnapshot.data == null) {
-        return _buildEventSectionContent(context, ref, events.first, false);
-      }
-
-      final user = userSnapshot.data!;
-      final userEmail = user.email;
-
-      if (userEmail == null) {
-        return _buildEventSectionContent(context, ref, events.first, false);
-      }
-
-      // Retrieve registered events for the current user
-      final registeredEventsFuture = _getUserSurveyNames(ref, userEmail);
-
-      return FutureBuilder<List<String>>(
-        future: registeredEventsFuture,
-        builder: (context, registeredEventsSnapshot) {
-          if (registeredEventsSnapshot.connectionState ==
-              ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (registeredEventsSnapshot.hasError) {
-            return Center(child: Text("Failed to load registered events."));
-          }
-
-          final registeredEvents = registeredEventsSnapshot.data ?? [];
-
-          // Generate the event identity for the current event
-          final eventIdentity =
-              'Pre_Survey_${events.first.title}_${DateFormat('yyyy_MM_dd').format(events.first.startDate)}';
-
-          // Check if the user has already registered for the event
-          final hasRegistered = registeredEvents.contains(eventIdentity);
-
-          return _buildEventSectionContent(
-              context, ref, events.first, hasRegistered);
-        },
-      );
-    },
-  );
-}
-
-Widget _buildEventSectionContent(
-    BuildContext context, WidgetRef ref, Event event, bool hasRegistered) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Column(
+  Widget _buildHowItWorksSection() {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        SizedBox(height: 24),
+        Stack(
           children: [
-            Text(
-              "Events",
-              style: PhinexaFont.headingLarge,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: SvgPicture.asset('assets/home/home_screen_bg_2.svg',
+                  fit: BoxFit.fill),
             ),
-            IconButton(
-              icon: Icon(
-                Icons.chevron_right_rounded,
-                size: 30,
+            Positioned(
+              top: 50,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text('How it works', style: PhinexaFont.headingLarge),
               ),
-              onPressed: () {
-                ref.read(navProvider.notifier).onItemTapped(2);
-              },
-            )
+            ),
           ],
         ),
-        SizedBox(height: 12),
-        GestureDetector(
-          onTap: () {
-            context.pushNamed(RouteName.eventDetails, extra: event);
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              event.image, // Change this to your asset path
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.broken_image, size: 100),
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 12),
+              Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
+                  style: PhinexaFont.featureEmphasis),
+              SizedBox(height: 12),
+              Text(
+                "The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
+                style: PhinexaFont.contentRegular,
+              ),
+            ],
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        SizedBox(height: 24),
+        Stack(
           children: [
-            SizedBox(height: 12),
-            Text(
-              event.title,
-              style: PhinexaFont.featureEmphasis,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: SvgPicture.asset('assets/home/home_screen_bg_3.svg',
+                  fit: BoxFit.fill),
             ),
-            Text(
-              'Registration and Information',
-              style: PhinexaFont.contentRegular,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            SizedBox(height: 5),
-            Text(
-              DateFormat('MMMM d, yyyy').format(event.startDate),
-              style:
-                  PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-
-            // Conditionally render the Register Now button
-            if (!hasRegistered)
-              Column(
-                children: [
-                  SizedBox(height: 12),
-                  CustomButton(
-                    label: "Register Now",
-                    height: 40,
-                    onPressed: () {
-                      context.pushNamed(RouteName.registrationForm, extra: {
-                        'isTTT': event.isTTT,
-                        'eventIdentity':
-                            '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
-                      });
-                    },
+            Positioned(
+              top: 45,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 12),
+                      Text("Sustainable Impact Projects (SIPs)",
+                          style: PhinexaFont.featureEmphasis),
+                      SizedBox(height: 12),
+                      Text(
+                        "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
+                        style: PhinexaFont.contentRegular,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
+            ),
           ],
-        )
-      ],
-    ),
-  );
-}
-
-Widget _buildHowItWorksSection(BuildContext context) {
-  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    SizedBox(
-      height: 24,
-    ),
-    Stack(
-      children: [
+        ),
+        SizedBox(height: 24),
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: SvgPicture.asset(
-            'assets/home/home_screen_bg_2.svg',
-            fit: BoxFit.fill,
-          ),
+          child: SvgPicture.asset('assets/home/home_screen_bg_4.svg',
+              fit: BoxFit.fill),
         ),
-        Positioned(
-          top: 50,
-          left: 0,
-          right: 0,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              'How it works',
-              style: PhinexaFont.headingLarge,
-            ),
-          ),
-        )
-      ],
-    ),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 12,
-          ),
-          Text("Leadership Academy (LA) vs. Train the Trainer (TTT)",
-              style: PhinexaFont.featureEmphasis),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-              " The Leadership Academy (LA) and Train-the-Trainer (TTT) programs are complementary components of GL2’s scalable youth leadership model. While LA focuses on empowering youth directly, TTT builds the capacity of trainers who can cascade the training to others.",
-              style: PhinexaFont.contentRegular),
-        ],
-      ),
-    ),
-    SizedBox(
-      height: 24,
-    ),
-    Stack(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: SvgPicture.asset(
-            'assets/home/home_screen_bg_3.svg',
-            fit: BoxFit.fill,
-          ),
-        ),
-        Positioned(
-          top: 45,
-          left: 0,
-          right: 0,
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text("Sustainable Impact Projects (SIPs)",
-                      style: PhinexaFont.featureEmphasis),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                      "Sustainable Impact Projects (SIPs) are the cornerstone of the Leadership Academy. They empower youth leaders to design and implement community-based projects that address local challenges, create measurable outcomes, and foster sustainable development.",
-                      style: PhinexaFont.contentRegular),
-                ],
+        SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 12),
+              Text("Path to Global Trainer",
+                  style: PhinexaFont.featureEmphasis),
+              SizedBox(height: 12),
+              Text(
+                "The Path to Global Trainer is a structured journey that transforms a Leadership Academy participant into a certified trainer and eventually a global leadership ambassador.",
+                style: PhinexaFont.contentRegular,
               ),
-            ),
+              SizedBox(height: 15),
+              CustomButton(
+                label: "Cascading Model",
+                height: 40,
+                onPressed: () {
+                  context.pushNamed(RouteName.pdfViewer,
+                      extra: "assets/pdf/casacading_model.pdf");
+                },
+              ),
+            ],
           ),
-        )
+        ),
       ],
-    ),
-    SizedBox(
-      height: 24,
-    ),
-    SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: SvgPicture.asset(
-        'assets/home/home_screen_bg_4.svg',
-        fit: BoxFit.fill,
-      ),
-    ),
-    SizedBox(
-      height: 24,
-    ),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 12,
-          ),
-          Text("Path to Global Trainer", style: PhinexaFont.featureEmphasis),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-              "The Path to Global Trainer is a structured journey that transforms a Leadership Academy participant into a certified trainer and eventually a global leadership ambassador.",
-              style: PhinexaFont.contentRegular),
-          SizedBox(
-            height: 15,
-          ),
-          CustomButton(
-            label: "Cascading Model",
-            height: 40,
-            onPressed: () {
-              context.pushNamed(RouteName.pdfViewer,
-                  extra: "assets/pdf/casacading_model.pdf");
-            },
-          ),
-        ],
-      ),
-    ),
-  ]);
-}
+    );
+  }
 
-Widget _buildSipMapSection(BuildContext context) {
-  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 48,
+  Widget _buildSipMapSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 48),
+              Text("SIP’s MAKE A WAVE AROUND THE WORLD",
+                  style: PhinexaFont.headingLarge),
+              SizedBox(height: 12),
+              Text(
+                "Explore the global impact of GL2 through our interactive map. Click on any location to discover Sustainable Impact Projects (SIPs).",
+                style: PhinexaFont.contentRegular,
+              ),
+              SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                height: 230,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: MapViewWidget(),
+                ),
+              ),
+              SizedBox(height: 24),
+              CustomButton(
+                label: "Explore More",
+                height: 40,
+                onPressed: () {
+                  context.pushNamed(RouteName.worldMap);
+                },
+              ),
+            ],
           ),
-          Text("SIP’s MAKE A WAVE AROUND THE WORLD",
-              style: PhinexaFont.headingLarge),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-              "Explore the global impact of GL2 through our interactive map. Click on any location to discover Sustainable Impact Projects (SIPs).",
-              style: PhinexaFont.contentRegular),
-          SizedBox(
-            height: 12,
-          ),
-          Container(
-            width: double.infinity,
-            height: 230,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: MapViewWidget(),
-            ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          CustomButton(
-            label: "Explore More",
-            height: 40,
-            onPressed: () {
-              context.pushNamed(RouteName.worldMap);
-            },
-          ),
-        ],
-      ),
-    ),
-  ]);
-}
+        ),
+      ],
+    );
+  }
 
-Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
-  try {
-    return await retrieveSurveyNames(ref, email);
-  } catch (error) {
-    print("Failed to retrieve survey names: $error");
-    return [];
+  Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
+    try {
+      return await retrieveSurveyNames(ref, email);
+    } catch (error) {
+      print("Failed to retrieve survey names: $error");
+      return [];
+    }
   }
 }

@@ -42,14 +42,16 @@ class EducationHistory extends ConsumerWidget {
                 children: [
                   CustomIconButton(
                     label: 'Add',
+                    isBold: true,
                     textColour: Colors.black,
                     onPressed: onPressedAdd,
                     color: Colors.white,
                     btnSize: 'small',
-                    borderColor: Colors.blue,
+                    borderColor: Color(0xFF3993A1),
                   ),
+                  SizedBox(width: 10),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -87,11 +89,12 @@ class EducationHistory extends ConsumerWidget {
                               },
                               icon: Icon(
                                   Icons.delete_outline,
-                                  color: Colors.red,
+                                  color: Color(0xFFE87878),
                                   size: 20),
                           ),
                           CustomIconButton(
                             label: 'Edit',
+                            isBold: true,
                             textColour: Colors.black,
                             onPressed: ()=>{
                                 // ref.read(animationVisibilityProvider.notifier).state = false;
@@ -114,7 +117,7 @@ class EducationHistory extends ConsumerWidget {
                             },
                             color: Colors.white,
                             btnSize: 'small',
-                            borderColor: Colors.blue,
+                            borderColor: Color(0xFF3993A1),
                           ),
                         ],
                       ),

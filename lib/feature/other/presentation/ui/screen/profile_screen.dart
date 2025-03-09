@@ -69,22 +69,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   CustomIconButton(
                       label: 'Edit Profile',
+                      isBold: true,
                       textColour: Colors.white,
                       onPressed: () => context.pushNamed(RouteName.editProfile),
                       iconVisible: true,
                       icon: Icons.chevron_right,
-                      color: Colors.blue,
+                      color: Color(0xFF3993A1),
                       iconColor: Colors.white,
                   ),
                   SizedBox(width: 10),
                   CustomIconButton(
                     label: 'Settings',
+                    isBold: true,
                     textColour: Colors.black,
                     onPressed: () => context.pushNamed(RouteName.settings),
                     iconVisible: true,
                     icon: Icons.settings,
                     color: Colors.white,
-                    borderColor: Colors.blue,
+                    borderColor: Color(0xFF3993A1),
                   ),
                 ],
               ),
@@ -102,7 +104,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   // personal information
                   if(toggleButtonState[0]) ...[
                     InfoTableWidget(
-                        caption: 'Contact Information',
+                        caption: 'Personal Details',
                         data: contactData,
                     ),
                     InfoTableWidget(

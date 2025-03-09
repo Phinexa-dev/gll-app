@@ -14,6 +14,7 @@ class CustomIconButton extends ConsumerWidget {
   final Color textColour;
   final Color? borderColor;
   final double height;
+  final bool isBold;
 
   const CustomIconButton({
     super.key,
@@ -28,6 +29,7 @@ class CustomIconButton extends ConsumerWidget {
     this.iconColor = Colors.black,
     this.borderColor,
     this.height = 40.0,
+    this.isBold = false,
   });
 
   @override
@@ -63,6 +65,7 @@ class CustomIconButton extends ConsumerWidget {
             style: PhinexaFont.baseStyle.copyWith(
               fontSize: fontSize,
               color: textColour,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
           const SizedBox(width: 8),
@@ -78,6 +81,7 @@ class CustomIconButton extends ConsumerWidget {
         style: PhinexaFont.baseStyle.copyWith(
           fontSize: fontSize,
           color: textColour,
+          fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );

@@ -8,8 +8,11 @@ import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../core/route/app_routes.dart';
 import '../../../../../../../core/route/route_name.dart';
+import '../../../../../../system_feedback/model/feedback.dart';
+import '../../../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../../application/survey_upload_service.dart';
 import '../../../provider/combine_response.dart';
+import '../../../provider/survey_state_notifier.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/multi_select_checkbox_widget.dart';
 
@@ -120,226 +123,265 @@ class _TTInterestsAndEngagementScreenState
     } else {
       _feedbackError.value = null;
     }
-
+    final feedBackService = ref.read(feedbackServiceProvider);
     if (isValid) {
+      ref.read(isLoadingProvider.notifier).state = true;
       final responses = await combineSurveyResponses(ref);
-      uploadSurveyData(ref, responses, 'Pre_Survey_${widget.eventIdentity}');
+      await uploadSurveyData(
+          ref, responses, 'Pre_Survey_${widget.eventIdentity}');
       clearSurveyResponses(ref);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
       });
+      ref.read(isLoadingProvider.notifier).state = false;
+      feedBackService.showToast("Survey submitted successfully",
+          type: FeedbackType.success);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(isLoadingProvider); // Watch the loading state
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Pre Survey - Train the Trainer',
             style: PhinexaFont.headingSmall),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              Text("Interests and Engagement", style: PhinexaFont.headingLarge),
-              SizedBox(height: 20),
+      body: Stack(
+        children: [
+          AbsorbPointer(
+            absorbing: isLoading,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    Text("Interests and Engagement",
+                        style: PhinexaFont.headingLarge),
+                    SizedBox(height: 20),
 
-              // Topics Multi-Select
-              ValueListenableBuilder<String?>(
-                valueListenable: _topicsError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MultiSelectCheckboxWidget(
-                        question:
-                            "What topics are you most excited to explore in this workshop? (Check all that apply)",
-                        answers: [
-                          "Effective Leadership",
-                          "UN Sustainable Development Goals",
-                          "Communication and Feedback",
-                          "Mindset",
-                          "Sustainable Impact Projects",
-                          "Delivering content with clarity and impact",
-                          "Other"
-                        ],
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
+                    // Topics Multi-Select
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _topicsError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MultiSelectCheckboxWidget(
+                              question:
+                                  "What topics are you most excited to explore in this workshop? (Check all that apply)",
+                              answers: [
+                                "Effective Leadership",
+                                "UN Sustainable Development Goals",
+                                "Communication and Feedback",
+                                "Mindset",
+                                "Sustainable Impact Projects",
+                                "Delivering content with clarity and impact",
+                                "Other"
+                              ],
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
 
-              // Other Topics Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _otherTopicsError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        hintText: "If there any other mention here..",
-                        autofocus: true,
-                        obscureText: false,
-                        controller: otherTopicsController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'If there any other mention here..', value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 10),
+                    // Other Topics Field
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _otherTopicsError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              hintText: "If there any other mention here..",
+                              autofocus: true,
+                              obscureText: false,
+                              controller: otherTopicsController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        'If there any other mention here..',
+                                        value);
+                              },
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
 
-              // Challenges Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _challengesError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText:
-                            "Are there specific challenges or concerns you have about facilitating workshops or training sessions?",
-                        hintText: 'I ...',
-                        obscureText: false,
-                        height: 110,
-                        maxLines: 10,
-                        controller: challengesController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'Are there specific challenges or concerns you have about facilitating workshops or training sessions?',
-                                  value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 30),
+                    // Challenges Field
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _challengesError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              labelText:
+                                  "Are there specific challenges or concerns you have about facilitating workshops or training sessions?",
+                              hintText: 'I ...',
+                              obscureText: false,
+                              height: 110,
+                              maxLines: 10,
+                              controller: challengesController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        'Are there specific challenges or concerns you have about facilitating workshops or training sessions?',
+                                        value);
+                              },
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 30),
 
-              Text("Logistics and Preferences",
-                  style: PhinexaFont.headingLarge),
-              SizedBox(height: 20),
+                    Text("Logistics and Preferences",
+                        style: PhinexaFont.headingLarge),
+                    SizedBox(height: 20),
 
-              // Learning Preferences Multi-Select
-              ValueListenableBuilder<String?>(
-                valueListenable: _learningPreferenceError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MultiSelectCheckboxWidget(
-                        question:
-                            "How do you prefer to learn? (Check all that apply)",
-                        answers: [
-                          "Hands-on activities",
-                          "Group discussions",
-                          "Role-playing scenarios",
-                          "Lectures/presentations"
-                        ],
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 10),
+                    // Learning Preferences Multi-Select
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _learningPreferenceError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MultiSelectCheckboxWidget(
+                              question:
+                                  "How do you prefer to learn? (Check all that apply)",
+                              answers: [
+                                "Hands-on activities",
+                                "Group discussions",
+                                "Role-playing scenarios",
+                                "Lectures/presentations"
+                              ],
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
 
-              // Accessibility Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _accessibilityError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText:
-                            "Do you have any accessibility needs or accommodations we should be aware of?",
-                        hintText: 'I do need ...',
-                        obscureText: false,
-                        height: 110,
-                        maxLines: 10,
-                        controller: accessibilityController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'Do you have any accessibility needs or accommodations we should be aware of?',
-                                  value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 30),
+                    // Accessibility Field
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _accessibilityError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              labelText:
+                                  "Do you have any accessibility needs or accommodations we should be aware of?",
+                              hintText: 'I do need ...',
+                              obscureText: false,
+                              height: 110,
+                              maxLines: 10,
+                              controller: accessibilityController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        'Do you have any accessibility needs or accommodations we should be aware of?',
+                                        value);
+                              },
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 30),
 
-              Text('Feedback Opportunity', style: PhinexaFont.headingSmall),
-              SizedBox(height: 20),
+                    Text('Feedback Opportunity',
+                        style: PhinexaFont.headingSmall),
+                    SizedBox(height: 20),
 
-              // Feedback Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _feedbackError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText:
-                            "Is there anything else you'd like us to know before the workshop?",
-                        hintText: 'I work ...',
-                        obscureText: false,
-                        height: 110,
-                        maxLines: 10,
-                        controller: feedbackController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
+                    // Feedback Field
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _feedbackError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              labelText:
                                   "Is there anything else you'd like us to know before the workshop?",
-                                  value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
+                              hintText: 'I work ...',
+                              obscureText: false,
+                              height: 110,
+                              maxLines: 10,
+                              controller: feedbackController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        "Is there anything else you'd like us to know before the workshop?",
+                                        value);
+                              },
+                            ),
+                            if (error != null)
+                              Text(error,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        );
+                      },
+                    ),
 
-              // Register Button
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                child: CustomButton(
-                  label: "Register",
-                  height: 40,
-                  onPressed: _validateForm,
+                    // Register Button
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: CustomButton(
+                        label: "Register",
+                        height: 40,
+                        onPressed: _validateForm,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+
+          // Full-page loader
+          if (isLoading)
+            Container(
+              color:
+                  Colors.black.withOpacity(0.5), // Semi-transparent background
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white, // Customize the color if needed
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
