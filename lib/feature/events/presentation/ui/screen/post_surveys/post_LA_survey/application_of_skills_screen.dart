@@ -7,9 +7,12 @@ import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../core/route/app_routes.dart';
+import '../../../../../../system_feedback/model/feedback.dart';
+import '../../../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../../application/survey_upload_service.dart';
 import '../../../provider/combine_response.dart';
 import '../../../provider/survey_radio_response_provider.dart';
+import '../../../provider/survey_state_notifier.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
@@ -86,15 +89,21 @@ class _LAApplicationOfSkillsScreenState
       _suggestionsError.value = null;
     }
 
+    final feedBackService = ref.read(feedbackServiceProvider);
     // If the form is valid, navigate to the next screen
     if (isValid) {
+      ref.read(isLoadingProvider.notifier).state = true;
       final responses = await combineSurveyResponses(ref);
-      uploadSurveyData(ref, responses, 'Post_Survey_${widget.eventIdentity}');
+      await uploadSurveyData(
+          ref, responses, 'Post_Survey_${widget.eventIdentity}');
       clearSurveyResponses(ref);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
       });
+      ref.read(isLoadingProvider.notifier).state = false;
+      feedBackService.showToast("Survey submitted successfully",
+          type: FeedbackType.success);
     } else {
       // Optionally show a snackbar or handle invalid form
       print("Form is not valid");
@@ -103,105 +112,124 @@ class _LAApplicationOfSkillsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Post Survey - Leadership Academy',
             style: PhinexaFont.highlightAccent),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              Text(
-                "Application of Skills",
-                style: PhinexaFont.headingLarge,
-              ),
-              SizedBox(height: 20),
+      body: Stack(
+        children: [
+          AbsorbPointer(
+            absorbing: isLoading,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Application of Skills",
+                      style: PhinexaFont.headingLarge,
+                    ),
+                    SizedBox(height: 20),
 
-              // Question 1
-              _buildRadioQuestion(
-                "I can apply the skills gained during the Leadership Academy in my community",
-                _radioErrors[
-                    "I can apply the skills gained during the Leadership Academy in my community"]!,
-              ),
-              SizedBox(height: 10),
+                    // Question 1
+                    _buildRadioQuestion(
+                      "I can apply the skills gained during the Leadership Academy in my community",
+                      _radioErrors[
+                          "I can apply the skills gained during the Leadership Academy in my community"]!,
+                    ),
+                    SizedBox(height: 10),
 
-              // Question 2
-              _buildRadioQuestion(
-                "I can use the skills from the program in my future work",
-                _radioErrors[
-                    "I can use the skills from the program in my future work"]!,
-              ),
-              SizedBox(height: 10),
+                    // Question 2
+                    _buildRadioQuestion(
+                      "I can use the skills from the program in my future work",
+                      _radioErrors[
+                          "I can use the skills from the program in my future work"]!,
+                    ),
+                    SizedBox(height: 10),
 
-              // Question 3
-              _buildRadioQuestion(
-                "I am interested in contributing to community resilience and sustainability projects",
-                _radioErrors[
-                    "I am interested in contributing to community resilience and sustainability projects"]!,
-              ),
-              SizedBox(height: 10),
+                    // Question 3
+                    _buildRadioQuestion(
+                      "I am interested in contributing to community resilience and sustainability projects",
+                      _radioErrors[
+                          "I am interested in contributing to community resilience and sustainability projects"]!,
+                    ),
+                    SizedBox(height: 10),
 
-              // Question 4
-              _buildRadioQuestion(
-                "I am interested in learning how to train others using this program",
-                _radioErrors[
-                    "I am interested in learning how to train others using this program"]!,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Suggestions for Improvement",
-                style: PhinexaFont.headingLarge,
-              ),
-              SizedBox(height: 20),
+                    // Question 4
+                    _buildRadioQuestion(
+                      "I am interested in learning how to train others using this program",
+                      _radioErrors[
+                          "I am interested in learning how to train others using this program"]!,
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Suggestions for Improvement",
+                      style: PhinexaFont.headingLarge,
+                    ),
+                    SizedBox(height: 20),
 
-              // Suggestions Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _suggestionsError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText:
-                            "Do you have any suggestions to improve the Leadership Academy for future participants?",
-                        hintText: 'I like ...',
-                        obscureText: false,
-                        height: 110,
-                        maxLines: 10,
-                        controller: suggestionsController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
+                    // Suggestions Field
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _suggestionsError,
+                      builder: (context, error, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              labelText:
                                   "Do you have any suggestions to improve the Leadership Academy for future participants?",
-                                  value);
-                        },
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: Colors.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 10),
+                              hintText: 'I like ...',
+                              obscureText: false,
+                              height: 110,
+                              maxLines: 10,
+                              controller: suggestionsController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        "Do you have any suggestions to improve the Leadership Academy for future participants?",
+                                        value);
+                              },
+                            ),
+                            if (error != null)
+                              Text(error, style: TextStyle(color: Colors.red)),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
 
-              // Submit Button
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                child: CustomButton(
-                  label: "Submit",
-                  height: 40,
-                  onPressed: _submitForm,
+                    // Submit Button
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: CustomButton(
+                        label: "Submit",
+                        height: 40,
+                        onPressed: _submitForm,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              // Semi-transparent background
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
