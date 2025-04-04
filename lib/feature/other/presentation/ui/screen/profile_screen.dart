@@ -14,6 +14,8 @@ import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.dart';
 import 'package:gll/feature/other/presentation/ui/widget/socials/edit_socials.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../controller/skill/skill_controller.dart';
 import '../provider/certification_provider.dart';
@@ -40,6 +42,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final educationData = ref.watch(educationHistoryProvider);
     final certificationData = ref.watch(certificationProvider);
 
+    final userAsync = ref.watch(userProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -60,8 +64,59 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ProfileCover(),
 
             // user information
-            Text('Bryan Cotly', style: PhinexaFont.headingESmall.copyWith(fontWeight: FontWeight.bold)),
-            Text('bcotly@gll.com', style: PhinexaFont.captionRegular.copyWith(color: Colors.grey)),
+            userAsync.when(
+              data: (user) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user?.fullName ?? "Guest",
+                      style: PhinexaFont.headingESmall.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      user?.email ?? 'Email',
+                      style: PhinexaFont.captionRegular.copyWith(color: Colors.grey),
+                    ),
+                  ],
+                );
+              },
+              loading: () {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        height: 20,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        height: 20,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              error: (error, stackTrace) {
+                return Text('Error loading user info: $error');
+              },
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
