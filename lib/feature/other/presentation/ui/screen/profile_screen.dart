@@ -33,12 +33,23 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    // fetch data needed
+    Future.microtask(() {
+      ref.read(skillControllerProvider.notifier).getSkills();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final toggleButtonState = ref.watch(toggleButtonProvider);
     final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(socialInformationProvider);
-    final skillsData = ref.watch(skillControllerProvider).skills;
+    final skillsState = ref.watch(skillControllerProvider);
     final educationData = ref.watch(educationHistoryProvider);
     final certificationData = ref.watch(certificationProvider);
 
@@ -188,7 +199,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         Positioned(
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1 + skillsData.length * MediaQuery.of(context).size.height * 0.06,
+                            height: MediaQuery.of(context).size.height * 0.1 + (skillsState.isLoading? 3 : skillsState.skills.length) * MediaQuery.of(context).size.height * 0.06,
                             child: SvgPicture.asset(
                               'assets/more/profile_skills_bg.svg',
                               fit: BoxFit.fill,
@@ -198,7 +209,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         SkillsTableWidget(
                             caption: 'Professional Skills',
                             color: Colors.black,
-                            data: skillsData,
+                            data: skillsState.skills,
                             onPressed: ()=>{
                               // ref.read(animationVisibilityProvider.notifier).state = false;
                               // open the signup overlay
