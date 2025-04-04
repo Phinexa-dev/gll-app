@@ -79,8 +79,8 @@ class EducationController extends AutoDisposeNotifier<EducationState> {
       final addEducationDataRequest = AddEducationRequest(
           school: school,
           degree: degree,
-          startdate: startDate,
-          enddate: endDate,
+          startdate: startDate.toUtc(),
+          enddate: endDate.toUtc(),
       );
 
       final result = await ref.read(educationServiceProvider).addEducation(addEducationDataRequest);
@@ -149,8 +149,8 @@ class EducationController extends AutoDisposeNotifier<EducationState> {
       final updateEducationDataRequest = UpdateEducationDataRequest(
           school: school,
           degree: degree,
-          startdate: startDate,
-          enddate: endDate,
+          startdate: startDate.toUtc(),
+          enddate: endDate.toUtc(),
       );
 
       final result = await ref.read(educationServiceProvider).updateEducation(updateEducationDataRequest, educationDataId);
