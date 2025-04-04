@@ -22,18 +22,16 @@ EditProfileRequest _$EditProfileRequestFromJson(Map<String, dynamic> json) {
 mixin _$EditProfileRequest {
   @JsonKey(name: "fullName")
   String? get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: "email")
-  String? get email => throw _privateConstructorUsedError;
   @JsonKey(name: "dialCode")
   String? get dialCode => throw _privateConstructorUsedError;
   @JsonKey(name: "mobileNumber")
   String? get mobileNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: "userLanguages")
+  String? get userLanguages => throw _privateConstructorUsedError;
   @JsonKey(name: "country")
   String? get country => throw _privateConstructorUsedError;
-  @JsonKey(name: "languages")
-  String? get languages => throw _privateConstructorUsedError;
   @JsonKey(name: "userIntrests")
-  String? get userInterests => throw _privateConstructorUsedError;
+  String? get userIntrests => throw _privateConstructorUsedError;
 
   /// Serializes this EditProfileRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,12 +51,11 @@ abstract class $EditProfileRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "fullName") String? fullName,
-      @JsonKey(name: "email") String? email,
       @JsonKey(name: "dialCode") String? dialCode,
       @JsonKey(name: "mobileNumber") String? mobileNumber,
+      @JsonKey(name: "userLanguages") String? userLanguages,
       @JsonKey(name: "country") String? country,
-      @JsonKey(name: "languages") String? languages,
-      @JsonKey(name: "userIntrests") String? userInterests});
+      @JsonKey(name: "userIntrests") String? userIntrests});
 }
 
 /// @nodoc
@@ -77,21 +74,16 @@ class _$EditProfileRequestCopyWithImpl<$Res, $Val extends EditProfileRequest>
   @override
   $Res call({
     Object? fullName = freezed,
-    Object? email = freezed,
     Object? dialCode = freezed,
     Object? mobileNumber = freezed,
+    Object? userLanguages = freezed,
     Object? country = freezed,
-    Object? languages = freezed,
-    Object? userInterests = freezed,
+    Object? userIntrests = freezed,
   }) {
     return _then(_value.copyWith(
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
               as String?,
       dialCode: freezed == dialCode
           ? _value.dialCode
@@ -101,17 +93,17 @@ class _$EditProfileRequestCopyWithImpl<$Res, $Val extends EditProfileRequest>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String?,
+      userLanguages: freezed == userLanguages
+          ? _value.userLanguages
+          : userLanguages // ignore: cast_nullable_to_non_nullable
+              as String?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userInterests: freezed == userInterests
-          ? _value.userInterests
-          : userInterests // ignore: cast_nullable_to_non_nullable
+      userIntrests: freezed == userIntrests
+          ? _value.userIntrests
+          : userIntrests // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -127,12 +119,11 @@ abstract class _$$EditProfileRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "fullName") String? fullName,
-      @JsonKey(name: "email") String? email,
       @JsonKey(name: "dialCode") String? dialCode,
       @JsonKey(name: "mobileNumber") String? mobileNumber,
+      @JsonKey(name: "userLanguages") String? userLanguages,
       @JsonKey(name: "country") String? country,
-      @JsonKey(name: "languages") String? languages,
-      @JsonKey(name: "userIntrests") String? userInterests});
+      @JsonKey(name: "userIntrests") String? userIntrests});
 }
 
 /// @nodoc
@@ -149,21 +140,16 @@ class __$$EditProfileRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fullName = freezed,
-    Object? email = freezed,
     Object? dialCode = freezed,
     Object? mobileNumber = freezed,
+    Object? userLanguages = freezed,
     Object? country = freezed,
-    Object? languages = freezed,
-    Object? userInterests = freezed,
+    Object? userIntrests = freezed,
   }) {
     return _then(_$EditProfileRequestImpl(
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
               as String?,
       dialCode: freezed == dialCode
           ? _value.dialCode
@@ -173,17 +159,17 @@ class __$$EditProfileRequestImplCopyWithImpl<$Res>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String?,
+      userLanguages: freezed == userLanguages
+          ? _value.userLanguages
+          : userLanguages // ignore: cast_nullable_to_non_nullable
+              as String?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userInterests: freezed == userInterests
-          ? _value.userInterests
-          : userInterests // ignore: cast_nullable_to_non_nullable
+      userIntrests: freezed == userIntrests
+          ? _value.userIntrests
+          : userIntrests // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -194,12 +180,11 @@ class __$$EditProfileRequestImplCopyWithImpl<$Res>
 class _$EditProfileRequestImpl implements _EditProfileRequest {
   const _$EditProfileRequestImpl(
       {@JsonKey(name: "fullName") this.fullName,
-      @JsonKey(name: "email") this.email,
       @JsonKey(name: "dialCode") this.dialCode,
       @JsonKey(name: "mobileNumber") this.mobileNumber,
+      @JsonKey(name: "userLanguages") this.userLanguages,
       @JsonKey(name: "country") this.country,
-      @JsonKey(name: "languages") this.languages,
-      @JsonKey(name: "userIntrests") this.userInterests});
+      @JsonKey(name: "userIntrests") this.userIntrests});
 
   factory _$EditProfileRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$EditProfileRequestImplFromJson(json);
@@ -208,27 +193,24 @@ class _$EditProfileRequestImpl implements _EditProfileRequest {
   @JsonKey(name: "fullName")
   final String? fullName;
   @override
-  @JsonKey(name: "email")
-  final String? email;
-  @override
   @JsonKey(name: "dialCode")
   final String? dialCode;
   @override
   @JsonKey(name: "mobileNumber")
   final String? mobileNumber;
   @override
+  @JsonKey(name: "userLanguages")
+  final String? userLanguages;
+  @override
   @JsonKey(name: "country")
   final String? country;
   @override
-  @JsonKey(name: "languages")
-  final String? languages;
-  @override
   @JsonKey(name: "userIntrests")
-  final String? userInterests;
+  final String? userIntrests;
 
   @override
   String toString() {
-    return 'EditProfileRequest(fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, country: $country, languages: $languages, userInterests: $userInterests)';
+    return 'EditProfileRequest(fullName: $fullName, dialCode: $dialCode, mobileNumber: $mobileNumber, userLanguages: $userLanguages, country: $country, userIntrests: $userIntrests)';
   }
 
   @override
@@ -238,22 +220,21 @@ class _$EditProfileRequestImpl implements _EditProfileRequest {
             other is _$EditProfileRequestImpl &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            (identical(other.email, email) || other.email == email) &&
             (identical(other.dialCode, dialCode) ||
                 other.dialCode == dialCode) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
+            (identical(other.userLanguages, userLanguages) ||
+                other.userLanguages == userLanguages) &&
             (identical(other.country, country) || other.country == country) &&
-            (identical(other.languages, languages) ||
-                other.languages == languages) &&
-            (identical(other.userInterests, userInterests) ||
-                other.userInterests == userInterests));
+            (identical(other.userIntrests, userIntrests) ||
+                other.userIntrests == userIntrests));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, fullName, email, dialCode,
-      mobileNumber, country, languages, userInterests);
+  int get hashCode => Object.hash(runtimeType, fullName, dialCode, mobileNumber,
+      userLanguages, country, userIntrests);
 
   /// Create a copy of EditProfileRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -275,12 +256,11 @@ class _$EditProfileRequestImpl implements _EditProfileRequest {
 abstract class _EditProfileRequest implements EditProfileRequest {
   const factory _EditProfileRequest(
           {@JsonKey(name: "fullName") final String? fullName,
-          @JsonKey(name: "email") final String? email,
           @JsonKey(name: "dialCode") final String? dialCode,
           @JsonKey(name: "mobileNumber") final String? mobileNumber,
+          @JsonKey(name: "userLanguages") final String? userLanguages,
           @JsonKey(name: "country") final String? country,
-          @JsonKey(name: "languages") final String? languages,
-          @JsonKey(name: "userIntrests") final String? userInterests}) =
+          @JsonKey(name: "userIntrests") final String? userIntrests}) =
       _$EditProfileRequestImpl;
 
   factory _EditProfileRequest.fromJson(Map<String, dynamic> json) =
@@ -290,23 +270,20 @@ abstract class _EditProfileRequest implements EditProfileRequest {
   @JsonKey(name: "fullName")
   String? get fullName;
   @override
-  @JsonKey(name: "email")
-  String? get email;
-  @override
   @JsonKey(name: "dialCode")
   String? get dialCode;
   @override
   @JsonKey(name: "mobileNumber")
   String? get mobileNumber;
   @override
+  @JsonKey(name: "userLanguages")
+  String? get userLanguages;
+  @override
   @JsonKey(name: "country")
   String? get country;
   @override
-  @JsonKey(name: "languages")
-  String? get languages;
-  @override
   @JsonKey(name: "userIntrests")
-  String? get userInterests;
+  String? get userIntrests;
 
   /// Create a copy of EditProfileRequest
   /// with the given fields replaced by the non-null parameter values.

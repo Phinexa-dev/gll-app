@@ -15,7 +15,7 @@ final userServiceProvider = Provider<IUserService>((ref) {
   return UserService(secureStorage, tokenService);
 });
 
-final userProvider = FutureProvider<UserModel?>((ref) async {
+final userProvider = AutoDisposeFutureProvider<UserModel?>((ref) async {
   final userService = ref.watch(userServiceProvider);
   return await userService.getUser();
 });

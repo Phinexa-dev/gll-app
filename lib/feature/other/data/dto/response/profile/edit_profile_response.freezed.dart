@@ -46,6 +46,8 @@ mixin _$EditProfileResponse {
   String? get instagram => throw _privateConstructorUsedError;
   @JsonKey(name: "userIntrests")
   String? get userIntrests => throw _privateConstructorUsedError;
+  @JsonKey(name: "userLanguages")
+  String? get languages => throw _privateConstructorUsedError;
 
   /// Serializes this EditProfileResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -76,7 +78,8 @@ abstract class $EditProfileResponseCopyWith<$Res> {
       @JsonKey(name: "twitter") String? twitter,
       @JsonKey(name: "x") String? x,
       @JsonKey(name: "instagram") String? instagram,
-      @JsonKey(name: "userIntrests") String? userIntrests});
+      @JsonKey(name: "userIntrests") String? userIntrests,
+      @JsonKey(name: "userLanguages") String? languages});
 }
 
 /// @nodoc
@@ -107,6 +110,7 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
     Object? x = freezed,
     Object? instagram = freezed,
     Object? userIntrests = freezed,
+    Object? languages = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -161,6 +165,10 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
           ? _value.userIntrests
           : userIntrests // ignore: cast_nullable_to_non_nullable
               as String?,
+      languages: freezed == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -186,7 +194,8 @@ abstract class _$$EditProfileResponseImplCopyWith<$Res>
       @JsonKey(name: "twitter") String? twitter,
       @JsonKey(name: "x") String? x,
       @JsonKey(name: "instagram") String? instagram,
-      @JsonKey(name: "userIntrests") String? userIntrests});
+      @JsonKey(name: "userIntrests") String? userIntrests,
+      @JsonKey(name: "userLanguages") String? languages});
 }
 
 /// @nodoc
@@ -215,6 +224,7 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
     Object? x = freezed,
     Object? instagram = freezed,
     Object? userIntrests = freezed,
+    Object? languages = freezed,
   }) {
     return _then(_$EditProfileResponseImpl(
       id: null == id
@@ -269,6 +279,10 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
           ? _value.userIntrests
           : userIntrests // ignore: cast_nullable_to_non_nullable
               as String?,
+      languages: freezed == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -289,7 +303,8 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
       @JsonKey(name: "twitter") required this.twitter,
       @JsonKey(name: "x") required this.x,
       @JsonKey(name: "instagram") required this.instagram,
-      @JsonKey(name: "userIntrests") required this.userIntrests});
+      @JsonKey(name: "userIntrests") required this.userIntrests,
+      @JsonKey(name: "userLanguages") required this.languages});
 
   factory _$EditProfileResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$EditProfileResponseImplFromJson(json);
@@ -333,10 +348,13 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
   @override
   @JsonKey(name: "userIntrests")
   final String? userIntrests;
+  @override
+  @JsonKey(name: "userLanguages")
+  final String? languages;
 
   @override
   String toString() {
-    return 'EditProfileResponse(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, password: $password, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests)';
+    return 'EditProfileResponse(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, password: $password, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests, languages: $languages)';
   }
 
   @override
@@ -363,7 +381,9 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
             (identical(other.instagram, instagram) ||
                 other.instagram == instagram) &&
             (identical(other.userIntrests, userIntrests) ||
-                other.userIntrests == userIntrests));
+                other.userIntrests == userIntrests) &&
+            (identical(other.languages, languages) ||
+                other.languages == languages));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -382,7 +402,8 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
       twitter,
       x,
       instagram,
-      userIntrests);
+      userIntrests,
+      languages);
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -415,7 +436,8 @@ abstract class _EditProfileResponse implements EditProfileResponse {
           @JsonKey(name: "twitter") required final String? twitter,
           @JsonKey(name: "x") required final String? x,
           @JsonKey(name: "instagram") required final String? instagram,
-          @JsonKey(name: "userIntrests") required final String? userIntrests}) =
+          @JsonKey(name: "userIntrests") required final String? userIntrests,
+          @JsonKey(name: "userLanguages") required final String? languages}) =
       _$EditProfileResponseImpl;
 
   factory _EditProfileResponse.fromJson(Map<String, dynamic> json) =
@@ -460,6 +482,9 @@ abstract class _EditProfileResponse implements EditProfileResponse {
   @override
   @JsonKey(name: "userIntrests")
   String? get userIntrests;
+  @override
+  @JsonKey(name: "userLanguages")
+  String? get languages;
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.

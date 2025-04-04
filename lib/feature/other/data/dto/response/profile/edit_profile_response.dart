@@ -33,6 +33,8 @@ class EditProfileResponse with _$EditProfileResponse {
     required String? instagram,
     @JsonKey(name: "userIntrests")
     required String? userIntrests,
+    @JsonKey(name: "userLanguages")
+    required String? languages,
   }) = _EditProfileResponse;
 
   factory EditProfileResponse.fromJson(Map<String, dynamic> json) => _$EditProfileResponseFromJson(json);

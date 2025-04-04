@@ -1,23 +1,69 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/core/data/local/user/model/user_model.dart';
 import 'package:gll/core/data/local/user/user_service.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/presentation/state/profile/profile_state.dart';
 import '../../../application/profile/profile_service.dart';
 import '../../../data/dto/request/profile/edit_profile/edit_profile_request.dart';
+import '../../../domain/model/profile/profile_data_model.dart';
 
 final profileControllerProvider = AutoDisposeNotifierProvider<ProfileController, ProfileState>(ProfileController.new);
 
 class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
   @override
-  ProfileState build() {
-    return ProfileState();
+  ProfileState build(){
+    return ProfileState(
+      form: {
+        'fullName': '',
+        // 'email': '',
+        'dialCode': '+94',
+        'phoneNumber': '',
+        'country': '',
+        'interests': '',
+        'languages': '',
+        'facebook': '',
+        'blog': '',
+        'twitter': '',
+        'x': '',
+        'instagram': '',
+      },
+    );
+  }
+
+  // TODO: complete
+  Future<void> updateFormData() async {
+    // get user data from service
+    final user = await ref.read(userServiceProvider).getUser();
+    if (user == null) return;
+
+    // // get user data from profile service
+    // final ProfileDataModel profile = await ref.read(profileServiceProvider).getProfile(user.id);
+    // if (profile == null) return;
+    // // update form data
+    // state = state.copyWith(
+    //   form: {
+    //     'fullName': profile.fullName,
+    //     // 'email': profile.email,
+    //     'dialCode': profile.dialCode,
+    //     'phoneNumber': profile.mobileNumber,
+    //     'country': profile.country,
+    //     'interests': profile.userIntrests,
+    //     'languages': profile.languages,
+    //     'facebook': profile.faceBook,
+    //     'blog': profile.blog,
+    //     'twitter': profile.twitter,
+    //     'x': profile.x,
+    //     'instagram': profile.instagram,
+    //   },
+    // );
+
   }
 
   Future<void> editProfile() async {
     final fullName = state.form?['fullName'];
-    final email = state.form?['email'];
+    // final email = state.form?['email'];
     final dialCode = state.form?['dialCode'];
     final phoneNumber = state.form?['phoneNumber'];
     final country = state.form?['country'];
@@ -25,7 +71,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final languages = state.form?['languages'];
 
 
-    if (email == null || fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
+    if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -45,16 +91,24 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
       final editProfileRequest = EditProfileRequest(
         fullName: fullName,
-        email: email,
+        // email: email,
         dialCode: dialCode,
         mobileNumber: phoneNumber,
         country: country,
-        languages: languages,
-        userInterests: interests,
+        userLanguages: languages,
+        userIntrests: interests,
       );
 
       final user = await ref.read(userServiceProvider).getUser();
       final result = await ref.read(profileServiceProvider).editProfile(editProfileRequest, user!.id);
+
+      // update user data in local storage
+      final UserModel newUser = user.copyWith(
+        fullName: fullName,
+      );
+      final userService = ref.read(userServiceProvider);
+      await userService.editUser(newUser);
+      ref.refresh(userProvider);
 
       state = state.copyWith(
         isLoading: false,
