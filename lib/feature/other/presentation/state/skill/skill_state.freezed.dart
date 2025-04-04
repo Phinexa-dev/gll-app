@@ -22,7 +22,7 @@ mixin _$SkillState {
   String? get errorMessage => throw _privateConstructorUsedError;
   Map<String, dynamic>? get form => throw _privateConstructorUsedError;
   List<SkillDataModel> get skills => throw _privateConstructorUsedError;
-  List<String> get unsavedSkills => throw _privateConstructorUsedError;
+  List<SkillDataModel> get unsavedSkills => throw _privateConstructorUsedError;
 
   /// Create a copy of SkillState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +44,7 @@ abstract class $SkillStateCopyWith<$Res> {
       String? errorMessage,
       Map<String, dynamic>? form,
       List<SkillDataModel> skills,
-      List<String> unsavedSkills});
+      List<SkillDataModel> unsavedSkills});
 }
 
 /// @nodoc
@@ -98,7 +98,7 @@ class _$SkillStateCopyWithImpl<$Res, $Val extends SkillState>
       unsavedSkills: null == unsavedSkills
           ? _value.unsavedSkills
           : unsavedSkills // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<SkillDataModel>,
     ) as $Val);
   }
 }
@@ -118,7 +118,7 @@ abstract class _$$SkillStateImplCopyWith<$Res>
       String? errorMessage,
       Map<String, dynamic>? form,
       List<SkillDataModel> skills,
-      List<String> unsavedSkills});
+      List<SkillDataModel> unsavedSkills});
 }
 
 /// @nodoc
@@ -170,7 +170,7 @@ class __$$SkillStateImplCopyWithImpl<$Res>
       unsavedSkills: null == unsavedSkills
           ? _value._unsavedSkills
           : unsavedSkills // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<SkillDataModel>,
     ));
   }
 }
@@ -185,7 +185,7 @@ class _$SkillStateImpl implements _SkillState {
       this.errorMessage,
       final Map<String, dynamic>? form = const {},
       final List<SkillDataModel> skills = const [],
-      final List<String> unsavedSkills = const []})
+      final List<SkillDataModel> unsavedSkills = const []})
       : _form = form,
         _skills = skills,
         _unsavedSkills = unsavedSkills;
@@ -219,10 +219,10 @@ class _$SkillStateImpl implements _SkillState {
     return EqualUnmodifiableListView(_skills);
   }
 
-  final List<String> _unsavedSkills;
+  final List<SkillDataModel> _unsavedSkills;
   @override
   @JsonKey()
-  List<String> get unsavedSkills {
+  List<SkillDataModel> get unsavedSkills {
     if (_unsavedSkills is EqualUnmodifiableListView) return _unsavedSkills;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_unsavedSkills);
@@ -280,7 +280,7 @@ abstract class _SkillState implements SkillState {
       final String? errorMessage,
       final Map<String, dynamic>? form,
       final List<SkillDataModel> skills,
-      final List<String> unsavedSkills}) = _$SkillStateImpl;
+      final List<SkillDataModel> unsavedSkills}) = _$SkillStateImpl;
 
   @override
   bool get isLoading;
@@ -295,7 +295,7 @@ abstract class _SkillState implements SkillState {
   @override
   List<SkillDataModel> get skills;
   @override
-  List<String> get unsavedSkills;
+  List<SkillDataModel> get unsavedSkills;
 
   /// Create a copy of SkillState
   /// with the given fields replaced by the non-null parameter values.

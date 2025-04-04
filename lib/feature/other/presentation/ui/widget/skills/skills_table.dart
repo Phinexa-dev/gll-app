@@ -50,7 +50,7 @@ class SkillsTableWidget extends ConsumerWidget {
                       label: 'Edit',
                       isBold: true,
                       textColour: Colors.black,
-                      onPressed: onPressed == null? ()=>{} : onPressed!,
+                      onPressed: onPressed!,
                       color: Colors.white,
                       btnSize: 'small',
                       borderColor: Color(0xFFB3B3B3),

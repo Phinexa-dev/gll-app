@@ -6,16 +6,6 @@ import '../../../../../system_feedback/model/feedback.dart';
 import '../../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../controller/skill/skill_controller.dart';
 
-final mockSkillsProvider = StateProvider<List<String>>((ref) =>
-  [
-    'Strategic Leadership',
-    'Agile Project Management',
-    'Stakeholder Communication',
-    'Data Driven Decision Making',
-    'Change Management',
-  ]
-);
-
 class ManageSkills extends ConsumerStatefulWidget {
   const ManageSkills({super.key});
 
@@ -39,31 +29,23 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
     super.dispose();
   }
 
-  void saveChanges() {
+  void saveChanges() async {
 
-    // final formData = {
-    //   'skill': searchSkillsController.text,
-    // };
-    //
-    // //set the form data to the controller
-    // ref.read(skillControllerProvider.notifier).setFormData(formData);
-    // ref.read(skillControllerProvider.notifier).addSkill();
+    final unsavedSkills = ref.watch(skillControllerProvider).unsavedSkills;
+    if (unsavedSkills.isEmpty) {
+      final feedBackService = ref.read(feedbackServiceProvider);
+      feedBackService.showToast("Oops! No new skills found to save", type: FeedbackType.info);
+      return;
+    }
+    ref.read(skillControllerProvider.notifier).updateSkills();
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
 
     final isLoading = ref.watch(skillControllerProvider).isLoading;
-    final isSuccess = ref.watch(skillControllerProvider).isSuccess;
     final isFailure = ref.watch(skillControllerProvider).isFailure;
-
-    if(isSuccess != null && isSuccess){
-
-      final feedBackService = ref.read(feedbackServiceProvider);
-      // use system feedback to show the success message
-      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
-      // context.goNamed(RouteName.dashboard);
-    }
 
     if(isFailure != null && isFailure){
       final feedBackService = ref.read(feedbackServiceProvider);
@@ -72,7 +54,10 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
       feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
     }
 
-    final skills = ref.watch(skillControllerProvider).skills;
+    final skills = [
+      ...ref.watch(skillControllerProvider).skills,
+      ...ref.watch(skillControllerProvider).unsavedSkills,
+    ];
 
     return FractionallySizedBox(
       heightFactor: skills.isEmpty? 0.4 : skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
@@ -107,9 +92,9 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                       // container for use as a button
                       GestureDetector(
                         onTap: () {
-                          if (searchSkillsController.text.isNotEmpty && !skills.contains(searchSkillsController.text))
+                          if (searchSkillsController.text.isNotEmpty && !skills.any((skill) => skill.skill == searchSkillsController.text))
                             {
-                              ref.read(mockSkillsProvider.notifier).state = List.from(skills)..add(searchSkillsController.text);
+                              ref.read(skillControllerProvider.notifier).addSkill(searchSkillsController.text);
                               searchSkillsController.clear();
                             }
                         },
@@ -146,10 +131,11 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                         return ListTile(
                           title: Text(skills[index].skill),
                           trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline, color: Colors.red),
-                            onPressed: () {
-                              ref.read(mockSkillsProvider.notifier).state = List.from(skills)..removeAt(index);
-                            },
+                            icon: Icon(Icons.delete_outline, color: (isLoading? Colors.grey : Colors.red)),
+                            onPressed: isLoading? null :
+                                () {
+                                  ref.watch(skillControllerProvider.notifier).deleteSkill(skills[index].id);
+                                },
                           ),
                         );
                       },
@@ -174,7 +160,7 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
                   label: 'Save Changes',
                   isBold: true,
                   textColour: Colors.white,
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: saveChanges,
                   color: Color(0xFF3993A1),
                   iconColor: Colors.white,
                 ),

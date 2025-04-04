@@ -54,6 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final certificationData = ref.watch(certificationProvider);
 
     final userAsync = ref.watch(userProvider);
+    final skills =skillsState.skills;
 
     return Scaffold(
       appBar: AppBar(
@@ -199,7 +200,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         Positioned(
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1 + (skillsState.isLoading? 3 : skillsState.skills.length) * MediaQuery.of(context).size.height * 0.06,
+                            height: MediaQuery.of(context).size.height * 0.1 + (skillsState.isLoading? 3 : skills.length) * MediaQuery.of(context).size.height * 0.06,
                             child: SvgPicture.asset(
                               'assets/more/profile_skills_bg.svg',
                               fit: BoxFit.fill,
@@ -226,6 +227,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 },
                               ).whenComplete(() {
                                 // ref.read(animationVisibilityProvider.notifier).state = true;
+                                // remove all unsaved skills
+                                ref.read(skillControllerProvider.notifier).removeUnsavedSkills();
                               })
                             }
                         ),
