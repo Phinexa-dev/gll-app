@@ -49,8 +49,17 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       );
 
       // // get user data from profile service
+      // // TODO: complete after backend finished
       // final ProfileDataModel? profile = await ref.read(profileServiceProvider).getProfile(user.id);
-      // if (profile == null) return;
+      // if (profile == null) {
+      //   state = state.copyWith(
+      //     isLoading: false,
+      //     isSuccess: false,
+      //     isFailure: true,
+      //     errorMessage: 'An error occurred',
+      //   );
+      //   return;
+      // }
       //
       // // update form data
       // state = state.copyWith(
