@@ -31,70 +31,83 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(userNotifierProvider);
-    return Container(
-      width: MediaQuery.sizeOf(context).width * 0.9,
-      height: 100,
-      decoration: BoxDecoration(
-        color: Color(0xFFF7F7F7).withAlpha(230),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          // Profile Picture
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: Colors.grey[400],
-            backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
-          ),
-          const SizedBox(width: 12),
-          ConstrainedBox(
-            constraints:
-                BoxConstraints(maxWidth: 200), // Adjust this value as needed
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+    final userAsync = ref.watch(userProvider);
+
+    return userAsync.when(
+      data: (user)
+        {
+          return Container(
+            width: MediaQuery.sizeOf(context).width * 0.9,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Color(0xFFF7F7F7).withAlpha(230),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
               children: [
-                Text(
-                  userState.user?.fullName ?? 'Guest',
-                  style: PhinexaFont.highlightAccent,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                // Profile Picture
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: Colors.grey[400],
+                  backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
                 ),
-                Text(
-                  userState.user?.email ?? 'Email',
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.grey),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                const SizedBox(width: 12),
+                ConstrainedBox(
+                  constraints:
+                  BoxConstraints(maxWidth: 200), // Adjust this value as needed
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        user?.fullName ?? 'Guest',
+                      style: PhinexaFont.highlightAccent,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      ),
+                      Text(
+                        user?.email ?? 'Email',
+                        style: PhinexaFont.contentRegular
+                            .copyWith(color: PhinexaColor.grey),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.logout, color: Color(0xFFE87878)),
+                  onPressed: () async {
+                    // Handle logout
+
+                    // TODO: temporary solution
+                    final userService = ref.read(userServiceProvider);
+                    final dio = ref.read(networkServiceProvider);
+                    final tokenService = ref.read(tokenServiceProvider(dio));
+
+                    await userService.clearUser();
+                    await tokenService.clearTokens();
+
+                    // notify the router
+                    final authNotifier = ref.read(routerNotifierProvider);
+                    await authNotifier.updateAuthState();
+                    ref.read(navProvider.notifier).onItemTapped(0);
+                    final feedbackService = ref.read(feedbackServiceProvider);
+                    feedbackService.showToast("Logged Out");
+                  },
                 ),
               ],
             ),
-          ),
-          const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.logout, color: Color(0xFFE87878)),
-            onPressed: () async {
-              // Handle logout
-
-              // TODO: temporary solution
-              final userService = ref.read(userServiceProvider);
-              final dio = ref.read(networkServiceProvider);
-              final tokenService = ref.read(tokenServiceProvider(dio));
-
-              await userService.clearUser();
-              await tokenService.clearTokens();
-
-              // notify the router
-              final authNotifier = ref.read(routerNotifierProvider);
-              await authNotifier.updateAuthState();
-              ref.read(navProvider.notifier).onItemTapped(0);
-              final feedbackService = ref.read(feedbackServiceProvider);
-              feedbackService.showToast("Logged Out");
-            },
-          ),
-        ],
+          );
+        },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => Center(
+        child: Text(
+          'Error: $error',
+          style: TextStyle(color: Colors.red),
+        ),
       ),
     );
   }
