@@ -63,22 +63,14 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
     //set the form data to the controller
     ref.read(profileControllerProvider.notifier).setFormData(formData);
     ref.read(profileControllerProvider.notifier).editSocials();
+    context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
 
     final isLoading = ref.watch(profileControllerProvider).isLoading;
-    final isSuccess = ref.watch(profileControllerProvider).isSuccess;
     final isFailure = ref.watch(profileControllerProvider).isFailure;
-
-    if(isSuccess != null && isSuccess){
-
-      final feedBackService = ref.read(feedbackServiceProvider);
-      // use system feedback to show the success message
-      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
-      context.pop();
-    }
 
     if(isFailure != null && isFailure){
       final feedBackService = ref.read(feedbackServiceProvider);
@@ -115,7 +107,7 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
                   const SizedBox(height: 16),
                   CustomTextField(labelText: 'Facebook', controller: facebookUrlController, keyboardType: TextInputType.url),
                   const SizedBox(height: 16),
-                  CustomTextField(labelText: 'LinkedIn', controller: linkedInUrlController, keyboardType: TextInputType.url),
+                  CustomTextField(labelText: 'Twitter', controller: linkedInUrlController, keyboardType: TextInputType.url),
                   const SizedBox(height: 16),
                   CustomTextField(labelText: 'Instagram', controller: instagramUrlController, keyboardType: TextInputType.url),
                   const SizedBox(height: 16),

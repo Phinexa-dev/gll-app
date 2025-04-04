@@ -85,23 +85,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
     //set the form data to the controller
     ref.read(profileControllerProvider.notifier).setFormData(formData);
-    ref.read(profileControllerProvider.notifier).editProfile();
+    await ref.read(profileControllerProvider.notifier).editProfile();
+
+    final feedBackService = ref.read(feedbackServiceProvider);
+    feedBackService.showToast("Successfully edited", type: FeedbackType.success);
   }
 
   @override
   Widget build(BuildContext context) {
 
     final isLoading = ref.watch(profileControllerProvider).isLoading;
-    final isSuccess = ref.watch(profileControllerProvider).isSuccess;
     final isFailure = ref.watch(profileControllerProvider).isFailure;
-
-    if(isSuccess != null && isSuccess){
-
-      final feedBackService = ref.read(feedbackServiceProvider);
-      // use system feedback to show the success message
-      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
-      // context.goNamed(RouteName.dashboard);
-    }
 
     if(isFailure != null && isFailure){
       final feedBackService = ref.read(feedbackServiceProvider);

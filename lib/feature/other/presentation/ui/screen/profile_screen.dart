@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/route/route_name.dart';
+import '../../controller/profile/profile_controller.dart';
 import '../../controller/skill/skill_controller.dart';
 import '../provider/certification_provider.dart';
 import '../provider/education_history_provider.dart';
@@ -41,6 +42,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     // fetch data needed
     Future.microtask(() {
       ref.read(skillControllerProvider.notifier).getSkills();
+      ref.read(profileControllerProvider.notifier).updateFormData();
     });
   }
 
@@ -52,6 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final skillsState = ref.watch(skillControllerProvider);
     final educationData = ref.watch(educationHistoryProvider);
     final certificationData = ref.watch(certificationProvider);
+    final profileState = ref.watch(profileControllerProvider);
 
     final userAsync = ref.watch(userProvider);
     final skills =skillsState.skills;
@@ -173,10 +176,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     InfoTableWidget(
                         caption: 'Personal Details',
                         data: contactData,
+                        isLoading: profileState.isLoading,
                     ),
                     InfoTableWidget(
                         caption: 'Socials',
                         data: socialData,
+                        isLoading: profileState.isEditingSocials || profileState.isLoading,
                         onPressed: ()=>{
                           // ref.read(animationVisibilityProvider.notifier).state = false;
                           // open the signup overlay

@@ -7,6 +7,7 @@ class ProfileState with _$ProfileState {
 
   factory ProfileState({
     @Default(false) bool isLoading,
+    @Default(false) bool isEditingSocials,
     bool? isSuccess,
     bool? isFailure,
     String? errorMessage,

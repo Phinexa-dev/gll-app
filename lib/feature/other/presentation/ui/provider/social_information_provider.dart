@@ -4,7 +4,7 @@ final socialInformationProvider = Provider<Map<String, String>>((ref) {
   return {
     'Personal Blog' : 'www.bryancotly.com',
     'Facebook' : '@bryan_cotly',
-    'LinkedIn' : 'bryan Cotly',
+    'Twitter' : 'bryan Cotly',
     'Instagram' : '@Bryan',
     'X': '@bryan_cotly',
   };
