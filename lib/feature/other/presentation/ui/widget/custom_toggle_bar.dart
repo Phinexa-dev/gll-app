@@ -12,7 +12,7 @@ class CustomToggleBar extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue, width: 1),
+        border: Border.all(color: Color(0xFF3993A1), width: 1),
         borderRadius: BorderRadius.circular(100),
       ),
       child: ToggleButtons(
@@ -28,12 +28,13 @@ class CustomToggleBar extends ConsumerWidget {
         borderWidth: 1,
         constraints: const BoxConstraints(
           minHeight: 45,
-          minWidth: 130,
+          minWidth: 138,
         ),
         children: [
           Container(
             decoration: BoxDecoration(
-              color: toggleButtonState[0]? Colors.blue.withAlpha(100) : Colors.white,
+              color: toggleButtonState[0]? Color(0xFF3993A1).withAlpha(60) : Colors.white,
+              border: toggleButtonState[0]? Border.all(color: Color(0xFF3993A1), width: 1) : null,
               borderRadius: BorderRadius.all(Radius.circular(100)),
             ),
             constraints: const BoxConstraints(
@@ -41,11 +42,12 @@ class CustomToggleBar extends ConsumerWidget {
               minHeight:40,
             ),
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Text('Personal', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[0]? Colors.black : Colors.grey)),
+            child: Text('Personal', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[0]? Colors.black : Colors.grey, fontWeight: toggleButtonState[0]? FontWeight.bold : FontWeight.normal)),
           ),
           Container(
             decoration: BoxDecoration(
-              color: toggleButtonState[1]? Colors.blue.withAlpha(100) : Colors.white,
+              color: toggleButtonState[1]? Color(0xFF3993A1).withAlpha(60) : Colors.white,
+              border: toggleButtonState[1]? Border.all(color: Color(0xFF3993A1), width: 1) : null,
               borderRadius: BorderRadius.all(Radius.circular(100)),
             ),
             constraints: const BoxConstraints(
@@ -53,7 +55,7 @@ class CustomToggleBar extends ConsumerWidget {
               minHeight:40,
             ),
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Text('Educational', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[1]? Colors.black : Colors.grey)),
+            child: Text('Educational', style: PhinexaFont.contentRegular.copyWith(color: toggleButtonState[1]? Colors.black : Colors.grey, fontWeight: toggleButtonState[1]? FontWeight.bold : FontWeight.normal)),
           ),
         ],
       ),

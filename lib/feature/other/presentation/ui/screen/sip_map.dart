@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/map_view_widget.dart';
-import 'package:gll/feature/other/presentation/ui/widget/search_bar_widget.dart';
 
 import '../../../../../common/theme/fonts.dart';
+import '../widget/country_dropdown_widget.dart';
 
 class SipMap extends ConsumerStatefulWidget {
   const SipMap({super.key});
@@ -38,7 +38,7 @@ class _SipMapState extends ConsumerState<SipMap> {
             top: 30,
             left: 0,
             right: 0,
-            child: SearchBarWidget(),
+            child: CountryDropdownWidget(),
           ),
         ],
       ),

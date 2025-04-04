@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
-import 'package:gll/common/theme/fonts.dart'; // Import your font styles
+import 'package:gll/common/theme/fonts.dart';
 
-class CustomRadioQuestion extends StatefulWidget {
+import '../provider/survey_radio_response_provider.dart'; // Import your Riverpod provider
+
+class CustomRadioQuestion extends ConsumerStatefulWidget {
   final String question;
   final ValueChanged<bool?> onChanged;
 
@@ -16,23 +19,35 @@ class CustomRadioQuestion extends StatefulWidget {
   _CustomRadioQuestionState createState() => _CustomRadioQuestionState();
 }
 
-class _CustomRadioQuestionState extends State<CustomRadioQuestion> {
+class _CustomRadioQuestionState extends ConsumerState<CustomRadioQuestion> {
   bool? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final savedResponse =
+          ref.read(radioQuestionResponseProvider)[widget.question];
+      if (savedResponse != null) {
+        setState(() {
+          selectedValue = savedResponse;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Question Text
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
             widget.question,
-            style: PhinexaFont.contentRegular, // Applying custom font
+            style: PhinexaFont.contentRegular,
           ),
         ),
-        // Radio buttons
         Row(
           children: [
             _buildRadioOption("Yes", true),
@@ -57,6 +72,9 @@ class _CustomRadioQuestionState extends State<CustomRadioQuestion> {
             setState(() {
               selectedValue = val;
             });
+            ref
+                .read(radioQuestionResponseProvider.notifier)
+                .updateResponse(widget.question, val);
             widget.onChanged(val);
           },
           fillColor: WidgetStateProperty.resolveWith<Color>(

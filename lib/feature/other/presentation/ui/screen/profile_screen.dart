@@ -69,22 +69,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   CustomIconButton(
                       label: 'Edit Profile',
+                      isBold: true,
                       textColour: Colors.white,
                       onPressed: () => context.pushNamed(RouteName.editProfile),
                       iconVisible: true,
                       icon: Icons.chevron_right,
-                      color: Colors.blue,
+                      color: Color(0xFF3993A1),
                       iconColor: Colors.white,
                   ),
                   SizedBox(width: 10),
                   CustomIconButton(
                     label: 'Settings',
+                    isBold: true,
                     textColour: Colors.black,
                     onPressed: () => context.pushNamed(RouteName.settings),
                     iconVisible: true,
                     icon: Icons.settings,
                     color: Colors.white,
-                    borderColor: Colors.blue,
+                    borderColor: Color(0xFF3993A1),
                   ),
                 ],
               ),
@@ -102,7 +104,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   // personal information
                   if(toggleButtonState[0]) ...[
                     InfoTableWidget(
-                        caption: 'Contact Information',
+                        caption: 'Personal Details',
                         data: contactData,
                     ),
                     InfoTableWidget(
@@ -171,25 +173,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         caption: 'Education History',
                         color: Colors.black,
                         data: educationData,
-                        onPressedEdit: ()=>{
-                          // ref.read(animationVisibilityProvider.notifier).state = false;
-                          // open the signup overlay
-                          showModalBottomSheet(
-                            // transitionAnimationController: _signUpAnimationController,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                            ),
-                            backgroundColor: Colors.white,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                              // return unimplemented
-                              return EditEducationalHistory();
-                            },
-                          ).whenComplete(() {
-                            // ref.read(animationVisibilityProvider.notifier).state = true;
-                          })
-                        },
+                        // onPressedEdit: ()=>{
+                        //   // ref.read(animationVisibilityProvider.notifier).state = false;
+                        //   // open the signup overlay
+                        //   showModalBottomSheet(
+                        //     // transitionAnimationController: _signUpAnimationController,
+                        //     context: context,
+                        //     shape: const RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        //     ),
+                        //     backgroundColor: Colors.white,
+                        //     isScrollControlled: true,
+                        //     builder: (BuildContext context) {
+                        //       // return unimplemented
+                        //       return EditEducationalHistory();
+                        //     },
+                        //   ).whenComplete(() {
+                        //     // ref.read(animationVisibilityProvider.notifier).state = true;
+                        //   })
+                        // },
                         onPressedAdd: ()=>{
                           // ref.read(animationVisibilityProvider.notifier).state = false;
                           // open the signup overlay

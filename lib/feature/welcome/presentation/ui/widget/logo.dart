@@ -3,12 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 
 class Logo extends ConsumerWidget {
-  const Logo({super.key});
+  const Logo({
+    super.key,
+    this.heightFactor = 3,
+  });
+
+  final double heightFactor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
+      height: MediaQuery.of(context).size.height / heightFactor,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         gradient: RadialGradient(
@@ -38,29 +43,31 @@ class Logo extends ConsumerWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: const TextStyle(
-                  fontSize: 22,
-                  color: Colors.white,
+            Expanded(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Connect, learn, and grow\n',
+                      style: PhinexaFont.headingLarge.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'with our global community',
+                      style: PhinexaFont.headingLarge.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
-                children: [
-                  TextSpan(
-                    text: 'Connect, learn, and grow\n',
-                    style: PhinexaFont.headingLarge.copyWith(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'with our global community',
-                    style: PhinexaFont.headingESmall.copyWith(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
               ),
             ),
           ],

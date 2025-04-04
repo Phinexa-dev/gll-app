@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gll/common/theme/colors.dart';
+import 'package:gll/common/theme/fonts.dart';
+
 import '../../../../../core/data/local/auth/auth_notifier.dart';
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/data/remote/token/token_service.dart';
-import '../../../../../core/route/route_name.dart';
+import '../../../../../core/presentation/provider/user_notifier_provider.dart';
+import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 
 class ProfileBar extends ConsumerStatefulWidget {
@@ -16,7 +19,6 @@ class ProfileBar extends ConsumerStatefulWidget {
 }
 
 class _ProfileBarState extends ConsumerState<ProfileBar> {
-
   @override
   void initState() {
     super.initState();
@@ -29,7 +31,7 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
 
   @override
   Widget build(BuildContext context) {
-
+    final userState = ref.watch(userNotifierProvider);
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.9,
       height: 100,
@@ -47,17 +49,32 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
             backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Brian Cotly', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Text('bcotly@gll.com', style: TextStyle(fontSize: 14, color: Colors.grey)),
-            ],
+          ConstrainedBox(
+            constraints:
+                BoxConstraints(maxWidth: 200), // Adjust this value as needed
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  userState.user?.fullName ?? 'Guest',
+                  style: PhinexaFont.highlightAccent,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  userState.user?.email ?? 'Email',
+                  style: PhinexaFont.contentRegular
+                      .copyWith(color: PhinexaColor.grey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
           const Spacer(),
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.red),
+            icon: const Icon(Icons.logout, color: Color(0xFFE87878)),
             onPressed: () async {
               // Handle logout
 
@@ -72,7 +89,7 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
               // notify the router
               final authNotifier = ref.read(routerNotifierProvider);
               await authNotifier.updateAuthState();
-
+              ref.read(navProvider.notifier).onItemTapped(0);
               final feedbackService = ref.read(feedbackServiceProvider);
               feedbackService.showToast("Logged Out");
             },

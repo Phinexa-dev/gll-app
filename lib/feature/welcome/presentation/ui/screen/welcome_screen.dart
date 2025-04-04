@@ -20,7 +20,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     final animationVisibility = ref.watch(animationVisibilityProvider);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFFC9EAF8),
       body: AnimatedOpacity(
         duration: const Duration(milliseconds: 500),
         opacity: animationVisibility ? 1 : 0,

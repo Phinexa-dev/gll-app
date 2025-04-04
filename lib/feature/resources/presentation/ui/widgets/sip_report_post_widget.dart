@@ -4,9 +4,9 @@ import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/route/route_name.dart';
-import 'button_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../../../../../core/route/route_name.dart';
 
 class SipReportPostWidget extends ConsumerWidget {
   final SipReport report;
@@ -34,8 +34,8 @@ class SipReportPostWidget extends ConsumerWidget {
           _buildPostDescription(),
           const SizedBox(height: 16),
           _buildViewReportButton(context),
-          const SizedBox(height: 12),
-          _buildInteractionButtons(),
+          // const SizedBox(height: 12),
+          // _buildInteractionButtons(),
           const SizedBox(height: 12),
         ],
       ),
@@ -63,7 +63,8 @@ class SipReportPostWidget extends ConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 timeago.format(report.timestamp),
-                style: PhinexaFont.captionRegular.copyWith(color: PhinexaColor.grey),
+                style: PhinexaFont.captionRegular
+                    .copyWith(color: PhinexaColor.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
@@ -111,12 +112,14 @@ class SipReportPostWidget extends ConsumerWidget {
           return Center(
             child: CircularProgressIndicator(
               value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      (loadingProgress.expectedTotalBytes ?? 1)
                   : null,
             ),
           );
         },
-        errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 100),
+        errorBuilder: (context, error, stackTrace) =>
+            const Icon(Icons.broken_image, size: 100),
       ),
     );
   }
@@ -158,48 +161,49 @@ class SipReportPostWidget extends ConsumerWidget {
   }
 
   // View Report button
-  Widget _buildViewReportButton(BuildContext context,) {
+  Widget _buildViewReportButton(
+    BuildContext context,
+  ) {
     return CustomButton(
       label: "View Report",
       onPressed: () {
-      context.pushNamed(
-        RouteName.reportMore,
-        extra: report,
-      );
-    },
+        context.pushNamed(
+          RouteName.reportMore,
+          extra: report,
+        );
+      },
       height: 30,
     );
   }
 
-  // Interaction buttons (like, comment, share)
-  Widget _buildInteractionButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        IconButtonWidget(
-          isSelected: report.isLiked,
-          isLikeButton: true,
-          onPressed: () => print("pressed like btn"),
-          imagePath: 'assets/resources/like_btn.svg',
-          pressedImagePath: 'assets/resources/like_btn_prsd.svg',
-          amount: report.likeCount,
-        ),
-        IconButtonWidget(
-          onPressed: () => print("pressed comment btn"),
-          imagePath: 'assets/resources/comment_btn.svg',
-          amount: report.commentCount,
-        ),
-        IconButtonWidget(
-          onPressed: () => print("pressed share btn"),
-          imagePath: 'assets/resources/share_btn.svg',
-          amount: report.shareCount,
-        ),
-      ],
-    );
-  }
+// Interaction buttons (like, comment, share)
+// Widget _buildInteractionButtons() {
+//   return Row(
+//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//     crossAxisAlignment: CrossAxisAlignment.end,
+//     children: [
+//       IconButtonWidget(
+//         isSelected: report.isLiked,
+//         isLikeButton: true,
+//         onPressed: () => print("pressed like btn"),
+//         imagePath: 'assets/resources/like_btn.svg',
+//         pressedImagePath: 'assets/resources/like_btn_prsd.svg',
+//         amount: report.likeCount,
+//       ),
+//       IconButtonWidget(
+//         onPressed: () => print("pressed comment btn"),
+//         imagePath: 'assets/resources/comment_btn.svg',
+//         amount: report.commentCount,
+//       ),
+//       IconButtonWidget(
+//         onPressed: () => print("pressed share btn"),
+//         imagePath: 'assets/resources/share_btn.svg',
+//         amount: report.shareCount,
+//       ),
+//     ],
+//   );
+// }
 }
-
 
 class SipReport {
   final String userName;

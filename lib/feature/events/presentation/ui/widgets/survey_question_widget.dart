@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class SurveyQuestion extends StatefulWidget {
+import '../provider/survey_radio_string_response_provider.dart';
+
+class SurveyQuestion extends ConsumerStatefulWidget {
   final String question;
 
   const SurveyQuestion({super.key, required this.question});
@@ -11,7 +14,7 @@ class SurveyQuestion extends StatefulWidget {
   _SurveyQuestionState createState() => _SurveyQuestionState();
 }
 
-class _SurveyQuestionState extends State<SurveyQuestion> {
+class _SurveyQuestionState extends ConsumerState<SurveyQuestion> {
   String? _selectedOption;
 
   final List<String> _options = [
@@ -21,6 +24,13 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
     "Disagree",
     "Strongly Disagree"
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    final responses = ref.read(radioStringQuestionResponseProvider);
+    _selectedOption = responses[widget.question];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +70,10 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
                 setState(() {
                   _selectedOption = value;
                 });
-                print("${widget.question}: $value");
+                // Update the response in the provider
+                ref
+                    .read(radioStringQuestionResponseProvider.notifier)
+                    .updateResponse(widget.question, value);
               },
             );
           }).toList(),

@@ -5,11 +5,16 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
-import '../../../../../../home/presentation/ui/provider/survey_grid_notifier.dart';
+import '../../../provider/survey_grid_notifier.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
 class LATrainerFacilitationFeedbackScreen extends ConsumerStatefulWidget {
-  const LATrainerFacilitationFeedbackScreen({super.key});
+  final String eventIdentity;
+
+  const LATrainerFacilitationFeedbackScreen({
+    super.key,
+    required this.eventIdentity,
+  });
 
   @override
   _LATrainerFacilitationFeedbackScreenState createState() =>
@@ -18,9 +23,23 @@ class LATrainerFacilitationFeedbackScreen extends ConsumerStatefulWidget {
 
 class _LATrainerFacilitationFeedbackScreenState
     extends ConsumerState<LATrainerFacilitationFeedbackScreen> {
+  // Track errors for each question
+  final _questionErrors = {
+    "Credibility and expertise": ValueNotifier<String?>(null),
+    "Connection with participants": ValueNotifier<String?>(null),
+    "Ability to manage group conversations effectively":
+        ValueNotifier<String?>(null),
+    "Knowledge of the content": ValueNotifier<String?>(null),
+    "Clarity in delivery and presentation": ValueNotifier<String?>(null),
+  };
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    // Dispose all value notifiers
+    for (var error in _questionErrors.values) {
+      error.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -29,7 +48,7 @@ class _LATrainerFacilitationFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Post Survey-Leadership Academy',
+        title: Text('Post Survey - Leadership Academy',
             style: PhinexaFont.highlightAccent),
       ),
       body: SingleChildScrollView(
@@ -38,83 +57,60 @@ class _LATrainerFacilitationFeedbackScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text(
                 "Trainer Facilitation Feedback",
                 style: PhinexaFont.headingLarge,
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text(
                 "For each facilitator, please rate their performance",
                 style: PhinexaFont.highlightRegular,
               ),
-              SizedBox(
-                height: 20,
+              SizedBox(height: 20),
+
+              // Question 1
+              _buildQuestionWidget(
+                "Credibility and expertise",
+                responses,
+                _questionErrors["Credibility and expertise"]!,
               ),
-              CustomSquareBoxSelectionWidget(
-                question: "Credibility and expertise",
-                firstGrade: "Disagree",
-                lastGrade: "Strongly Agree",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  print("${question}: $value");
-                },
+              SizedBox(height: 10),
+
+              // Question 2
+              _buildQuestionWidget(
+                "Connection with participants",
+                responses,
+                _questionErrors["Connection with participants"]!,
               ),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+
+              // Question 3
+              _buildQuestionWidget(
+                "Ability to manage group conversations effectively",
+                responses,
+                _questionErrors[
+                    "Ability to manage group conversations effectively"]!,
               ),
-              CustomSquareBoxSelectionWidget(
-                question: "Connection with participants",
-                firstGrade: "Disagree",
-                lastGrade: "Strongly Agree",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  print("${question}: $value");
-                },
+              SizedBox(height: 10),
+
+              // Question 4
+              _buildQuestionWidget(
+                "Knowledge of the content",
+                responses,
+                _questionErrors["Knowledge of the content"]!,
               ),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+
+              // Question 5
+              _buildQuestionWidget(
+                "Clarity in delivery and presentation",
+                responses,
+                _questionErrors["Clarity in delivery and presentation"]!,
               ),
-              CustomSquareBoxSelectionWidget(
-                question: "Ability to manage group conversations effectively",
-                firstGrade: "Disagree",
-                lastGrade: "Strongly Agree",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  print("${question}: $value");
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              CustomSquareBoxSelectionWidget(
-                question: "Knowledge of the content",
-                firstGrade: "Disagree",
-                lastGrade: "Strongly Agree",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  print("${question}: $value");
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              CustomSquareBoxSelectionWidget(
-                question: "Clarity in delivery and presentation",
-                firstGrade: "Disagree",
-                lastGrade: "Strongly Agree",
-                responses: responses,
-                onResponseSelected: (question, value) {
-                  print("${question}: $value");
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
+
+              // Next Button
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -125,18 +121,71 @@ class _LATrainerFacilitationFeedbackScreenState
                       label: "Next",
                       icon: Icons.chevron_right_rounded,
                       height: 40,
-                      onPressed: () {
-                        context
-                            .pushNamed(RouteName.laApplicationOfSkillsScreen);
-                      },
+                      onPressed: () => _validateForm(),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildQuestionWidget(
+    String question,
+    Map<String, int?> responses,
+    ValueNotifier<String?> errorNotifier,
+  ) {
+    return ValueListenableBuilder<String?>(
+      valueListenable: errorNotifier,
+      builder: (context, error, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomSquareBoxSelectionWidget(
+              question: question,
+              firstGrade: "Disagree",
+              lastGrade: "Strongly Agree",
+              responses: responses.cast<String, int>(),
+              // Cast to Map<String, int>
+              onResponseSelected: (question, value) {
+                ref
+                    .read(surveyGridResponseProvider.notifier)
+                    .updateResponse(question, value);
+              },
+            ),
+            if (error != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 8),
+                child: Text(error, style: TextStyle(color: Colors.red)),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _validateForm() {
+    bool isValid = true;
+
+    // Validate questions
+    final responses = ref.read(surveyGridResponseProvider);
+    for (var question in _questionErrors.keys) {
+      if (responses[question] == null) {
+        _questionErrors[question]!.value = 'Please answer this question';
+        isValid = false;
+      } else {
+        _questionErrors[question]!.value = null;
+      }
+    }
+
+    if (isValid) {
+      context.pushNamed(
+        RouteName.laApplicationOfSkillsScreen,
+        extra: widget.eventIdentity,
+      );
+    }
   }
 }

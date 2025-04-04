@@ -65,17 +65,19 @@ class _AddEducationalHistoryState extends ConsumerState<AddEducationalHistory> {
                 children: [
                   CustomIconButton(
                     label: 'Cancel',
-                    textColour: Colors.black,
+                    isBold: true,
+                    textColour: Color(0xFF3993A1),
                     onPressed: () => Navigator.pop(context),
                     color: Colors.white,
-                    borderColor: Colors.blue,
+                    borderColor: Color(0xFF3993A1),
                   ),
                   const SizedBox(width: 16),
                   CustomIconButton(
                     label: 'Add',
+                    isBold: true,
                     textColour: Colors.white,
                     onPressed: () => saveChanges(),
-                    color: Colors.blue,
+                    color: Color(0xFF3993A1),
                     iconColor: Colors.white,
                   ),
                 ],

@@ -42,12 +42,13 @@ class SkillsTableWidget extends ConsumerWidget {
                 Visibility(
                   visible: onPressed != null,
                   child: CustomIconButton(
-                      label: 'edit',
+                      label: 'Edit',
+                      isBold: true,
                       textColour: Colors.black,
                       onPressed: onPressed == null? ()=>{} : onPressed!,
                       color: Colors.white,
                       btnSize: 'small',
-                      borderColor: Colors.blue,
+                      borderColor: Color(0xFFB3B3B3),
                   ),
                 )
               ],
@@ -56,10 +57,14 @@ class SkillsTableWidget extends ConsumerWidget {
 
           // Table Container
           (data.isEmpty)?
-          const Center(child: Text('No data available')) :
+          const Center(
+              child: Text(
+                  'No data available',
+              )
+          ) :
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: Color(0xFFE5E5E5)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -83,7 +88,7 @@ class SkillsTableWidget extends ConsumerWidget {
                   ),
 
                   if (i < data.length - 1)
-                    const Divider(height: 1, color: Colors.grey),
+                    const Divider(height: 1, color: Color(0xFFE5E5E5)),
                 ],
               ],
             ),

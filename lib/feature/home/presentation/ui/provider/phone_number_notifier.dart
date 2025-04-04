@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'phone_number_state.dart';
 
 class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
-  PhoneNumberNotifier() : super(PhoneNumberState(countryCode: "+1", phoneNumber: ""));
+  PhoneNumberNotifier()
+      : super(PhoneNumberState(countryCode: "+94", phoneNumber: ""));
 
   void updateCountryCode(String newCountryCode) {
     state = state.copyWith(countryCode: newCountryCode);
@@ -10,5 +12,9 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
 
   void updatePhoneNumber(String newPhoneNumber) {
     state = state.copyWith(phoneNumber: newPhoneNumber);
+  }
+
+  void clearPhoneNumber() {
+    state = state.copyWith(countryCode: "+94", phoneNumber: "");
   }
 }
