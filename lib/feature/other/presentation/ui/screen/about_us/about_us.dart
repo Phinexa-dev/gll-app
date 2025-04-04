@@ -2,24 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:gll/common/widget/custom_icon_button.dart';
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
-import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
-import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
-import 'package:gll/feature/other/presentation/ui/widget/educational_history/add_educational_history.dart';
-import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
-import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
-import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.dart';
-import 'package:gll/feature/other/presentation/ui/widget/socials/edit_socials.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../../../core/route/route_name.dart';
 import '../../../controller/skill/skill_controller.dart';
 import '../../provider/certification_provider.dart';
-import '../../provider/education_history_provider.dart';
 import '../../provider/personal_detail_provider.dart';
 import '../../provider/toggle_button_provider.dart';
-import '../../widget/education_history.dart';
-import '../../widget/skills/skills_table.dart';
 
 class AboutUs extends ConsumerStatefulWidget {
   const AboutUs({super.key});
@@ -35,7 +22,6 @@ class _AboutUsState extends ConsumerState<AboutUs> {
     final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(socialInformationProvider);
     final skillsData = ref.watch(skillControllerProvider).skills;
-    final educationData = ref.watch(educationHistoryProvider);
     final certificationData = ref.watch(certificationProvider);
 
     return Scaffold(

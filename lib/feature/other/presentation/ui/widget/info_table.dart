@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
-import 'package:gll/feature/other/presentation/controller/profile/profile_controller.dart';
 import 'package:shimmer/shimmer.dart';
 
 class InfoTableWidget extends ConsumerWidget {

@@ -9,7 +9,6 @@ import '../../../../../core/data/local/auth/auth_notifier.dart';
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/data/remote/token/token_service.dart';
-import '../../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 

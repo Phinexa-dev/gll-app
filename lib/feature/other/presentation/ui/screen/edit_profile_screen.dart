@@ -3,11 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/feature/other/presentation/controller/profile/profile_controller.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
-import '../../../../../core/data/local/user/user_service.dart';
-import '../../../../../core/route/route_name.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 

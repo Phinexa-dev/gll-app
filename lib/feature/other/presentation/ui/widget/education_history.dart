@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
-
+import 'package:gll/feature/other/domain/model/education/education_data_model.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../controller/education/education_controller.dart';
 import 'educational_history/edit_educational_history.dart';
 
 class EducationHistory extends ConsumerWidget {
@@ -21,10 +23,13 @@ class EducationHistory extends ConsumerWidget {
   final Color color;
   // final VoidCallback onPressedEdit;
   final VoidCallback onPressedAdd;
-  final List<Map<String,String>> data;
+  final List<EducationDataModel> data;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final educationState = ref.watch(educationControllerProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,10 +64,21 @@ class EducationHistory extends ConsumerWidget {
         // Table Container
         Column(
           children: [
+            data.isEmpty && !educationState.isLoading
+                ? Container(
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No education history found',
+                      style: PhinexaFont.cardTipRegular,
+                    ),
+                  )
+                :
+                Container(),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: data.length,
+              itemCount: educationState.isLoading? 2 : data.length,
               itemBuilder: (context, item) {
                 return ListTile(
                   title: Row(
@@ -72,8 +88,19 @@ class EducationHistory extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric( vertical: 2),
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                              data[item]['degree']!,
+                          child: educationState.isLoading?
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              height: 16, // Approximate height of text
+                              width: 150, // Approximate width of degree text
+                              color: Colors.grey.shade300, // Placeholder color
+                            ),
+                          )
+                              :
+                          Text(
+                              data[item].degree,
                               style: PhinexaFont.cardTipRegular,
                               softWrap: true,
                               overflow: TextOverflow.visible,
@@ -83,20 +110,48 @@ class EducationHistory extends ConsumerWidget {
                       Row(
                         children: [
                           // delete Icon button
+                          educationState.isLoading?
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              height: 16, // Approximate height of text
+                              width: 50, // Approximate width of edit text
+                              color: Colors.grey.shade300, // Placeholder color
+                            ),
+                          )
+                              :
                           IconButton(
-                              onPressed: () {
-                                // Handle delete item
+                              onPressed: educationState.isLoading?
+                              () => {}
+                              :
+                              () {
+                                ref.watch(educationControllerProvider.notifier).deleteEducationData(data[item].id);
                               },
                               icon: Icon(
                                   Icons.delete_outline,
                                   color: Color(0xFFE87878),
                                   size: 20),
                           ),
+                          educationState.isLoading?
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              height: 16, // Approximate height of text
+                              width: 50, // Approximate width of edit text
+                              color: Colors.grey.shade300, // Placeholder color
+                            ),
+                          )
+                              :
                           CustomIconButton(
                             label: 'Edit',
                             isBold: true,
                             textColour: Colors.black,
-                            onPressed: ()=>{
+                            onPressed: educationState.isLoading?
+                                () => {}
+                                :
+                                ()=>{
                                 // ref.read(animationVisibilityProvider.notifier).state = false;
                                 // open the signup overlay
                                 showModalBottomSheet(
@@ -109,7 +164,7 @@ class EducationHistory extends ConsumerWidget {
                                   isScrollControlled: true,
                                   builder: (BuildContext context) {
                                     // return unimplemented
-                                    return EditEducationalHistory();
+                                    return EditEducationalHistory(educationData: data[item]);
                                   },
                                 ).whenComplete(() {
                                   // ref.read(animationVisibilityProvider.notifier).state = true;
@@ -129,12 +184,49 @@ class EducationHistory extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(data[item]['institution']!, style: PhinexaFont.captionRegular),
-                        Text("${data[item]['startDate']!} - ${data[item]['endDate']!}", style: PhinexaFont.footnoteRegular.copyWith(fontSize:11 ,color: Colors.grey)),
+                        educationState.isLoading
+                            ? Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            height: 14, // Approximate height of institution text
+                            width: 120, // Approximate width
+                            color: Colors.grey.shade300,
+                          ),
+                        )
+                            :
+                        Text(data[item].school, style: PhinexaFont.captionRegular),
+
+                        educationState.isLoading
+                            ? Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            height: 11, // Approximate height of date text
+                            width: 80, // Approximate width of "start - end"
+                            color: Colors.grey.shade300,
+                          ),
+                        )
+                            :
+                        Text("${data[item].startdate.year} - ${data[item].enddate.year}", style: PhinexaFont.footnoteRegular.copyWith(fontSize:11 ,color: Colors.grey)),
                       ],
                     ),
                   ),
-                  leading: SvgPicture.asset('assets/more/${data[item]['icon']}', width: 30, height: 30, alignment: Alignment.topLeft,),
+                  leading: educationState.isLoading
+                      ? Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      width: 30, // Match SvgPicture width
+                      height: 30, // Match SvgPicture height
+                      color: Colors.grey.shade300,
+                    ),
+                  )
+                      :
+                  SvgPicture.asset(
+                    'assets/more/${data[item].degree.toLowerCase().contains("master")? 'masters.svg' : 'bachelor.svg'}'
+                    , width: 30, height: 30, alignment: Alignment.topLeft,
+                  ),
                 );
               },
             ),

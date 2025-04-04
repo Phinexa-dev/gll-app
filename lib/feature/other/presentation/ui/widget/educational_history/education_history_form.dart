@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
+import 'package:gll/feature/other/presentation/controller/education/education_controller.dart';
 import 'package:gll/feature/other/presentation/ui/provider/education_history_provider.dart';
-import '../../../../../../common/theme/fonts.dart';
-import '../../../../../../common/widget/custom_icon_button.dart';
+import 'package:intl/intl.dart';
+import '../../../../../system_feedback/model/feedback.dart';
+import '../../../../../system_feedback/provider/feedback_provider.dart';
 
 class EducationHistoryForm extends ConsumerStatefulWidget {
   const EducationHistoryForm({
@@ -49,50 +51,82 @@ class _EducationHistoryFormState extends ConsumerState<EducationHistoryForm> {
     super.dispose();
   }
 
-  void saveChanges() {
-    final history = ref.read(educationHistoryProvider);
+  void editEducation() {
+    ref.read(editButtonPressedProvider.notifier).state = false;
 
-    if(widget.id.isEmpty) {
-      history.add({
-        'id': DateTime.now().toString(),
-        'school': schoolController.text,
-        'degree': degreeController.text,
-        'startDate': startDateController.text,
-        'endDate': endDateController.text,
-      });
-      ref.read(educationHistoryProvider.notifier).state = history;
-    } else {
-      final updatedHistory = history.map((item) {
-        if (item['id'] == widget.id) {
-          return {
-            'id': widget.id,
-            'institution': schoolController.text,
-            'degree': degreeController.text,
-            'startDate': startDateController.text,
-            'endDate': endDateController.text,
-            'icon': "masters.svg", // masters.svg or bachelor.svg
-          };
-        }
-        return item;
-      }).toList();
-
-      ref.read(educationHistoryProvider.notifier).state = updatedHistory;
+    // check if the form is valid
+    if (schoolController.text.isEmpty || degreeController.text.isEmpty || startDateController.text.isEmpty || endDateController.text.isEmpty) {
+      ref.read(feedbackServiceProvider).showToast("Please fill all fields", type: FeedbackType.error);
+      return;
     }
+
+    // check if the start date is before the end date
+    final startDate = DateFormat('yyyy-MM-dd').parse(startDateController.text);
+    final endDate = DateFormat('yyyy-MM-dd').parse(endDateController.text);
+    if (startDate.isAfter(endDate)) {
+      ref.read(feedbackServiceProvider).showToast("Start date must be before end date", type: FeedbackType.error);
+      return;
+    }
+
+    final formData = {
+      'school': schoolController.text,
+      'degree': degreeController.text,
+      'startDate': startDateController.text,
+      'endDate': endDateController.text,
+    };
+
+    // set the form data to the controller
+    ref.read(educationControllerProvider.notifier).setFormData(formData);
+    ref.read(educationControllerProvider.notifier).editEducationData(int.parse(widget.id));
+    Navigator.pop(context);
+  }
+
+  void addEducation() {
+    ref.read(addButtonPressedProvider.notifier).state = false;
+
+    // check if the form is valid
+    if (schoolController.text.isEmpty || degreeController.text.isEmpty || startDateController.text.isEmpty || endDateController.text.isEmpty) {
+      ref.read(feedbackServiceProvider).showToast("Please fill all fields", type: FeedbackType.error);
+      return;
+    }
+
+    // check if the start date is before the end date
+    final startDate = DateFormat('yyyy-MM-dd').parse(startDateController.text);
+    final endDate = DateFormat('yyyy-MM-dd').parse(endDateController.text);
+    if (startDate.isAfter(endDate)) {
+      ref.read(feedbackServiceProvider).showToast("Start date must be before end date", type: FeedbackType.error);
+      return;
+    }
+
+    final formData = {
+      'school': schoolController.text,
+      'degree': degreeController.text,
+      'startDate': startDateController.text,
+      'endDate': endDateController.text,
+    };
+
+    // set the form data to the controller
+    ref.read(educationControllerProvider.notifier).setFormData(formData);
+    ref.read(educationControllerProvider.notifier).addEducationData();
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final addButtonPressed = ref.read(addButtonPressedProvider);
-    final editButtonPressed = ref.read(editButtonPressedProvider);
+    final addButtonPressed = ref.watch(addButtonPressedProvider);
+    final editButtonPressed = ref.watch(editButtonPressedProvider);
+    final educationState = ref.watch(educationControllerProvider);
 
     if(addButtonPressed){
-      saveChanges();
-      ref.read(addButtonPressedProvider.notifier).state = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        addEducation();
+      });
     }
     if(editButtonPressed){
-      saveChanges();
-      ref.read(editButtonPressedProvider.notifier).state = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        editEducation();
+      });
     }
 
     return Column(
@@ -109,11 +143,52 @@ class _EducationHistoryFormState extends ConsumerState<EducationHistoryForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-                child: CustomTextField(labelText: 'Start Date', controller: startDateController, keyboardType: TextInputType.text)
+              child: GestureDetector(
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(DateTime.now().year - 130),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                    startDateController.text = formattedDate;
+                  }
+                },
+                child: AbsorbPointer( // Prevents manual text input
+                  child: CustomTextField(
+                    labelText: 'Start Date',
+                    controller: startDateController,
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
-                child: CustomTextField(labelText: 'End Date(or expected)', controller: endDateController, keyboardType: TextInputType.text)
+              child: GestureDetector(
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(DateTime.now().year - 130),
+                    lastDate: DateTime(DateTime.now().year + 130),
+                  );
+                  if (pickedDate != null) {
+                    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                    endDateController.text = formattedDate; // Update controller
+                    // Optionally store in formData directly: formData['endDate'] = formattedDate;
+                  }
+                },
+                child: AbsorbPointer(
+                  child: CustomTextField(
+                    labelText: 'End Date (or expected)',
+                    controller: endDateController,
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

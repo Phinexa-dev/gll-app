@@ -5,8 +5,6 @@ import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../core/route/route_name.dart';
-import '../../../../login/presentation/ui/screen/login.dart';
-import '../../../../signup/presentation/ui/screen/signup.dart';
 import '../provider/animation_visibility_provider.dart';
 
 class GetStarted extends ConsumerStatefulWidget {

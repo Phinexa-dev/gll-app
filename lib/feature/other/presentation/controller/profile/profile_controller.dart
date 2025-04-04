@@ -8,7 +8,6 @@ import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/profile/profile_service.dart';
 import '../../../data/dto/request/profile/edit_profile/edit_profile_request.dart';
-import '../../../domain/model/profile/profile_data_model.dart';
 
 final profileControllerProvider = AutoDisposeNotifierProvider<ProfileController, ProfileState>(ProfileController.new);
 

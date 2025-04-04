@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
-import 'package:gll/feature/other/presentation/ui/provider/professional_skills_provider.dart';
 import 'package:gll/feature/other/presentation/ui/provider/social_information_provider.dart';
 import 'package:gll/feature/other/presentation/ui/widget/certifications.dart';
 import 'package:gll/feature/other/presentation/ui/widget/custom_toggle_bar.dart';
 import 'package:gll/feature/other/presentation/ui/widget/educational_history/add_educational_history.dart';
-import 'package:gll/feature/other/presentation/ui/widget/educational_history/edit_educational_history.dart';
 import 'package:gll/feature/other/presentation/ui/widget/info_table.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
 import 'package:gll/feature/other/presentation/ui/widget/skills/manage_skills.dart';
@@ -17,10 +15,10 @@ import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/route/route_name.dart';
+import '../../controller/education/education_controller.dart';
 import '../../controller/profile/profile_controller.dart';
 import '../../controller/skill/skill_controller.dart';
 import '../provider/certification_provider.dart';
-import '../provider/education_history_provider.dart';
 import '../provider/personal_detail_provider.dart';
 import '../provider/toggle_button_provider.dart';
 import '../widget/education_history.dart';
@@ -43,6 +41,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Future.microtask(() {
       ref.read(skillControllerProvider.notifier).getSkills();
       ref.read(profileControllerProvider.notifier).updateFormData();
+      ref.read(educationControllerProvider.notifier).getEducationData();
     });
   }
 
@@ -52,7 +51,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(socialInformationProvider);
     final skillsState = ref.watch(skillControllerProvider);
-    final educationData = ref.watch(educationHistoryProvider);
+    final educationState = ref.watch(educationControllerProvider);
     final certificationData = ref.watch(certificationProvider);
     final profileState = ref.watch(profileControllerProvider);
 
@@ -82,7 +81,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             userAsync.when(
               data: (user) {
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       user?.fullName ?? "Guest",
@@ -246,7 +244,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     EducationHistory(
                         caption: 'Education History',
                         color: Colors.black,
-                        data: educationData,
+                        data: educationState.educationData,
                         // onPressedEdit: ()=>{
                         //   // ref.read(animationVisibilityProvider.notifier).state = false;
                         //   // open the signup overlay
@@ -283,6 +281,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             },
                           ).whenComplete(() {
                             // ref.read(animationVisibilityProvider.notifier).state = true;
+                            // TODO: empty the unsaved form data
                           })
                         }
                     ),

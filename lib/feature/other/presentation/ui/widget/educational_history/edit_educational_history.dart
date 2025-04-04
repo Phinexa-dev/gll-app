@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/feature/other/domain/model/education/education_data_model.dart';
 import 'package:gll/feature/other/presentation/ui/widget/educational_history/education_history_form.dart';
+import 'package:intl/intl.dart';
 import '../../../../../../common/widget/custom_icon_button.dart';
 import '../../provider/education_history_provider.dart';
 
 class EditEducationalHistory extends ConsumerStatefulWidget {
-  const EditEducationalHistory({super.key});
+  const EditEducationalHistory({
+    super.key,
+    this.educationData,
+  });
+
+  final EducationDataModel? educationData;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditEducationalHistoryState();
@@ -24,14 +31,11 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
   }
 
   void saveChanges() {
-    // ref.read(addButtonPressedProvider.notifier).state = true;
-    // print('Save Changes from main');
+    ref.read(editButtonPressedProvider.notifier).state = true;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final history = ref.watch(educationHistoryProvider);
 
     return FractionallySizedBox(
       heightFactor: 0.1 + 1 * 0.34,
@@ -58,6 +62,15 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
                           ),
                         ),
                       ),
+                      widget.educationData != null?
+                      EducationHistoryForm(
+                        id: widget.educationData!.id.toString(),
+                        school: widget.educationData!.school,
+                        degree: widget.educationData!.degree,
+                        startDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.startdate),
+                        endDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.enddate),
+                      )
+                      :
                       EducationHistoryForm(),
                     ],
                   ),
@@ -79,7 +92,7 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
                     label: 'Save Changes',
                     isBold: true,
                     textColour: Colors.white,
-                    onPressed: () => saveChanges(),
+                    onPressed: saveChanges,
                     color: Color(0xFF3993A1),
                     iconColor: Colors.white,
                   ),
