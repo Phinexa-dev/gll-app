@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../domain/model/skill/skill_data_model.dart';
+import '../../../controller/skill/skill_controller.dart';
 
 class SkillsTableWidget extends ConsumerWidget {
 
@@ -22,6 +24,9 @@ class SkillsTableWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final skillsState = ref.watch(skillControllerProvider);
+    final dataLength = skillsState.isLoading? 3 : data.length;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -45,7 +50,7 @@ class SkillsTableWidget extends ConsumerWidget {
                       label: 'Edit',
                       isBold: true,
                       textColour: Colors.black,
-                      onPressed: onPressed == null? ()=>{} : onPressed!,
+                      onPressed: onPressed!,
                       color: Colors.white,
                       btnSize: 'small',
                       borderColor: Color(0xFFB3B3B3),
@@ -56,7 +61,7 @@ class SkillsTableWidget extends ConsumerWidget {
           ),
 
           // Table Container
-          (data.isEmpty)?
+          (data.isEmpty && !skillsState.isLoading)?
           const Center(
               child: Text(
                   'No data available',
@@ -69,7 +74,7 @@ class SkillsTableWidget extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                for (int i = 0; i < data.length; i++) ...[
+                for (int i = 0; i < dataLength; i++) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 12.0,
@@ -77,6 +82,20 @@ class SkillsTableWidget extends ConsumerWidget {
                     ),
                     child: Row(
                       children: [
+                        skillsState.isLoading?
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            height: 16,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        )
+                        :
                         Text(
                           trimString(data[i].skill, 15),
                           style: PhinexaFont.labelRegular.copyWith(
@@ -87,7 +106,7 @@ class SkillsTableWidget extends ConsumerWidget {
                     ),
                   ),
 
-                  if (i < data.length - 1)
+                  if (i < dataLength - 1)
                     const Divider(height: 1, color: Color(0xFFE5E5E5)),
                 ],
               ],

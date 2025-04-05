@@ -41,6 +41,19 @@ final class ProfileService implements IProfileService {
     }
   }
 
+  @override
+  Future<ProfileDataModel?> getProfile(int userId) async {
+    try {
+      final response = await _profileRepository.getProfile(userId);
+      if (response == null) return null;
+
+      final profileDataModel = _mapToProfileDataModel(response);
+      return profileDataModel;
+    } on DioException catch (_) {
+      rethrow;
+    }
+  }
+
   ProfileDataModel _mapToProfileDataModel(dynamic response) {
     return ProfileDataModel(
       id: response.id,
@@ -55,6 +68,7 @@ final class ProfileService implements IProfileService {
       x: response.x,
       instagram: response.instagram,
       userIntrests: response.userIntrests,
+      languages: response.languages,
     );
   }
 }

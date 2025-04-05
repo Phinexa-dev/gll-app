@@ -22,6 +22,7 @@ _$EditProfileResponseImpl _$$EditProfileResponseImplFromJson(
       x: json['x'] as String?,
       instagram: json['instagram'] as String?,
       userIntrests: json['userIntrests'] as String?,
+      languages: json['userLanguages'] as String?,
     );
 
 Map<String, dynamic> _$$EditProfileResponseImplToJson(
@@ -40,4 +41,5 @@ Map<String, dynamic> _$$EditProfileResponseImplToJson(
       'x': instance.x,
       'instagram': instance.instagram,
       'userIntrests': instance.userIntrests,
+      'userLanguages': instance.languages,
     };

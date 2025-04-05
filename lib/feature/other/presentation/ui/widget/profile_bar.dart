@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../../../../common/widget/shimmer_box.dart';
 import '../../../../../core/data/local/auth/auth_notifier.dart';
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/data/remote/token/token_service.dart';
-import '../../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 
@@ -31,7 +32,8 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(userNotifierProvider);
+    final userAsync = ref.watch(userProvider);
+
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.9,
       height: 100,
@@ -43,7 +45,16 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
       child: Row(
         children: [
           // Profile Picture
-          CircleAvatar(
+          userAsync.isLoading
+              ? Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: CircleAvatar(
+              radius: 24,
+              backgroundColor: Colors.grey[300],
+            ),
+          )
+              : CircleAvatar(
             radius: 24,
             backgroundColor: Colors.grey[400],
             backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
@@ -51,19 +62,29 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
           const SizedBox(width: 12),
           ConstrainedBox(
             constraints:
-                BoxConstraints(maxWidth: 200), // Adjust this value as needed
-            child: Column(
+            BoxConstraints(maxWidth: 200), // Adjust this value as needed
+            child: userAsync.isLoading
+                ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                shimmerBox(width: 100),
+                const SizedBox(height: 4),
+                shimmerBox(width: 140),
+              ],
+            )
+                : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  userState.user?.fullName ?? 'Guest',
+                  userAsync.value?.fullName ?? 'Guest',
                   style: PhinexaFont.highlightAccent,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 Text(
-                  userState.user?.email ?? 'Email',
+                  userAsync.value?.email ?? 'Email',
                   style: PhinexaFont.contentRegular
                       .copyWith(color: PhinexaColor.grey),
                   overflow: TextOverflow.ellipsis,

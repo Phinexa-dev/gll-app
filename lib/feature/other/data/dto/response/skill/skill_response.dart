@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'skill_response.freezed.dart';
 part 'skill_response.g.dart';

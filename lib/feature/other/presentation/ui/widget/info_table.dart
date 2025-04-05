@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_icon_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class InfoTableWidget extends ConsumerWidget {
 
@@ -9,6 +10,7 @@ class InfoTableWidget extends ConsumerWidget {
     super.key,
     required this.caption,
     required this.data,
+    required this.isLoading,
     this.onPressed,
     this.color = Colors.grey,
   }
@@ -18,9 +20,11 @@ class InfoTableWidget extends ConsumerWidget {
   final Color color;
   final VoidCallback? onPressed;
   final Map<String,String> data;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -75,15 +79,28 @@ class InfoTableWidget extends ConsumerWidget {
                             color: color,
                           ),
                         ),
-                        Expanded(
-                          child: Text(
-                            trimString(data.entries.elementAt(i).value, 20),
-                            style: PhinexaFont.captionAccent.copyWith(
-                              fontSize: 13,
-                              color: color,
+                        const Spacer(), // Pushes the next widget to the right
+                        isLoading?
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            height: 16,
+                            width: 150, // Fixed width for shimmer
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            textAlign: TextAlign.right,
                           ),
+                        )
+                        :
+                        Text(
+                          trimString(data.entries.elementAt(i).value, 20),
+                          style: PhinexaFont.captionAccent.copyWith(
+                            fontSize: 13,
+                            color: color,
+                          ),
+                          textAlign: TextAlign.right,
                         ),
                       ],
                     ),

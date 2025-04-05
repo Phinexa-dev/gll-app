@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isEditingSocials => throw _privateConstructorUsedError;
   bool? get isSuccess => throw _privateConstructorUsedError;
   bool? get isFailure => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ abstract class $ProfileStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isEditingSocials,
       bool? isSuccess,
       bool? isFailure,
       String? errorMessage,
@@ -59,6 +61,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isEditingSocials = null,
     Object? isSuccess = freezed,
     Object? isFailure = freezed,
     Object? errorMessage = freezed,
@@ -68,6 +71,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isEditingSocials: null == isEditingSocials
+          ? _value.isEditingSocials
+          : isEditingSocials // ignore: cast_nullable_to_non_nullable
               as bool,
       isSuccess: freezed == isSuccess
           ? _value.isSuccess
@@ -99,6 +106,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isEditingSocials,
       bool? isSuccess,
       bool? isFailure,
       String? errorMessage,
@@ -119,6 +127,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isEditingSocials = null,
     Object? isSuccess = freezed,
     Object? isFailure = freezed,
     Object? errorMessage = freezed,
@@ -128,6 +137,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isEditingSocials: null == isEditingSocials
+          ? _value.isEditingSocials
+          : isEditingSocials // ignore: cast_nullable_to_non_nullable
               as bool,
       isSuccess: freezed == isSuccess
           ? _value.isSuccess
@@ -154,6 +167,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 class _$ProfileStateImpl implements _ProfileState {
   _$ProfileStateImpl(
       {this.isLoading = false,
+      this.isEditingSocials = false,
       this.isSuccess,
       this.isFailure,
       this.errorMessage,
@@ -163,6 +177,9 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isEditingSocials;
   @override
   final bool? isSuccess;
   @override
@@ -182,7 +199,7 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isSuccess: $isSuccess, isFailure: $isFailure, errorMessage: $errorMessage, form: $form)';
+    return 'ProfileState(isLoading: $isLoading, isEditingSocials: $isEditingSocials, isSuccess: $isSuccess, isFailure: $isFailure, errorMessage: $errorMessage, form: $form)';
   }
 
   @override
@@ -192,6 +209,8 @@ class _$ProfileStateImpl implements _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isEditingSocials, isEditingSocials) ||
+                other.isEditingSocials == isEditingSocials) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess) &&
             (identical(other.isFailure, isFailure) ||
@@ -202,8 +221,14 @@ class _$ProfileStateImpl implements _ProfileState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSuccess, isFailure,
-      errorMessage, const DeepCollectionEquality().hash(_form));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isEditingSocials,
+      isSuccess,
+      isFailure,
+      errorMessage,
+      const DeepCollectionEquality().hash(_form));
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -217,6 +242,7 @@ class _$ProfileStateImpl implements _ProfileState {
 abstract class _ProfileState implements ProfileState {
   factory _ProfileState(
       {final bool isLoading,
+      final bool isEditingSocials,
       final bool? isSuccess,
       final bool? isFailure,
       final String? errorMessage,
@@ -224,6 +250,8 @@ abstract class _ProfileState implements ProfileState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isEditingSocials;
   @override
   bool? get isSuccess;
   @override

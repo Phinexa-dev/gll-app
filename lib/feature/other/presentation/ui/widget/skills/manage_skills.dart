@@ -6,16 +6,6 @@ import '../../../../../system_feedback/model/feedback.dart';
 import '../../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../controller/skill/skill_controller.dart';
 
-final mockSkillsProvider = StateProvider<List<String>>((ref) =>
-  [
-    'Strategic Leadership',
-    'Agile Project Management',
-    'Stakeholder Communication',
-    'Data Driven Decision Making',
-    'Change Management',
-  ]
-);
-
 class ManageSkills extends ConsumerStatefulWidget {
   const ManageSkills({super.key});
 
@@ -39,31 +29,23 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
     super.dispose();
   }
 
-  void saveChanges() {
+  void saveChanges() async {
 
-    // final formData = {
-    //   'skill': searchSkillsController.text,
-    // };
-    //
-    // //set the form data to the controller
-    // ref.read(skillControllerProvider.notifier).setFormData(formData);
-    // ref.read(skillControllerProvider.notifier).addSkill();
+    final unsavedSkills = ref.watch(skillControllerProvider).unsavedSkills;
+    if (unsavedSkills.isEmpty) {
+      final feedBackService = ref.read(feedbackServiceProvider);
+      feedBackService.showToast("Oops! No new skills found to save", type: FeedbackType.info);
+      return;
+    }
+    ref.read(skillControllerProvider.notifier).updateSkills();
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
 
     final isLoading = ref.watch(skillControllerProvider).isLoading;
-    final isSuccess = ref.watch(skillControllerProvider).isSuccess;
     final isFailure = ref.watch(skillControllerProvider).isFailure;
-
-    if(isSuccess != null && isSuccess){
-
-      final feedBackService = ref.read(feedbackServiceProvider);
-      // use system feedback to show the success message
-      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
-      // context.goNamed(RouteName.dashboard);
-    }
 
     if(isFailure != null && isFailure){
       final feedBackService = ref.read(feedbackServiceProvider);
@@ -72,115 +54,116 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
       feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
     }
 
-    final skills = ref.watch(skillControllerProvider).skills;
+    final skills = [
+      ...ref.watch(skillControllerProvider).skills,
+      ...ref.watch(skillControllerProvider).unsavedSkills,
+    ];
 
-    return FractionallySizedBox(
-      heightFactor: skills.isEmpty? 0.4 : skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Professional Skills',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Professional Skills',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'Skills',
+                      controller: searchSkillsController,
+                      height: 40,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(labelText: 'Skills', controller: searchSkillsController, height: 40,),
+                  const SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () {
+                      if (searchSkillsController.text.isNotEmpty &&
+                          !skills.any((skill) => skill.skill == searchSkillsController.text)) {
+                        ref.read(skillControllerProvider.notifier).addSkill(searchSkillsController.text);
+                        searchSkillsController.clear();
+                      }
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      const SizedBox(width: 16),
-                      // container for use as a button
-                      GestureDetector(
-                        onTap: () {
-                          if (searchSkillsController.text.isNotEmpty && !skills.contains(searchSkillsController.text))
-                            {
-                              ref.read(mockSkillsProvider.notifier).state = List.from(skills)..add(searchSkillsController.text);
-                              searchSkillsController.clear();
-                            }
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                            child: const Text(
-                              'Add',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child:
-                    skills.isEmpty
-                        ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: const Center(child: Text('No skills added yet')),
-                        )
-                        :
-                    ListView.builder(
-                      itemCount: skills.length <= 8 ? skills.length : 8,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(skills[index].skill),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline, color: Colors.red),
-                            onPressed: () {
-                              ref.read(mockSkillsProvider.notifier).state = List.from(skills)..removeAt(index);
-                            },
-                          ),
-                        );
-                      },
+                      child: const Center(child: Text('Add')),
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomIconButton(
-                  label: 'Cancel',
-                  isBold: true,
-                  textColour: Colors.black,
-                  onPressed: () => Navigator.pop(context),
-                  color: Colors.white,
-                  borderColor: Color(0xFF3993A1),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 200, // Fixed height for ListView to prevent unbounded height error
+                child: skills.isEmpty
+                    ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: Text('No skills added yet')),
+                )
+                    : ListView.builder(
+                  itemCount: skills.length <= 8 ? skills.length : 8,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(skills[index].skill),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: isLoading ? Colors.grey : Colors.red,
+                        ),
+                        onPressed: isLoading
+                            ? null
+                            : () {
+                          ref
+                              .watch(skillControllerProvider.notifier)
+                              .deleteSkill(skills[index].id);
+                        },
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(width: 16),
-                CustomIconButton(
-                  label: 'Save Changes',
-                  isBold: true,
-                  textColour: Colors.white,
-                  onPressed: () => Navigator.pop(context),
-                  color: Color(0xFF3993A1),
-                  iconColor: Colors.white,
-                ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 20), // Space before buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomIconButton(
+                    label: 'Cancel',
+                    isBold: true,
+                    textColour: Colors.black,
+                    onPressed: () => Navigator.pop(context),
+                    color: Colors.white,
+                    borderColor: const Color(0xFF3993A1),
+                  ),
+                  const SizedBox(width: 16),
+                  CustomIconButton(
+                    label: 'Save Changes',
+                    isBold: true,
+                    textColour: Colors.white,
+                    onPressed: saveChanges,
+                    color: const Color(0xFF3993A1),
+                    iconColor: Colors.white,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,14 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/application/skill/skill_service.dart';
 import 'package:gll/feature/other/data/dto/request/skill/add_skill_request.dart';
 import 'package:gll/feature/other/presentation/state/skill/skill_state.dart';
+
+import '../../../../system_feedback/model/feedback.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
+import '../../../domain/model/skill/skill_data_model.dart';
 
 final skillControllerProvider = AutoDisposeNotifierProvider<SkillController, SkillState>(SkillController.new);
 
@@ -26,7 +32,7 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
 
       state = state.copyWith(
         isLoading: false,
-        isSuccess: true,
+        isSuccess: null,
         isFailure: false,
         skills: result,
       );
@@ -42,17 +48,29 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
     }
   }
 
-  Future<void> addSkill() async {
-    final skill = state.form!['skill'];
+  Future<void> removeUnsavedSkills() async {
 
-    if (skill == null) {
-      // state = state.copyWith(
-      //   isSuccess: false,
-      //   isFailure: true,
-      //   errorMessage: 'Skill is required',
-      // );
-      return;
-    }
+    state = state.copyWith(
+      unsavedSkills: [],
+    );
+  }
+
+  Future<void> addSkill(String skill) async {
+
+    var rng = Random();
+    final randomSkillId = rng.nextInt(100)+rng.nextInt(1000);
+    final newSkill = SkillDataModel(id: randomSkillId, skill: skill);
+
+    // add skill to unsaved skills
+    final unsavedSkills = List<SkillDataModel>.from(state.unsavedSkills);
+    unsavedSkills.add(newSkill);
+
+    state = state.copyWith(
+      unsavedSkills: unsavedSkills,
+    );
+  }
+
+  Future<void> updateSkills() async {
 
     try{
 
@@ -62,12 +80,26 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
         isFailure: null,
       );
 
-      final addSkillRequest = AddSkillRequest(skill: skill);
+      // collect unsaved skills
+      final unsavedSkills = List<SkillDataModel>.from(state.unsavedSkills);
+      final List<AddSkillRequest> addSkillRequests = unsavedSkills.map(
+              (skillData) => AddSkillRequest(skill: skillData.skill)
+      ).toList();
 
-      final result = await ref.read(skillServiceProvider).addSkill([addSkillRequest]);
+      final result = await ref.read(skillServiceProvider).addSkill(addSkillRequests);
 
       if (result) {
+
+        state = state.copyWith(
+          isFailure: false,
+          isSuccess: null,
+          unsavedSkills: [],
+        );
+
         await getSkills();
+        final lastCharacter = unsavedSkills.length > 1? "s" : "";
+        final feedBackService = ref.read(feedbackServiceProvider);
+        feedBackService.showToast("Skill$lastCharacter added", type: FeedbackType.success);
       }
       else {
         state = state.copyWith(
@@ -91,6 +123,17 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
 
   void deleteSkill(int skillId) async {
 
+    // directly delete if skill is from unsaved skills
+    final unsavedSkills = List<SkillDataModel>.from(state.unsavedSkills);
+    final bool isUnsavedSkill = unsavedSkills.any((skill) => skill.id == skillId);
+    if (isUnsavedSkill) {
+      unsavedSkills.removeWhere((skill) => skill.id == skillId);
+      state = state.copyWith(
+        unsavedSkills: unsavedSkills,
+      );
+      return;
+    }
+
     try{
 
       state = state.copyWith(
@@ -100,6 +143,13 @@ class SkillController extends AutoDisposeNotifier<SkillState> {
       );
 
       final result = await ref.read(skillServiceProvider).deleteSkill(skillId);
+
+      // remove skill from skills
+      final skills = List<SkillDataModel>.from(state.skills);
+      skills.removeWhere((skill) => skill.id == skillId);
+      state = state.copyWith(
+        skills: skills,
+      );
 
       state = state.copyWith(
         isLoading: false,

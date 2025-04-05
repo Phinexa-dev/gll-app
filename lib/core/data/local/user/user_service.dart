@@ -15,6 +15,11 @@ final userServiceProvider = Provider<IUserService>((ref) {
   return UserService(secureStorage, tokenService);
 });
 
+final userProvider = AutoDisposeFutureProvider<UserModel?>((ref) async {
+  final userService = ref.watch(userServiceProvider);
+  return await userService.getUser();
+});
+
 class UserService implements IUserService {
   final ISecureStorage _secureStorage;
   final ITokenService _tokenService;
@@ -51,7 +56,7 @@ class UserService implements IUserService {
         email: email,
       );
     }
-    return null;
+    return null;  //  TODO: log out handling
   }
 
   @override

@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/core/data/local/user/model/user_model.dart';
 import 'package:gll/core/data/local/user/user_service.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/presentation/state/profile/profile_state.dart';
+import '../../../../system_feedback/model/feedback.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/profile/profile_service.dart';
 import '../../../data/dto/request/profile/edit_profile/edit_profile_request.dart';
 
@@ -11,13 +14,90 @@ final profileControllerProvider = AutoDisposeNotifierProvider<ProfileController,
 class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
   @override
-  ProfileState build() {
-    return ProfileState();
+  ProfileState build(){
+    return ProfileState(
+      form: {
+        'fullName': '',
+        // 'email': '',
+        'dialCode': '+94',
+        'phoneNumber': '',
+        'country': '',
+        'interests': '',
+        'languages': '',
+        'facebook': '',
+        'blog': '',
+        'twitter': '',
+        'x': '',
+        'instagram': '',
+      },
+    );
+  }
+
+  // TODO: complete by hitting the user/id
+  Future<void> updateFormData() async {
+    // get user data from service
+    final user = await ref.read(userServiceProvider).getUser();
+    if (user == null) return;
+
+    try{
+
+      state = state.copyWith(
+        isLoading: true,
+        isSuccess: null,
+        isFailure: null,
+      );
+
+      // // get user data from profile service
+      // // TODO: complete after backend finished
+      // final ProfileDataModel? profile = await ref.read(profileServiceProvider).getProfile(user.id);
+      // if (profile == null) {
+      //   state = state.copyWith(
+      //     isLoading: false,
+      //     isSuccess: false,
+      //     isFailure: true,
+      //     errorMessage: 'An error occurred',
+      //   );
+      //   return;
+      // }
+      //
+      // // update form data
+      // state = state.copyWith(
+      //   form: {
+      //     'fullName': profile.fullName,
+      //     // 'email': profile.email,
+      //     'dialCode': profile.dialCode,
+      //     'phoneNumber': profile.mobileNumber,
+      //     'country': profile.country,
+      //     'interests': profile.userIntrests,
+      //     'languages': profile.languages,
+      //     'facebook': profile.faceBook,
+      //     'blog': profile.blog,
+      //     'twitter': profile.twitter,
+      //     'x': profile.x,
+      //     'instagram': profile.instagram,
+      //   },
+      // );
+
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        isFailure: false,
+      );
+
+    }
+    on DioException catch(e){
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: e.response?.statusMessage?? 'An error occurred',
+      );
+    }
   }
 
   Future<void> editProfile() async {
     final fullName = state.form?['fullName'];
-    final email = state.form?['email'];
+    // final email = state.form?['email'];
     final dialCode = state.form?['dialCode'];
     final phoneNumber = state.form?['phoneNumber'];
     final country = state.form?['country'];
@@ -25,7 +105,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final languages = state.form?['languages'];
 
 
-    if (email == null || fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
+    if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -45,16 +125,24 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
       final editProfileRequest = EditProfileRequest(
         fullName: fullName,
-        email: email,
+        // email: email,
         dialCode: dialCode,
         mobileNumber: phoneNumber,
         country: country,
-        languages: languages,
-        userInterests: interests,
+        userLanguages: languages,
+        userIntrests: interests,
       );
 
       final user = await ref.read(userServiceProvider).getUser();
       final result = await ref.read(profileServiceProvider).editProfile(editProfileRequest, user!.id);
+
+      // update user data in local storage
+      final UserModel newUser = user.copyWith(
+        fullName: fullName,
+      );
+      final userService = ref.read(userServiceProvider);
+      await userService.editUser(newUser);
+      ref.refresh(userProvider);
 
       state = state.copyWith(
         isLoading: false,
@@ -82,7 +170,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
     if (facebook == null || blog == null || twitter == null || x == null || instagram == null) {
       state = state.copyWith(
-        isLoading: false,
+        isEditingSocials: false,
         isSuccess: false,
         isFailure: true,
         errorMessage: 'Please fill all fields',
@@ -93,7 +181,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     try{
 
       state = state.copyWith(
-        isLoading: true,
+        isEditingSocials: true,
         isSuccess: null,
         isFailure: null,
       );
@@ -110,15 +198,18 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       final result = await ref.read(profileServiceProvider).editSocials(editSocialsRequest, user!.id);
 
       state = state.copyWith(
-        isLoading: false,
+        isEditingSocials: false,
         isSuccess: result,
         isFailure: !result,
       );
 
+      final feedBackService = ref.read(feedbackServiceProvider);
+      feedBackService.showToast("Successfully edited", type: FeedbackType.success);
+
     }
     on DioException catch(e){
       state = state.copyWith(
-        isLoading: false,
+        isEditingSocials: false,
         isSuccess: false,
         isFailure: true,
         errorMessage: e.response?.statusMessage?? 'An error occurred',

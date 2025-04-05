@@ -22,7 +22,7 @@ mixin _$ProfileDataModel {
   String get dialCode => throw _privateConstructorUsedError;
   String get mobileNumber =>
       throw _privateConstructorUsedError; // required String password,
-// required String languages,
+  String get languages => throw _privateConstructorUsedError;
   String get country => throw _privateConstructorUsedError;
   String? get faceBook => throw _privateConstructorUsedError;
   String? get blog => throw _privateConstructorUsedError;
@@ -50,6 +50,7 @@ abstract class $ProfileDataModelCopyWith<$Res> {
       String email,
       String dialCode,
       String mobileNumber,
+      String languages,
       String country,
       String? faceBook,
       String? blog,
@@ -79,6 +80,7 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
+    Object? languages = null,
     Object? country = null,
     Object? faceBook = freezed,
     Object? blog = freezed,
@@ -107,6 +109,10 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
       mobileNumber: null == mobileNumber
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      languages: null == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
               as String,
       country: null == country
           ? _value.country
@@ -154,6 +160,7 @@ abstract class _$$ProfileDataModelImplCopyWith<$Res>
       String email,
       String dialCode,
       String mobileNumber,
+      String languages,
       String country,
       String? faceBook,
       String? blog,
@@ -181,6 +188,7 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
+    Object? languages = null,
     Object? country = null,
     Object? faceBook = freezed,
     Object? blog = freezed,
@@ -209,6 +217,10 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
       mobileNumber: null == mobileNumber
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      languages: null == languages
+          ? _value.languages
+          : languages // ignore: cast_nullable_to_non_nullable
               as String,
       country: null == country
           ? _value.country
@@ -251,6 +263,7 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
       required this.email,
       required this.dialCode,
       required this.mobileNumber,
+      required this.languages,
       required this.country,
       required this.faceBook,
       required this.blog,
@@ -270,7 +283,8 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
   @override
   final String mobileNumber;
 // required String password,
-// required String languages,
+  @override
+  final String languages;
   @override
   final String country;
   @override
@@ -288,7 +302,7 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
 
   @override
   String toString() {
-    return 'ProfileDataModel(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests)';
+    return 'ProfileDataModel(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, languages: $languages, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests)';
   }
 
   @override
@@ -304,6 +318,8 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
                 other.dialCode == dialCode) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
+            (identical(other.languages, languages) ||
+                other.languages == languages) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.faceBook, faceBook) ||
                 other.faceBook == faceBook) &&
@@ -324,6 +340,7 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
       email,
       dialCode,
       mobileNumber,
+      languages,
       country,
       faceBook,
       blog,
@@ -349,6 +366,7 @@ abstract class _ProfileDataModel implements ProfileDataModel {
       required final String email,
       required final String dialCode,
       required final String mobileNumber,
+      required final String languages,
       required final String country,
       required final String? faceBook,
       required final String? blog,
@@ -367,7 +385,8 @@ abstract class _ProfileDataModel implements ProfileDataModel {
   String get dialCode;
   @override
   String get mobileNumber; // required String password,
-// required String languages,
+  @override
+  String get languages;
   @override
   String get country;
   @override
