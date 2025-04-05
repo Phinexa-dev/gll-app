@@ -79,66 +79,80 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
       feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
     }
 
-    return FractionallySizedBox(
-      heightFactor: 0.65,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Socials',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Socials',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 20),
-                  CustomTextField(labelText: 'Personal Blog', controller: personalBlogUrlController, keyboardType: TextInputType.url),
-                  const SizedBox(height: 16),
-                  CustomTextField(labelText: 'Facebook', controller: facebookUrlController, keyboardType: TextInputType.url),
-                  const SizedBox(height: 16),
-                  CustomTextField(labelText: 'Twitter', controller: linkedInUrlController, keyboardType: TextInputType.url),
-                  const SizedBox(height: 16),
-                  CustomTextField(labelText: 'Instagram', controller: instagramUrlController, keyboardType: TextInputType.url),
-                  const SizedBox(height: 16),
-                  CustomTextField(labelText: 'X', controller: xUrlController, keyboardType: TextInputType.url),
-                  const SizedBox(height: 8),
+                ),
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Personal Blog',
+                controller: personalBlogUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                labelText: 'Facebook',
+                controller: facebookUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                labelText: 'Twitter',
+                controller: linkedInUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                labelText: 'Instagram',
+                controller: instagramUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                labelText: 'X',
+                controller: xUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomIconButton(
+                    label: 'Cancel',
+                    isBold: true,
+                    textColour: Colors.black,
+                    onPressed: () => Navigator.pop(context),
+                    color: Colors.white,
+                    borderColor: const Color(0xFF3993A1),
+                  ),
+                  const SizedBox(width: 16),
+                  CustomIconButton(
+                    label: 'Save Changes',
+                    isBold: true,
+                    textColour: Colors.white,
+                    onPressed: () => saveChanges(),
+                    color: const Color(0xFF3993A1),
+                    iconColor: Colors.white,
+                  ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomIconButton(
-                  label: 'Cancel',
-                  isBold: true,
-                  textColour: Colors.black,
-                  onPressed: () => Navigator.pop(context),
-                  color: Colors.white,
-                  borderColor: Color(0xFF3993A1),
-                ),
-                const SizedBox(width: 16),
-                CustomIconButton(
-                  label: 'Save Changes',
-                  isBold: true,
-                  textColour: Colors.white,
-                  onPressed: () => saveChanges(),
-                  color: Color(0xFF3993A1),
-                  iconColor: Colors.white,
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

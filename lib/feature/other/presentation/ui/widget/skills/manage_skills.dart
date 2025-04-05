@@ -59,114 +59,111 @@ class _ManageSkillsState extends ConsumerState<ManageSkills> {
       ...ref.watch(skillControllerProvider).unsavedSkills,
     ];
 
-    return FractionallySizedBox(
-      heightFactor: skills.isEmpty? 0.4 : skills.length <=8? 0.24 + 0.06 * skills.length + 0.02 : 0.74,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Professional Skills',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Professional Skills',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'Skills',
+                      controller: searchSkillsController,
+                      height: 40,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(labelText: 'Skills', controller: searchSkillsController, height: 40,),
+                  const SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () {
+                      if (searchSkillsController.text.isNotEmpty &&
+                          !skills.any((skill) => skill.skill == searchSkillsController.text)) {
+                        ref.read(skillControllerProvider.notifier).addSkill(searchSkillsController.text);
+                        searchSkillsController.clear();
+                      }
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      const SizedBox(width: 16),
-                      // container for use as a button
-                      GestureDetector(
-                        onTap: () {
-                          if (searchSkillsController.text.isNotEmpty && !skills.any((skill) => skill.skill == searchSkillsController.text))
-                            {
-                              ref.read(skillControllerProvider.notifier).addSkill(searchSkillsController.text);
-                              searchSkillsController.clear();
-                            }
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                            child: const Text(
-                              'Add',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child:
-                    skills.isEmpty
-                        ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: const Center(child: Text('No skills added yet')),
-                        )
-                        :
-                    ListView.builder(
-                      itemCount: skills.length <= 8 ? skills.length : 8,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(skills[index].skill),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete_outline, color: (isLoading? Colors.grey : Colors.red)),
-                            onPressed: isLoading? null :
-                                () {
-                                  ref.watch(skillControllerProvider.notifier).deleteSkill(skills[index].id);
-                                },
-                          ),
-                        );
-                      },
+                      child: const Center(child: Text('Add')),
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomIconButton(
-                  label: 'Cancel',
-                  isBold: true,
-                  textColour: Colors.black,
-                  onPressed: () => Navigator.pop(context),
-                  color: Colors.white,
-                  borderColor: Color(0xFF3993A1),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 200, // Fixed height for ListView to prevent unbounded height error
+                child: skills.isEmpty
+                    ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: Text('No skills added yet')),
+                )
+                    : ListView.builder(
+                  itemCount: skills.length <= 8 ? skills.length : 8,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(skills[index].skill),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: isLoading ? Colors.grey : Colors.red,
+                        ),
+                        onPressed: isLoading
+                            ? null
+                            : () {
+                          ref
+                              .watch(skillControllerProvider.notifier)
+                              .deleteSkill(skills[index].id);
+                        },
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(width: 16),
-                CustomIconButton(
-                  label: 'Save Changes',
-                  isBold: true,
-                  textColour: Colors.white,
-                  onPressed: saveChanges,
-                  color: Color(0xFF3993A1),
-                  iconColor: Colors.white,
-                ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 20), // Space before buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomIconButton(
+                    label: 'Cancel',
+                    isBold: true,
+                    textColour: Colors.black,
+                    onPressed: () => Navigator.pop(context),
+                    color: Colors.white,
+                    borderColor: const Color(0xFF3993A1),
+                  ),
+                  const SizedBox(width: 16),
+                  CustomIconButton(
+                    label: 'Save Changes',
+                    isBold: true,
+                    textColour: Colors.white,
+                    onPressed: saveChanges,
+                    color: const Color(0xFF3993A1),
+                    iconColor: Colors.white,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

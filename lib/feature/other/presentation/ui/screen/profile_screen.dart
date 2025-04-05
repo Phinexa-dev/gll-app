@@ -192,7 +192,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             backgroundColor: Colors.white,
                             isScrollControlled: true,
                             builder: (BuildContext context) {
-                              return const EditSocials();
+                              return  const EditSocials();
                             },
                           ).whenComplete(() {
                             // ref.read(animationVisibilityProvider.notifier).state = true;

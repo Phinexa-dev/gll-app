@@ -37,43 +37,41 @@ class _EditEducationalHistoryState extends ConsumerState<EditEducationalHistory>
   @override
   Widget build(BuildContext context) {
 
-    return FractionallySizedBox(
-      heightFactor: 0.1 + 1 * 0.34,
-      // resizeToAvoidBottomInset: true,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                flex: 3,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Education History',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Education History',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      widget.educationData != null?
-                      EducationHistoryForm(
-                        id: widget.educationData!.id.toString(),
-                        school: widget.educationData!.school,
-                        degree: widget.educationData!.degree,
-                        startDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.startdate),
-                        endDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.enddate),
-                      )
-                      :
-                      EducationHistoryForm(),
-                    ],
-                  ),
+                    ),
+                    widget.educationData != null?
+                    EducationHistoryForm(
+                      id: widget.educationData!.id.toString(),
+                      school: widget.educationData!.school,
+                      degree: widget.educationData!.degree,
+                      startDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.startdate),
+                      endDate: DateFormat('yyyy-MM-dd').format(widget.educationData!.enddate),
+                    )
+                    :
+                    EducationHistoryForm(),
+                  ],
                 ),
               ),
               Row(
