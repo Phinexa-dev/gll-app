@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../../../common/theme/fonts.dart';
 import '../../../../../../core/route/route_name.dart';
 
@@ -15,10 +16,8 @@ class ContactUs extends ConsumerStatefulWidget {
 }
 
 class _ContactUsState extends ConsumerState<ContactUs> {
-
   @override
   Widget build(BuildContext context) {
-
     // final feedBackService = ref.read(feedbackServiceProvider);
 
     // final isLoading = ref.watch(signUpControllerProvider.select((value) => value.isLoading));
@@ -47,7 +46,6 @@ class _ContactUsState extends ConsumerState<ContactUs> {
     final TextEditingController lastNameController = TextEditingController();
     final TextEditingController regionController = TextEditingController();
     final TextEditingController messageController = TextEditingController();
-
 
     return Scaffold(
       appBar: AppBar(
@@ -84,15 +82,29 @@ class _ContactUsState extends ConsumerState<ContactUs> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    CustomTextField(labelText: 'First Name', controller: firstNameController, obscureText: true),
+                    CustomTextField(
+                        labelText: 'First Name',
+                        controller: firstNameController),
                     const SizedBox(height: 16),
-                    CustomTextField(labelText: 'Last Name', controller: lastNameController, obscureText: true),
+                    CustomTextField(
+                        labelText: 'Last Name', controller: lastNameController),
                     const SizedBox(height: 16),
-                    CustomTextField(labelText: 'Event Name', controller: regionController, obscureText: true),
+                    CustomTextField(
+                        labelText: 'Event Name', controller: regionController),
                     const SizedBox(height: 16),
-                    CustomTextField(labelText: 'Email', controller: emailController, keyboardType: TextInputType.emailAddress,),
+                    CustomTextField(
+                      labelText: 'Email',
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                     const SizedBox(height: 16),
-                    CustomTextField(labelText: 'Message', controller: messageController, minLines: 4, maxLines: null, keyboardType: TextInputType.multiline,),
+                    CustomTextField(
+                      labelText: 'Message',
+                      controller: messageController,
+                      minLines: 4,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                    ),
                     const SizedBox(height: 8),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,9 +137,11 @@ class _ContactUsState extends ConsumerState<ContactUs> {
                             ),
                             TextButton(
                               style: ButtonStyle(
-                                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                                padding:
+                                    WidgetStateProperty.all(EdgeInsets.zero),
                               ),
-                              onPressed: () => context.pushNamed(RouteName.welcome),
+                              onPressed: () =>
+                                  context.pushNamed(RouteName.welcome),
                               child: Text(
                                 'Reset Password',
                                 style: PhinexaFont.labelRegular.copyWith(
@@ -136,8 +150,7 @@ class _ContactUsState extends ConsumerState<ContactUs> {
                               ),
                             ),
                           ],
-                        )
-                    ),
+                        )),
                     StartButton(
                         label: 'Submit',
                         onPressed: () async {
@@ -157,8 +170,7 @@ class _ContactUsState extends ConsumerState<ContactUs> {
 
                           // Navigator.pop(context);
                           // context.goNamed(RouteName.dashboard);
-                        }
-                    )
+                        })
                   ],
                 ),
               ),

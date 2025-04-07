@@ -132,6 +132,9 @@ flutter:
     - assets/home/
     - assets/events/
     - assets/pdf/
+    - assets/signatures/
+    - assets/certificates/
+    - assets/badges/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

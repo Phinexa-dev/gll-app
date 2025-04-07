@@ -56,9 +56,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           ? PDFView(
               filePath: pdfPath,
               enableSwipe: true,
-              swipeHorizontal: true,
               autoSpacing: false,
-              pageFling: false,
+              pageFling: true,
               onRender: (pages) {
                 print("PDF rendered with $pages pages");
               },
