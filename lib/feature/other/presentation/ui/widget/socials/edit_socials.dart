@@ -8,11 +8,11 @@ import '../../../../../system_feedback/model/feedback.dart';
 import '../../../../../system_feedback/provider/feedback_provider.dart';
 
 final mockSocialProvider = StateProvider((ref) => {
-  'personalBlog': 'https://www.bryancotly.com',
-  'facebook': 'https://www.facebook.com/bcotly',
-  'linkedIn': 'https://www.linkedin.com/in/bcotly',
-  'instagram': 'https://www.instagram.com/bcotly',
-  'x': 'https://www.x.com',
+  'Personal Blog': 'https://www.bryancotly.com',
+  'Facebook': 'https://www.facebook.com/bcotly',
+  'Twitter': 'https://www.twitter.com/in/bcotly',
+  'Instagram': 'https://www.instagram.com/bcotly',
+  'X': 'https://www.x.com',
 });
 
 class EditSocials extends ConsumerStatefulWidget {
@@ -32,12 +32,14 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
   @override
   void initState() {
     super.initState();
-    final formValues = ref.read(mockSocialProvider);
-    personalBlogUrlController.text = formValues['personalBlog']!;
-    facebookUrlController.text = formValues['facebook']!;
-    linkedInUrlController.text = formValues['linkedIn']!;
-    instagramUrlController.text = formValues['instagram']!;
-    xUrlController.text = formValues['x']!;
+    Future.microtask(() {
+      final formValues = ref.watch(profileControllerProvider).form;
+      personalBlogUrlController.text = formValues?['Personal Blog']?? '';
+      facebookUrlController.text = formValues?['Facebook']?? '';
+      linkedInUrlController.text = formValues?['Twitter']?? '';
+      instagramUrlController.text = formValues?['Instagram']?? '';
+      xUrlController.text = formValues?['X']?? '';
+    });
   }
 
   @override
@@ -53,11 +55,11 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
   void saveChanges() {
 
     final formData = {
-      'facebook': facebookUrlController.text,
-      'blog': personalBlogUrlController.text,
-      'instagram': instagramUrlController.text,
-      'x': xUrlController.text,
-      'twitter': linkedInUrlController.text,
+      'Facebook': facebookUrlController.text,
+      'Personal Blog': personalBlogUrlController.text,
+      'Instagram': instagramUrlController.text,
+      'X': xUrlController.text,
+      'Twitter': linkedInUrlController.text,
     };
 
     //set the form data to the controller
@@ -145,7 +147,7 @@ class _EditSocialsState extends ConsumerState<EditSocials> {
                     label: 'Save Changes',
                     isBold: true,
                     textColour: Colors.white,
-                    onPressed: () => saveChanges(),
+                    onPressed: saveChanges,
                     color: const Color(0xFF3993A1),
                     iconColor: Colors.white,
                   ),

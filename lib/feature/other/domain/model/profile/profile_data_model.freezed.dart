@@ -22,8 +22,8 @@ mixin _$ProfileDataModel {
   String get dialCode => throw _privateConstructorUsedError;
   String get mobileNumber =>
       throw _privateConstructorUsedError; // required String password,
-  String get languages => throw _privateConstructorUsedError;
-  String get country => throw _privateConstructorUsedError;
+  String? get languages => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
   String? get faceBook => throw _privateConstructorUsedError;
   String? get blog => throw _privateConstructorUsedError;
   String? get twitter => throw _privateConstructorUsedError;
@@ -50,8 +50,8 @@ abstract class $ProfileDataModelCopyWith<$Res> {
       String email,
       String dialCode,
       String mobileNumber,
-      String languages,
-      String country,
+      String? languages,
+      String? country,
       String? faceBook,
       String? blog,
       String? twitter,
@@ -80,8 +80,8 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
-    Object? languages = null,
-    Object? country = null,
+    Object? languages = freezed,
+    Object? country = freezed,
     Object? faceBook = freezed,
     Object? blog = freezed,
     Object? twitter = freezed,
@@ -110,14 +110,14 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      languages: null == languages
+      languages: freezed == languages
           ? _value.languages
           : languages // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: null == country
+              as String?,
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
@@ -160,8 +160,8 @@ abstract class _$$ProfileDataModelImplCopyWith<$Res>
       String email,
       String dialCode,
       String mobileNumber,
-      String languages,
-      String country,
+      String? languages,
+      String? country,
       String? faceBook,
       String? blog,
       String? twitter,
@@ -188,8 +188,8 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
-    Object? languages = null,
-    Object? country = null,
+    Object? languages = freezed,
+    Object? country = freezed,
     Object? faceBook = freezed,
     Object? blog = freezed,
     Object? twitter = freezed,
@@ -218,14 +218,14 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      languages: null == languages
+      languages: freezed == languages
           ? _value.languages
           : languages // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: null == country
+              as String?,
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
@@ -284,9 +284,9 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
   final String mobileNumber;
 // required String password,
   @override
-  final String languages;
+  final String? languages;
   @override
-  final String country;
+  final String? country;
   @override
   final String? faceBook;
   @override
@@ -366,8 +366,8 @@ abstract class _ProfileDataModel implements ProfileDataModel {
       required final String email,
       required final String dialCode,
       required final String mobileNumber,
-      required final String languages,
-      required final String country,
+      required final String? languages,
+      required final String? country,
       required final String? faceBook,
       required final String? blog,
       required final String? twitter,
@@ -386,9 +386,9 @@ abstract class _ProfileDataModel implements ProfileDataModel {
   @override
   String get mobileNumber; // required String password,
   @override
-  String get languages;
+  String? get languages;
   @override
-  String get country;
+  String? get country;
   @override
   String? get faceBook;
   @override

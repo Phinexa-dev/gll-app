@@ -41,10 +41,10 @@ final class ProfileRepository implements IProfileRepository {
   }
 
   @override
-  Future<EditProfileResponse> getProfile(int userId) async {
+  Future<EditProfileResponse> getProfile() async {
     try {
 
-      final response = await _profileApi.getProfile(userId);
+      final response = await _profileApi.getProfile();
       return response;
 
     } on DioException catch (_) {

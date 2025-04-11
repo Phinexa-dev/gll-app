@@ -8,6 +8,7 @@ import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/profile/profile_service.dart';
 import '../../../data/dto/request/profile/edit_profile/edit_profile_request.dart';
+import '../../../domain/model/profile/profile_data_model.dart';
 
 final profileControllerProvider = AutoDisposeNotifierProvider<ProfileController, ProfileState>(ProfileController.new);
 
@@ -20,20 +21,19 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
         'fullName': '',
         // 'email': '',
         'dialCode': '+94',
-        'phoneNumber': '',
-        'country': '',
-        'interests': '',
-        'languages': '',
-        'facebook': '',
-        'blog': '',
-        'twitter': '',
+        'Contact Number': '',
+        'Location': '',
+        'Interests': '',
+        'Languages': '',
+        'Facebook': '',
+        'Personal Blog': '',
+        'Twitter': '',
         'x': '',
-        'instagram': '',
+        'Instagram': '',
       },
     );
   }
 
-  // TODO: complete by hitting the user/id
   Future<void> updateFormData() async {
     // get user data from service
     final user = await ref.read(userServiceProvider).getUser();
@@ -47,9 +47,8 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
         isFailure: null,
       );
 
-      // // get user data from profile service
-      // // TODO: complete after backend finished
-      // final ProfileDataModel? profile = await ref.read(profileServiceProvider).getProfile(user.id);
+      // get user data from profile service
+      final ProfileDataModel profile = await ref.read(profileServiceProvider).getProfile();
       // if (profile == null) {
       //   state = state.copyWith(
       //     isLoading: false,
@@ -59,24 +58,24 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       //   );
       //   return;
       // }
-      //
-      // // update form data
-      // state = state.copyWith(
-      //   form: {
-      //     'fullName': profile.fullName,
-      //     // 'email': profile.email,
-      //     'dialCode': profile.dialCode,
-      //     'phoneNumber': profile.mobileNumber,
-      //     'country': profile.country,
-      //     'interests': profile.userIntrests,
-      //     'languages': profile.languages,
-      //     'facebook': profile.faceBook,
-      //     'blog': profile.blog,
-      //     'twitter': profile.twitter,
-      //     'x': profile.x,
-      //     'instagram': profile.instagram,
-      //   },
-      // );
+
+      // update form data
+      state = state.copyWith(
+        form: {
+          'fullName': profile.fullName,
+          // 'email': profile.email,
+          'dialCode': profile.dialCode,
+          'Contact Number': profile.mobileNumber,
+          'Location': profile.country,
+          'Interests': profile.userIntrests,
+          'Languages': profile.languages,
+          'Facebook': profile.faceBook,
+          'Personal Blog': profile.blog,
+          'Twitter': profile.twitter,
+          'X': profile.x,
+          'Instagram': profile.instagram,
+        },
+      );
 
       state = state.copyWith(
         isLoading: false,
@@ -99,10 +98,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final fullName = state.form?['fullName'];
     // final email = state.form?['email'];
     final dialCode = state.form?['dialCode'];
-    final phoneNumber = state.form?['phoneNumber'];
-    final country = state.form?['country'];
-    final interests = state.form?['interests'];
-    final languages = state.form?['languages'];
+    final phoneNumber = state.form?['Contact Number'];
+    final country = state.form?['Location'];
+    final interests = state.form?['Interests'];
+    final languages = state.form?['Languages'];
 
 
     if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
@@ -162,11 +161,11 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
   }
 
   Future<void> editSocials() async {
-    final facebook = state.form?['facebook'];
-    final blog = state.form?['blog'];
-    final twitter = state.form?['twitter'];
-    final x = state.form?['x'];
-    final instagram = state.form?['instagram'];
+    final facebook = state.form?['Facebook'];
+    final blog = state.form?['Personal Blog'];
+    final twitter = state.form?['Twitter'];
+    final x = state.form?['X'];
+    final instagram = state.form?['Instagram'];
 
     if (facebook == null || blog == null || twitter == null || x == null || instagram == null) {
       state = state.copyWith(

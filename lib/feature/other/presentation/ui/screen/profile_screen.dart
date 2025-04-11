@@ -49,7 +49,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final toggleButtonState = ref.watch(toggleButtonProvider);
     final contactData = ref.watch(personalDetailProvider);
-    final socialData = ref.watch(socialInformationProvider);
+    final socialData = ref.watch(profileControllerProvider).form;
     final skillsState = ref.watch(skillControllerProvider);
     final educationState = ref.watch(educationControllerProvider);
     final certificationData = ref.watch(certificationProvider);
@@ -173,12 +173,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   if(toggleButtonState[0]) ...[
                     InfoTableWidget(
                         caption: 'Personal Details',
-                        data: contactData,
+                        data: socialData == null
+                            ? null
+                            : Map.fromEntries(
+                          socialData.entries.where((e) => ['Contact Number', 'Location', 'Languages', 'Interests'].contains(e.key)),
+                        ),
                         isLoading: profileState.isLoading,
                     ),
                     InfoTableWidget(
                         caption: 'Socials',
-                        data: socialData,
+                        data: socialData == null
+                            ? null
+                            : Map.fromEntries(
+                          socialData.entries.where((e) => ['Facebook', 'Personal Blog', 'Twitter', 'X', 'Instagram'].contains(e.key)),
+                        ),
                         isLoading: profileState.isEditingSocials || profileState.isLoading,
                         onPressed: ()=>{
                           // ref.read(animationVisibilityProvider.notifier).state = false;

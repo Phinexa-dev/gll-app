@@ -20,7 +20,7 @@ class EditProfileResponse with _$EditProfileResponse {
     @JsonKey(name: "password")
     required String password,
     @JsonKey(name: "country")
-    required String country,
+    required String? country,
     @JsonKey(name: "faceBook")
     required String? faceBook,
     @JsonKey(name: "blog")

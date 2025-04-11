@@ -42,10 +42,10 @@ final class ProfileService implements IProfileService {
   }
 
   @override
-  Future<ProfileDataModel?> getProfile(int userId) async {
+  Future<ProfileDataModel> getProfile() async {
     try {
-      final response = await _profileRepository.getProfile(userId);
-      if (response == null) return null;
+      final response = await _profileRepository.getProfile();
+      //if (response == null) return null;
 
       final profileDataModel = _mapToProfileDataModel(response);
       return profileDataModel;
