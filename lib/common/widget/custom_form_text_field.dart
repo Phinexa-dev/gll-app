@@ -18,30 +18,38 @@ class CustomFormTextField extends StatelessWidget {
   final bool autofocus;
   final double? height;
   final Widget? customLabelText;
+  final String? Function(String?)? validator;
+  final bool showError;
+  final String? errorText;
 
-  const CustomFormTextField(
-      {super.key,
-      this.controller,
-      this.labelText,
-      this.hintText,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.obscureText = false,
-      this.keyboardType = TextInputType.text,
-      this.textInputAction = TextInputAction.done,
-      this.onChanged,
-      this.onSubmitted,
-      this.enabled = true,
-      this.maxLines = 1,
-      this.autofocus = false,
-      this.height,
-      this.customLabelText});
+  const CustomFormTextField({
+    super.key,
+    this.controller,
+    this.labelText,
+    this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
+    this.textInputAction = TextInputAction.done,
+    this.onChanged,
+    this.onSubmitted,
+    this.enabled = true,
+    this.maxLines = 1,
+    this.autofocus = false,
+    this.height,
+    this.customLabelText,
+    this.validator,
+    this.showError = false,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Label
         if (customLabelText != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -55,18 +63,22 @@ class CustomFormTextField extends StatelessWidget {
               style: PhinexaFont.contentRegular,
             ),
           ),
+
+        // Text Field
         Container(
           height: height,
-          child: TextField(
+          child: TextFormField(
+            // Changed from TextField to TextFormField
             controller: controller,
             obscureText: obscureText,
             keyboardType: keyboardType,
             textInputAction: textInputAction,
             onChanged: onChanged,
-            onSubmitted: onSubmitted,
+            onFieldSubmitted: onSubmitted,
             enabled: enabled,
             autofocus: autofocus,
             maxLines: maxLines,
+            validator: validator,
             decoration: InputDecoration(
               hintStyle: PhinexaFont.highlightRegular
                   .copyWith(color: PhinexaColor.grey),
@@ -84,6 +96,20 @@ class CustomFormTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: PhinexaColor.grey),
               ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Colors.red),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Colors.red, width: 1.5),
+              ),
+              errorText: showError ? errorText : null,
+              errorStyle: PhinexaFont.contentRegular.copyWith(
+                color: Colors.red,
+                fontSize: 12,
+              ),
+              errorMaxLines: 2,
             ),
           ),
         ),

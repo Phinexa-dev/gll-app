@@ -4,106 +4,196 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
-import '../../../../../common/widget/custom_form_text_field.dart';
+import 'package:gll/common/widget/custom_form_text_field.dart';
+import 'package:gll/feature/resources/presentation/controller/sip_report/sip_report_controller.dart';
 
+import '../../../../../core/data/local/user/user_service.dart';
+import '../../../../system_feedback/model/feedback.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
+import '../../../application/firebase_services/firebaseStorageService.dart';
+import '../provider/file_picker_provider.dart';
 
 class SipCreateScreen extends ConsumerStatefulWidget {
   const SipCreateScreen({super.key});
+
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SipCreateScreenState();
+  ConsumerState<SipCreateScreen> createState() => _SipCreateScreenState();
 }
 
 class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _linkController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _linkController.dispose();
+    ref.read(selectedFileProvider.notifier).state = null;
+    super.dispose();
+  }
+
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final file = ref.read(selectedFileProvider);
+    if (file == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a PDF file')),
+        );
+      }
+      return;
+    }
+    final userAsync = ref.watch(userProvider);
+    final userName = await userAsync.value?.fullName ?? "Guest";
+    try {
+      final downloadUrl = await FirebaseStorageService().uploadPdf(
+        file: file,
+        userId: userName, // Replace with actual user ID from your auth
+        reportName: _titleController.text,
+      );
+      print(downloadUrl);
+      final formData = {
+        'title': _titleController.text,
+        'description': _descriptionController.text,
+        'image': downloadUrl,
+        'link': _linkController.text,
+      };
+
+      if (mounted) {
+        ref.read(sipReportControllerProvider.notifier).setFormData(formData);
+        ref.read(sipReportControllerProvider.notifier).uploadSipReport();
+        Navigator.pop(context);
+        // Clear form
+        ref.read(selectedFileProvider.notifier).state = null;
+        _titleController.clear();
+        _descriptionController.clear();
+        _linkController.clear();
+      }
+    } catch (e) {
+      if (mounted) {
+        final feedBackService = ref.read(feedbackServiceProvider);
+        feedBackService.showToast(e.toString(), type: FeedbackType.error);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return  Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title:  Text('SIP Reports',style: PhinexaFont.headingSmall,),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          'SIP Reports',
+          style: PhinexaFont.headingSmall,
         ),
-        body: SingleChildScrollView(
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Create SIP Report",style: PhinexaFont.headingLarge,),
-                SizedBox(height: 12,),
+                Text(
+                  "Create SIP Report",
+                  style: PhinexaFont.headingLarge,
+                ),
+                const SizedBox(height: 12),
                 CustomFormTextField(
-                  labelText: 'SPI Title*',
+                  controller: _titleController,
+                  labelText: 'SIP Title*',
                   hintText: 'Community Clean-Up Initiative',
-                  obscureText: false,
-                  onChanged: (value) {
-                    print(value);
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
                   },
                 ),
-                SizedBox(height: 12,),
+                const SizedBox(height: 12),
                 CustomFormTextField(
+                  controller: _descriptionController,
                   labelText: 'Description*',
                   hintText: 'Impact - 2,000+ residents benefited',
-                  obscureText: false,
                   height: 180,
                   maxLines: 10,
-                  onChanged: (value) {
-                    print(value);
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    return null;
                   },
                 ),
-                SizedBox(height: 24,),
-                _buildUploader(context),
-                SizedBox(height: 12,),
+                const SizedBox(height: 24),
+                _buildUploader(),
+                const SizedBox(height: 12),
                 CustomFormTextField(
+                  controller: _linkController,
                   labelText: 'Link',
                   hintText: 'URL',
-                  obscureText: false,
-                  onChanged: (value) {
-                    print(value);
-                  },
                 ),
-                SizedBox(height: 12,),
+                const SizedBox(height: 12),
               ],
             ),
           ),
         ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.all(20),
-          child: CustomButton(label: "Post",height: 40,onPressed: ()=>(),)),
-      );
-  }
-}
-
-Widget _buildUploader(BuildContext context) {
-  return DottedBorder(
-    color: PhinexaColor.grey,
-    strokeWidth: 1,
-    borderType: BorderType.RRect,
-    radius: Radius.circular(12),
-    padding: EdgeInsets.all(0),
-    dashPattern: [4, 4],
-    child: Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Upload icon in the center
-          Icon(
-            Icons.file_upload_outlined,
-            size: 48,
-            color: PhinexaColor.black,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Upload (PNG, JPEG) - Max 2MB',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey, // Text color
-            ),
-          ),
-        ],
       ),
-    ),
-  );
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.all(20),
+        child: CustomButton(
+          label: "Post",
+          height: 40,
+          onPressed: _submitForm,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUploader() {
+    final selectedFile = ref.watch(selectedFileProvider);
+    return DottedBorder(
+      color: PhinexaColor.grey,
+      strokeWidth: 1,
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(12),
+      padding: EdgeInsets.zero,
+      dashPattern: const [4, 4],
+      child: InkWell(
+        onTap: () async {
+          final filePickerService = ref.read(filePickerServiceProvider);
+          await filePickerService.pickPdfFile();
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                selectedFile != null
+                    ? Icons.file_present
+                    : Icons.file_upload_outlined,
+                size: 48,
+                color: PhinexaColor.grey,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                selectedFile?.path.split('/').last ?? 'Upload PDF - Max 2MB',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: PhinexaFont.contentRegular
+                    .copyWith(color: PhinexaColor.grey),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
