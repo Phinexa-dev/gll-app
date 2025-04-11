@@ -19,11 +19,13 @@ class InfoTableWidget extends ConsumerWidget {
   final String caption;
   final Color color;
   final VoidCallback? onPressed;
-  final Map<String,String> data;
+  final Map<String,dynamic>? data;
   final bool isLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final length = data?.entries.length ?? 0;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -65,7 +67,7 @@ class InfoTableWidget extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                for (int i = 0; i < data.entries.length; i++) ...[
+                for (int i = 0; i < length; i++) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 12.0,
@@ -74,7 +76,7 @@ class InfoTableWidget extends ConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          trimString(data.entries.elementAt(i).key, 15),
+                          trimString(data!.entries.elementAt(i).key, 15),
                           style: PhinexaFont.labelRegular.copyWith(
                             color: color,
                           ),
@@ -95,7 +97,7 @@ class InfoTableWidget extends ConsumerWidget {
                         )
                         :
                         Text(
-                          trimString(data.entries.elementAt(i).value, 20),
+                          trimString(data?.entries.elementAt(i).value?? "-", 20),
                           style: PhinexaFont.captionAccent.copyWith(
                             fontSize: 13,
                             color: color,
@@ -106,7 +108,7 @@ class InfoTableWidget extends ConsumerWidget {
                     ),
                   ),
 
-                  if (i < data.entries.length - 1)
+                  if (i < length - 1)
                     const Divider(height: 1, color: Color(0xFFE5E5E5)),
                 ],
               ],

@@ -18,7 +18,7 @@ class _EditProfileApi implements EditProfileApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<EditProfileResponse> getProfile(int userId) async {
+  Future<EditProfileResponse> getProfile() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -27,7 +27,7 @@ class _EditProfileApi implements EditProfileApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/user/${userId}',
+            '/user',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -15,7 +15,7 @@ _$EditProfileResponseImpl _$$EditProfileResponseImplFromJson(
       dialCode: json['dialCode'] as String,
       mobileNumber: json['mobileNumber'] as String,
       password: json['password'] as String,
-      country: json['country'] as String,
+      country: json['country'] as String?,
       faceBook: json['faceBook'] as String?,
       blog: json['blog'] as String?,
       twitter: json['twitter'] as String?,

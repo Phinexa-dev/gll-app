@@ -18,8 +18,8 @@ final editProfileApiProvider = Provider<EditProfileApi>((ref) {
 abstract class EditProfileApi {
   factory EditProfileApi(Dio dio) => _EditProfileApi(dio);
 
-  @GET('/user/{id}')
-  Future<EditProfileResponse> getProfile(@Path('id') int userId);
+  @GET('/user')
+  Future<EditProfileResponse> getProfile();
 
   @PATCH('/user/{id}')
   Future<EditProfileResponse> editProfile(@Body() EditProfileRequest data, @Path('id') int userId);

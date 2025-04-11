@@ -33,7 +33,7 @@ mixin _$EditProfileResponse {
   @JsonKey(name: "password")
   String get password => throw _privateConstructorUsedError;
   @JsonKey(name: "country")
-  String get country => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
   @JsonKey(name: "faceBook")
   String? get faceBook => throw _privateConstructorUsedError;
   @JsonKey(name: "blog")
@@ -72,7 +72,7 @@ abstract class $EditProfileResponseCopyWith<$Res> {
       @JsonKey(name: "dialCode") String dialCode,
       @JsonKey(name: "mobileNumber") String mobileNumber,
       @JsonKey(name: "password") String password,
-      @JsonKey(name: "country") String country,
+      @JsonKey(name: "country") String? country,
       @JsonKey(name: "faceBook") String? faceBook,
       @JsonKey(name: "blog") String? blog,
       @JsonKey(name: "twitter") String? twitter,
@@ -103,7 +103,7 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
     Object? dialCode = null,
     Object? mobileNumber = null,
     Object? password = null,
-    Object? country = null,
+    Object? country = freezed,
     Object? faceBook = freezed,
     Object? blog = freezed,
     Object? twitter = freezed,
@@ -137,10 +137,10 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      country: null == country
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
@@ -188,7 +188,7 @@ abstract class _$$EditProfileResponseImplCopyWith<$Res>
       @JsonKey(name: "dialCode") String dialCode,
       @JsonKey(name: "mobileNumber") String mobileNumber,
       @JsonKey(name: "password") String password,
-      @JsonKey(name: "country") String country,
+      @JsonKey(name: "country") String? country,
       @JsonKey(name: "faceBook") String? faceBook,
       @JsonKey(name: "blog") String? blog,
       @JsonKey(name: "twitter") String? twitter,
@@ -217,7 +217,7 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
     Object? dialCode = null,
     Object? mobileNumber = null,
     Object? password = null,
-    Object? country = null,
+    Object? country = freezed,
     Object? faceBook = freezed,
     Object? blog = freezed,
     Object? twitter = freezed,
@@ -251,10 +251,10 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      country: null == country
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       faceBook: freezed == faceBook
           ? _value.faceBook
           : faceBook // ignore: cast_nullable_to_non_nullable
@@ -329,7 +329,7 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
   final String password;
   @override
   @JsonKey(name: "country")
-  final String country;
+  final String? country;
   @override
   @JsonKey(name: "faceBook")
   final String? faceBook;
@@ -430,7 +430,7 @@ abstract class _EditProfileResponse implements EditProfileResponse {
           @JsonKey(name: "dialCode") required final String dialCode,
           @JsonKey(name: "mobileNumber") required final String mobileNumber,
           @JsonKey(name: "password") required final String password,
-          @JsonKey(name: "country") required final String country,
+          @JsonKey(name: "country") required final String? country,
           @JsonKey(name: "faceBook") required final String? faceBook,
           @JsonKey(name: "blog") required final String? blog,
           @JsonKey(name: "twitter") required final String? twitter,
@@ -463,7 +463,7 @@ abstract class _EditProfileResponse implements EditProfileResponse {
   String get password;
   @override
   @JsonKey(name: "country")
-  String get country;
+  String? get country;
   @override
   @JsonKey(name: "faceBook")
   String? get faceBook;
