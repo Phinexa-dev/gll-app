@@ -42,18 +42,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
+    await ref.read(profileControllerProvider.notifier).updateFormData();
     final formValues = ref.read(profileControllerProvider).form;
 
     if (!mounted) return; // Prevent updating state if widget is removed
 
     setState(() {
-      nameController.text = formValues?['name'] ?? "";
+      nameController.text = formValues?['fullName'] ?? "";
       // emailController = TextEditingController(text: formValues?['email'] ?? "");
-      phoneController.text = formValues?['phoneNumber'] ?? "";
-      locationController.text = formValues?['location'] ?? "";
-      languagesController.text = formValues?['languages'] ?? "";
-      interestsController.text = formValues?['interests'] ?? "";
-      phoneCode = formValues?['phoneCode'] ?? "+94";
+      phoneController.text = formValues?['Contact Number'] ?? "";
+      locationController.text = formValues?['Location'] ?? "";
+      languagesController.text = formValues?['Languages'] ?? "";
+      interestsController.text = formValues?['Interests'] ?? "";
+      phoneCode = formValues?['dialCode'] ?? "";
     });
   }
 
@@ -69,23 +70,37 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void saveChanges() async {
+    if (nameController.text.isEmpty ||
+        // emailController.text.isEmpty ||
+        phoneCode.isEmpty ||
+        phoneController.text.isEmpty ||
+        locationController.text.isEmpty ||
+        languagesController.text.isEmpty ||
+        interestsController.text.isEmpty) {
+      final feedBackService = ref.read(feedbackServiceProvider);
+      feedBackService.showToast("Fill all fields", type: FeedbackType.error);
+      return;
+    }
 
     final formData = {
       'fullName': nameController.text,
       // 'email': emailController.text,
       'dialCode': phoneCode,
-      'phoneNumber': phoneController.text,
-      'country': locationController.text,
-      'languages': languagesController.text,
-      'interests': interestsController.text,
+      'Contact Number': phoneController.text,
+      'Location': locationController.text,
+      'Languages': languagesController.text,
+      'Interests': interestsController.text,
     };
 
     //set the form data to the controller
     ref.read(profileControllerProvider.notifier).setFormData(formData);
     await ref.read(profileControllerProvider.notifier).editProfile();
 
+    ref.read(profileControllerProvider.notifier).updateFormData();
+
     final feedBackService = ref.read(feedbackServiceProvider);
     feedBackService.showToast("Successfully edited", type: FeedbackType.success);
+    Navigator.pop(context);
   }
 
   @override
