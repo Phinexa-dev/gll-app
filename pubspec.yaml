@@ -112,6 +112,10 @@ dev_dependencies:
   flutter_cache_manager: ^3.4.1
   # https://pub.dev/packages/flutter_launcher_icons
   flutter_launcher_icons: ^0.14.3
+  # https://pub.dev/packages/firebase_storage
+  firebase_storage: ^12.4.5
+  # https://pub.dev/packages/file_picker
+  file_picker: ^10.1.0
 
 flutter_launcher_icons:
   android: "launcher_icon"
