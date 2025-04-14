@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../controller/sip_report/sip_report_controller.dart';
 import '../provider/search_provider.dart';
+import '../widgets/shimmer_post_widget.dart';
 import '../widgets/sip_report_post_widget.dart';
 
 class SipReportsTabScreen extends ConsumerStatefulWidget {
@@ -31,7 +32,12 @@ class _SipReportsTabScreenState extends ConsumerState<SipReportsTabScreen> {
 
     // Handle loading state
     if (sipState.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return ListView.separated(
+        itemCount: 5, // Number of shimmer items
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
+        itemBuilder: (context, index) => const ShimmerPostWidget(),
+      );
     }
 
     // Handle error state
