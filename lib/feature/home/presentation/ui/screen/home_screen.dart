@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../../common/theme/colors.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
+import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
@@ -35,8 +37,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(userNotifierProvider);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -55,25 +55,65 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        getGreeting(),
-                        style: PhinexaFont.labelRegular
-                            .copyWith(color: PhinexaColor.darkGrey),
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: Text(
-                          userState.user?.fullName ?? 'Guest',
-                          style: PhinexaFont.highlightEmphasis,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                  child: ref.watch(userProvider).when(
+                        data: (user) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getGreeting(),
+                              style: PhinexaFont.labelRegular
+                                  .copyWith(color: PhinexaColor.darkGrey),
+                            ),
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                user?.fullName ?? 'Guest',
+                                style: PhinexaFont.highlightEmphasis,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        loading: () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getGreeting(),
+                              style: PhinexaFont.labelRegular
+                                  .copyWith(color: PhinexaColor.darkGrey),
+                            ),
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                'Loading...',
+                                style: PhinexaFont.highlightEmphasis,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        error: (error, _) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getGreeting(),
+                              style: PhinexaFont.labelRegular
+                                  .copyWith(color: PhinexaColor.darkGrey),
+                            ),
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                'Error loading name',
+                                style: PhinexaFont.highlightEmphasis,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
                 ),
               ],
             ),
