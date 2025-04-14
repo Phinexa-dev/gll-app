@@ -17,8 +17,9 @@ import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/sip_map.dart';
+import 'package:gll/feature/resources/domain/model/sip_report/sip_report_model.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/sip_create_screen.dart';
-import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_view_more.dart';
+import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_detail_screen.dart';
 import 'package:gll/feature/signup/presentation/ui/screen/signup.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,7 +39,6 @@ import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
 import '../../feature/other/presentation/ui/screen/about_us/about_us.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/other/presentation/ui/screen/feedbacks/feedbacks.dart';
-import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
 import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
 import '../../feature/welcome/presentation/ui/screen/welcome_screen.dart';
 
@@ -318,8 +318,8 @@ final appRoutes = [
     name: RouteName.reportMore,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final report = state.extra as SipReport;
-      return SipReportViewMore(report: report);
+      final report = state.extra as SipReportModel;
+      return SipReportDetailScreen(report: report);
     },
   ),
   GoRoute(
