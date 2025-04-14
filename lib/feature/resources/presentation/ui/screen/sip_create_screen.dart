@@ -24,6 +24,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _linkController = TextEditingController();
+  final isSubmittingProvider = StateProvider<bool>((ref) => false);
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,30 +32,44 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
     _titleController.dispose();
     _descriptionController.dispose();
     _linkController.dispose();
-    ref.read(selectedFileProvider.notifier).state = null;
+    if (mounted) {
+      ref.read(selectedFileProvider.notifier).state = null;
+    }
     super.dispose();
   }
 
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
-
+    final feedBackService = ref.read(feedbackServiceProvider);
     final file = ref.read(selectedFileProvider);
     if (file == null) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a PDF file')),
-        );
+        feedBackService.showToast("Please select a pdf",
+            type: FeedbackType.error);
       }
       return;
     }
-    final userAsync = ref.watch(userProvider);
-    final userName = await userAsync.value?.fullName ?? "Guest";
+    ref.read(isSubmittingProvider.notifier).state = true;
     try {
+      // Await the user data to ensure it's loaded
+      final user = await ref.read(userProvider.future);
+      if (user == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('User not authenticated')),
+          );
+        }
+        return;
+      }
+
+      final userName = user.fullName;
+
       final downloadUrl = await FirebaseStorageService().uploadPdf(
         file: file,
-        userId: userName, // Replace with actual user ID from your auth
+        userName: userName,
         reportName: _titleController.text,
       );
+
       print(downloadUrl);
       final formData = {
         'title': _titleController.text,
@@ -75,8 +90,11 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       }
     } catch (e) {
       if (mounted) {
-        final feedBackService = ref.read(feedbackServiceProvider);
         feedBackService.showToast(e.toString(), type: FeedbackType.error);
+      }
+    } finally {
+      if (mounted) {
+        ref.read(isSubmittingProvider.notifier).state = false;
       }
     }
   }
@@ -143,12 +161,28 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
           ),
         ),
       ),
+      // In your build method's bottomNavigationBar section:
       bottomNavigationBar: Container(
         margin: const EdgeInsets.all(20),
-        child: CustomButton(
-          label: "Post",
-          height: 40,
-          onPressed: _submitForm,
+        child: Consumer(
+          builder: (context, ref, _) {
+            final isSubmitting = ref.watch(isSubmittingProvider);
+            return CustomButton(
+              label: "Post",
+              height: 40,
+              onPressed: isSubmitting ? null : _submitForm,
+              child: isSubmitting
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 3,
+                      ),
+                    )
+                  : null,
+            );
+          },
         ),
       ),
     );
