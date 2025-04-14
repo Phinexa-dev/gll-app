@@ -116,6 +116,12 @@ dev_dependencies:
   firebase_storage: ^12.4.5
   # https://pub.dev/packages/file_picker
   file_picker: ^10.1.0
+  # https://pub.dev/packages/firebase_app_check
+  firebase_app_check: ^0.3.2+5
+  # https://pub.dev/packages/url_launcher
+  url_launcher: ^6.3.1
+  # https://pub.dev/packages/syncfusion_flutter_pdfviewer
+  syncfusion_flutter_pdfviewer: ^28.2.12
 
 flutter_launcher_icons:
   android: "launcher_icon"

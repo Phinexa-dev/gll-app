@@ -4,12 +4,13 @@ import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/route/route_name.dart';
+import '../../../domain/model/sip_report/sip_report_model.dart';
 
 class SipReportPostWidget extends ConsumerWidget {
-  final SipReport report;
+  final SipReportModel report;
 
   const SipReportPostWidget({super.key, required this.report});
 
@@ -21,74 +22,26 @@ class SipReportPostWidget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          _buildUserInfo(),
-          const SizedBox(height: 8),
           _buildPostDetails(),
-          if (report.imageUrl != null) ...[
-            const SizedBox(height: 8),
-            _buildPostImage(),
-          ],
           const SizedBox(height: 8),
-          _buildImpactDetails(),
+          _buildPdfPreview(),
           const SizedBox(height: 8),
           _buildPostDescription(),
           const SizedBox(height: 16),
           _buildViewReportButton(context),
-          // const SizedBox(height: 12),
-          // _buildInteractionButtons(),
           const SizedBox(height: 12),
         ],
       ),
     );
   }
 
-  // User info section with avatar and timestamps
-  Widget _buildUserInfo() {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 10,
-          backgroundImage: NetworkImage(report.userAvatarUrl),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Row(
-            children: [
-              Text(
-                report.userName,
-                style: PhinexaFont.highlightAccent,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                timeago.format(report.timestamp),
-                style: PhinexaFont.captionRegular
-                    .copyWith(color: PhinexaColor.grey),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Post title and location with overflow handling
   Widget _buildPostDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          report.postTitle,
+          report.title,
           style: PhinexaFont.highlightEmphasis,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-        Text(
-          report.postLocation,
-          style: PhinexaFont.contentRegular,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
@@ -96,74 +49,52 @@ class SipReportPostWidget extends ConsumerWidget {
     );
   }
 
-  // Display post image if available
-  Widget _buildPostImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        report.imageUrl!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: 200,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      (loadingProgress.expectedTotalBytes ?? 1)
-                  : null,
+  Widget _buildPdfPreview() {
+    return GestureDetector(
+      onTap: () => _launchPdfUrl(report.image),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: PhinexaColor.grey),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(Icons.picture_as_pdf, color: PhinexaColor.primaryLightBlue),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'SIP Report PDF',
+                    style: PhinexaFont.contentAccent,
+                  ),
+                  Text(
+                    _getFileNameFromUrl(report.image),
+                    style: PhinexaFont.captionRegular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.broken_image, size: 100),
+            Icon(Icons.open_in_new, color: PhinexaColor.grey),
+          ],
+        ),
       ),
     );
   }
 
-  // Impact section with overflow handling
-  Widget _buildImpactDetails() {
-    return Text.rich(
-      TextSpan(
-        children: [
-          TextSpan(
-            text: 'Impact - ',
-            style: PhinexaFont.contentAccent,
-          ),
-          TextSpan(
-            text: report.impactText,
-            style: PhinexaFont.contentRegular,
-          ),
-        ],
-      ),
-      overflow: TextOverflow.ellipsis,
-      maxLines: 2,
-    );
-  }
-
-  // Detailed description of the post with overflow handling
   Widget _buildPostDescription() {
-    return Text.rich(
-      TextSpan(
-        children: [
-          TextSpan(
-            text: report.description,
-            style: PhinexaFont.contentRegular,
-          ),
-        ],
-      ),
-      overflow: TextOverflow.ellipsis,
+    return Text(
+      report.description,
+      style: PhinexaFont.contentRegular,
       maxLines: 3,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
-  // View Report button
-  Widget _buildViewReportButton(
-    BuildContext context,
-  ) {
+  Widget _buildViewReportButton(BuildContext context) {
     return CustomButton(
       label: "View Report",
       onPressed: () {
@@ -176,61 +107,17 @@ class SipReportPostWidget extends ConsumerWidget {
     );
   }
 
-// Interaction buttons (like, comment, share)
-// Widget _buildInteractionButtons() {
-//   return Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     crossAxisAlignment: CrossAxisAlignment.end,
-//     children: [
-//       IconButtonWidget(
-//         isSelected: report.isLiked,
-//         isLikeButton: true,
-//         onPressed: () => print("pressed like btn"),
-//         imagePath: 'assets/resources/like_btn.svg',
-//         pressedImagePath: 'assets/resources/like_btn_prsd.svg',
-//         amount: report.likeCount,
-//       ),
-//       IconButtonWidget(
-//         onPressed: () => print("pressed comment btn"),
-//         imagePath: 'assets/resources/comment_btn.svg',
-//         amount: report.commentCount,
-//       ),
-//       IconButtonWidget(
-//         onPressed: () => print("pressed share btn"),
-//         imagePath: 'assets/resources/share_btn.svg',
-//         amount: report.shareCount,
-//       ),
-//     ],
-//   );
-// }
-}
+  String _getFileNameFromUrl(String url) {
+    try {
+      return Uri.parse(url).pathSegments.last;
+    } catch (e) {
+      return 'report.pdf';
+    }
+  }
 
-class SipReport {
-  final String userName;
-  final String userAvatarUrl;
-  final String? imageUrl;
-  final DateTime timestamp;
-  final String postTitle;
-  final String postLocation;
-  final String impactText;
-  final String description;
-  final int likeCount;
-  final int commentCount;
-  final int shareCount;
-  final bool isLiked;
-
-  SipReport({
-    required this.userName,
-    required this.userAvatarUrl,
-    this.imageUrl,
-    required this.timestamp,
-    required this.postTitle,
-    required this.postLocation,
-    required this.impactText,
-    required this.description,
-    required this.likeCount,
-    required this.commentCount,
-    required this.shareCount,
-    required this.isLiked,
-  });
+  Future<void> _launchPdfUrl(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
+  }
 }
