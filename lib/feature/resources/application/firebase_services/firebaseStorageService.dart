@@ -7,12 +7,11 @@ class FirebaseStorageService {
 
   Future<String> uploadPdf({
     required File file,
-    required String userId,
+    required String userName,
     required String reportName,
   }) async {
     try {
-      final ref = _storage.ref().child(
-          'sip_reports/$userId/${DateTime.now().millisecondsSinceEpoch}_$reportName.pdf');
+      final ref = _storage.ref().child('sip_reports/$userName/$reportName.pdf');
 
       final uploadTask = ref.putFile(file);
       final snapshot = await uploadTask.whenComplete(() {});
