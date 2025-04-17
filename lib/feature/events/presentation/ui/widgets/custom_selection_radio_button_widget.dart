@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class CustomSelectionRadioButtonWidget extends StatefulWidget {
+import '../provider/survey_radio_string_response_provider.dart';
+
+class CustomSelectionRadioButtonWidget extends ConsumerStatefulWidget {
+  final String question;
+
+  const CustomSelectionRadioButtonWidget({
+    super.key,
+    required this.question,
+  });
+
   @override
   _CustomSelectionRadioButtonWidgetState createState() =>
       _CustomSelectionRadioButtonWidgetState();
 }
 
 class _CustomSelectionRadioButtonWidgetState
-    extends State<CustomSelectionRadioButtonWidget> {
-  String? selectedOption;
-
-  final List<Map<String, String>> options = [
+    extends ConsumerState<CustomSelectionRadioButtonWidget> {
+  final List<Map<String, String>> _options = [
     {
       "title": "Environment/Climate",
       "description":
@@ -72,22 +80,38 @@ class _CustomSelectionRadioButtonWidgetState
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize from provider
+    final responses = ref.read(radioStringQuestionResponseProvider);
+    _selectedValue = responses[widget.question];
+  }
+
+  String? _selectedValue;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
-      children: options.map((option) {
+      children: _options.map((option) {
+        final title = option["title"]!;
+        final description = option["description"]!;
+
         return RadioListTile<String>(
-          value: option["title"]!,
+          value: title,
           contentPadding: EdgeInsets.zero,
-          groupValue: selectedOption,
+          groupValue: _selectedValue,
           dense: true,
           visualDensity: VisualDensity.compact,
           onChanged: (value) {
             setState(() {
-              selectedOption = value;
+              _selectedValue = value;
             });
+            ref
+                .read(radioStringQuestionResponseProvider.notifier)
+                .updateResponse(widget.question, value!);
           },
           fillColor: WidgetStateProperty.resolveWith<Color>(
-            (states) => selectedOption != null
+            (states) => _selectedValue != null
                 ? PhinexaColor.primaryLightBlue
                 : PhinexaColor.primaryLightBlue.withOpacity(0.5),
           ),
@@ -96,21 +120,26 @@ class _CustomSelectionRadioButtonWidgetState
               style: PhinexaFont.contentRegular,
               children: [
                 TextSpan(
-                  text: option["title"]!,
+                  text: title,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: PhinexaColor.black),
+                    fontWeight: FontWeight.bold,
+                    color: _selectedValue == title ? Colors.black : Colors.grey,
+                  ),
                 ),
-                if (option["description"]!.isNotEmpty)
+                if (description.isNotEmpty)
                   TextSpan(
-                    text: " – ${option["description"]}",
+                    text: " – $description",
                     style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: PhinexaColor.grey),
+                      fontWeight: FontWeight.normal,
+                      color: _selectedValue == title
+                          ? PhinexaColor.grey
+                          : PhinexaColor.grey.withOpacity(0.6),
+                    ),
                   ),
               ],
             ),
           ),
-          activeColor: Colors.blue,
+          activeColor: PhinexaColor.primaryLightBlue,
         );
       }).toList(),
     );
