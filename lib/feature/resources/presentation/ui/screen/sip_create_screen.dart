@@ -8,6 +8,7 @@ import 'package:gll/common/widget/custom_form_text_field.dart';
 import 'package:gll/feature/resources/presentation/controller/sip_report/sip_report_controller.dart';
 
 import '../../../../../core/data/local/user/user_service.dart';
+import '../../../../events/presentation/ui/provider/combine_response.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/firebase_services/firebaseStorageService.dart';
@@ -87,6 +88,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
         _titleController.clear();
         _descriptionController.clear();
         _linkController.clear();
+        clearSurveyResponses(ref);
       }
     } catch (e) {
       if (mounted) {
