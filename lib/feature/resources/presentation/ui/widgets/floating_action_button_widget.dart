@@ -12,7 +12,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
     return FloatingActionButton(
       mini: true,
       onPressed: () {
-        context.pushNamed(RouteName.createSip);
+        context.pushNamed(RouteName.sipProjectOverviewScreen);
       },
       backgroundColor: PhinexaColor.primaryColor,
       elevation: 6.0,

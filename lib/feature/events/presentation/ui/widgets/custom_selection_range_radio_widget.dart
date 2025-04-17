@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
-class CustomSelectionRangeRadioWidget extends StatefulWidget {
+import '../provider/survey_radio_string_response_provider.dart';
+
+class CustomSelectionRangeRadioWidget extends ConsumerStatefulWidget {
+  final String question;
+
+  const CustomSelectionRangeRadioWidget({
+    super.key,
+    required this.question,
+  });
+
   @override
   _CustomSelectionRangeRadioWidgetState createState() =>
       _CustomSelectionRangeRadioWidgetState();
 }
 
 class _CustomSelectionRangeRadioWidgetState
-    extends State<CustomSelectionRangeRadioWidget> {
-  String? selectedOption;
-
-  final List<String> options = [
+    extends ConsumerState<CustomSelectionRangeRadioWidget> {
+  final List<String> _options = [
     "1-20",
     "20-50",
     "50-75",
@@ -21,31 +29,47 @@ class _CustomSelectionRangeRadioWidgetState
     "Other"
   ];
 
+  String? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize from provider
+    final responses = ref.read(radioStringQuestionResponseProvider);
+    _selectedValue = responses[widget.question];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: options.map((option) {
+      children: _options.map((option) {
         return RadioListTile<String>(
           value: option,
           contentPadding: EdgeInsets.zero,
-          groupValue: selectedOption,
+          groupValue: _selectedValue,
           dense: true,
           visualDensity: VisualDensity.compact,
           onChanged: (value) {
             setState(() {
-              selectedOption = value;
+              _selectedValue = value;
             });
+            // Update provider and notify parent
+            ref
+                .read(radioStringQuestionResponseProvider.notifier)
+                .updateResponse(widget.question, value!);
           },
           fillColor: WidgetStateProperty.resolveWith<Color>(
-            (states) => selectedOption != null
+            (states) => _selectedValue != null
                 ? PhinexaColor.primaryLightBlue
                 : PhinexaColor.primaryLightBlue.withOpacity(0.5),
           ),
           title: Text(
             option,
-            style: PhinexaFont.contentRegular,
+            style: PhinexaFont.contentRegular.copyWith(
+              color: _selectedValue == option ? Colors.black : Colors.grey,
+            ),
           ),
-          activeColor: Colors.blue,
+          activeColor: PhinexaColor.primaryLightBlue,
         );
       }).toList(),
     );
