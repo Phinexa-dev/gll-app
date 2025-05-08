@@ -12,6 +12,9 @@ import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
 import 'package:gll/feature/login/presentation/ui/screen/login.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/forget_password_screen.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/otp_screen.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/success_reset_screen.dart';
 import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
@@ -65,6 +68,24 @@ final appRoutes = [
     name: RouteName.signUp,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => SignUp(),
+  ),
+  GoRoute(
+    path: RouteName.forgetPasswordScreen,
+    name: RouteName.forgetPasswordScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => ForgetPasswordScreen(),
+  ),
+  GoRoute(
+    path: RouteName.otpScreen,
+    name: RouteName.otpScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => OTPScreen(),
+  ),
+  GoRoute(
+    path: RouteName.successResetScreen,
+    name: RouteName.successResetScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SuccessResetScreen(),
   ),
   GoRoute(
     path: RouteName.dashboard,

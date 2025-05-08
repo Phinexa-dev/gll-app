@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:gll/feature/login/presentation/controller/sign_in_contoller.dart';
-import 'package:gll/feature/welcome/presentation/ui/widget/custom_divider.dart';
-import 'package:gll/feature/welcome/presentation/ui/widget/social_media_options.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../../../../../common/theme/fonts.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../../system_feedback/model/feedback.dart';
@@ -31,18 +31,15 @@ class _LoginState extends ConsumerState<Login> {
 
     ref.listen<SignInState>(
       signInControllerProvider,
-          (previous, next) {
+      (previous, next) {
         if (next.isSuccess != null && next.isSuccess == true) {
-
-          feedBackService.showToast("Login successful", type: FeedbackType.success);
+          feedBackService.showToast("Login successful",
+              type: FeedbackType.success);
           context.goNamed(RouteName.dashboard);
-
         } else if (next.isFailure != null && next.isFailure == true) {
-
           final errorMessage = ref.watch(signInControllerProvider).errorMessage;
           feedBackService.showToast(errorMessage ?? "Login failed",
               type: FeedbackType.error);
-
         }
       },
     );
@@ -108,14 +105,14 @@ class _LoginState extends ConsumerState<Login> {
                                         'Create Account',
                                         style:
                                             PhinexaFont.labelRegular.copyWith(
-                                          color: Colors.blue,
+                                          color: PhinexaColor.primaryColor,
                                         ),
                                       ),
                                     ),
                                     const Icon(
                                       Icons.chevron_right,
                                       size: 30,
-                                      color: Colors.blue,
+                                      color: PhinexaColor.primaryColor,
                                     ),
                                   ],
                                 ),
@@ -152,12 +149,12 @@ class _LoginState extends ConsumerState<Login> {
                                   padding:
                                       WidgetStateProperty.all(EdgeInsets.zero),
                                 ),
-                                onPressed: () =>
-                                    context.pushNamed(RouteName.welcome),
+                                onPressed: () => context
+                                    .pushNamed(RouteName.forgetPasswordScreen),
                                 child: Text(
                                   'Reset Password',
                                   style: PhinexaFont.labelRegular.copyWith(
-                                    color: Colors.blue,
+                                    color: PhinexaColor.primaryColor,
                                   ),
                                 ),
                               ),

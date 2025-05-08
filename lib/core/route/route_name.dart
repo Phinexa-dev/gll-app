@@ -9,6 +9,13 @@ class RouteName {
   static String get welcome => '/welcome';
 
   static String get signIn => '/login';
+
+  static String get forgetPasswordScreen => '/forgetPasswordScreen';
+
+  static String get otpScreen => '/otpScreen';
+
+  static String get successResetScreen => '/successResetScreen';
+
   static String get signUp => '/signup';
 
   static String get dashboard => '/dashboard';

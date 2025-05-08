@@ -59,8 +59,10 @@ dependencies:
   google_fonts: ^6.2.1
   #  https://pub.dev/packages/dotted_border
   dotted_border: ^2.0.0
-  flutter_dotenv: ^5.2.1
   # https://pub.dev/packages/flutter_dotenv
+  flutter_dotenv: ^5.2.1
+  #https://pub.dev/packages/pinput
+  pinput: ^3.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -122,6 +124,8 @@ dev_dependencies:
   url_launcher: ^6.3.1
   # https://pub.dev/packages/syncfusion_flutter_pdfviewer
   syncfusion_flutter_pdfviewer: ^28.2.12
+  #https://pub.dev/packages/pinput
+  pinput: ^3.0.1
 
 flutter_launcher_icons:
   android: "launcher_icon"

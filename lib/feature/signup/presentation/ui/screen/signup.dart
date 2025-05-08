@@ -32,20 +32,16 @@ class _SignUpState extends ConsumerState<SignUp> {
 
     ref.listen<SignUpState>(
       signUpControllerProvider,
-          (previous, next) {
+      (previous, next) {
         if (next.isSuccess != null && next.isSuccess == true) {
-
           feedBackService.showToast("Registration successful",
               type: FeedbackType.success);
           context.goNamed(RouteName.welcome);
-
         } else if (next.isFailure != null && next.isFailure == true) {
-
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
           // Show error toast
           feedBackService.showToast(errorMessage ?? "Registration failed",
               type: FeedbackType.error);
-
         }
       },
     );
@@ -243,8 +239,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           // Full-page loader
           if (isLoading)
             Container(
-              color:
-                  Colors.black.withAlpha(128), // Semi-transparent background
+              color: Colors.black.withAlpha(128), // Semi-transparent background
               child: Center(
                 child: CircularProgressIndicator(
                   color: Colors.white, // Customize the color if needed
