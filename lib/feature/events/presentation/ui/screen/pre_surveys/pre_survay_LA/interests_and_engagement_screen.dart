@@ -60,7 +60,7 @@ class _InterestsAndEngagementScreenState
 
     // Topics Validation
     if (surveyResponses[
-            "What topics are you most excited to explore in this workshop? (Check all that apply)"] ==
+            "What topics are you most interested in exploring in this workshop? (Check all that apply)"] ==
         null) {
       _topicsError.value = 'Please select at least one topic';
       isValid = false;
@@ -118,7 +118,7 @@ class _InterestsAndEngagementScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey', style: PhinexaFont.headingSmall),
+        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
       ),
       body: Stack(
         children: [
@@ -144,7 +144,7 @@ class _InterestsAndEngagementScreenState
                           children: [
                             MultiSelectCheckboxWidget(
                               question:
-                                  "What topics are you most excited to explore in this workshop? (Check all that apply)",
+                                  "What topics are you most interested in exploring in this workshop? (Check all that apply)",
                               answers: [
                                 "Effective Leadership",
                                 "UN Sustainable Development Goals",
@@ -261,11 +261,22 @@ class _InterestsAndEngagementScreenState
                         );
                       },
                     ),
-
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Thank you for sharing! Your input helps us create a better experience for everyone.",
+                      style: PhinexaFont.labelRegular
+                          .copyWith(color: PhinexaColor.primaryColor),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       child: CustomButton(
-                        label: "Register",
+                        label: "Complete Registration",
                         height: 40,
                         onPressed: _validateForm, // Disable button when loading
                       ),

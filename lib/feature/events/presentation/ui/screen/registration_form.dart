@@ -356,7 +356,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
               SizedBox(height: 24),
 
               CustomButton(
-                label: "Pre Survey",
+                label: "Next",
                 height: 40,
                 onPressed: _validateForm,
               ),

@@ -152,7 +152,7 @@ class _TTBackgroundInformationScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey - Train the Trainer',
+        title: Text('Pre-Workshop Survey - Train the Trainer',
             style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(
@@ -162,8 +162,11 @@ class _TTBackgroundInformationScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              Text("Background Information", style: PhinexaFont.headingLarge),
-              SizedBox(height: 5),
+              Text(
+                "Tell us a bit about you and your goals before the Leadership Academy begins",
+                style: PhinexaFont.labelRegular,
+              ),
+              SizedBox(height: 20),
 
               // Full Name Field
               ValueListenableBuilder<String?>(

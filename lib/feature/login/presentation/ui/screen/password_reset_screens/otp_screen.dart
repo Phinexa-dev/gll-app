@@ -70,8 +70,8 @@ class OTPScreen extends StatelessWidget {
                             ),
                           ),
                           focusedPinTheme: PinTheme(
-                            width: 40,
-                            height: 40,
+                            width: 50,
+                            height: 50,
                             textStyle: const TextStyle(
                               fontSize: 20,
                               color: PhinexaColor.primaryColor,
