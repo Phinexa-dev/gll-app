@@ -29,7 +29,7 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            'Resources',
+            'Impact',
             style: PhinexaFont.headingSmall,
           )),
         ),
@@ -62,7 +62,7 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
           ],
         ),
         floatingActionButton:
-            tabIndex == 0 ? FloatingActionButtonWidget() : null,
+            tabIndex != 0 ? null : FloatingActionButtonWidget(),
       ),
     );
   }

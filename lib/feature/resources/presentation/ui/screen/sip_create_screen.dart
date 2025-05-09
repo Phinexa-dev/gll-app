@@ -170,7 +170,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
           builder: (context, ref, _) {
             final isSubmitting = ref.watch(isSubmittingProvider);
             return CustomButton(
-              label: "Post",
+              label: "Upload SIP",
               height: 40,
               onPressed: isSubmitting ? null : _submitForm,
               child: isSubmitting

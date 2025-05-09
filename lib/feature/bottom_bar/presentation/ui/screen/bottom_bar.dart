@@ -15,7 +15,6 @@ class BottomBar extends ConsumerStatefulWidget {
 }
 
 class _BottomBarState extends ConsumerState<BottomBar> {
-
   static final List<Widget> _screenOptions = <Widget>[
     const HomeScreen(),
     const ResourcesScreen(),
@@ -25,7 +24,6 @@ class _BottomBarState extends ConsumerState<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-
     final navState = ref.watch(navProvider);
 
     return Scaffold(
@@ -51,7 +49,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_outlined),
             activeIcon: Icon(Icons.folder),
-            label: 'Resources',
+            label: 'Impact',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined),

@@ -223,14 +223,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Events", style: PhinexaFont.headingLarge),
-              IconButton(
-                icon: Icon(Icons.chevron_right_rounded, size: 30),
-                onPressed: () {
-                  ref.read(navProvider.notifier).onItemTapped(2);
-                },
-              ),
+              TextButton(
+                  onPressed: () {
+                    ref.read(navProvider.notifier).onItemTapped(2);
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "See All Events",
+                        style: PhinexaFont.labelRegular
+                            .copyWith(color: PhinexaColor.primaryColor),
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        size: 22,
+                      )
+                    ],
+                  ))
             ],
           ),
           SizedBox(height: 12),

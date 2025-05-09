@@ -27,12 +27,17 @@ class _BackgroundInformationScreenState
     extends ConsumerState<BackgroundInformationScreen> {
   late TextEditingController fullNameController;
   late TextEditingController ageController;
+  late TextEditingController marginalizedDescriptionController;
+
+  String? selectedMarginalizedGroup;
   String? selectedGender;
   String? selectedCountryOrigin;
   String? selectedCountryResidence;
   String? selectedStatus;
   bool? selectedLeadershipProgram;
 
+  final _marginalizedError = ValueNotifier<String?>(null);
+  final _marginalizedDescriptionError = ValueNotifier<String?>(null);
   final _fullNameError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
   final _countryOriginError = ValueNotifier<String?>(null);
@@ -48,7 +53,9 @@ class _BackgroundInformationScreenState
     ageController = TextEditingController();
 
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
-
+    marginalizedDescriptionController = TextEditingController(
+        text: surveyResponses['Marginalized Description'] ?? '');
+    selectedMarginalizedGroup = surveyResponses['Marginalized Group'];
     fullNameController.text = surveyResponses['Full name'] ?? '';
     ageController.text = surveyResponses['Age'] ?? '';
     selectedLeadershipProgram = ref.read(radioQuestionResponseProvider)[
@@ -93,6 +100,19 @@ class _BackgroundInformationScreenState
       _countryOriginError.value = null;
     }
 
+    // Marginalized Group Validation
+    if (selectedMarginalizedGroup == null) {
+      _marginalizedError.value = 'Please select an option';
+      isValid = false;
+    } else if (selectedMarginalizedGroup == 'Yes' &&
+        marginalizedDescriptionController.text.isEmpty) {
+      _marginalizedDescriptionError.value = 'Please elaborate';
+      isValid = false;
+    } else {
+      _marginalizedError.value = null;
+      _marginalizedDescriptionError.value = null;
+    }
+
     // Validate Country of Residence
     if (selectedCountryResidence == null) {
       _countryResidenceError.value = 'Please select your country of residence';
@@ -132,7 +152,7 @@ class _BackgroundInformationScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey', style: PhinexaFont.headingSmall),
+        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -141,9 +161,11 @@ class _BackgroundInformationScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              Text("Background Information", style: PhinexaFont.headingLarge),
-              SizedBox(height: 5),
-
+              Text(
+                "Tell us a bit about you and your goals before the Leadership Academy begins",
+                style: PhinexaFont.labelRegular,
+              ),
+              SizedBox(height: 20),
               // Full Name Field with custom validation
               ValueListenableBuilder<String?>(
                 // Full Name error display
@@ -258,7 +280,58 @@ class _BackgroundInformationScreenState
                 },
               ),
               SizedBox(height: 5),
-
+              // Marginalized Group Question
+              ValueListenableBuilder<String?>(
+                valueListenable: _marginalizedError,
+                builder: (context, error, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropdown(
+                        fieldName:
+                            "Do you identify as a member of a marginalized group, such as religious or ethnic minority?",
+                        hint: "Select an option",
+                        selectedGender: selectedMarginalizedGroup,
+                        items: ["Yes", "No"],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedMarginalizedGroup = value;
+                          });
+                          ref
+                              .read(surveyTextFieldResponseProvider.notifier)
+                              .updateResponse('Marginalized Group', value!);
+                        },
+                      ),
+                      if (selectedMarginalizedGroup == 'Yes')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 12),
+                            CustomFormTextField(
+                              labelText: 'Please elaborate',
+                              hintText: 'Elaborate here',
+                              controller: marginalizedDescriptionController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse(
+                                        'Marginalized Description', value);
+                              },
+                              obscureText: false,
+                            ),
+                            if (_marginalizedDescriptionError.value != null)
+                              Text(_marginalizedDescriptionError.value!,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        ),
+                      if (error != null)
+                        Text(error, style: TextStyle(color: PhinexaColor.red)),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(height: 12),
               ValueListenableBuilder<String?>(
                 // Status error display
                 valueListenable: _statusError,

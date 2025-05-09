@@ -18,6 +18,7 @@ import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/
 import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
+import 'package:gll/feature/other/presentation/ui/screen/faqs/faq.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/sip_map.dart';
 import 'package:gll/feature/resources/domain/model/sip_report/sip_report_model.dart';
@@ -388,5 +389,11 @@ final appRoutes = [
     name: RouteName.contactUs,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => ContactUs(),
+  ),
+  GoRoute(
+    path: RouteName.faqs,
+    name: RouteName.faqs,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => FAQs(),
   ),
 ];

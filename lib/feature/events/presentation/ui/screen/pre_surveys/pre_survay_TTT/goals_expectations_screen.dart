@@ -141,7 +141,7 @@ class _TTGoalsExpectationsScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey - Train the Trainer',
+        title: Text('Pre-Workshop Survey - Train the Trainer',
             style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(

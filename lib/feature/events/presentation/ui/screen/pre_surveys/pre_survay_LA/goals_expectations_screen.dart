@@ -129,7 +129,7 @@ class _GoalsExpectationsScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey', style: PhinexaFont.headingSmall),
+        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
       ),
       body: SingleChildScrollView(
         child: Padding(
