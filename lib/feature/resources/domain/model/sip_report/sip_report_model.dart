@@ -10,5 +10,7 @@ class SipReportModel with _$SipReportModel {
     required String description,
     required String image,
     String? link,
+    required int approved,
+    required int uid,
   }) = _SipReportModel;
 }

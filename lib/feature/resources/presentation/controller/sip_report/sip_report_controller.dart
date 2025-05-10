@@ -8,8 +8,8 @@ import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 
 final sipReportControllerProvider =
-    AutoDisposeNotifierProvider<SipReportController, SipReportState>(
-        SipReportController.new);
+AutoDisposeNotifierProvider<SipReportController, SipReportState>(
+    SipReportController.new);
 
 class SipReportController extends AutoDisposeNotifier<SipReportState> {
   @override
@@ -70,12 +70,15 @@ class SipReportController extends AutoDisposeNotifier<SipReportState> {
         isFailure: null,
       );
 
-      final uploadSipReportRequest = UploadSipReportRequest(
-          title: title, description: description, image: image, link: link);
+      final request = UploadSipReportRequest(
+        title: title,
+        description: description,
+        image: image,
+        link: link,
+      );
 
-      final result = await ref
-          .read(sipReportServiceProvider)
-          .uploadSipReport(uploadSipReportRequest);
+      final result = await ref.read(sipReportServiceProvider).uploadSipReport(
+          request);
 
       if (result) {
         state = state.copyWith(

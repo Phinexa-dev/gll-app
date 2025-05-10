@@ -23,6 +23,40 @@ class _FAQsState extends ConsumerState<FAQs> {
       'a':
           'Leadership Academy participants, trainers, mentors, and partner organizations involved with Global Learning Lab International.',
     },
+    {
+      'q': 'How can I reset my password?',
+      'a':
+          'On the login screen, tap the "Reset Password" text button. You will be navigated to a page where you can enter your email address. A password reset link will be sent to your email.',
+    },
+    {
+      'q': 'I didn’t receive a registration email. What should I do?',
+      'a':
+          'Check your spam or junk folder first. If you still don\'t see it, contact your local coordinator or email support@globallearninglab.com.',
+    },
+    {
+      'q': 'How do I complete my post-event survey?',
+      'a':
+          'Go to the "Events" section using the main bottom navigation bar. Select the specific event you attended. Once you have completed registration for that event, a "Post Survey" button will appear on the event page. Tap it to complete your survey.',
+    },
+    {
+      'q': 'How do I earn my certification?',
+      'a':
+          'Complete your Leadership Academy, submit your SIP updates, and finish the required surveys.',
+    },
+    {
+      'q': 'Where can I see my certificates or badges?',
+      'a': 'Find them anytime in the "Badges" section of your “Impact” page.',
+    },
+    {
+      'q': 'What should I do if the app isn’t working properly?',
+      'a':
+          'Close and reopen the app first. If needed, update to the latest version. If issues continue, contact support@globallearninglab.com.',
+    },
+    {
+      'q': 'Is my personal information safe?',
+      'a':
+          'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact.',
+    },
     // add more Q&A maps here
   ];
 
