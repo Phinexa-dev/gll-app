@@ -70,7 +70,7 @@ class _TTInterestsAndEngagementScreenState
 
     // Topics Validation
     if (surveyResponses[
-            "What topics are you most excited to explore in this workshop? (Check all that apply)"] ==
+            "What topics are you most interested in exploring in this workshop? (Check all that apply)"] ==
         null) {
       _topicsError.value = 'Please select at least one topic';
       isValid = false;
@@ -81,7 +81,7 @@ class _TTInterestsAndEngagementScreenState
     // Other Topics Validation
     if (otherTopicsController.text.isEmpty &&
         surveyResponses[
-                "What topics are you most excited to explore in this workshop? (Check all that apply)"]!
+                "What topics are you most interested in exploring in this workshop? (Check all that apply)"]!
             .contains("Other")) {
       _otherTopicsError.value = 'Please mention any other topics';
       isValid = false;
@@ -147,7 +147,7 @@ class _TTInterestsAndEngagementScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre Survey - Train the Trainer',
+        title: Text('Pre-Workshop Survey - Train the Trainer',
             style: PhinexaFont.headingSmall),
       ),
       body: Stack(
@@ -174,7 +174,7 @@ class _TTInterestsAndEngagementScreenState
                           children: [
                             MultiSelectCheckboxWidget(
                               question:
-                                  "What topics are you most excited to explore in this workshop? (Check all that apply)",
+                                  "What topics are you most interested in exploring in this workshop? (Check all that apply)",
                               answers: [
                                 "Effective Leadership",
                                 "UN Sustainable Development Goals",
@@ -354,12 +354,23 @@ class _TTInterestsAndEngagementScreenState
                         );
                       },
                     ),
-
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Thank you for sharing! Your input helps us create a better experience for everyone.",
+                      style: PhinexaFont.labelRegular
+                          .copyWith(color: PhinexaColor.primaryColor),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     // Register Button
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       child: CustomButton(
-                        label: "Register",
+                        label: "Complete Registration",
                         height: 40,
                         onPressed: _validateForm,
                       ),

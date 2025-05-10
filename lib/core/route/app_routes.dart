@@ -11,15 +11,19 @@ import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
 import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
-import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/login/presentation/ui/screen/login.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/forget_password_screen.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/otp_screen.dart';
+import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/success_reset_screen.dart';
+import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
+import 'package:gll/feature/other/presentation/ui/screen/faqs/faq.dart';
 import 'package:gll/feature/other/presentation/ui/screen/profile_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/sip_map.dart';
+import 'package:gll/feature/resources/domain/model/sip_report/sip_report_model.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/sip_create_screen.dart';
-import 'package:gll/feature/resources/presentation/ui/widgets/resources_view_more_widget.dart';
-import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_view_more.dart';
+import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_detail_screen.dart';
 import 'package:gll/feature/signup/presentation/ui/screen/signup.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,14 +39,10 @@ import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/in
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/background_information_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
 import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
+import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
 import '../../feature/other/presentation/ui/screen/about_us/about_us.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
 import '../../feature/other/presentation/ui/screen/feedbacks/feedbacks.dart';
-import '../../feature/other/presentation/ui/widget/map_view_widget.dart';
-import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
-import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
-import '../../feature/resources/presentation/ui/screen/resources_tab_screen.dart';
-import '../../feature/resources/presentation/ui/widgets/sip_report_post_widget.dart';
 import '../../feature/welcome/presentation/ui/screen/splash_screen.dart';
 import '../../feature/welcome/presentation/ui/screen/welcome_screen.dart';
 
@@ -69,6 +69,24 @@ final appRoutes = [
     name: RouteName.signUp,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => SignUp(),
+  ),
+  GoRoute(
+    path: RouteName.forgetPasswordScreen,
+    name: RouteName.forgetPasswordScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => ForgetPasswordScreen(),
+  ),
+  GoRoute(
+    path: RouteName.otpScreen,
+    name: RouteName.otpScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => OTPScreen(),
+  ),
+  GoRoute(
+    path: RouteName.successResetScreen,
+    name: RouteName.successResetScreen,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => SuccessResetScreen(),
   ),
   GoRoute(
     path: RouteName.dashboard,
@@ -318,21 +336,12 @@ final appRoutes = [
     builder: (context, state) => SIPLeadershipGrowthScreen(),
   ),
   GoRoute(
-    path: RouteName.resourceMore,
-    name: RouteName.resourceMore,
-    parentNavigatorKey: navigationKey,
-    builder: (context, state) {
-      final resource = state.extra as Resource;
-      return ResourcesViewMoreWidget(resource: resource);
-    },
-  ),
-  GoRoute(
     path: RouteName.reportMore,
     name: RouteName.reportMore,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final report = state.extra as SipReport;
-      return SipReportViewMore(report: report);
+      final report = state.extra as SipReportModel;
+      return SipReportDetailScreen(report: report);
     },
   ),
   GoRoute(
@@ -380,5 +389,11 @@ final appRoutes = [
     name: RouteName.contactUs,
     parentNavigatorKey: navigationKey,
     builder: (context, state) => ContactUs(),
+  ),
+  GoRoute(
+    path: RouteName.faqs,
+    name: RouteName.faqs,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) => FAQs(),
   ),
 ];

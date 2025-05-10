@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:go_router/go_router.dart';
+
 import '../data/local/auth/auth_notifier.dart';
 import 'app_routes.dart';
 
@@ -9,7 +10,9 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     refreshListenable: notifier,
-    initialLocation: notifier.isInitialized? (notifier.isLoggedIn? RouteName.dashboard: RouteName.welcome): RouteName.splash,
+    initialLocation: notifier.isInitialized
+        ? (notifier.isLoggedIn ? RouteName.dashboard : RouteName.welcome)
+        : RouteName.splash,
     navigatorKey: navigationKey,
     routes: appRoutes,
     redirect: (context, state) {
@@ -21,7 +24,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         RouteName.welcome,
         RouteName.signIn,
         RouteName.signUp,
-        // RouteName.forgotPassword
+        RouteName.forgetPasswordScreen,
+        RouteName.otpScreen,
+        RouteName.successResetScreen,
       ];
 
       if (!isInitialized) {

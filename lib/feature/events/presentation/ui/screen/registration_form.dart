@@ -53,7 +53,9 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     fullNameController =
         TextEditingController(text: surveyResponses['Full name'] ?? '');
     sponsoringOrgController = TextEditingController(
-        text: surveyResponses['Sponsoring Organization'] ?? '');
+        text: surveyResponses[
+                'What organization invited/sponsored your attendance?'] ??
+            '');
     ageController = TextEditingController(text: surveyResponses['Age'] ?? '');
     educationController =
         TextEditingController(text: surveyResponses['Education'] ?? '');
@@ -227,13 +229,16 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFormTextField(
-                        labelText: 'Sponsoring Organization',
+                        labelText:
+                            'What organization invited/sponsored your attendance?',
                         hintText: 'Organization Name',
                         controller: sponsoringOrgController,
                         onChanged: (value) {
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse('Sponsoring Organization', value);
+                              .updateResponse(
+                                  'What organization invited/sponsored your attendance?',
+                                  value);
                         },
                         obscureText: false,
                       ),
@@ -356,7 +361,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
               SizedBox(height: 24),
 
               CustomButton(
-                label: "Pre Survey",
+                label: "Next",
                 height: 40,
                 onPressed: _validateForm,
               ),

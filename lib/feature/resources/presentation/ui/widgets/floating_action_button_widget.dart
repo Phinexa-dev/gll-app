@@ -9,20 +9,20 @@ class FloatingActionButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      mini: true,
+    return FloatingActionButton.extended(
       onPressed: () {
-        context.pushNamed(RouteName.createSip);
+        context.pushNamed(RouteName.sipProjectOverviewScreen);
       },
       backgroundColor: PhinexaColor.primaryColor,
       elevation: 6.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(25),
       ),
-      child: const Icon(
-        Icons.add,
-        color: Colors.white,
+      label: const Text(
+        "Upload SIP here",
+        style: TextStyle(color: Colors.white),
       ),
+      icon: const Icon(Icons.upload, color: Colors.white),
     );
   }
 }

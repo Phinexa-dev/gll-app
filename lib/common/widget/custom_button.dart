@@ -5,10 +5,11 @@ import 'package:gll/common/theme/fonts.dart';
 
 class CustomButton extends ConsumerWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double height;
   final double? width;
   final IconData? icon;
+  final Widget? child;
 
   const CustomButton({
     super.key,
@@ -17,6 +18,7 @@ class CustomButton extends ConsumerWidget {
     required this.height,
     this.width,
     this.icon,
+    this.child,
   });
 
   @override
@@ -32,25 +34,26 @@ class CustomButton extends ConsumerWidget {
         ),
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              label,
-              style: PhinexaFont.contentRegular.copyWith(
-                color: PhinexaColor.white,
-              ),
+        child: child ??
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.white,
+                  ),
+                ),
+                if (icon != null) ...[
+                  const SizedBox(width: 8),
+                  Icon(
+                    icon,
+                    color: PhinexaColor.white,
+                  ),
+                ],
+              ],
             ),
-            if (icon != null) ...[
-              const SizedBox(width: 8),
-              Icon(
-                icon,
-                color: PhinexaColor.white,
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }

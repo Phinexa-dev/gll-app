@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/local/secure_storage/Isecure_storage.dart';
+
 import '../../local/secure_storage/secure_storage.dart';
 import '../../local/secure_storage/secure_storage_const.dart';
 import '../../remote/network_service.dart';
@@ -40,6 +41,7 @@ class UserService implements IUserService {
       _secureStorage.delete(key: userId),
       _secureStorage.delete(key: userName),
       _secureStorage.delete(key: userEmail),
+      _secureStorage.delete(key: userCountry),
     ]);
   }
 
@@ -48,15 +50,21 @@ class UserService implements IUserService {
     final id = await _secureStorage.read(key: userId);
     final name = await _secureStorage.read(key: userName);
     final email = await _secureStorage.read(key: userEmail);
+    final country = await _secureStorage.read(key: userCountry);
 
-    if (id != null && name != null && email != null && int.tryParse(id) != null) {
+    if (id != null &&
+        name != null &&
+        email != null &&
+        country != null &&
+        int.tryParse(id) != null) {
       return UserModel(
         id: int.parse(id),
         fullName: name,
         email: email,
+        country: country,
       );
     }
-    return null;  //  TODO: log out handling
+    return null; //  TODO: log out handling
   }
 
   @override
@@ -64,15 +72,23 @@ class UserService implements IUserService {
     if (user != null) {
       await _secureStorage.write(key: userName, value: user.fullName);
       await _secureStorage.write(key: userEmail, value: user.email);
+      if (user.country != null) {
+        await _secureStorage.write(key: userCountry, value: user.country!);
+      } else {
+        await _secureStorage.delete(key: userCountry);
+      }
     }
   }
 
   @override
   Future<void> saveUser(UserModel user) {
-    return Future.wait([
+    final operations = [
       _secureStorage.write(key: userId, value: user.id.toString()),
       _secureStorage.write(key: userName, value: user.fullName),
       _secureStorage.write(key: userEmail, value: user.email),
-    ]);
+      _secureStorage.write(key: userCountry, value: user.country),
+    ];
+
+    return Future.wait(operations);
   }
 }
