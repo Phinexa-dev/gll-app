@@ -26,22 +26,26 @@ class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
 
   // 15-color rainbow palette
   static const List<Color> _rainbow = [
-    Colors.red,
-    Colors.deepOrange,
-    Colors.orange,
-    Colors.amber,
-    Colors.red,
-    Colors.deepOrange,
-    Colors.lightGreen,
-    Colors.green,
-    Colors.white,
-    Colors.teal,
-    Colors.cyan,
-    Colors.blue,
-    Colors.indigo,
-    Colors.purple,
-    Colors.pink,
-    Colors.deepPurple,
+    Color(0xFFFF6B6B), // Soft Red
+    Color(0xFFFF8C42), // Orange
+    Color(0xFFFFC857), // Warm Yellow
+    Color(0xFFf9a43f), // Light Green
+    Color(0xFF01B0DC),
+    Color(0xFFFFC857), // Rich Green
+    Color(0xFF00B4D8),
+    Color(0xFF5ac9c9), // Soft Red
+    Color(0xFFFFFFFF),
+    Color(0xFFFFC857), // Warm Yellow// Aqua Blue
+    Color(0xFFB5E48C),
+    Color(0xFFFFC857),
+    Color(0xFF70E000), // Bright Green
+    Color(0xFFFF6B6B), // Soft Red
+    Color(0xFFFF8C42),
+    Color(0xFFFF8C42),
+    Color(0xFFf9a43f), // Light Green
+    Color(0xFF5ac9c9), // Pink
+    Color(0xFF59a8f7), // Soft Cyan
+    // Pure White
   ];
 
   @override
