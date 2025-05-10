@@ -7,6 +7,7 @@ class StartButton extends ConsumerWidget {
   final VoidCallback onPressed;
   final bool isGlow;
   final bool iconVisible;
+  final bool isLoading;
 
   const StartButton({
     super.key,
@@ -14,10 +15,11 @@ class StartButton extends ConsumerWidget {
     required this.onPressed,
     this.isGlow = false,
     this.iconVisible = false,
+    this.isLoading = false,
   });
 
   @override
-    Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF3993A1),
@@ -32,32 +34,41 @@ class StartButton extends ConsumerWidget {
         shadowColor: isGlow ? const Color(0xFFE5C36C).withAlpha(150) : Colors.transparent,
         splashFactory: InkSplash.splashFactory,
       ),
-      onPressed: onPressed,
-      child: iconVisible
-          ? Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: PhinexaFont.labelRegular.copyWith(
-                  color: Colors.white,
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading
+          ? const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            )
+          : iconVisible
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      label,
+                      style: PhinexaFont.labelRegular.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.chevron_right,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ],
+                )
+              : Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.chevron_right,
-                size: 30,
-                color: Colors.white,
-              ),
-            ],
-          )
-          : Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
     );
   }
 }
