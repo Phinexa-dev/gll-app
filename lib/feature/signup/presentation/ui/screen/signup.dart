@@ -56,6 +56,8 @@ class _SignUpState extends ConsumerState<SignUp> {
         TextEditingController(text: formData?['confirmPassword'] ?? "");
     final TextEditingController phoneNumberController =
         TextEditingController(text: formData?['phoneNumber'] ?? "");
+    final TextEditingController countryController =
+    TextEditingController(text: formData?['country'] ?? "");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -65,7 +67,7 @@ class _SignUpState extends ConsumerState<SignUp> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Logo(heightFactor: 10 / 3.2),
+              Logo(heightFactor: 10 / 3),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -174,6 +176,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                             ),
                           ],
                         ),
+                        // const SizedBox(height: 8),
+                        CustomTextField(
+                          labelText: 'Country',
+                          controller: countryController,
+                        ),
                         const SizedBox(height: 8),
                         CustomTextField(
                           labelText: 'Password',
@@ -195,6 +202,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                               'fullName': fullNameController.text,
                               'email': emailController.text,
                               'password': passwordController.text,
+                              'country': countryController.text,
                               'confirmPassword': confirmPasswordController.text,
                               'dialCode': phoneCode,
                               'phoneNumber': phoneNumberController.text,

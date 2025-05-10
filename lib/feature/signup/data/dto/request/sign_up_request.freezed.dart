@@ -28,6 +28,8 @@ mixin _$SignUpRequest {
   String get dialCode => throw _privateConstructorUsedError;
   @JsonKey(name: "mobileNumber")
   String get mobileNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: "country")
+  String get country => throw _privateConstructorUsedError;
   @JsonKey(name: "password")
   String get password => throw _privateConstructorUsedError;
   @JsonKey(name: "confirmPassword")
@@ -54,6 +56,7 @@ abstract class $SignUpRequestCopyWith<$Res> {
       @JsonKey(name: "email") String email,
       @JsonKey(name: "dialCode") String dialCode,
       @JsonKey(name: "mobileNumber") String mobileNumber,
+      @JsonKey(name: "country") String country,
       @JsonKey(name: "password") String password,
       @JsonKey(name: "confirmPassword") String confirmPassword});
 }
@@ -77,6 +80,7 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
+    Object? country = null,
     Object? password = null,
     Object? confirmPassword = null,
   }) {
@@ -96,6 +100,10 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
       mobileNumber: null == mobileNumber
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      country: null == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
           ? _value.password
@@ -122,6 +130,7 @@ abstract class _$$SignUpRequestImplCopyWith<$Res>
       @JsonKey(name: "email") String email,
       @JsonKey(name: "dialCode") String dialCode,
       @JsonKey(name: "mobileNumber") String mobileNumber,
+      @JsonKey(name: "country") String country,
       @JsonKey(name: "password") String password,
       @JsonKey(name: "confirmPassword") String confirmPassword});
 }
@@ -143,6 +152,7 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
     Object? email = null,
     Object? dialCode = null,
     Object? mobileNumber = null,
+    Object? country = null,
     Object? password = null,
     Object? confirmPassword = null,
   }) {
@@ -162,6 +172,10 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
       mobileNumber: null == mobileNumber
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      country: null == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
           ? _value.password
@@ -183,6 +197,7 @@ class _$SignUpRequestImpl implements _SignUpRequest {
       @JsonKey(name: "email") required this.email,
       @JsonKey(name: "dialCode") required this.dialCode,
       @JsonKey(name: "mobileNumber") required this.mobileNumber,
+      @JsonKey(name: "country") required this.country,
       @JsonKey(name: "password") required this.password,
       @JsonKey(name: "confirmPassword") required this.confirmPassword});
 
@@ -202,6 +217,9 @@ class _$SignUpRequestImpl implements _SignUpRequest {
   @JsonKey(name: "mobileNumber")
   final String mobileNumber;
   @override
+  @JsonKey(name: "country")
+  final String country;
+  @override
   @JsonKey(name: "password")
   final String password;
   @override
@@ -210,7 +228,7 @@ class _$SignUpRequestImpl implements _SignUpRequest {
 
   @override
   String toString() {
-    return 'SignUpRequest(fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, password: $password, confirmPassword: $confirmPassword)';
+    return 'SignUpRequest(fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, country: $country, password: $password, confirmPassword: $confirmPassword)';
   }
 
   @override
@@ -225,6 +243,7 @@ class _$SignUpRequestImpl implements _SignUpRequest {
                 other.dialCode == dialCode) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
+            (identical(other.country, country) || other.country == country) &&
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.confirmPassword, confirmPassword) ||
@@ -234,7 +253,7 @@ class _$SignUpRequestImpl implements _SignUpRequest {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fullName, email, dialCode,
-      mobileNumber, password, confirmPassword);
+      mobileNumber, country, password, confirmPassword);
 
   /// Create a copy of SignUpRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -258,6 +277,7 @@ abstract class _SignUpRequest implements SignUpRequest {
       @JsonKey(name: "email") required final String email,
       @JsonKey(name: "dialCode") required final String dialCode,
       @JsonKey(name: "mobileNumber") required final String mobileNumber,
+      @JsonKey(name: "country") required final String country,
       @JsonKey(name: "password") required final String password,
       @JsonKey(name: "confirmPassword")
       required final String confirmPassword}) = _$SignUpRequestImpl;
@@ -277,6 +297,9 @@ abstract class _SignUpRequest implements SignUpRequest {
   @override
   @JsonKey(name: "mobileNumber")
   String get mobileNumber;
+  @override
+  @JsonKey(name: "country")
+  String get country;
   @override
   @JsonKey(name: "password")
   String get password;

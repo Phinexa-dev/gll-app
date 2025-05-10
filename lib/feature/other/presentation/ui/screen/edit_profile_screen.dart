@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
@@ -7,6 +9,7 @@ import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -24,6 +27,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController locationController;
   late TextEditingController languagesController;
   late TextEditingController interestsController;
+  late String profileImageUrl;
+  File? selectedImage;
 
   String phoneCode = '+94';
 
@@ -37,6 +42,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     locationController = TextEditingController();
     languagesController = TextEditingController();
     interestsController = TextEditingController();
+    profileImageUrl = 'assets/more/mock_user_profile.png';
+    selectedImage = null;
 
     _loadUserData();
   }
@@ -55,7 +62,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       languagesController.text = formValues?['Languages'] ?? "";
       interestsController.text = formValues?['Interests'] ?? "";
       phoneCode = formValues?['dialCode'] ?? "";
+      profileImageUrl = formValues?['profileImage'] ?? 'assets/more/mock_user_profile.png';
     });
+  }
+
+  // Function to open image picker
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image.path);
+      });
+    }
   }
 
   @override
@@ -90,6 +110,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       'Location': locationController.text,
       'Languages': languagesController.text,
       'Interests': interestsController.text,
+      'profileImage': selectedImage,
     };
 
     //set the form data to the controller
@@ -143,6 +164,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             children: [
               ProfileCover(
                 editEnabled: true,
+                onClick: () {
+                  _pickImage();
+                  print(selectedImage!.path);
+                },
+                profileImage: selectedImage != null
+                    ? selectedImage!.path
+                    : 'assets/more/mock_user_profile.png',
               ),
 
               Form(

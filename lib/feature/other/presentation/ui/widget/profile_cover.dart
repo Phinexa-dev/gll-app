@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,10 +7,15 @@ import 'package:flutter_svg/svg.dart';
 class ProfileCover extends ConsumerStatefulWidget {
 
   final bool editEnabled;
+  final String profileImage;
+  // in click function
+  final Function? onClick;
 
   const ProfileCover({
     super.key,
     this.editEnabled = false,
+    required this.profileImage,
+    this.onClick,
   });
 
   @override
@@ -61,7 +68,12 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
               backgroundColor: Colors.white,
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.height * 0.054,
-                backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
+                backgroundImage: widget.profileImage.startsWith('assets')
+                    ? AssetImage(widget.profileImage)
+                    : FileImage(File(widget.profileImage)) as ImageProvider,
+                onBackgroundImageError: (exception, stackTrace) {
+                  debugPrint('Error loading profile image: $exception');
+                },
               ),
             ),
           ),
@@ -73,7 +85,9 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
               right: MediaQuery.of(context).size.width * 0.28,
               child: GestureDetector(
                 onTap: () {
-                  // TODO: implement edit profile
+                  if (widget.onClick != null) {
+                    widget.onClick!();
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

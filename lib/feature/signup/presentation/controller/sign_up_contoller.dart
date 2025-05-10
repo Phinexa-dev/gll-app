@@ -16,13 +16,21 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
   Future<void> signUp() async {
     final fullName = state.signUpForm?['fullName'];
     final email = state.signUpForm?['email'];
+    final country = state.signUpForm?['country'];
     final password = state.signUpForm?['password'];
     final confirmPassword = state.signUpForm?['confirmPassword'];
     final dialCode = state.signUpForm?['dialCode'];
     final phoneNumber = state.signUpForm?['phoneNumber'];
 
 
-    if (fullName.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty || phoneNumber.isEmpty || dialCode.isEmpty) {
+    if (fullName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty ||
+        phoneNumber.isEmpty ||
+        dialCode.isEmpty ||
+        country.isEmpty
+    ) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -58,6 +66,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         confirmPassword: confirmPassword,
         dialCode: dialCode,
         mobileNumber: phoneNumber,
+        country: country,
       );
 
       final result = await ref.read(signUpServiceProvider).signUp(signUpRequest);

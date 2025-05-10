@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/local/user/model/user_model.dart';
 import 'package:gll/core/data/local/user/user_service.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/presentation/state/profile/profile_state.dart';
+import '../../../../../common/cloud_functions/file_manager.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/profile/profile_service.dart';
 import '../../../data/dto/request/profile/edit_profile/edit_profile_request.dart';
 import '../../../domain/model/profile/profile_data_model.dart';
+import 'package:path/path.dart' as path;
 
 final profileControllerProvider = AutoDisposeNotifierProvider<ProfileController, ProfileState>(ProfileController.new);
 
@@ -102,9 +106,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final country = state.form?['Location'];
     final interests = state.form?['Interests'];
     final languages = state.form?['Languages'];
+    final File? profileImage = state.form?['profileImage'];
 
 
-    if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null) {
+    if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null || profileImage == null) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -120,6 +125,17 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
         isLoading: true,
         isSuccess: null,
         isFailure: null,
+      );
+
+      // upload image to firebase storage
+      final FileManager _fileManager = FileManager();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final extension = path.extension(profileImage.path).toLowerCase();
+      final fileName = 'profile_image_$timestamp$extension';
+      String profileImageUrl = await _fileManager.uploadFile(
+        profileImage,
+        'profile_images/',
+        fileName,
       );
 
       final editProfileRequest = EditProfileRequest(
