@@ -22,10 +22,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   @JsonKey(name: "id")
   int get id => throw _privateConstructorUsedError;
+
   @JsonKey(name: "fullName")
   String get fullName => throw _privateConstructorUsedError;
+
   @JsonKey(name: "email")
   String get email => throw _privateConstructorUsedError;
+
+  @JsonKey(name: "country")
+  String get country => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,11 +46,13 @@ mixin _$UserModel {
 abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
+
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
       @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email});
+      @JsonKey(name: "email") String email,
+      @JsonKey(name: "country") String country});
 }
 
 /// @nodoc
@@ -55,6 +62,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -66,6 +74,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? id = null,
     Object? fullName = null,
     Object? email = null,
+    Object? country = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -80,6 +89,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -90,12 +103,14 @@ abstract class _$$UserModelImplCopyWith<$Res>
   factory _$$UserModelImplCopyWith(
           _$UserModelImpl value, $Res Function(_$UserModelImpl) then) =
       __$$UserModelImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
       @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email});
+      @JsonKey(name: "email") String email,
+      @JsonKey(name: "country") String? country});
 }
 
 /// @nodoc
@@ -114,6 +129,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? fullName = null,
     Object? email = null,
+    Object? country = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -128,6 +144,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -138,7 +158,8 @@ class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
       {@JsonKey(name: "id") required this.id,
       @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email});
+      @JsonKey(name: "email") required this.email,
+      @JsonKey(name: "country") required this.country});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -152,10 +173,13 @@ class _$UserModelImpl implements _UserModel {
   @override
   @JsonKey(name: "email")
   final String email;
+  @override
+  @JsonKey(name: "country")
+  final String country;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, email: $email)';
+    return 'UserModel(id: $id, fullName: $fullName, email: $email, country: $country)';
   }
 
   @override
@@ -166,12 +190,13 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.country, country) || other.country == country));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fullName, email);
+  int get hashCode => Object.hash(runtimeType, id, fullName, email, country);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -191,9 +216,11 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "fullName") required final String fullName,
-      @JsonKey(name: "email") required final String email}) = _$UserModelImpl;
+          {@JsonKey(name: "id") required final int id,
+          @JsonKey(name: "fullName") required final String fullName,
+          @JsonKey(name: "email") required final String email,
+          @JsonKey(name: "country") required final String country}) =
+      _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -201,12 +228,18 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: "id")
   int get id;
+
   @override
   @JsonKey(name: "fullName")
   String get fullName;
+
   @override
   @JsonKey(name: "email")
   String get email;
+
+  @override
+  @JsonKey(name: "country")
+  String get country;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
