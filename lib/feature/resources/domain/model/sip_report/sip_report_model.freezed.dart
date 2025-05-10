@@ -21,6 +21,8 @@ mixin _$SipReportModel {
   String get description => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String? get link => throw _privateConstructorUsedError;
+  int get approved => throw _privateConstructorUsedError;
+  int get uid => throw _privateConstructorUsedError;
 
   /// Create a copy of SipReportModel
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +38,13 @@ abstract class $SipReportModelCopyWith<$Res> {
       _$SipReportModelCopyWithImpl<$Res, SipReportModel>;
   @useResult
   $Res call(
-      {int id, String title, String description, String image, String? link});
+      {int id,
+      String title,
+      String description,
+      String image,
+      String? link,
+      int approved,
+      int uid});
 }
 
 /// @nodoc
@@ -59,6 +67,8 @@ class _$SipReportModelCopyWithImpl<$Res, $Val extends SipReportModel>
     Object? description = null,
     Object? image = null,
     Object? link = freezed,
+    Object? approved = null,
+    Object? uid = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +91,14 @@ class _$SipReportModelCopyWithImpl<$Res, $Val extends SipReportModel>
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
               as String?,
+      approved: null == approved
+          ? _value.approved
+          : approved // ignore: cast_nullable_to_non_nullable
+              as int,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -94,7 +112,13 @@ abstract class _$$SipReportModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id, String title, String description, String image, String? link});
+      {int id,
+      String title,
+      String description,
+      String image,
+      String? link,
+      int approved,
+      int uid});
 }
 
 /// @nodoc
@@ -115,6 +139,8 @@ class __$$SipReportModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? image = null,
     Object? link = freezed,
+    Object? approved = null,
+    Object? uid = null,
   }) {
     return _then(_$SipReportModelImpl(
       id: null == id
@@ -137,6 +163,14 @@ class __$$SipReportModelImplCopyWithImpl<$Res>
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
               as String?,
+      approved: null == approved
+          ? _value.approved
+          : approved // ignore: cast_nullable_to_non_nullable
+              as int,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -149,7 +183,9 @@ class _$SipReportModelImpl implements _SipReportModel {
       required this.title,
       required this.description,
       required this.image,
-      this.link});
+      this.link,
+      required this.approved,
+      required this.uid});
 
   @override
   final int id;
@@ -161,10 +197,14 @@ class _$SipReportModelImpl implements _SipReportModel {
   final String image;
   @override
   final String? link;
+  @override
+  final int approved;
+  @override
+  final int uid;
 
   @override
   String toString() {
-    return 'SipReportModel(id: $id, title: $title, description: $description, image: $image, link: $link)';
+    return 'SipReportModel(id: $id, title: $title, description: $description, image: $image, link: $link, approved: $approved, uid: $uid)';
   }
 
   @override
@@ -177,12 +217,15 @@ class _$SipReportModelImpl implements _SipReportModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.link, link) || other.link == link));
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.approved, approved) ||
+                other.approved == approved) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, description, image, link);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, description, image, link, approved, uid);
 
   /// Create a copy of SipReportModel
   /// with the given fields replaced by the non-null parameter values.
@@ -200,7 +243,9 @@ abstract class _SipReportModel implements SipReportModel {
       required final String title,
       required final String description,
       required final String image,
-      final String? link}) = _$SipReportModelImpl;
+      final String? link,
+      required final int approved,
+      required final int uid}) = _$SipReportModelImpl;
 
   @override
   int get id;
@@ -212,6 +257,10 @@ abstract class _SipReportModel implements SipReportModel {
   String get image;
   @override
   String? get link;
+  @override
+  int get approved;
+  @override
+  int get uid;
 
   /// Create a copy of SipReportModel
   /// with the given fields replaced by the non-null parameter values.

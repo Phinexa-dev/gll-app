@@ -34,9 +34,13 @@ final class SipReportService implements IsipReportService {
   Future<List<SipReportModel>> getSipReports() async {
     try {
       final response = await _sipReportRepository.getSipReports();
-
-      final sipReportsData =
-          response.map((e) => _mapToSipReportModel(e)).toList();
+      
+      // Filter approved SIPs and map to model
+      final sipReportsData = response
+          .where((report) => report.approved == 1) // Only get approved SIPs
+          .map((e) => _mapToSipReportModel(e))
+          .toList();
+          
       return sipReportsData;
     } on DioException catch (_) {
       rethrow;
@@ -45,10 +49,13 @@ final class SipReportService implements IsipReportService {
 
   SipReportModel _mapToSipReportModel(SipReportResponse sipReportDataResponse) {
     return SipReportModel(
-        id: sipReportDataResponse.id,
-        title: sipReportDataResponse.title,
-        description: sipReportDataResponse.description,
-        image: sipReportDataResponse.image,
-        link: sipReportDataResponse.link);
+      id: sipReportDataResponse.id,
+      title: sipReportDataResponse.title,
+      description: sipReportDataResponse.description,
+      image: sipReportDataResponse.image,
+      link: sipReportDataResponse.link,
+      approved: sipReportDataResponse.approved,
+      uid: sipReportDataResponse.uid,
+    );
   }
 }
