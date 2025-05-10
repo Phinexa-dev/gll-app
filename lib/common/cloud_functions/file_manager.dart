@@ -1,30 +1,26 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 
-
 final FirebaseStorage _storage = FirebaseStorage.instance;
 
-class FileManager{
-  Future<String> uploadFile(FilePickerResult pickedFile, String location) async{
-    final file = File(pickedFile.files.single.path!);
-    final selectedFile = pickedFile.files.first;
-
+class FileManager {
+  Future<String> uploadFile(File file, String location, String fileName) async {
     await FirebaseAuth.instance.signInAnonymously();
-    // define the path and file name to upload
-    Reference ref = _storage.ref().child('$location${selectedFile.name}');
+    // Define the path and file name to upload
+    Reference ref = _storage.ref().child('$location$fileName');
 
     final uploadTask = ref.putFile(file);
-    final isConnected = await hasNetworkConnection(); // Implement network check function
+    final isConnected = await hasNetworkConnection();
     if (!isConnected) {
       uploadTask.cancel();
-      throw PlatformException(code: 'network_error', message: 'Network connectivity lost');
+      throw PlatformException(
+          code: 'network_error', message: 'Network connectivity lost');
     }
 
-    //upload
+    // Upload
     await uploadTask;
 
     String downloadUrl = await ref.getDownloadURL();
@@ -33,11 +29,9 @@ class FileManager{
 
   Future<List<String>> getFileNames(List<String> fileUrls) async {
     List<String> fileNames = await Future.wait(
-        fileUrls.map(
-                (url)  async {
-              return (await getFileMetaData(url)).name;
-            }
-        ).toList()
+      fileUrls.map((url) async {
+        return (await getFileMetaData(url)).name;
+      }).toList(),
     );
 
     return fileNames;
@@ -55,7 +49,8 @@ class FileManager{
 
   Future<bool> hasNetworkConnection() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
       return true;
     } else {
       return false;
