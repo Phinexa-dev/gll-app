@@ -49,32 +49,32 @@ class _CertificationTabScreenState
           }
 
           return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
                 availableCertificates.length,
-                (index) {
+            (index) {
                   final cert = availableCertificates[index];
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                    child: GestureDetector(
-                      onTap: () => createCertificate(
-                          ref, user!.country, cert.path, cert.isMinimal),
-                      child: Card(
-                        elevation: 2,
-                        child: ClipRRect(
-                          child: Image.asset(
-                            'assets/certificates/${cert.path}',
-                            width: screenWidth * 0.9,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                child: GestureDetector(
+                  onTap: () => createCertificate(
+                      ref, user!.country, cert.path, cert.isMinimal),
+                  child: Card(
+                    elevation: 2,
+                    child: ClipRRect(
+                      child: Image.asset(
+                        'assets/certificates/${cert.path}',
+                        width: screenWidth * 0.9,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+              );
+            },
+          ),
             ),
           );
         },

@@ -19,5 +19,6 @@ abstract class ForgotPasswordApi {
   factory ForgotPasswordApi(Dio dio) => _ForgotPasswordApi(dio);
 
   @POST('/auth/forgot-password')
-  Future<ForgotPasswordResponse> forgotPassword(@Body() ForgotPasswordRequest request);
+  Future<ForgotPasswordResponse> forgotPassword(
+      @Body() ForgotPasswordRequest request);
 }
