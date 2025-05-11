@@ -36,11 +36,12 @@ class _SignUpState extends ConsumerState<SignUp> {
         if (next.isSuccess != null && next.isSuccess == true) {
           feedBackService.showToast("Registration successful",
               type: FeedbackType.success);
+          ref.read(signUpControllerProvider.notifier).clearStates();
           context.goNamed(RouteName.welcome);
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
-          // Show error toast
-          feedBackService.showToast(errorMessage ?? "Registration failed",
+          ref.read(signUpControllerProvider.notifier).clearStates();
+          feedBackService.showToast(errorMessage ?? "Registration failed. Try again",
               type: FeedbackType.error);
         }
       },

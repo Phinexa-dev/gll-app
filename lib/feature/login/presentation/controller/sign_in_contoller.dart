@@ -18,6 +18,15 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
     return SignInState();
   }
 
+  void clearStates() {
+    state = state.copyWith(
+      errorMessage: null,
+      isSuccess: null,
+      isFailure: null,
+      isLoading: false,
+    );
+  }
+
   Future<void> signIn() async {
     final email = state.signInForm?['email'];
     final password = state.signInForm?['password'];
@@ -28,6 +37,20 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
         isSuccess: false,
         isFailure: true,
         errorMessage: 'Please fill all the fields',
+      );
+      return;
+    }
+
+    // validate email
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    if (!emailRegex.hasMatch(email)) {
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: 'Please enter a valid email address',
       );
       return;
     }
@@ -63,7 +86,8 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: e.response?.statusMessage ?? 'An error occurred',
+        // errorMessage: e.response?.statusMessage ?? 'An error occurred',
+        errorMessage: null,
       );
     }
   }

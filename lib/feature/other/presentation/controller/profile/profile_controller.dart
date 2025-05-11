@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/local/user/model/user_model.dart';
 import 'package:gll/core/data/local/user/user_service.dart';
@@ -136,9 +137,11 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       final extension = path.extension(profileImage.path).toLowerCase();
       final fileName = 'profile_image_$timestamp$extension';
       String profileImageUrl = await _fileManager.uploadFile(
-        profileImage,
-        'profile_images/',
-        fileName,
+          profileImage,
+          (dotenv.get('ENVIRONMENT', fallback: 'production') == 'development')?
+          'profile_images_dev_955209858/':
+          'profile_images/',
+          fileName,
       );
 
       final editProfileRequest = EditProfileRequest(
