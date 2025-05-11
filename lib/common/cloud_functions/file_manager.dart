@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +8,7 @@ final FirebaseStorage _storage = FirebaseStorage.instance;
 
 class FileManager {
   Future<String> uploadFile(File file, String location, String fileName) async {
-    await FirebaseAuth.instance.signInAnonymously();
+    // await FirebaseAuth.instance.signInAnonymously();
     // Define the path and file name to upload
     Reference ref = _storage.ref().child('$location$fileName');
 

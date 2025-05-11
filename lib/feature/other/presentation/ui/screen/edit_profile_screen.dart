@@ -45,7 +45,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     profileImageUrl = 'assets/more/mock_user_profile.png';
     selectedImage = null;
 
-    _loadUserData();
+    // fetch data needed
+    Future.microtask(() {
+      _loadUserData();
+    });
   }
 
   Future<void> _loadUserData() async {
@@ -154,9 +157,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ],
           )
       ),
-      body: isLoading == true
-          ? const Center(child: CircularProgressIndicator())
-          :
+      body:
       SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
@@ -166,11 +167,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 editEnabled: true,
                 onClick: () {
                   _pickImage();
-                  print(selectedImage!.path);
+                  // print(selectedImage!.path);
                 },
                 profileImage: selectedImage != null
                     ? selectedImage!.path
-                    : 'assets/more/mock_user_profile.png',
+                    : profileImageUrl,
               ),
 
               Form(

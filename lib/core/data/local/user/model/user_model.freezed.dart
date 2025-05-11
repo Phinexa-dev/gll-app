@@ -22,13 +22,10 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   @JsonKey(name: "id")
   int get id => throw _privateConstructorUsedError;
-
   @JsonKey(name: "fullName")
   String get fullName => throw _privateConstructorUsedError;
-
   @JsonKey(name: "email")
   String get email => throw _privateConstructorUsedError;
-
   @JsonKey(name: "country")
   String get country => throw _privateConstructorUsedError;
 
@@ -46,7 +43,6 @@ mixin _$UserModel {
 abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
-
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
@@ -62,7 +58,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -89,7 +84,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      country: freezed == country
+      country: null == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String,
@@ -103,14 +98,13 @@ abstract class _$$UserModelImplCopyWith<$Res>
   factory _$$UserModelImplCopyWith(
           _$UserModelImpl value, $Res Function(_$UserModelImpl) then) =
       __$$UserModelImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
       @JsonKey(name: "fullName") String fullName,
       @JsonKey(name: "email") String email,
-      @JsonKey(name: "country") String? country});
+      @JsonKey(name: "country") String country});
 }
 
 /// @nodoc
@@ -129,7 +123,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? fullName = null,
     Object? email = null,
-    Object? country = freezed,
+    Object? country = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -144,7 +138,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      country: freezed == country
+      country: null == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String,
@@ -228,15 +222,12 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: "id")
   int get id;
-
   @override
   @JsonKey(name: "fullName")
   String get fullName;
-
   @override
   @JsonKey(name: "email")
   String get email;
-
   @override
   @JsonKey(name: "country")
   String get country;

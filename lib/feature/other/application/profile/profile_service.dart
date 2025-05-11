@@ -69,6 +69,7 @@ final class ProfileService implements IProfileService {
       instagram: response.instagram,
       userIntrests: response.userIntrests,
       languages: response.languages,
+      profileImage: response.profileImage,
     );
   }
 }

@@ -76,7 +76,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           children: [
             // profile & cover image
             ProfileCover(
-              profileImage: 'assets/more/mock_user_profile.png',
+              profileImage: socialData?["profileImage"]?? 'assets/more/mock_user_profile.png',
             ),
 
             // user information

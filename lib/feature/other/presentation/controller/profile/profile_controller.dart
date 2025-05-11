@@ -39,10 +39,6 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
   }
 
   Future<void> updateFormData() async {
-    // get user data from service
-    final user = await ref.read(userServiceProvider).getUser();
-    if (user == null) return;
-
     try{
 
       state = state.copyWith(
@@ -50,6 +46,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
         isSuccess: null,
         isFailure: null,
       );
+
+      // get user data from service
+      final user = await ref.read(userServiceProvider).getUser();
+      if (user == null) return;
 
       // get user data from profile service
       final ProfileDataModel profile = await ref.read(profileServiceProvider).getProfile();
@@ -78,6 +78,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
           'Twitter': profile.twitter,
           'X': profile.x,
           'Instagram': profile.instagram,
+          'profileImage': profile.profileImage,
         },
       );
 
@@ -139,13 +140,14 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       );
 
       final editProfileRequest = EditProfileRequest(
-        fullName: fullName,
-        // email: email,
-        dialCode: dialCode,
-        mobileNumber: phoneNumber,
-        country: country,
-        userLanguages: languages,
-        userIntrests: interests,
+          fullName: fullName,
+          // email: email,
+          dialCode: dialCode,
+          mobileNumber: phoneNumber,
+          country: country,
+          userLanguages: languages,
+          userIntrests: interests,
+          profileImage: profileImageUrl,
       );
 
       final user = await ref.read(userServiceProvider).getUser();

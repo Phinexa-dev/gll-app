@@ -6,6 +6,8 @@ import 'package:gll/feature/other/data/local/settings_options.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_bar.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../controller/profile/profile_controller.dart';
+
 class OtherScreen extends ConsumerStatefulWidget {
   const OtherScreen({super.key});
 
@@ -14,10 +16,22 @@ class OtherScreen extends ConsumerStatefulWidget {
 }
 
 class _OtherScreenState extends ConsumerState<OtherScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    // fetch data needed
+    Future.microtask(() {
+      ref.read(profileControllerProvider.notifier).updateFormData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final optionListHPadding = MediaQuery.of(context).size.width * 0.1 / 2;
+    final userData = ref.watch(profileControllerProvider).form;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -103,7 +117,9 @@ class _OtherScreenState extends ConsumerState<OtherScreen> {
                 onTap: () {
                   context.pushNamed(RouteName.profile);
                 },
-                child: ProfileBar(),
+                child: ProfileBar(
+                    profileImage: userData?["profileImage"]?? 'assets/more/mock_user_profile.png',
+                ),
               ),
             ),
           ],
