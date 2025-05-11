@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gll/feature/other/application/certification/badge_service.dart';
 import 'package:gll/feature/resources/presentation/controller/certificate/certificate_controller.dart';
 import 'package:gll/feature/resources/presentation/ui/provider/badge_preview_provider.dart';
 
@@ -51,12 +52,15 @@ class _BadgesTabScreenState extends ConsumerState<BadgesTabScreen> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 24.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      'assets/badges/${badge.path}',
-                      width: screenWidth * 0.9,
-                      fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () => createBadgePdf(ref, badge.path),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        'assets/badges/${badge.path}',
+                        width: screenWidth * 0.9,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 );
