@@ -12,6 +12,7 @@ _$SignUpRequestImpl _$$SignUpRequestImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       dialCode: json['dialCode'] as String,
       mobileNumber: json['mobileNumber'] as String,
+      country: json['country'] as String,
       password: json['password'] as String,
       confirmPassword: json['confirmPassword'] as String,
     );
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$SignUpRequestImplToJson(_$SignUpRequestImpl instance) =>
       'email': instance.email,
       'dialCode': instance.dialCode,
       'mobileNumber': instance.mobileNumber,
+      'country': instance.country,
       'password': instance.password,
       'confirmPassword': instance.confirmPassword,
     };

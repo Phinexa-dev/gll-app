@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/data/local/user/model/user_model.dart';
 import '../../core/data/local/user/user_service.dart';
+import '../../core/data/remote/network_service.dart';
 import '../../core/route/route_name.dart';
 import '../../feature/events/application/survey_upload_service.dart';
 import 'custom_button.dart';
@@ -19,7 +20,8 @@ class EventViewScreenWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userFuture = ref.watch(userServiceProvider).getUser();
+    final dio = ref.watch(networkServiceProvider);
+    final userFuture = ref.watch(userServiceProvider(dio)).getUser();
 
     return FutureBuilder<UserModel?>(
       future: userFuture,

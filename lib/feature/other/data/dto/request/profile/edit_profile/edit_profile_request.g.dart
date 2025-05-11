@@ -15,6 +15,7 @@ _$EditProfileRequestImpl _$$EditProfileRequestImplFromJson(
       userLanguages: json['userLanguages'] as String?,
       country: json['country'] as String?,
       userIntrests: json['userIntrests'] as String?,
+      profileImage: json['userProfilePicture'] as String?,
     );
 
 Map<String, dynamic> _$$EditProfileRequestImplToJson(
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$EditProfileRequestImplToJson(
       'userLanguages': instance.userLanguages,
       'country': instance.country,
       'userIntrests': instance.userIntrests,
+      'userProfilePicture': instance.profileImage,
     };

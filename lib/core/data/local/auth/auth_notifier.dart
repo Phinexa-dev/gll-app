@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/remote/token/itoken_service.dart';
@@ -6,9 +7,8 @@ import '../../remote/token/token_service.dart';
 import '../user/iuser_service.dart';
 import '../user/user_service.dart';
 
-final routerNotifierProvider = ChangeNotifierProvider<RouterNotifier>((ref) {
-  final userService = ref.watch(userServiceProvider);
-  final dio = ref.watch(networkServiceProvider);
+final routerNotifierProvider = ChangeNotifierProvider.family<RouterNotifier, Dio>((ref, dio) {
+  final userService = ref.watch(userServiceProvider(dio));
   final tokenService = ref.watch(tokenServiceProvider(dio));
   final notifier = RouterNotifier(userService, tokenService);
   // Initialize immediately

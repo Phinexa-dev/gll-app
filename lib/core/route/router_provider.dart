@@ -3,10 +3,12 @@ import 'package:gll/core/route/route_name.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/local/auth/auth_notifier.dart';
+import '../data/remote/network_service.dart';
 import 'app_routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final notifier = ref.watch(routerNotifierProvider);
+  final dio = ref.watch(networkServiceProvider);
+  final notifier = ref.watch(routerNotifierProvider(dio));
 
   return GoRouter(
     refreshListenable: notifier,

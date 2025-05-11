@@ -35,6 +35,8 @@ class EditProfileResponse with _$EditProfileResponse {
     required String? userIntrests,
     @JsonKey(name: "userLanguages")
     required String? languages,
+    @JsonKey(name: "userProfilePicture")
+    required String? profileImage,
   }) = _EditProfileResponse;
 
   factory EditProfileResponse.fromJson(Map<String, dynamic> json) => _$EditProfileResponseFromJson(json);

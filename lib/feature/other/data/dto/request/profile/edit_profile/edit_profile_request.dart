@@ -19,6 +19,8 @@ class EditProfileRequest with _$EditProfileRequest {
     String? country,
     @JsonKey(name: "userIntrests")
     String? userIntrests,
+    @JsonKey(name: "userProfilePicture")
+    String? profileImage,
   }) = _EditProfileRequest;
 
   factory EditProfileRequest.fromJson(Map<String, dynamic> json) => _$EditProfileRequestFromJson(json);

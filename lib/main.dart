@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/main_app.dart';
+import 'package:gll/firebase_options.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -13,7 +14,6 @@ Future<void> main() async {
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
   );
-
   runApp(
     const ProviderScope(
       child: MainApp(),

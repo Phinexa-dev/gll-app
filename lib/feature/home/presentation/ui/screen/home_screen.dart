@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../common/theme/colors.dart';
 import '../../../../../common/theme/fonts.dart';
@@ -14,6 +15,7 @@ import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../events/application/survey_upload_service.dart';
 import '../../../../events/data/event.dart';
 import '../../../../events/data/event_provider.dart';
+import '../../../../other/presentation/controller/profile/profile_controller.dart';
 import '../../../../other/presentation/ui/widget/map_view_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -36,7 +38,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    // fetch data needed
+    Future.microtask(() {
+      ref.read(profileControllerProvider.notifier).updateFormData();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(profileControllerProvider).isLoading;
+    final userData = ref.read(profileControllerProvider).form;
+
+    print("User Data dp: ${userData?['profileImage']}");
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,10 +65,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 24,
-                    child: Icon(Icons.person),
-                  ),
+                  child: isLoading?
+                  Shimmer(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.grey,
+                        Colors.white,
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Colors.grey,
+                    ),
+                  )
+                  :
+                  userData?['profileImage'] != null?
+                      CircleAvatar(
+                        radius: 24,
+                        backgroundImage: NetworkImage(userData?['profileImage']),
+                      )
+                        :
+                      CircleAvatar(
+                        radius: 24,
+                        child: Icon(Icons.person),
+                      ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

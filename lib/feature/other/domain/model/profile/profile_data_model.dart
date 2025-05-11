@@ -19,5 +19,6 @@ class ProfileDataModel with _$ProfileDataModel {
     required String? x,
     required String? instagram,
     required String? userIntrests,
+    required String? profileImage,
   }) = _ProfileDataModel;
 }

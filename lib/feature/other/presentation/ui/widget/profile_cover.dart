@@ -1,14 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../controller/profile/profile_controller.dart';
 
 class ProfileCover extends ConsumerStatefulWidget {
 
   final bool editEnabled;
+  final String profileImage;
+  // in click function
+  final Function? onClick;
 
   const ProfileCover({
     super.key,
     this.editEnabled = false,
+    required this.profileImage,
+    this.onClick,
   });
 
   @override
@@ -29,6 +39,7 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(profileControllerProvider).isLoading;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.01),
@@ -56,12 +67,34 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: CircleAvatar(
+            child:
+                isLoading?
+            Shimmer(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.grey,
+                  Colors.white,
+                ],
+              ),
+              child: CircleAvatar(
+                radius: MediaQuery.of(context).size.height * 0.06,
+                backgroundColor: Colors.grey,
+              ),
+            )
+                :
+            CircleAvatar(
               radius: MediaQuery.of(context).size.height * 0.06,
               backgroundColor: Colors.white,
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.height * 0.054,
-                backgroundImage: AssetImage('assets/more/mock_user_profile.png'),
+                backgroundImage: widget.profileImage.startsWith('assets')
+                    ? AssetImage(widget.profileImage)
+                    : widget.profileImage.startsWith('http')
+                    ? NetworkImage(widget.profileImage)
+                    : FileImage(File(widget.profileImage)) as ImageProvider,
+                onBackgroundImageError: (exception, stackTrace) {
+                  debugPrint('Error loading profile image: $exception');
+                },
               ),
             ),
           ),
@@ -73,7 +106,9 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
               right: MediaQuery.of(context).size.width * 0.28,
               child: GestureDetector(
                 onTap: () {
-                  // TODO: implement edit profile
+                  if (widget.onClick != null) {
+                    widget.onClick!();
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

@@ -17,14 +17,17 @@ final networkServiceProvider = Provider<Dio>((ref) {
   final provider = ref.watch(networkServiceInterceptorProvider(dio));
   dio.interceptors.addAll(
     [
-      HttpFormatter(
-        loggingFilter: (request, response, error) {
-          return true;
-        },
-      ),
       provider,
     ]
   );
+
+  if (dotenv.get('LOGGING_ENABLED', fallback: 'false') == 'true') {
+    dio.interceptors.add(
+      HttpFormatter(
+        loggingFilter: (request, response, error) => true,
+      ),
+    );
+  }
 
   return dio;
 });

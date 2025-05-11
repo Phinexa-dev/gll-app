@@ -126,6 +126,12 @@ dev_dependencies:
   syncfusion_flutter_pdfviewer: ^28.2.12
   #https://pub.dev/packages/pinput
   pinput: ^3.0.1
+  # firebase_auth: ^5.1.4
+  #
+  connectivity_plus: ^6.0.1
+  #
+  image_picker: ^1.1.2
+  #
 
 flutter_launcher_icons:
   android: "launcher_icon"

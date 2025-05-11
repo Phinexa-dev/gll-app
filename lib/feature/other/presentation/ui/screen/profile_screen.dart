@@ -75,7 +75,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // profile & cover image
-            ProfileCover(),
+            ProfileCover(
+              profileImage: socialData?["profileImage"]?? 'assets/more/mock_user_profile.png',
+            ),
 
             // user information
             userAsync.when(

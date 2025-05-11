@@ -14,6 +14,8 @@ class SignUpRequest with _$SignUpRequest {
     required String dialCode,
     @JsonKey(name: "mobileNumber")
     required String mobileNumber,
+    @JsonKey(name: "country")
+    required String country,
     @JsonKey(name: "password")
     required String password,
     @JsonKey(name: "confirmPassword")
