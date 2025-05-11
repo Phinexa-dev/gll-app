@@ -35,10 +35,12 @@ class _LoginState extends ConsumerState<Login> {
         if (next.isSuccess != null && next.isSuccess == true) {
           feedBackService.showToast("Login successful",
               type: FeedbackType.success);
+          ref.read(signInControllerProvider.notifier).clearStates();
           context.goNamed(RouteName.dashboard);
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signInControllerProvider).errorMessage;
-          feedBackService.showToast(errorMessage ?? "Login failed",
+          ref.read(signInControllerProvider.notifier).clearStates();
+          feedBackService.showToast(errorMessage ?? "Invalid email or password",
               type: FeedbackType.error);
         }
       },

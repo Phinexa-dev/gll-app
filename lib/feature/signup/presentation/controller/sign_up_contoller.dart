@@ -13,6 +13,15 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     return SignUpState();
   }
 
+  void clearStates() {
+    state = state.copyWith(
+      errorMessage: null,
+      isSuccess: null,
+      isFailure: null,
+      isLoading: false,
+    );
+  }
+
   Future<void> signUp() async {
     final fullName = state.signUpForm?['fullName'];
     final email = state.signUpForm?['email'];
@@ -50,6 +59,29 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       return;
     }
 
+    // validate email
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    if (!emailRegex.hasMatch(email)) {
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: 'Please enter a valid email address',
+      );
+      return;
+    }
+
+    // validate password
+    final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+    if (!passwordRegex.hasMatch(password)) {
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: 'Password must be at least 8 characters long and contain at least one letter and one number',
+      );
+      return;
+    }
 
     try{
 
@@ -83,7 +115,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: e.response?.statusMessage?? 'An error occurred',
+        // errorMessage: e.response?.statusMessage?? 'An error occurred',
+        errorMessage: null,
       );
     }
   }
