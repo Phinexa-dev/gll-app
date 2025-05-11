@@ -92,13 +92,16 @@ final class NetworkServiceInterceptor extends Interceptor {
 
         // TODO: temporary solution
         // TODO: Handle logout here since the refresh token mechanism is not provided from the backend
-        await _userService.clearUser();
-        await _tokenService.clearTokens();
-        // notify the router
-        await _authNotifier.updateAuthState();
-        // ref.read(navProvider.notifier).onItemTapped(0);
-        onTokenExpired?.call();
-        _feedbackService.showToast("Token expired, please login again");
+        // clear tokens if exists already
+        if (await _tokenService.getAccessToken() != null) {
+          await _userService.clearUser();
+          await _tokenService.clearTokens();
+          // notify the router
+          await _authNotifier.updateAuthState();
+          // ref.read(navProvider.notifier).onItemTapped(0);
+          onTokenExpired?.call();
+          _feedbackService.showToast("Token expired, please login again");
+        }
 
         //continue with the error
         return handler.next(err);
