@@ -113,7 +113,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       'Location': locationController.text,
       'Languages': languagesController.text,
       'Interests': interestsController.text,
-      'profileImage': selectedImage,
+      'profileImageFile': selectedImage,
     };
 
     //set the form data to the controller
@@ -219,7 +219,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           label: 'Cancel',
                           isBold: true,
                           textColour: Colors.black,
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: isLoading ? (){} : () => Navigator.pop(context),
                           color: Colors.white,
                           borderColor: Color(0xFF3993A1),
                         ),
@@ -228,7 +228,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           label: 'Save Changes',
                           isBold: true,
                           textColour: Colors.white,
-                          onPressed: () => saveChanges(),
+                          onPressed: isLoading ? (){} : () {
+                            if (_formKey.currentState!.validate()) {
+                              saveChanges();
+                            }
+                          },
                           color: Color(0xFF3993A1),
                           iconColor: Colors.white,
                         ),

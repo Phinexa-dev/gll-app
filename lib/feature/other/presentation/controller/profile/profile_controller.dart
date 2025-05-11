@@ -107,7 +107,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final country = state.form?['Location'];
     final interests = state.form?['Interests'];
     final languages = state.form?['Languages'];
-    final File? profileImage = state.form?['profileImage'];
+    final File? profileImage = state.form?['profileImageFile'];
 
 
     if (fullName == null || dialCode == null || phoneNumber == null || country == null || interests == null || languages == null || profileImage == null) {
