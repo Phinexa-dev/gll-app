@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
@@ -127,20 +128,31 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
             onPressed: () async {
               // Handle logout
 
-              // TODO: temporary solution
-              final userService = ref.read(userServiceProvider);
               final dio = ref.read(networkServiceProvider);
+              final userService = ref.read(userServiceProvider(dio));
               final tokenService = ref.read(tokenServiceProvider(dio));
 
-              await userService.clearUser();
-              await tokenService.clearTokens();
+              if (dotenv.get('TEST_MODE', fallback: 'false') == 'false') {
+                // TODO: should move to a necessary service rather than here
+                await userService.clearUser();
+                await tokenService.clearTokens();
 
-              // notify the router
-              final authNotifier = ref.read(routerNotifierProvider);
-              await authNotifier.updateAuthState();
-              ref.read(navProvider.notifier).onItemTapped(0);
-              final feedbackService = ref.read(feedbackServiceProvider);
-              feedbackService.showToast("Logged Out");
+                // notify the router
+                final authNotifier = ref.read(routerNotifierProvider(dio));
+                await authNotifier.updateAuthState();
+                ref.read(navProvider.notifier).onItemTapped(0);
+                final feedbackService = ref.read(feedbackServiceProvider);
+                feedbackService.showToast("Logged Out");
+              }
+              else {
+                // TEST: token expired situation
+                final accessToken = "Jargon Web access Token";
+                final refreshToken = "Jargon Web refresh Token";
+                await tokenService.saveTokens(accessToken, refreshToken);
+                ref.read(navProvider.notifier).onItemTapped(0);
+                final feedbackService = ref.read(feedbackServiceProvider);
+                feedbackService.showToast("Test: Tokens expired manually!!!");
+              }
             },
           ),
         ],

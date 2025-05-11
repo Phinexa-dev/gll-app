@@ -4,6 +4,7 @@ import 'package:gll/feature/login/application/sign_in_service.dart';
 import 'package:gll/feature/login/presentation/state/sign_in_state.dart';
 
 import '../../../../core/data/local/auth/auth_notifier.dart';
+import '../../../../core/data/remote/network_service.dart';
 import '../../../../core/presentation/provider/user_notifier_provider.dart';
 import '../../data/dto/request/sign_in_request.dart';
 
@@ -47,7 +48,8 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
           await ref.read(signInServiceProvider).signIn(signInRequest);
 
       // notify the router
-      final authNotifier = ref.read(routerNotifierProvider);
+      final dio = ref.watch(networkServiceProvider);
+      final authNotifier = ref.read(routerNotifierProvider(dio));
       await authNotifier.updateAuthState();
       // load user data
       ref.read(userNotifierProvider.notifier).loadUser();

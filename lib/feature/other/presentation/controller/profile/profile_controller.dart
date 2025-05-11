@@ -7,6 +7,7 @@ import 'package:gll/core/data/local/user/user_service.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/presentation/state/profile/profile_state.dart';
 import '../../../../../common/cloud_functions/file_manager.dart';
+import '../../../../../core/data/remote/network_service.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/profile/profile_service.dart';
@@ -48,7 +49,8 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
       );
 
       // get user data from service
-      final user = await ref.read(userServiceProvider).getUser();
+      final dio = ref.watch(networkServiceProvider);
+      final user = await ref.read(userServiceProvider(dio)).getUser();
       if (user == null) return;
 
       // get user data from profile service
@@ -150,14 +152,15 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
           profileImage: profileImageUrl,
       );
 
-      final user = await ref.read(userServiceProvider).getUser();
+      final dio = ref.watch(networkServiceProvider);
+      final user = await ref.read(userServiceProvider(dio)).getUser();
       final result = await ref.read(profileServiceProvider).editProfile(editProfileRequest, user!.id);
 
       // update user data in local storage
       final UserModel newUser = user.copyWith(
         fullName: fullName,
       );
-      final userService = ref.read(userServiceProvider);
+      final userService = ref.read(userServiceProvider(dio));
       await userService.editUser(newUser);
       ref.refresh(userProvider);
 
@@ -211,7 +214,8 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
         instagram: instagram,
       );
 
-      final user = await ref.read(userServiceProvider).getUser();
+      final dio = ref.watch(networkServiceProvider);
+      final user = await ref.read(userServiceProvider(dio)).getUser();
       final result = await ref.read(profileServiceProvider).editSocials(editSocialsRequest, user!.id);
 
       state = state.copyWith(

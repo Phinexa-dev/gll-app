@@ -18,7 +18,7 @@ final signInServiceProvider = Provider<ISignInService>((ref) {
       ref.watch(signInRepositoryProvider);
   final dio = ref.watch(networkServiceProvider);
   final tokenService = ref.watch(tokenServiceProvider(dio));
-  final userService = ref.watch(userServiceProvider);
+  final userService = ref.watch(userServiceProvider(dio));
   return SignInService(signInRepository, tokenService, userService);
 });
 

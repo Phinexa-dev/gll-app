@@ -52,6 +52,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final isLoading = ref.watch(profileControllerProvider).isLoading;
     final userData = ref.read(profileControllerProvider).form;
 
+    print("User Data dp: ${userData?['profileImage']}");
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -77,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   )
                   :
-                  userData?['profileImage'] != Null?
+                  userData?['profileImage'] != null?
                       CircleAvatar(
                         radius: 24,
                         backgroundImage: NetworkImage(userData?['profileImage']),

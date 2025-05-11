@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/local/user/model/user_model.dart';
 import '../../../core/data/local/user/user_service.dart';
+import '../../../core/data/remote/network_service.dart';
 
 final databaseRef = FirebaseDatabase.instance.ref();
 
 Future<void> uploadSurveyData(
     WidgetRef ref, Map<String, dynamic> responses, String survey) async {
   try {
-    final userService = ref.read(userServiceProvider);
+    final dio = ref.watch(networkServiceProvider);
+    final userService = ref.read(userServiceProvider(dio));
     UserModel? user = await userService.getUser();
 
     if (user == null || user.email.isEmpty) {

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/core/data/local/secure_storage/Isecure_storage.dart';
 
@@ -9,15 +10,22 @@ import '../../remote/token/token_service.dart';
 import 'iuser_service.dart';
 import 'model/user_model.dart';
 
-final userServiceProvider = Provider<IUserService>((ref) {
+// final userServiceProvider = Provider<IUserService>((ref) {
+//   final secureStorage = ref.watch(secureStorageProvider);
+//   final dio = ref.watch(networkServiceProvider);
+//   final tokenService = ref.watch(tokenServiceProvider(dio));
+//   return UserService(secureStorage, tokenService);
+// });
+
+final userServiceProvider = Provider.family<IUserService, Dio>((ref, dio) {
   final secureStorage = ref.watch(secureStorageProvider);
-  final dio = ref.watch(networkServiceProvider);
   final tokenService = ref.watch(tokenServiceProvider(dio));
   return UserService(secureStorage, tokenService);
 });
 
 final userProvider = AutoDisposeFutureProvider<UserModel?>((ref) async {
-  final userService = ref.watch(userServiceProvider);
+  final dio = ref.watch(networkServiceProvider);
+  final userService = ref.watch(userServiceProvider(dio));
   return await userService.getUser();
 });
 
