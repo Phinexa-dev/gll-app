@@ -87,7 +87,14 @@ class SignInController extends AutoDisposeNotifier<SignInState> {
         isSuccess: false,
         isFailure: true,
         // errorMessage: e.response?.statusMessage ?? 'An error occurred',
-        errorMessage: null,
+        // errorMessage: null,
+        errorMessage: (
+            e.response?.data['message'] == "User not approved"
+                && e.response?.statusCode == 401
+        )?
+        "You are not approved by the admin"
+            :
+        null,
       );
     }
   }
