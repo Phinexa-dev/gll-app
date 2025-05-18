@@ -5,23 +5,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/feature/other/presentation/controller/profile/profile_controller.dart';
 import 'package:gll/feature/other/presentation/ui/widget/profile_cover.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../../../../../common/widget/custom_icon_button.dart';
 import '../../../../../common/widget/custom_text_field.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _EditProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late TextEditingController nameController;
+
   // late TextEditingController emailController;
   late TextEditingController phoneController;
   late TextEditingController locationController;
@@ -65,7 +68,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       languagesController.text = formValues?['Languages'] ?? "";
       interestsController.text = formValues?['Interests'] ?? "";
       phoneCode = formValues?['dialCode'] ?? "";
-      profileImageUrl = formValues?['profileImage'] ?? 'assets/more/mock_user_profile.png';
+      profileImageUrl =
+          formValues?['profileImage'] ?? 'assets/more/mock_user_profile.png';
     });
   }
 
@@ -123,42 +127,32 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     ref.read(profileControllerProvider.notifier).updateFormData();
 
     final feedBackService = ref.read(feedbackServiceProvider);
-    feedBackService.showToast("Successfully edited", type: FeedbackType.success);
+    feedBackService.showToast("Successfully edited",
+        type: FeedbackType.success);
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-
     final isLoading = ref.watch(profileControllerProvider).isLoading;
     final isFailure = ref.watch(profileControllerProvider).isFailure;
 
-    if(isFailure != null && isFailure){
+    if (isFailure != null && isFailure) {
       final feedBackService = ref.read(feedbackServiceProvider);
       final errorMessage = ref.watch(profileControllerProvider).errorMessage;
       // use system feedback to show the error message
-      feedBackService.showToast(errorMessage?? "Error occurred", type: FeedbackType.error);
+      feedBackService.showToast(errorMessage ?? "Error occurred",
+          type: FeedbackType.error);
     }
 
     return Scaffold(
       appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('Edit Profile', style: PhinexaFont.headingESmall,),
-              const Row(
-                children: [
-                  Icon(Icons.share_outlined),
-                  SizedBox(width: 15),
-                  Icon(Icons.more_vert_outlined),
-                ],
-              ),
-            ],
-          )
+        title: Text(
+          'Edit Profile',
+          style: PhinexaFont.headingESmall,
+        ),
       ),
-      body:
-      SingleChildScrollView(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -173,16 +167,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ? selectedImage!.path
                     : profileImageUrl,
               ),
-
               Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildTextField(label: 'Name',controller: nameController,keyboardType: TextInputType.text),
+                    buildTextField(
+                        label: 'Name',
+                        controller: nameController,
+                        keyboardType: TextInputType.text),
                     // buildTextField(label: 'Email Address',controller: emailController,keyboardType: TextInputType.emailAddress),
                     const SizedBox(height: 16),
-                    Text('Phone Number', style:  PhinexaFont.labelRegular.copyWith(fontWeight: FontWeight.normal, color: Colors.grey)),
+                    Text('Phone Number',
+                        style: PhinexaFont.labelRegular.copyWith(
+                            fontWeight: FontWeight.normal, color: Colors.grey)),
                     const SizedBox(height: 8),
                     Row(
                       children: [
@@ -195,77 +193,113 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           ),
                           value: phoneCode,
                           items: const [
-                            DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94'),),
-                            DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91'),),
-                            DropdownMenuItem(value: '+44', alignment: Alignment.center, child: Text('+44'),),
-                            DropdownMenuItem(value: '+61', alignment: Alignment.center, child: Text('+61'),),
+                            DropdownMenuItem(
+                              value: '+94',
+                              alignment: Alignment.center,
+                              child: Text('+94'),
+                            ),
+                            DropdownMenuItem(
+                              value: '+91',
+                              alignment: Alignment.center,
+                              child: Text('+91'),
+                            ),
+                            DropdownMenuItem(
+                              value: '+44',
+                              alignment: Alignment.center,
+                              child: Text('+44'),
+                            ),
+                            DropdownMenuItem(
+                              value: '+61',
+                              alignment: Alignment.center,
+                              child: Text('+61'),
+                            ),
                           ],
                           onChanged: (value) {
                             setState(() => phoneCode = value!);
                           },
                         ),
                         const SizedBox(width: 8),
-                        Expanded(child: buildTextField(label: '',controller: phoneController,keyboardType: TextInputType.phone)),
+                        Expanded(
+                            child: buildTextField(
+                                label: '',
+                                controller: phoneController,
+                                keyboardType: TextInputType.phone)),
                       ],
                     ),
-                    buildTextField(label: 'Location', controller: locationController,keyboardType:  TextInputType.text),
-                    buildTextField(label: 'Languages', controller: languagesController, keyboardType: TextInputType.text),
-                    buildTextField(label: 'Interests', controller: interestsController, keyboardType: TextInputType.text),
+                    buildTextField(
+                        label: 'Location',
+                        controller: locationController,
+                        keyboardType: TextInputType.text),
+                    buildTextField(
+                        label: 'Languages',
+                        controller: languagesController,
+                        keyboardType: TextInputType.text),
+                    buildTextField(
+                        label: 'Interests',
+                        controller: interestsController,
+                        keyboardType: TextInputType.text),
                     const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CustomIconButton(
-                          label: 'Cancel',
-                          isBold: true,
-                          textColour: Colors.black,
-                          onPressed: isLoading ? (){} : () => Navigator.pop(context),
-                          color: Colors.white,
-                          borderColor: Color(0xFF3993A1),
-                        ),
-                        const SizedBox(width: 16),
-                        CustomIconButton(
-                          label: 'Save Changes',
-                          isBold: true,
-                          textColour: Colors.white,
-                          onPressed: isLoading ? (){} : () {
-                            if (_formKey.currentState!.validate()) {
-                              saveChanges();
-                            }
-                          },
-                          color: Color(0xFF3993A1),
-                          iconColor: Colors.white,
-                        ),
-                      ],
-                    ),
+                    isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF3993A1),
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CustomIconButton(
+                                label: 'Cancel',
+                                isBold: true,
+                                textColour: Colors.black,
+                                onPressed: () => Navigator.pop(context),
+                                color: Colors.white,
+                                borderColor: Color(0xFF3993A1),
+                              ),
+                              const SizedBox(width: 16),
+                              CustomIconButton(
+                                label: 'Save Changes',
+                                isBold: true,
+                                textColour: Colors.white,
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    saveChanges();
+                                  }
+                                },
+                                color: Color(0xFF3993A1),
+                                iconColor: Colors.white,
+                              ),
+                            ],
+                          )
                   ],
                 ),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 
-  Widget buildTextField(
-      {
-        required String label,
-        required TextEditingController controller,
-        required TextInputType keyboardType,
-        String hint = 'required*',
-      }) {
+  Widget buildTextField({
+    required String label,
+    required TextEditingController controller,
+    required TextInputType keyboardType,
+    String hint = 'required*',
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (label.isNotEmpty)
-            Text(label, style: PhinexaFont.labelRegular.copyWith(fontWeight: FontWeight.normal, color: Colors.grey)),
+            Text(label,
+                style: PhinexaFont.labelRegular.copyWith(
+                    fontWeight: FontWeight.normal, color: Colors.grey)),
           const SizedBox(height: 8),
           CustomTextField(
-              labelText: hint,
-              controller: controller,
-              keyboardType: keyboardType,
+            labelText: hint,
+            controller: controller,
+            keyboardType: keyboardType,
           ),
         ],
       ),

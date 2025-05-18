@@ -132,7 +132,8 @@ class _SIPLeadershipGrowthScreenState
       try {
         ref.read(isLoadingProvider.notifier).state = true;
         final responses = await combineSurveyResponses(ref);
-        await uploadSurveyData(ref, responses, 'Post_Survey_SIP');
+        await uploadSurveyData(
+            ref, responses, 'Post_Survey_SIP_${DateTime.now()}');
 
         feedBackService.showToast("Survey submitted successfully",
             type: FeedbackType.success);
@@ -164,13 +165,11 @@ class _SIPLeadershipGrowthScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Flexible(
-          child: Text(
-            'Post Survey - SIP',
-            style: PhinexaFont.highlightAccent,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+        title: Text(
+          'Post Survey - SIP',
+          style: PhinexaFont.highlightAccent,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
       body: Stack(
