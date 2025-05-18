@@ -115,13 +115,11 @@ class _SIPProjectOverviewScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Flexible(
-          child: Text(
-            'Post Survey - SIP',
-            style: PhinexaFont.highlightAccent,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+        title: Text(
+          'Post Survey - SIP',
+          style: PhinexaFont.highlightAccent,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
       body: SingleChildScrollView(
