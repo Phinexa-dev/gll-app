@@ -104,9 +104,9 @@ Future<Uint8List> _readImageData(String path) async {
 }
 
 String getSignaturePath(String country) {
-  if (country == "Sri Lanka") {
+  if (country == "India") {
     return 'assets/signatures/apoorv_poojary_signature.png';
-  } else if (country == "Macedonia" || country == "Balkans ") {
+  } else if (country == "Macedonia" || country == "Balkans") {
     return 'assets/signatures/milena_musovska_signature.png';
   } else if (country == "Nepal") {
     return 'assets/signatures/sushma_b_shrestha_signature.png';
