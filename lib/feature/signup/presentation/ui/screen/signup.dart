@@ -12,6 +12,8 @@ import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../welcome/presentation/ui/widget/logo.dart';
 import '../../state/sign_up_state.dart';
 
+final phoneCodeProvider = StateProvider<String>((ref) => '+94');
+
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
 
@@ -20,11 +22,41 @@ class SignUp extends ConsumerStatefulWidget {
 }
 
 class _SignUpState extends ConsumerState<SignUp> {
-  String phoneCode = '+94';
+
+  late TextEditingController fullNameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+  late TextEditingController phoneNumberController;
+  late TextEditingController countryController;
+
+  @override
+  void initState() {
+    super.initState();
+    final formData = ref.read(signUpControllerProvider).signUpForm;
+    fullNameController = TextEditingController(text: formData?['fullName'] ?? "");
+    emailController = TextEditingController(text: formData?['email'] ?? "");
+    passwordController = TextEditingController(text: formData?['password'] ?? "");
+    confirmPasswordController = TextEditingController(text: formData?['confirmPassword'] ?? "");
+    phoneNumberController = TextEditingController(text: formData?['phoneNumber'] ?? "");
+    countryController = TextEditingController(text: formData?['country'] ?? "");
+  }
+
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneNumberController.dispose();
+    countryController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final feedBackService = ref.read(feedbackServiceProvider);
+    final phoneCode = ref.watch(phoneCodeProvider);
 
     // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
@@ -46,19 +78,6 @@ class _SignUpState extends ConsumerState<SignUp> {
         }
       },
     );
-
-    final TextEditingController fullNameController =
-        TextEditingController(text: formData?['fullName'] ?? "");
-    final TextEditingController emailController =
-        TextEditingController(text: formData?['email'] ?? "");
-    final TextEditingController passwordController =
-        TextEditingController(text: formData?['password'] ?? "");
-    final TextEditingController confirmPasswordController =
-        TextEditingController(text: formData?['confirmPassword'] ?? "");
-    final TextEditingController phoneNumberController =
-        TextEditingController(text: formData?['phoneNumber'] ?? "");
-    final TextEditingController countryController =
-    TextEditingController(text: formData?['country'] ?? "");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -163,7 +182,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 ),
                               ],
                               onChanged: (value) {
-                                setState(() => phoneCode = value!);
+                                ref.read(phoneCodeProvider.notifier).state = value!;
                               },
                             ),
                             const SizedBox(width: 8),
@@ -172,7 +191,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 label: '',
                                 controller: phoneNumberController,
                                 keyboardType: TextInputType.phone,
-                                hint: 'Phone Number*',
+                                hint: 'Phone Number',
                               ),
                             ),
                           ],

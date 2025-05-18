@@ -71,8 +71,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       return;
     }
 
-    // validate password
-    final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+    // Validate password
+    final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d).{8,}$');
     if (!passwordRegex.hasMatch(password)) {
       state = state.copyWith(
         isLoading: false,
