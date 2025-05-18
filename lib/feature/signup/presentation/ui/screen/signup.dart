@@ -8,11 +8,17 @@ import 'package:gll/feature/signup/presentation/controller/sign_up_contoller.dar
 import 'package:gll/feature/system_feedback/model/feedback.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../events/presentation/ui/widgets/custom_dropdown.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../welcome/presentation/ui/widget/logo.dart';
 import '../../state/sign_up_state.dart';
 
 final phoneCodeProvider = StateProvider<String>((ref) => '+94');
+
+final countryProvider = StateProvider<String?>((ref) {
+  final formData = ref.read(signUpControllerProvider).signUpForm;
+  return formData?['country'];
+});
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -28,7 +34,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   late TextEditingController phoneNumberController;
-  late TextEditingController countryController;
+  // late TextEditingController countryController;
 
   @override
   void initState() {
@@ -39,7 +45,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     passwordController = TextEditingController(text: formData?['password'] ?? "");
     confirmPasswordController = TextEditingController(text: formData?['confirmPassword'] ?? "");
     phoneNumberController = TextEditingController(text: formData?['phoneNumber'] ?? "");
-    countryController = TextEditingController(text: formData?['country'] ?? "");
+    // countryController = TextEditingController(text: formData?['country'] ?? "");
   }
 
   @override
@@ -49,7 +55,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneNumberController.dispose();
-    countryController.dispose();
+    // countryController.dispose();
     super.dispose();
   }
 
@@ -57,6 +63,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   Widget build(BuildContext context) {
     final feedBackService = ref.read(feedbackServiceProvider);
     final phoneCode = ref.watch(phoneCodeProvider);
+    final selectedCountry = ref.watch(countryProvider);
 
     // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
@@ -69,6 +76,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           feedBackService.showToast("Registration successful",
               type: FeedbackType.success);
           ref.read(signUpControllerProvider.notifier).clearStates();
+          ref.read(countryProvider.notifier).state = null;
           context.goNamed(RouteName.welcome);
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
@@ -154,36 +162,30 @@ class _SignUpState extends ConsumerState<SignUp> {
                             DropdownButton<String>(
                               borderRadius: BorderRadius.circular(8),
                               alignment: Alignment.center,
-                              itemHeight: 60,
+                              itemHeight: 50,
                               style: PhinexaFont.labelRegular.copyWith(
                                 color: Colors.grey,
                               ),
                               value: phoneCode,
                               items: const [
-                                DropdownMenuItem(
-                                  value: '+94',
-                                  alignment: Alignment.center,
-                                  child: Text('+94'),
-                                ),
-                                DropdownMenuItem(
-                                  value: '+91',
-                                  alignment: Alignment.center,
-                                  child: Text('+91'),
-                                ),
-                                DropdownMenuItem(
-                                  value: '+44',
-                                  alignment: Alignment.center,
-                                  child: Text('+44'),
-                                ),
-                                DropdownMenuItem(
-                                  value: '+61',
-                                  alignment: Alignment.center,
-                                  child: Text('+61'),
-                                ),
+                                DropdownMenuItem(value: '+1', alignment: Alignment.center, child: Text('+1')), // USA
+                                DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91')), // India
+                                DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94')), // Sri Lanka
+                                DropdownMenuItem(value: '+355', alignment: Alignment.center, child: Text('+355')), // Albania
+                                DropdownMenuItem(value: '+381', alignment: Alignment.center, child: Text('+381')), // Serbia
+                                DropdownMenuItem(value: '+382', alignment: Alignment.center, child: Text('+382')), // Montenegro
+                                DropdownMenuItem(value: '+383', alignment: Alignment.center, child: Text('+383')), // Kosovo
+                                DropdownMenuItem(value: '+385', alignment: Alignment.center, child: Text('+385')), // Croatia
+                                DropdownMenuItem(value: '+386', alignment: Alignment.center, child: Text('+386')), // Slovenia
+                                DropdownMenuItem(value: '+387', alignment: Alignment.center, child: Text('+387')), // Bosnia and Herzegovina
+                                DropdownMenuItem(value: '+359', alignment: Alignment.center, child: Text('+359')), // Bulgaria
+                                DropdownMenuItem(value: '+389', alignment: Alignment.center, child: Text('+389')), // North Macedonia
+                                DropdownMenuItem(value: '+977', alignment: Alignment.center, child: Text('+977')), // Nepal
                               ],
                               onChanged: (value) {
                                 ref.read(phoneCodeProvider.notifier).state = value!;
                               },
+                              menuMaxHeight: 250,
                             ),
                             const SizedBox(width: 8),
                             Expanded(
@@ -197,9 +199,22 @@ class _SignUpState extends ConsumerState<SignUp> {
                           ],
                         ),
                         // const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Country',
-                          controller: countryController,
+                        // const SizedBox(height: 8),
+                        CustomDropdown(
+                          fieldName: "Country",
+                          selectedGender: selectedCountry,
+                          hint: "Select a country",
+                          items: const [
+                            'Balkans',
+                            'India',
+                            'Macedonia',
+                            'Nepal',
+                            'Sri Lanka',
+                            'USA',
+                          ],
+                          onChanged: (value) {
+                            ref.read(countryProvider.notifier).state = value;
+                          },
                         ),
                         const SizedBox(height: 8),
                         CustomTextField(
@@ -222,7 +237,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                               'fullName': fullNameController.text,
                               'email': emailController.text,
                               'password': passwordController.text,
-                              'country': countryController.text,
+                              // 'country': countryController.text,
+                              'country': selectedCountry?? '',
                               'confirmPassword': confirmPasswordController.text,
                               'dialCode': phoneCode,
                               'phoneNumber': phoneNumberController.text,
@@ -285,23 +301,24 @@ class _SignUpState extends ConsumerState<SignUp> {
     required TextInputType keyboardType,
     String hint = 'required*',
   }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (label.isNotEmpty)
-            Text(label,
-                style: PhinexaFont.labelRegular.copyWith(
-                    fontWeight: FontWeight.normal, color: Colors.grey)),
-          const SizedBox(height: 8),
-          CustomTextField(
-            labelText: hint,
-            controller: controller,
-            keyboardType: keyboardType,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (label.isNotEmpty)
+          Text(
+            label,
+            style: PhinexaFont.labelRegular.copyWith(
+              fontWeight: FontWeight.normal,
+              color: Colors.grey,
+            ),
           ),
-        ],
-      ),
+        if (label.isNotEmpty) const SizedBox(height: 8),
+        CustomTextField(
+          labelText: hint,
+          controller: controller,
+          keyboardType: keyboardType,
+        ),
+      ],
     );
   }
 }
