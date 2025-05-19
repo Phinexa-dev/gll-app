@@ -131,9 +131,12 @@ class _SIPLeadershipGrowthScreenState
     if (isValid) {
       try {
         ref.read(isLoadingProvider.notifier).state = true;
+        final date = DateTime.now();
+        final formattedDate =
+            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+        final fileName = 'Post_Survey_SIP_$formattedDate';
         final responses = await combineSurveyResponses(ref);
-        await uploadSurveyData(
-            ref, responses, 'Post_Survey_SIP_${DateTime.now()}');
+        await uploadSurveyData(ref, responses, fileName);
 
         feedBackService.showToast("Survey submitted successfully",
             type: FeedbackType.success);

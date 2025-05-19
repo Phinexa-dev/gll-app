@@ -1,11 +1,12 @@
 import 'package:emailjs/emailjs.dart' as emailjs;
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import '../../../../../../../../common/theme/fonts.dart';
 import '../../../../../system_feedback/model/feedback.dart';
 import '../../../../../system_feedback/provider/feedback_provider.dart';
@@ -89,7 +90,6 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -97,35 +97,50 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                     'assets/more/feedbacks_bg.svg',
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 20),
-                  Text('Your Feedback', style: PhinexaFont.headingExLarge),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                      labelText: 'First Name', controller: firstNameController),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                      labelText: 'Last Name', controller: lastNameController),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                      labelText: 'Email',
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                      labelText: 'Event Name', controller: eventNameController),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    labelText: 'Message',
-                    controller: messageController,
-                    minLines: 4,
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text('Your Feedback',
+                            style: PhinexaFont.headingExLarge),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                            labelText: 'First Name',
+                            controller: firstNameController),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                            labelText: 'Last Name',
+                            controller: lastNameController),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                            labelText: 'Email',
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                            labelText: 'Event Name',
+                            controller: eventNameController),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          labelText: 'Message',
+                          controller: messageController,
+                          minLines: 4,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 24),
-                  StartButton(
-                    label: _sending ? 'Sending…' : 'Submit',
-                    isLoading: _sending,
-                    onPressed: _sending ? () {} : _sendFeedback,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 24, left: 24, right: 24),
+                    child: StartButton(
+                      label: _sending ? 'Sending…' : 'Submit',
+                      isLoading: _sending,
+                      onPressed: _sending ? () {} : _sendFeedback,
+                    ),
                   ),
                 ],
               ),

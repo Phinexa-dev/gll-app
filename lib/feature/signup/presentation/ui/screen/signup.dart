@@ -41,7 +41,8 @@ class _SignUpState extends ConsumerState<SignUp> {
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
           ref.read(signUpControllerProvider.notifier).clearStates();
-          feedBackService.showToast(errorMessage ?? "Registration failed. Try again",
+          feedBackService.showToast(
+              errorMessage ?? "Registration failed. Try again",
               type: FeedbackType.error);
         }
       },
@@ -58,7 +59,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     final TextEditingController phoneNumberController =
         TextEditingController(text: formData?['phoneNumber'] ?? "");
     final TextEditingController countryController =
-    TextEditingController(text: formData?['country'] ?? "");
+        TextEditingController(text: formData?['country'] ?? "");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -68,134 +69,144 @@ class _SignUpState extends ConsumerState<SignUp> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Logo(heightFactor: 10 / 3),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Sign Up',
-                            style: PhinexaFont.headingDoubleExLarge,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Already have an account?',
-                                style: PhinexaFont.labelRegular.copyWith(
-                                  color: Colors.black,
-                                ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Logo(heightFactor: 10 / 3),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Sign Up',
+                                style: PhinexaFont.headingDoubleExLarge,
                               ),
-                              Row(
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        context.pushNamed(RouteName.signIn),
-                                    child: Text(
-                                      'Login',
-                                      style: PhinexaFont.labelRegular.copyWith(
-                                        color: Colors.blue,
-                                      ),
+                                  Text(
+                                    'Already have an account?',
+                                    style: PhinexaFont.labelRegular.copyWith(
+                                      color: Colors.black,
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.chevron_right,
-                                    size: 30,
-                                    color: Colors.blue,
+                                  Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            context.pushNamed(RouteName.signIn),
+                                        child: Text(
+                                          'Login',
+                                          style:
+                                              PhinexaFont.labelRegular.copyWith(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.chevron_right,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextField(
-                          labelText: 'Full Name',
-                          controller: fullNameController,
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Email Address',
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            DropdownButton<String>(
-                              borderRadius: BorderRadius.circular(8),
-                              alignment: Alignment.center,
-                              itemHeight: 60,
-                              style: PhinexaFont.labelRegular.copyWith(
-                                color: Colors.grey,
-                              ),
-                              value: phoneCode,
-                              items: const [
-                                DropdownMenuItem(
-                                  value: '+94',
+                            ),
+                            const SizedBox(height: 20),
+                            CustomTextField(
+                              labelText: 'Full Name',
+                              controller: fullNameController,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Email Address',
+                              controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                DropdownButton<String>(
+                                  borderRadius: BorderRadius.circular(8),
                                   alignment: Alignment.center,
-                                  child: Text('+94'),
+                                  itemHeight: 60,
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                  value: phoneCode,
+                                  items: const [
+                                    DropdownMenuItem(
+                                      value: '+94',
+                                      alignment: Alignment.center,
+                                      child: Text('+94'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: '+91',
+                                      alignment: Alignment.center,
+                                      child: Text('+91'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: '+44',
+                                      alignment: Alignment.center,
+                                      child: Text('+44'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: '+61',
+                                      alignment: Alignment.center,
+                                      child: Text('+61'),
+                                    ),
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() => phoneCode = value!);
+                                  },
                                 ),
-                                DropdownMenuItem(
-                                  value: '+91',
-                                  alignment: Alignment.center,
-                                  child: Text('+91'),
-                                ),
-                                DropdownMenuItem(
-                                  value: '+44',
-                                  alignment: Alignment.center,
-                                  child: Text('+44'),
-                                ),
-                                DropdownMenuItem(
-                                  value: '+61',
-                                  alignment: Alignment.center,
-                                  child: Text('+61'),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: buildTextField(
+                                    label: '',
+                                    controller: phoneNumberController,
+                                    keyboardType: TextInputType.phone,
+                                    hint: 'Phone Number*',
+                                  ),
                                 ),
                               ],
-                              onChanged: (value) {
-                                setState(() => phoneCode = value!);
-                              },
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: buildTextField(
-                                label: '',
-                                controller: phoneNumberController,
-                                keyboardType: TextInputType.phone,
-                                hint: 'Phone Number*',
-                              ),
+                            // const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Country',
+                              controller: countryController,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Password',
+                              controller: passwordController,
+                              obscureText: true,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Confirm Password',
+                              controller: confirmPasswordController,
+                              obscureText: true,
                             ),
                           ],
                         ),
-                        // const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Country',
-                          controller: countryController,
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Password',
-                          controller: passwordController,
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Confirm Password',
-                          controller: confirmPasswordController,
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 16),
-                        StartButton(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, bottom: 32),
+                        child: StartButton(
                           label: 'Sign Up',
                           onPressed: () async {
                             // Sign up logic
@@ -237,8 +248,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                             // }
                           },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../core/route/route_name.dart';
 import '../provider/animation_visibility_provider.dart';
@@ -14,8 +15,8 @@ class GetStarted extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _GetStartedState();
 }
 
-class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStateMixin {
-
+class _GetStartedState extends ConsumerState<GetStarted>
+    with TickerProviderStateMixin {
   late AnimationController _signInAnimationController;
   late AnimationController _signUpAnimationController;
 
@@ -41,7 +42,6 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-
     final animationVisibility = ref.watch(animationVisibilityProvider);
 
     return AnimatedOpacity(
@@ -81,14 +81,13 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     StartButton(
-                      iconVisible: true,
-                      isGlow: true,
-                      label: 'Get Started',
-                      onPressed: () {
-                        // go to sign up screen
-                        context.pushNamed(RouteName.signUp);
-                      }
-                    ),
+                        iconVisible: true,
+                        isGlow: true,
+                        label: 'Get Started',
+                        onPressed: () {
+                          // go to sign up screen
+                          context.pushNamed(RouteName.signUp);
+                        }),
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
@@ -120,7 +119,7 @@ class _GetStartedState extends ConsumerState<GetStarted> with TickerProviderStat
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
