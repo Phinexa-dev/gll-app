@@ -28,23 +28,27 @@ class SignUp extends ConsumerStatefulWidget {
 }
 
 class _SignUpState extends ConsumerState<SignUp> {
-
   late TextEditingController fullNameController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   late TextEditingController phoneNumberController;
+
   // late TextEditingController countryController;
 
   @override
   void initState() {
     super.initState();
     final formData = ref.read(signUpControllerProvider).signUpForm;
-    fullNameController = TextEditingController(text: formData?['fullName'] ?? "");
+    fullNameController =
+        TextEditingController(text: formData?['fullName'] ?? "");
     emailController = TextEditingController(text: formData?['email'] ?? "");
-    passwordController = TextEditingController(text: formData?['password'] ?? "");
-    confirmPasswordController = TextEditingController(text: formData?['confirmPassword'] ?? "");
-    phoneNumberController = TextEditingController(text: formData?['phoneNumber'] ?? "");
+    passwordController =
+        TextEditingController(text: formData?['password'] ?? "");
+    confirmPasswordController =
+        TextEditingController(text: formData?['confirmPassword'] ?? "");
+    phoneNumberController =
+        TextEditingController(text: formData?['phoneNumber'] ?? "");
     // countryController = TextEditingController(text: formData?['country'] ?? "");
   }
 
@@ -67,8 +71,6 @@ class _SignUpState extends ConsumerState<SignUp> {
 
     // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
-    final formData = ref.watch(signUpControllerProvider).signUpForm;
-
     ref.listen<SignUpState>(
       signUpControllerProvider,
       (previous, next) {
@@ -149,94 +151,158 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        CustomTextField(
-                          labelText: 'Full Name',
-                          controller: fullNameController,
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Email Address',
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
                           children: [
-                            DropdownButton<String>(
-                              borderRadius: BorderRadius.circular(8),
-                              alignment: Alignment.center,
-                              itemHeight: 50,
-                              style: PhinexaFont.labelRegular.copyWith(
-                                color: Colors.grey,
-                              ),
-                              value: phoneCode,
+                            CustomTextField(
+                              labelText: 'Full Name',
+                              controller: fullNameController,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Email Address',
+                              controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(height: 8),
+
+                            Row(
+                              children: [
+                                DropdownButton<String>(
+                                  borderRadius: BorderRadius.circular(8),
+                                  alignment: Alignment.center,
+                                  itemHeight: 50,
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                  value: phoneCode,
+                                  items: const [
+                                    DropdownMenuItem(
+                                        value: '+1',
+                                        alignment: Alignment.center,
+                                        child: Text('+1')),
+                                    // USA
+                                    DropdownMenuItem(
+                                        value: '+91',
+                                        alignment: Alignment.center,
+                                        child: Text('+91')),
+                                    // India
+                                    DropdownMenuItem(
+                                        value: '+94',
+                                        alignment: Alignment.center,
+                                        child: Text('+94')),
+                                    // Sri Lanka
+                                    DropdownMenuItem(
+                                        value: '+355',
+                                        alignment: Alignment.center,
+                                        child: Text('+355')),
+                                    // Albania
+                                    DropdownMenuItem(
+                                        value: '+381',
+                                        alignment: Alignment.center,
+                                        child: Text('+381')),
+                                    // Serbia
+                                    DropdownMenuItem(
+                                        value: '+382',
+                                        alignment: Alignment.center,
+                                        child: Text('+382')),
+                                    // Montenegro
+                                    DropdownMenuItem(
+                                        value: '+383',
+                                        alignment: Alignment.center,
+                                        child: Text('+383')),
+                                    // Kosovo
+                                    DropdownMenuItem(
+                                        value: '+385',
+                                        alignment: Alignment.center,
+                                        child: Text('+385')),
+                                    // Croatia
+                                    DropdownMenuItem(
+                                        value: '+386',
+                                        alignment: Alignment.center,
+                                        child: Text('+386')),
+                                    // Slovenia
+                                    DropdownMenuItem(
+                                        value: '+387',
+                                        alignment: Alignment.center,
+                                        child: Text('+387')),
+                                    // Bosnia and Herzegovina
+                                    DropdownMenuItem(
+                                        value: '+359',
+                                        alignment: Alignment.center,
+                                        child: Text('+359')),
+                                    // Bulgaria
+                                    DropdownMenuItem(
+                                        value: '+389',
+                                        alignment: Alignment.center,
+                                        child: Text('+389')),
+                                    // North Macedonia
+                                    DropdownMenuItem(
+                                        value: '+977',
+                                        alignment: Alignment.center,
+                                        child: Text('+977')),
+                                    // Nepal
+                                  ],
+                                  onChanged: (value) {
+                                    ref.read(phoneCodeProvider.notifier).state =
+                                        value!;
+                                  },
+                                  menuMaxHeight: 250,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: buildTextField(
+                                    label: '',
+                                    controller: phoneNumberController,
+                                    keyboardType: TextInputType.phone,
+                                    hint: 'Phone Number',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // const SizedBox(height: 8),
+                            // const SizedBox(height: 8),
+                            CustomDropdown(
+                              fieldName: "Country",
+                              selectedGender: selectedCountry,
+                              hint: "Select a country",
                               items: const [
-                                DropdownMenuItem(value: '+1', alignment: Alignment.center, child: Text('+1')), // USA
-                                DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91')), // India
-                                DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94')), // Sri Lanka
-                                DropdownMenuItem(value: '+355', alignment: Alignment.center, child: Text('+355')), // Albania
-                                DropdownMenuItem(value: '+381', alignment: Alignment.center, child: Text('+381')), // Serbia
-                                DropdownMenuItem(value: '+382', alignment: Alignment.center, child: Text('+382')), // Montenegro
-                                DropdownMenuItem(value: '+383', alignment: Alignment.center, child: Text('+383')), // Kosovo
-                                DropdownMenuItem(value: '+385', alignment: Alignment.center, child: Text('+385')), // Croatia
-                                DropdownMenuItem(value: '+386', alignment: Alignment.center, child: Text('+386')), // Slovenia
-                                DropdownMenuItem(value: '+387', alignment: Alignment.center, child: Text('+387')), // Bosnia and Herzegovina
-                                DropdownMenuItem(value: '+359', alignment: Alignment.center, child: Text('+359')), // Bulgaria
-                                DropdownMenuItem(value: '+389', alignment: Alignment.center, child: Text('+389')), // North Macedonia
-                                DropdownMenuItem(value: '+977', alignment: Alignment.center, child: Text('+977')), // Nepal
+                                'Balkans',
+                                'India',
+                                'Macedonia',
+                                'Nepal',
+                                'Sri Lanka',
+                                'USA',
                               ],
                               onChanged: (value) {
-                                ref.read(phoneCodeProvider.notifier).state = value!;
+                                ref.read(countryProvider.notifier).state =
+                                    value;
                               },
-                              menuMaxHeight: 250,
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: buildTextField(
-                                label: '',
-                                controller: phoneNumberController,
-                                keyboardType: TextInputType.phone,
-                                hint: 'Phone Number',
-                              ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Password',
+                              controller: passwordController,
+                              obscureText: true,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomTextField(
+                              labelText: 'Confirm Password',
+                              controller: confirmPasswordController,
+                              obscureText: true,
                             ),
                           ],
                         ),
-                        // const SizedBox(height: 8),
-                        // const SizedBox(height: 8),
-                        CustomDropdown(
-                          fieldName: "Country",
-                          selectedGender: selectedCountry,
-                          hint: "Select a country",
-                          items: const [
-                            'Balkans',
-                            'India',
-                            'Macedonia',
-                            'Nepal',
-                            'Sri Lanka',
-                            'USA',
-                          ],
-                          onChanged: (value) {
-                            ref.read(countryProvider.notifier).state = value;
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Password',
-                          controller: passwordController,
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          labelText: 'Confirm Password',
-                          controller: confirmPasswordController,
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 16),
-                        StartButton(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: StartButton(
                           label: 'Sign Up',
                           onPressed: () async {
                             // Sign up logic
@@ -245,7 +311,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                               'email': emailController.text,
                               'password': passwordController.text,
                               // 'country': countryController.text,
-                              'country': selectedCountry?? '',
+                              'country': selectedCountry ?? '',
                               'confirmPassword': confirmPasswordController.text,
                               'dialCode': phoneCode,
                               'phoneNumber': phoneNumberController.text,
