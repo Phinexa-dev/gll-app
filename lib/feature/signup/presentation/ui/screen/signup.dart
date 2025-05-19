@@ -81,12 +81,12 @@ class _SignUpState extends ConsumerState<SignUp> {
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
           ref.read(signUpControllerProvider.notifier).clearStates();
-          feedBackService.showToast(errorMessage ?? "Registration failed. Try again",
+          feedBackService.showToast(
+              errorMessage ?? "Registration failed. Try again",
               type: FeedbackType.error);
         }
       },
     );
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -95,50 +95,57 @@ class _SignUpState extends ConsumerState<SignUp> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Logo(heightFactor: 10 / 3),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Sign Up',
-                            style: PhinexaFont.headingDoubleExLarge,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Already have an account?',
-                                style: PhinexaFont.labelRegular.copyWith(
-                                  color: Colors.black,
-                                ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Logo(heightFactor: 10 / 3),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Sign Up',
+                                style: PhinexaFont.headingDoubleExLarge,
                               ),
-                              Row(
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        context.pushNamed(RouteName.signIn),
-                                    child: Text(
-                                      'Login',
-                                      style: PhinexaFont.labelRegular.copyWith(
-                                        color: Colors.blue,
-                                      ),
+                                  Text(
+                                    'Already have an account?',
+                                    style: PhinexaFont.labelRegular.copyWith(
+                                      color: Colors.black,
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.chevron_right,
-                                    size: 30,
-                                    color: Colors.blue,
+                                  Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            context.pushNamed(RouteName.signIn),
+                                        child: Text(
+                                          'Login',
+                                          style:
+                                              PhinexaFont.labelRegular.copyWith(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.chevron_right,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -272,8 +279,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                             // }
                           },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
