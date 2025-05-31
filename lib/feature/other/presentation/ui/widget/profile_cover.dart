@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../controller/profile/profile_controller.dart';
 
 class ProfileCover extends ConsumerStatefulWidget {
-
   final bool editEnabled;
   final String profileImage;
+
   // in click function
   final Function? onClick;
 
@@ -26,7 +25,6 @@ class ProfileCover extends ConsumerStatefulWidget {
 }
 
 class _ProfileCoverState extends ConsumerState<ProfileCover> {
-
   @override
   void initState() {
     super.initState();
@@ -42,7 +40,8 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
     final isLoading = ref.watch(profileControllerProvider).isLoading;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.height * 0.01),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.28,
       child: Stack(
@@ -54,12 +53,13 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
             left: 0,
             right: 0,
             height: MediaQuery.of(context).size.height * 0.22,
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                child: SvgPicture.asset(
-                    'assets/more/cover_image_of_profile_screen.svg',
-                    fit: BoxFit.cover
-                )
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  child: Image.asset(
+                      'assets/more/cover_image_of_profile_screen.jpg',
+                      fit: BoxFit.cover)),
             ),
           ),
           // profile image
@@ -67,40 +67,39 @@ class _ProfileCoverState extends ConsumerState<ProfileCover> {
             bottom: 0,
             left: 0,
             right: 0,
-            child:
-                isLoading?
-            Shimmer(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.grey,
-                  Colors.white,
-                ],
-              ),
-              child: CircleAvatar(
-                radius: MediaQuery.of(context).size.height * 0.06,
-                backgroundColor: Colors.grey,
-              ),
-            )
-                :
-            CircleAvatar(
-              radius: MediaQuery.of(context).size.height * 0.06,
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                radius: MediaQuery.of(context).size.height * 0.054,
-                backgroundImage: widget.profileImage.startsWith('assets')
-                    ? AssetImage(widget.profileImage)
-                    : widget.profileImage.startsWith('http')
-                    ? NetworkImage(widget.profileImage)
-                    : FileImage(File(widget.profileImage)) as ImageProvider,
-                onBackgroundImageError: (exception, stackTrace) {
-                  debugPrint('Error loading profile image: $exception');
-                },
-              ),
-            ),
+            child: isLoading
+                ? Shimmer(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.grey,
+                        Colors.white,
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: MediaQuery.of(context).size.height * 0.06,
+                      backgroundColor: Colors.grey,
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: MediaQuery.of(context).size.height * 0.06,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: MediaQuery.of(context).size.height * 0.054,
+                      backgroundImage: widget.profileImage.startsWith('assets')
+                          ? AssetImage(widget.profileImage)
+                          : widget.profileImage.startsWith('http')
+                              ? NetworkImage(widget.profileImage)
+                              : FileImage(File(widget.profileImage))
+                                  as ImageProvider,
+                      onBackgroundImageError: (exception, stackTrace) {
+                        debugPrint('Error loading profile image: $exception');
+                      },
+                    ),
+                  ),
           ),
 
           // Edit button
-          if(widget.editEnabled)
+          if (widget.editEnabled)
             Positioned(
               bottom: MediaQuery.of(context).size.height * 0.0,
               right: MediaQuery.of(context).size.width * 0.28,

@@ -153,130 +153,177 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
       ),
       body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ProfileCover(
-                editEnabled: true,
-                onClick: () {
-                  _pickImage();
-                  // print(selectedImage!.path);
-                },
-                profileImage: selectedImage != null
-                    ? selectedImage!.path
-                    : profileImageUrl,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildTextField(
-                        label: 'Name',
-                        controller: nameController,
-                        keyboardType: TextInputType.text),
-                    // buildTextField(label: 'Email Address',controller: emailController,keyboardType: TextInputType.emailAddress),
-                    const SizedBox(height: 16),
-                    Text('Phone Number',
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ProfileCover(
+            editEnabled: true,
+            onClick: () {
+              _pickImage();
+              // print(selectedImage!.path);
+            },
+            profileImage:
+                selectedImage != null ? selectedImage!.path : profileImageUrl,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildTextField(
+                      label: 'Name',
+                      controller: nameController,
+                      keyboardType: TextInputType.text),
+                  // buildTextField(label: 'Email Address',controller: emailController,keyboardType: TextInputType.emailAddress),
+                  const SizedBox(height: 16),
+                  Text('Phone Number',
+                      style: PhinexaFont.labelRegular.copyWith(
+                          fontWeight: FontWeight.normal, color: Colors.grey)),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      DropdownButton<String>(
+                        borderRadius: BorderRadius.circular(8),
+                        alignment: Alignment.center,
+                        itemHeight: 60,
                         style: PhinexaFont.labelRegular.copyWith(
-                            fontWeight: FontWeight.normal, color: Colors.grey)),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        DropdownButton<String>(
-                          borderRadius: BorderRadius.circular(8),
-                          alignment: Alignment.center,
-                          itemHeight: 60,
-                          style: PhinexaFont.labelRegular.copyWith(
-                            color: Colors.grey,
-                          ),
-                          value: phoneCode,
-                          items: const [
-                            DropdownMenuItem(
-                              value: '+94',
+                          color: Colors.grey,
+                        ),
+                        value: phoneCode,
+                        items: const [
+                          DropdownMenuItem(
+                              value: '+1',
                               alignment: Alignment.center,
-                              child: Text('+94'),
-                            ),
-                            DropdownMenuItem(
+                              child: Text('+1')),
+                          // USA
+                          DropdownMenuItem(
                               value: '+91',
                               alignment: Alignment.center,
-                              child: Text('+91'),
-                            ),
-                            DropdownMenuItem(
-                              value: '+44',
+                              child: Text('+91')),
+                          // India
+                          DropdownMenuItem(
+                              value: '+94',
                               alignment: Alignment.center,
-                              child: Text('+44'),
-                            ),
-                            DropdownMenuItem(
-                              value: '+61',
+                              child: Text('+94')),
+                          // Sri Lanka
+                          DropdownMenuItem(
+                              value: '+355',
                               alignment: Alignment.center,
-                              child: Text('+61'),
+                              child: Text('+355')),
+                          // Albania
+                          DropdownMenuItem(
+                              value: '+381',
+                              alignment: Alignment.center,
+                              child: Text('+381')),
+                          // Serbia
+                          DropdownMenuItem(
+                              value: '+382',
+                              alignment: Alignment.center,
+                              child: Text('+382')),
+                          // Montenegro
+                          DropdownMenuItem(
+                              value: '+383',
+                              alignment: Alignment.center,
+                              child: Text('+383')),
+                          // Kosovo
+                          DropdownMenuItem(
+                              value: '+385',
+                              alignment: Alignment.center,
+                              child: Text('+385')),
+                          // Croatia
+                          DropdownMenuItem(
+                              value: '+386',
+                              alignment: Alignment.center,
+                              child: Text('+386')),
+                          // Slovenia
+                          DropdownMenuItem(
+                              value: '+387',
+                              alignment: Alignment.center,
+                              child: Text('+387')),
+                          // Bosnia and Herzegovina
+                          DropdownMenuItem(
+                              value: '+359',
+                              alignment: Alignment.center,
+                              child: Text('+359')),
+                          // Bulgaria
+                          DropdownMenuItem(
+                              value: '+389',
+                              alignment: Alignment.center,
+                              child: Text('+389')),
+                          // North Macedonia
+                          DropdownMenuItem(
+                              value: '+977',
+                              alignment: Alignment.center,
+                              child: Text('+977')),
+                          // Nepal
+                        ],
+                        menuMaxHeight: 250,
+                        onChanged: (value) {
+                          setState(() => phoneCode = value!);
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                          child: buildTextField(
+                              label: '',
+                              controller: phoneController,
+                              keyboardType: TextInputType.phone)),
+                    ],
+                  ),
+                  buildTextField(
+                      label: 'Location',
+                      controller: locationController,
+                      keyboardType: TextInputType.text),
+                  buildTextField(
+                      label: 'Languages',
+                      controller: languagesController,
+                      keyboardType: TextInputType.text),
+                  buildTextField(
+                      label: 'Interests',
+                      controller: interestsController,
+                      keyboardType: TextInputType.text),
+                  const SizedBox(height: 24),
+                  isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF3993A1),
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomIconButton(
+                              label: 'Cancel',
+                              isBold: true,
+                              textColour: Colors.black,
+                              onPressed: () => Navigator.pop(context),
+                              color: Colors.white,
+                              borderColor: Color(0xFF3993A1),
+                            ),
+                            const SizedBox(width: 16),
+                            CustomIconButton(
+                              label: 'Save Changes',
+                              isBold: true,
+                              textColour: Colors.white,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  saveChanges();
+                                }
+                              },
+                              color: Color(0xFF3993A1),
+                              iconColor: Colors.white,
                             ),
                           ],
-                          onChanged: (value) {
-                            setState(() => phoneCode = value!);
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                            child: buildTextField(
-                                label: '',
-                                controller: phoneController,
-                                keyboardType: TextInputType.phone)),
-                      ],
-                    ),
-                    buildTextField(
-                        label: 'Location',
-                        controller: locationController,
-                        keyboardType: TextInputType.text),
-                    buildTextField(
-                        label: 'Languages',
-                        controller: languagesController,
-                        keyboardType: TextInputType.text),
-                    buildTextField(
-                        label: 'Interests',
-                        controller: interestsController,
-                        keyboardType: TextInputType.text),
-                    const SizedBox(height: 24),
-                    isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFF3993A1),
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CustomIconButton(
-                                label: 'Cancel',
-                                isBold: true,
-                                textColour: Colors.black,
-                                onPressed: () => Navigator.pop(context),
-                                color: Colors.white,
-                                borderColor: Color(0xFF3993A1),
-                              ),
-                              const SizedBox(width: 16),
-                              CustomIconButton(
-                                label: 'Save Changes',
-                                isBold: true,
-                                textColour: Colors.white,
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    saveChanges();
-                                  }
-                                },
-                                color: Color(0xFF3993A1),
-                                iconColor: Colors.white,
-                              ),
-                            ],
-                          )
-                  ],
-                ),
+                        )
+                ],
               ),
-            ],
-          )),
+            ),
+          ),
+        ],
+      )),
     );
   }
 
