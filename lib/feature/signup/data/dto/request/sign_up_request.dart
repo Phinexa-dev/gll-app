@@ -20,6 +20,8 @@ class SignUpRequest with _$SignUpRequest {
     required String password,
     @JsonKey(name: "confirmPassword")
     required String confirmPassword,
+    @JsonKey(name: "gender")
+    required String gender,
   }) = _SignUpRequest;
 
   factory SignUpRequest.fromJson(Map<String, dynamic> json) => _$SignUpRequestFromJson(json);
