@@ -20,6 +20,8 @@ final countryProvider = StateProvider<String?>((ref) {
   return formData?['country'];
 });
 
+final genderProvider = StateProvider<String?>((ref) => null);
+
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
 
@@ -34,8 +36,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   late TextEditingController confirmPasswordController;
   late TextEditingController phoneNumberController;
 
-  // late TextEditingController countryController;
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +49,6 @@ class _SignUpState extends ConsumerState<SignUp> {
         TextEditingController(text: formData?['confirmPassword'] ?? "");
     phoneNumberController =
         TextEditingController(text: formData?['phoneNumber'] ?? "");
-    // countryController = TextEditingController(text: formData?['country'] ?? "");
   }
 
   @override
@@ -59,7 +58,6 @@ class _SignUpState extends ConsumerState<SignUp> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneNumberController.dispose();
-    // countryController.dispose();
     super.dispose();
   }
 
@@ -68,17 +66,19 @@ class _SignUpState extends ConsumerState<SignUp> {
     final feedBackService = ref.read(feedbackServiceProvider);
     final phoneCode = ref.watch(phoneCodeProvider);
     final selectedCountry = ref.watch(countryProvider);
+    final selectedGender = ref.watch(genderProvider);
 
     // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
     ref.listen<SignUpState>(
       signUpControllerProvider,
-      (previous, next) {
+          (previous, next) {
         if (next.isSuccess != null && next.isSuccess == true) {
           feedBackService.showToast("Registration successful",
               type: FeedbackType.success);
           ref.read(signUpControllerProvider.notifier).clearStates();
           ref.read(countryProvider.notifier).state = null;
+          ref.read(genderProvider.notifier).state = null;
           context.goNamed(RouteName.welcome);
         } else if (next.isFailure != null && next.isFailure == true) {
           final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
@@ -121,7 +121,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Already have an account?',
@@ -171,7 +171,6 @@ class _SignUpState extends ConsumerState<SignUp> {
                               keyboardType: TextInputType.emailAddress,
                             ),
                             const SizedBox(height: 8),
-
                             Row(
                               children: [
                                 DropdownButton<String>(
@@ -187,71 +186,58 @@ class _SignUpState extends ConsumerState<SignUp> {
                                         value: '+1',
                                         alignment: Alignment.center,
                                         child: Text('+1')),
-                                    // USA
                                     DropdownMenuItem(
                                         value: '+91',
                                         alignment: Alignment.center,
                                         child: Text('+91')),
-                                    // India
                                     DropdownMenuItem(
                                         value: '+94',
                                         alignment: Alignment.center,
                                         child: Text('+94')),
-                                    // Sri Lanka
                                     DropdownMenuItem(
                                         value: '+355',
                                         alignment: Alignment.center,
                                         child: Text('+355')),
-                                    // Albania
                                     DropdownMenuItem(
                                         value: '+381',
                                         alignment: Alignment.center,
                                         child: Text('+381')),
-                                    // Serbia
                                     DropdownMenuItem(
                                         value: '+382',
                                         alignment: Alignment.center,
                                         child: Text('+382')),
-                                    // Montenegro
                                     DropdownMenuItem(
                                         value: '+383',
                                         alignment: Alignment.center,
                                         child: Text('+383')),
-                                    // Kosovo
                                     DropdownMenuItem(
                                         value: '+385',
                                         alignment: Alignment.center,
                                         child: Text('+385')),
-                                    // Croatia
                                     DropdownMenuItem(
                                         value: '+386',
                                         alignment: Alignment.center,
                                         child: Text('+386')),
-                                    // Slovenia
                                     DropdownMenuItem(
                                         value: '+387',
                                         alignment: Alignment.center,
                                         child: Text('+387')),
-                                    // Bosnia and Herzegovina
                                     DropdownMenuItem(
                                         value: '+359',
                                         alignment: Alignment.center,
                                         child: Text('+359')),
-                                    // Bulgaria
                                     DropdownMenuItem(
                                         value: '+389',
                                         alignment: Alignment.center,
                                         child: Text('+389')),
-                                    // North Macedonia
                                     DropdownMenuItem(
                                         value: '+977',
                                         alignment: Alignment.center,
                                         child: Text('+977')),
-                                    // Nepal
                                   ],
                                   onChanged: (value) {
                                     ref.read(phoneCodeProvider.notifier).state =
-                                        value!;
+                                    value!;
                                   },
                                   menuMaxHeight: 250,
                                 ),
@@ -286,6 +272,57 @@ class _SignUpState extends ConsumerState<SignUp> {
                               },
                             ),
                             const SizedBox(height: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Gender',
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: selectedGender == 'Male',
+                                      onChanged: (bool? value) {
+                                        if (value == true) {
+                                          ref
+                                              .read(genderProvider.notifier)
+                                              .state = 'Male';
+                                        }
+                                      },
+                                    ),
+                                    const Text('male'),
+                                    Checkbox(
+                                      value: selectedGender == 'Female',
+                                      onChanged: (bool? value) {
+                                        if (value == true) {
+                                          ref
+                                              .read(genderProvider.notifier)
+                                              .state = 'female';
+                                        }
+                                      },
+                                    ),
+                                    const Text('Female'),
+                                    Checkbox(
+                                      value: selectedGender == 'not preferred',
+                                      onChanged: (bool? value) {
+                                        if (value == true) {
+                                          ref
+                                              .read(genderProvider.notifier)
+                                              .state = 'Not Preferred';
+                                        }
+                                      },
+                                    ),
+                                    const Text('Not Preferred'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
                             CustomTextField(
                               labelText: 'Password',
                               controller: passwordController,
@@ -305,44 +342,23 @@ class _SignUpState extends ConsumerState<SignUp> {
                         child: StartButton(
                           label: 'Sign Up',
                           onPressed: () async {
-                            // Sign up logic
                             final formData = {
                               'fullName': fullNameController.text,
                               'email': emailController.text,
                               'password': passwordController.text,
-                              // 'country': countryController.text,
                               'country': selectedCountry ?? '',
                               'confirmPassword': confirmPasswordController.text,
                               'dialCode': phoneCode,
                               'phoneNumber': phoneNumberController.text,
+                              'gender': selectedGender ?? '',
                             };
 
-                            // Set the form data to the controller
                             ref
                                 .read(signUpControllerProvider.notifier)
                                 .setFormData(formData);
-                            // Call the sign-up method
                             await ref
                                 .read(signUpControllerProvider.notifier)
                                 .signUp();
-
-                            // final isSuccess = ref.watch(signUpControllerProvider).isSuccess;
-                            // final isFailure = ref.watch(signUpControllerProvider).isFailure;
-                            //
-                            // if (isSuccess != null && isSuccess) {
-                            //   // Show success toast
-                            //   feedBackService.showToast("Registration successful",
-                            //       type: FeedbackType.success);
-                            //   // Navigate to the welcome screen
-                            //   context.goNamed(RouteName.welcome);
-                            // }
-                            //
-                            // if (isFailure != null && isFailure) {
-                            //   final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
-                            //   // Show error toast
-                            //   feedBackService.showToast(errorMessage ?? "Registration failed",
-                            //       type: FeedbackType.error);
-                            // }
                           },
                         ),
                       ),
@@ -352,14 +368,12 @@ class _SignUpState extends ConsumerState<SignUp> {
               ),
             ],
           ),
-
-          // Full-page loader
           if (isLoading)
             Container(
-              color: Colors.black.withAlpha(128), // Semi-transparent background
+              color: Colors.black.withAlpha(128),
               child: Center(
                 child: CircularProgressIndicator(
-                  color: Colors.white, // Customize the color if needed
+                  color: Colors.white,
                 ),
               ),
             ),
