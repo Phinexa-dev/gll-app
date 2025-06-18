@@ -50,6 +50,8 @@ mixin _$EditProfileResponse {
   String? get languages => throw _privateConstructorUsedError;
   @JsonKey(name: "userProfilePicture")
   String? get profileImage => throw _privateConstructorUsedError;
+  @JsonKey(name: "gender")
+  String? get gender => throw _privateConstructorUsedError;
 
   /// Serializes this EditProfileResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -82,7 +84,8 @@ abstract class $EditProfileResponseCopyWith<$Res> {
       @JsonKey(name: "instagram") String? instagram,
       @JsonKey(name: "userIntrests") String? userIntrests,
       @JsonKey(name: "userLanguages") String? languages,
-      @JsonKey(name: "userProfilePicture") String? profileImage});
+      @JsonKey(name: "userProfilePicture") String? profileImage,
+      @JsonKey(name: "gender") String? gender});
 }
 
 /// @nodoc
@@ -115,6 +118,7 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
     Object? userIntrests = freezed,
     Object? languages = freezed,
     Object? profileImage = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -177,6 +181,10 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -204,7 +212,8 @@ abstract class _$$EditProfileResponseImplCopyWith<$Res>
       @JsonKey(name: "instagram") String? instagram,
       @JsonKey(name: "userIntrests") String? userIntrests,
       @JsonKey(name: "userLanguages") String? languages,
-      @JsonKey(name: "userProfilePicture") String? profileImage});
+      @JsonKey(name: "userProfilePicture") String? profileImage,
+      @JsonKey(name: "gender") String? gender});
 }
 
 /// @nodoc
@@ -235,6 +244,7 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
     Object? userIntrests = freezed,
     Object? languages = freezed,
     Object? profileImage = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_$EditProfileResponseImpl(
       id: null == id
@@ -297,6 +307,10 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -319,7 +333,8 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
       @JsonKey(name: "instagram") required this.instagram,
       @JsonKey(name: "userIntrests") required this.userIntrests,
       @JsonKey(name: "userLanguages") required this.languages,
-      @JsonKey(name: "userProfilePicture") required this.profileImage});
+      @JsonKey(name: "userProfilePicture") required this.profileImage,
+      @JsonKey(name: "gender") required this.gender});
 
   factory _$EditProfileResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$EditProfileResponseImplFromJson(json);
@@ -369,10 +384,13 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
   @override
   @JsonKey(name: "userProfilePicture")
   final String? profileImage;
+  @override
+  @JsonKey(name: "gender")
+  final String? gender;
 
   @override
   String toString() {
-    return 'EditProfileResponse(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, password: $password, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests, languages: $languages, profileImage: $profileImage)';
+    return 'EditProfileResponse(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, password: $password, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests, languages: $languages, profileImage: $profileImage, gender: $gender)';
   }
 
   @override
@@ -403,7 +421,8 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
             (identical(other.languages, languages) ||
                 other.languages == languages) &&
             (identical(other.profileImage, profileImage) ||
-                other.profileImage == profileImage));
+                other.profileImage == profileImage) &&
+            (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -424,7 +443,8 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
       instagram,
       userIntrests,
       languages,
-      profileImage);
+      profileImage,
+      gender);
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -459,8 +479,9 @@ abstract class _EditProfileResponse implements EditProfileResponse {
       @JsonKey(name: "instagram") required final String? instagram,
       @JsonKey(name: "userIntrests") required final String? userIntrests,
       @JsonKey(name: "userLanguages") required final String? languages,
-      @JsonKey(name: "userProfilePicture")
-      required final String? profileImage}) = _$EditProfileResponseImpl;
+      @JsonKey(name: "userProfilePicture") required final String? profileImage,
+      @JsonKey(name: "gender")
+      required final String? gender}) = _$EditProfileResponseImpl;
 
   factory _EditProfileResponse.fromJson(Map<String, dynamic> json) =
       _$EditProfileResponseImpl.fromJson;
@@ -510,6 +531,9 @@ abstract class _EditProfileResponse implements EditProfileResponse {
   @override
   @JsonKey(name: "userProfilePicture")
   String? get profileImage;
+  @override
+  @JsonKey(name: "gender")
+  String? get gender;
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.

@@ -31,6 +31,7 @@ mixin _$ProfileDataModel {
   String? get instagram => throw _privateConstructorUsedError;
   String? get userIntrests => throw _privateConstructorUsedError;
   String? get profileImage => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -59,7 +60,8 @@ abstract class $ProfileDataModelCopyWith<$Res> {
       String? x,
       String? instagram,
       String? userIntrests,
-      String? profileImage});
+      String? profileImage,
+      String? gender});
 }
 
 /// @nodoc
@@ -91,6 +93,7 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
     Object? instagram = freezed,
     Object? userIntrests = freezed,
     Object? profileImage = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -149,6 +152,10 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -175,7 +182,8 @@ abstract class _$$ProfileDataModelImplCopyWith<$Res>
       String? x,
       String? instagram,
       String? userIntrests,
-      String? profileImage});
+      String? profileImage,
+      String? gender});
 }
 
 /// @nodoc
@@ -205,6 +213,7 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
     Object? instagram = freezed,
     Object? userIntrests = freezed,
     Object? profileImage = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_$ProfileDataModelImpl(
       id: null == id
@@ -263,6 +272,10 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -284,7 +297,8 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
       required this.x,
       required this.instagram,
       required this.userIntrests,
-      required this.profileImage});
+      required this.profileImage,
+      required this.gender});
 
   @override
   final int id;
@@ -315,10 +329,12 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
   final String? userIntrests;
   @override
   final String? profileImage;
+  @override
+  final String? gender;
 
   @override
   String toString() {
-    return 'ProfileDataModel(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, languages: $languages, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests, profileImage: $profileImage)';
+    return 'ProfileDataModel(id: $id, fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, languages: $languages, country: $country, faceBook: $faceBook, blog: $blog, twitter: $twitter, x: $x, instagram: $instagram, userIntrests: $userIntrests, profileImage: $profileImage, gender: $gender)';
   }
 
   @override
@@ -347,7 +363,8 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
             (identical(other.userIntrests, userIntrests) ||
                 other.userIntrests == userIntrests) &&
             (identical(other.profileImage, profileImage) ||
-                other.profileImage == profileImage));
+                other.profileImage == profileImage) &&
+            (identical(other.gender, gender) || other.gender == gender));
   }
 
   @override
@@ -366,7 +383,8 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
       x,
       instagram,
       userIntrests,
-      profileImage);
+      profileImage,
+      gender);
 
   /// Create a copy of ProfileDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -393,7 +411,8 @@ abstract class _ProfileDataModel implements ProfileDataModel {
       required final String? x,
       required final String? instagram,
       required final String? userIntrests,
-      required final String? profileImage}) = _$ProfileDataModelImpl;
+      required final String? profileImage,
+      required final String? gender}) = _$ProfileDataModelImpl;
 
   @override
   int get id;
@@ -423,6 +442,8 @@ abstract class _ProfileDataModel implements ProfileDataModel {
   String? get userIntrests;
   @override
   String? get profileImage;
+  @override
+  String? get gender;
 
   /// Create a copy of ProfileDataModel
   /// with the given fields replaced by the non-null parameter values.
