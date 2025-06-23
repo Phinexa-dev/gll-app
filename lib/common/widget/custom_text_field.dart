@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gll/common/theme/fonts.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -7,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final double height;
+  final List<TextInputFormatter> inputFormatters;
   final int? minLines;
   final int? maxLines;
 
@@ -17,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.height = 60.0,
+    this.inputFormatters =  const [],
     this.minLines,
     this.maxLines,
   });
@@ -32,6 +35,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         minLines: minLines ?? 1,
         maxLines: minLines == null? 1 : maxLines,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: PhinexaFont.labelRegular.copyWith(

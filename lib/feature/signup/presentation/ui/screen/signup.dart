@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
@@ -163,12 +164,22 @@ class _SignUpState extends ConsumerState<SignUp> {
                             CustomTextField(
                               labelText: 'Full Name',
                               controller: fullNameController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[a-zA-Z\s]+$'),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 8),
                             CustomTextField(
                               labelText: 'Email Address',
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[a-zA-Z0-9._%+-@]*$'),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 8),
                             Row(
@@ -248,6 +259,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     controller: phoneNumberController,
                                     keyboardType: TextInputType.phone,
                                     hint: 'Phone Number',
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
                                   ),
                                 ),
                               ],
@@ -291,7 +305,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                         if (value == true) {
                                           ref
                                               .read(genderProvider.notifier)
-                                              .state = 'Male';
+                                              .state = 'male';
                                         }
                                       },
                                     ),
@@ -308,12 +322,12 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     ),
                                     const Text('Female'),
                                     Checkbox(
-                                      value: selectedGender == 'not preferred',
+                                      value: selectedGender == 'Not Preferred',
                                       onChanged: (bool? value) {
                                         if (value == true) {
                                           ref
                                               .read(genderProvider.notifier)
-                                              .state = 'Not Preferred';
+                                              .state = 'not preferred';
                                         }
                                       },
                                     ),
@@ -327,12 +341,22 @@ class _SignUpState extends ConsumerState<SignUp> {
                               labelText: 'Password',
                               controller: passwordController,
                               obscureText: true,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[a-zA-Z0-9@#$%^&+=]*$'),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 8),
                             CustomTextField(
                               labelText: 'Confirm Password',
                               controller: confirmPasswordController,
                               obscureText: true,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[a-zA-Z0-9@#$%^&+=]*$'),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -387,6 +411,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     required TextEditingController controller,
     required TextInputType keyboardType,
     String hint = 'required*',
+    List<TextInputFormatter> inputFormatters = const [],
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,6 +429,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           labelText: hint,
           controller: controller,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
         ),
       ],
     );
