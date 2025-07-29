@@ -31,53 +31,82 @@ class _InterestsAndEngagementScreenState
     extends ConsumerState<InterestsAndEngagementScreen> {
   late TextEditingController accessibilityController;
   late TextEditingController knowBeforeController;
+  late TextEditingController learningPreferenceOtherController;
 
-  final _topicsError = ValueNotifier<String?>(null);
-  final _learningPreferenceError = ValueNotifier<String?>(null);
-  final _accessibilityError = ValueNotifier<String?>(null);
-  final _feedbackError = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _topicsError = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _learningPreferenceError =
+      ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _learningPreferenceOtherError =
+      ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _accessibilityError =
+      ValueNotifier<String?>(null);
 
   @override
   void initState() {
     super.initState();
-    accessibilityController = TextEditingController();
-    knowBeforeController = TextEditingController();
-
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
 
-    accessibilityController.text = surveyResponses[
-            'Do you have any accessibility needs or accommodations we should be aware of?'] ??
-        '';
-    knowBeforeController.text = surveyResponses[
-            "Is there anything else you'd like us to know before the workshop?"] ??
-        '';
+    accessibilityController = TextEditingController(
+        text: surveyResponses[
+                'Do you have any accessibility needs or accommodations we should be aware of?'] ??
+            '');
+    knowBeforeController = TextEditingController(
+        text: surveyResponses[
+                "Is there anything else you'd like us to know before the workshop?"] ??
+            '');
+    learningPreferenceOtherController = TextEditingController(
+        text: surveyResponses['Learning Preference Other'] ?? '');
+  }
+
+  @override
+  void dispose() {
+    accessibilityController.dispose();
+    knowBeforeController.dispose();
+    learningPreferenceOtherController.dispose();
+    _topicsError.dispose();
+    _learningPreferenceError.dispose();
+    _learningPreferenceOtherError.dispose();
+    _accessibilityError.dispose();
+    super.dispose();
   }
 
   void _validateForm() async {
     bool isValid = true;
 
-    final surveyResponses = ref.read(surveyMultiSelectResponseProvider);
+    final surveyMultiSelectResponses =
+        ref.read(surveyMultiSelectResponseProvider);
 
-    // Topics Validation
-    if (surveyResponses[
-            "What topics are you most interested in exploring in this workshop? (Check all that apply)"] ==
-        null) {
+    if (surveyMultiSelectResponses[
+                "What topics are you most interested in exploring in this workshop? (Check all that apply)"] ==
+            null ||
+        (surveyMultiSelectResponses[
+                    "What topics are you most interested in exploring in this workshop? (Check all that apply)"]
+                as List)
+            .isEmpty) {
       _topicsError.value = 'Please select at least one topic';
       isValid = false;
     } else {
       _topicsError.value = null;
     }
 
-    // Learning Preferences Validation
-    if (surveyResponses["How do you prefer to learn? (Check all that apply)"] ==
-        null) {
+    final learningPreferences = surveyMultiSelectResponses[
+        "How do you prefer to learn? (Check all that apply)"] as List?;
+
+    if (learningPreferences == null || learningPreferences.isEmpty) {
       _learningPreferenceError.value = 'Please select at least one preference';
       isValid = false;
     } else {
+      if (learningPreferences.contains('Other') &&
+          learningPreferenceOtherController.text.trim().isEmpty) {
+        _learningPreferenceOtherError.value =
+            'Please elaborate on your learning preference';
+        isValid = false;
+      } else {
+        _learningPreferenceOtherError.value = null;
+      }
       _learningPreferenceError.value = null;
     }
 
-    // Accessibility Validation
     if (accessibilityController.text.isEmpty) {
       _accessibilityError.value =
           'Please let us know about any accessibility needs';
@@ -86,29 +115,64 @@ class _InterestsAndEngagementScreenState
       _accessibilityError.value = null;
     }
 
-    // Feedback Validation
-    if (knowBeforeController.text.isEmpty) {
-      _feedbackError.value = 'Please provide any additional feedback';
-      isValid = false;
-    } else {
-      _feedbackError.value = null;
-    }
-    final feedBackService = ref.read(feedbackServiceProvider);
     if (isValid) {
       ref.read(isLoadingProvider.notifier).state = true;
       final responses = await combineSurveyResponses(ref);
       await uploadSurveyData(
           ref, responses, 'Pre_Survey_${widget.eventIdentity}');
       clearSurveyResponses(ref);
-      ref.read(navProvider.notifier).onItemTapped(2);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        GoRouter.of(navigationKey.currentContext!).go(RouteName.dashboard);
-      });
       ref.read(isLoadingProvider.notifier).state = false;
-      feedBackService.showToast("Survey submitted successfully",
+      ref.read(feedbackServiceProvider).showToast(
+          "Survey submitted successfully",
           type: FeedbackType.success);
+
+      _showCompletionDialog(context);
     }
+  }
+
+  void _showCompletionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Thank you for completing this survey',
+                  style: PhinexaFont.headingSmall
+                      .copyWith(color: PhinexaColor.black),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  "You're officially registered to GL2i Leadership Academy, high fives all around! While you wait for the Leadership Academy to kick off, take a look around the app",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24),
+                CustomButton(
+                  label: "Explore",
+                  height: 40,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    ref.read(navProvider.notifier).onItemTapped(2);
+                    GoRouter.of(navigationKey.currentContext!)
+                        .go(RouteName.dashboard);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -134,8 +198,6 @@ class _InterestsAndEngagementScreenState
                     Text("Interests and Engagement",
                         style: PhinexaFont.headingLarge),
                     SizedBox(height: 20),
-
-                    // Topics Multi-Select
                     ValueListenableBuilder<String?>(
                       valueListenable: _topicsError,
                       builder: (context, error, child) {
@@ -145,12 +207,13 @@ class _InterestsAndEngagementScreenState
                             MultiSelectCheckboxWidget(
                               question:
                                   "What topics are you most interested in exploring in this workshop? (Check all that apply)",
-                              answers: [
+                              answers: const [
                                 "Effective Leadership",
                                 "UN Sustainable Development Goals",
                                 "Communication and Feedback",
                                 "Mindset",
                                 "Sustainable Impact Projects",
+                                "Not sure/Don\'t know",
                               ],
                             ),
                             if (error != null)
@@ -162,12 +225,9 @@ class _InterestsAndEngagementScreenState
                     ),
                     SizedBox(height: 10),
                     SizedBox(height: 30),
-
                     Text("Logistics and Preferences",
                         style: PhinexaFont.headingLarge),
                     SizedBox(height: 20),
-
-                    // Learning Preferences Multi-Select
                     ValueListenableBuilder<String?>(
                       valueListenable: _learningPreferenceError,
                       builder: (context, error, child) {
@@ -177,13 +237,51 @@ class _InterestsAndEngagementScreenState
                             MultiSelectCheckboxWidget(
                               question:
                                   "How do you prefer to learn? (Check all that apply)",
-                              answers: [
+                              answers: const [
                                 "Hands-on activities",
                                 "Group discussions",
                                 "Role-playing scenarios",
-                                "Lectures/presentations"
+                                "Lectures/presentations",
+                                "Other"
                               ],
                             ),
+                            if (ref
+                                    .watch(surveyMultiSelectResponseProvider)[
+                                        "How do you prefer to learn? (Check all that apply)"]
+                                    ?.contains('Other') ??
+                                false)
+                              ValueListenableBuilder<String?>(
+                                valueListenable: _learningPreferenceOtherError,
+                                builder: (context, otherError, child) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 12),
+                                      CustomFormTextField(
+                                        labelText: 'Please elaborate',
+                                        hintText: 'Elaborate here',
+                                        controller:
+                                            learningPreferenceOtherController,
+                                        onChanged: (value) {
+                                          ref
+                                              .read(
+                                                  surveyTextFieldResponseProvider
+                                                      .notifier)
+                                              .updateResponse(
+                                                  'Learning Preference Other',
+                                                  value);
+                                        },
+                                        obscureText: false,
+                                      ),
+                                      if (otherError != null)
+                                        Text(otherError,
+                                            style: TextStyle(
+                                                color: PhinexaColor.red)),
+                                    ],
+                                  );
+                                },
+                              ),
                             if (error != null)
                               Text(error,
                                   style: TextStyle(color: PhinexaColor.red)),
@@ -192,8 +290,6 @@ class _InterestsAndEngagementScreenState
                       },
                     ),
                     SizedBox(height: 10),
-
-                    // Accessibility Field
                     ValueListenableBuilder<String?>(
                       valueListenable: _accessibilityError,
                       builder: (context, error, child) {
@@ -225,50 +321,24 @@ class _InterestsAndEngagementScreenState
                       },
                     ),
                     SizedBox(height: 30),
-
                     Text('Feedback Opportunity',
                         style: PhinexaFont.headingSmall),
                     SizedBox(height: 20),
-
-                    // Feedback Field
-                    ValueListenableBuilder<String?>(
-                      valueListenable: _feedbackError,
-                      builder: (context, error, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomFormTextField(
-                              labelText:
-                                  "Is there anything else you'd like us to know before the workshop?",
-                              hintText: 'I work ...',
-                              controller: knowBeforeController,
-                              obscureText: false,
-                              height: 110,
-                              maxLines: 10,
-                              onChanged: (value) {
-                                ref
-                                    .read(surveyTextFieldResponseProvider
-                                        .notifier)
-                                    .updateResponse(
-                                        "Is there anything else you'd like us to know before the workshop?",
-                                        value);
-                              },
-                            ),
-                            if (error != null)
-                              Text(error,
-                                  style: TextStyle(color: PhinexaColor.red)),
-                          ],
-                        );
+                    CustomFormTextField(
+                      labelText:
+                          "Is there anything else you'd like us to know before the workshop?",
+                      hintText: 'I work ...',
+                      controller: knowBeforeController,
+                      obscureText: false,
+                      height: 110,
+                      maxLines: 10,
+                      onChanged: (value) {
+                        ref
+                            .read(surveyTextFieldResponseProvider.notifier)
+                            .updateResponse(
+                                "Is there anything else you'd like us to know before the workshop?",
+                                value);
                       },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Thank you for sharing! Your input helps us create a better experience for everyone.",
-                      style: PhinexaFont.labelRegular
-                          .copyWith(color: PhinexaColor.primaryColor),
-                      textAlign: TextAlign.center,
                     ),
                     SizedBox(
                       height: 20,
@@ -276,9 +346,9 @@ class _InterestsAndEngagementScreenState
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       child: CustomButton(
-                        label: "Complete Registration",
+                        label: "Register",
                         height: 40,
-                        onPressed: _validateForm, // Disable button when loading
+                        onPressed: _validateForm,
                       ),
                     ),
                   ],
@@ -286,15 +356,12 @@ class _InterestsAndEngagementScreenState
               ),
             ),
           ),
-
-          // Full-page loader
           if (isLoading)
             Container(
-              color:
-                  Colors.black.withOpacity(0.5), // Semi-transparent background
-              child: Center(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.white, // Customize the color if needed
+                  color: Colors.white,
                 ),
               ),
             ),

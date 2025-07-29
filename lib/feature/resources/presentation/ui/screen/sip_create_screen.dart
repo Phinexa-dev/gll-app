@@ -41,12 +41,15 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
   }
 
   Future<void> _submitForm() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     final feedBackService = ref.read(feedbackServiceProvider);
     final file = ref.read(selectedFileProvider);
     if (file == null) {
       if (mounted) {
-        feedBackService.showToast("Please select a PDF",
+        feedBackService.showToast("Please select a PDF to upload",
             type: FeedbackType.error);
       }
       return;
@@ -57,9 +60,8 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       final user = await ref.read(userProvider.future);
       if (user == null) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User not authenticated')),
-          );
+          feedBackService.showToast('User not authenticated. Please log in.',
+              type: FeedbackType.error);
         }
         return;
       }
@@ -74,36 +76,96 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       final formData = {
         'title': _titleController.text,
         'description': _descriptionController.text,
-        'image': downloadUrl,
-        'link': _linkController.text,
+        'image': downloadUrl, // Assuming 'image' field stores the PDF URL
+        'link': _linkController.text.trim(), // Trim link to avoid empty spaces
       };
 
+      // send to controller
+      ref.read(sipReportControllerProvider.notifier).setFormData(formData);
+      await ref.read(sipReportControllerProvider.notifier).uploadSipReport();
+
+      // clear selected file and form fields before navigating
+      ref.read(selectedFileProvider.notifier).state = null;
+      _titleController.clear();
+      _descriptionController.clear();
+      _linkController.clear();
+      clearSurveyResponses(ref); // Assuming this clears any related survey data
+
       if (mounted) {
-        // send to controller
-        ref.read(sipReportControllerProvider.notifier).setFormData(formData);
-        ref.read(sipReportControllerProvider.notifier).uploadSipReport();
-
-        // clear selected file and form fields before navigating
-        ref.read(selectedFileProvider.notifier).state = null;
-        _titleController.clear();
-        _descriptionController.clear();
-        _linkController.clear();
-        clearSurveyResponses(ref);
-
-        // navigate back to resources screen and set correct tab
-        ref.read(navProvider.notifier).onItemTapped(1);
-        ref.read(tabIndexProvider.notifier).state = 0;
-        context.goNamed(RouteName.dashboard);
+        feedBackService.showToast("SIP Report uploaded successfully!",
+            type: FeedbackType.success);
+        _showCompletionDialog(context); // Show the success dialog
       }
     } catch (e) {
       if (mounted) {
-        feedBackService.showToast(e.toString(), type: FeedbackType.error);
+        feedBackService.showToast("Failed to upload SIP: ${e.toString()}",
+            type: FeedbackType.error);
       }
     } finally {
       if (mounted) {
         ref.read(isSubmittingProvider.notifier).state = false;
       }
     }
+  }
+
+  void _showCompletionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User must tap button to dismiss
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Thank you for uploading the report',
+                  style: PhinexaFont.headingSmall
+                      .copyWith(color: PhinexaColor.black),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Whoa. You did it. You just turned an idea into positive impact—and that makes you a true leader in your community.",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  "Your Sustainable Impact Project report is on its way to our team for review. Once it's approved, it'll be featured on the app (yes, the world will see your brilliance ) and your digital certificate will be issued.",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  "Until then, take a breath. Do a dance. High five yourself. You’ve made a difference—and that’s a big deal.",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                CustomButton(
+                  label: "Continue",
+                  height: 40,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(); // Dismiss the dialog
+                    ref
+                        .read(navProvider.notifier)
+                        .onItemTapped(1); // Set tab to Resources
+                    ref.read(tabIndexProvider.notifier).state =
+                        0; // Set sub-tab to default if applicable
+                    context.goNamed(RouteName
+                        .dashboard); // Navigate to dashboard and clear stack
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -131,7 +193,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                 controller: _titleController,
                 labelText: 'SIP Title*',
                 hintText: 'Community Clean-Up Initiative',
-                validator: (value) => (value == null || value.isEmpty)
+                validator: (value) => (value == null || value.trim().isEmpty)
                     ? 'Please enter a title'
                     : null,
               ),
@@ -142,7 +204,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                 hintText: 'Impact - 2,000+ residents benefited',
                 height: 180,
                 maxLines: 10,
-                validator: (value) => (value == null || value.isEmpty)
+                validator: (value) => (value == null || value.trim().isEmpty)
                     ? 'Please enter a description'
                     : null,
               ),
@@ -151,8 +213,9 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
               const SizedBox(height: 12),
               CustomFormTextField(
                 controller: _linkController,
-                labelText: 'Link',
+                labelText: 'Link (Optional)', // Made link optional
                 hintText: 'URL',
+                // No validator for link as it's optional
               ),
               const SizedBox(height: 12),
             ],
@@ -163,7 +226,8 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
         margin: const EdgeInsets.all(20),
         child: Consumer(
           builder: (context, ref, _) {
-            final isSubmitting = ref.watch(isSubmittingProvider);
+            final isSubmitting =
+                ref.watch(this.isSubmittingProvider); // Use `this` for clarity
             return CustomButton(
               label: "Upload SIP",
               height: 40,
@@ -196,6 +260,8 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       dashPattern: const [4, 4],
       child: InkWell(
         onTap: () async {
+          // You might want to disable picking if already submitting
+          if (ref.read(isSubmittingProvider)) return;
           final filePicker = ref.read(filePickerServiceProvider);
           await filePicker.pickPdfFile();
         },

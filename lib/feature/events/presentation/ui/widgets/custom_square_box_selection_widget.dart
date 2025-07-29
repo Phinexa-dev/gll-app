@@ -67,10 +67,10 @@ class CustomSquareBoxSelectionWidget extends StatelessWidget {
             children: [
               Text(firstGrade,
                   style: PhinexaFont.captionRegular
-                      .copyWith(color: PhinexaColor.grey)),
+                      .copyWith(color: PhinexaColor.darkGrey)),
               Text(lastGrade,
                   style: PhinexaFont.captionRegular
-                      .copyWith(color: PhinexaColor.grey)),
+                      .copyWith(color: PhinexaColor.darkGrey)),
             ],
           ),
         ],

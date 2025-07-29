@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:latlong2/latlong.dart';
 import '../provider/location_provider.dart';
 
-class CountryDropdownWidget extends ConsumerStatefulWidget {
-  const CountryDropdownWidget({super.key});
+class CountryMapDropdownWidget extends ConsumerStatefulWidget {
+  const CountryMapDropdownWidget({super.key});
 
   @override
   _CountryDropdownWidgetState createState() => _CountryDropdownWidgetState();
 }
 
-class _CountryDropdownWidgetState extends ConsumerState<CountryDropdownWidget> {
+class _CountryDropdownWidgetState
+    extends ConsumerState<CountryMapDropdownWidget> {
   String? _selectedCountry;
   final List<Map<String, dynamic>> _countries = [
     {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},
-    {'name': 'Macedonia', 'latLng': LatLng(41.6086, 21.7453)},
+    {'name': 'North Macedonia', 'latLng': LatLng(41.6086, 21.7453)},
     {'name': 'United States', 'latLng': LatLng(37.0902, -95.7129)},
+    {'name': 'Hawaii', 'latLng': LatLng(21.3069, -157.8583)},
+    {'name': 'Kosovo', 'latLng': LatLng(42.6026, 20.9030)},
+    {'name': 'Nepal', 'latLng': LatLng(28.3949, 84.1240)},
   ];
 
   @override

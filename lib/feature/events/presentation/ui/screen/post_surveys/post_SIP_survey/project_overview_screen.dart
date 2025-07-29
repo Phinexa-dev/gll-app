@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
-import '../../../provider/survey_radio_string_response_provider.dart';
+import '../../../provider/multi_select_response_provider.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
-import '../../../widgets/custom_selection_radio_button_widget.dart';
+import '../../../widgets/rich_text_multi_select_checkbox.dart';
 
 class SIPProjectOverviewScreen extends ConsumerStatefulWidget {
   const SIPProjectOverviewScreen({super.key});
@@ -24,10 +24,72 @@ class _SIPProjectOverviewScreenState
   late TextEditingController activitiesController;
   late TextEditingController outcomesController;
 
-  final _radioError = ValueNotifier<String?>(null);
+  final _topicsError = ValueNotifier<String?>(null);
   final _otherError = ValueNotifier<String?>(null);
   final _activitiesError = ValueNotifier<String?>(null);
   final _outcomesError = ValueNotifier<String?>(null);
+
+  final String _sipFocusQuestion =
+      "What was the focus of your Sustainable Impact Project?";
+
+  final List<Map<String, String>> _sipOptions = const [
+    {
+      "title": "Environment/Climate",
+      "description":
+          "Promoting environmental sustainability, conservation, and responsible resource management."
+    },
+    {
+      "title": "Health",
+      "description":
+          "Supporting physical and mental health initiatives, access to healthcare, and overall well-being."
+    },
+    {
+      "title": "Vulnerable/Marginalized Groups",
+      "description":
+          "Empowering and supporting communities facing discrimination or disadvantage to overcome barriers."
+    },
+    {
+      "title": "Education",
+      "description":
+          "Ensuring access to quality education and developing skills that promote lifelong learning."
+    },
+    {
+      "title": "Human Rights and Social Justice",
+      "description":
+          "Advocating for equality, human rights, and social justice for all communities."
+    },
+    {
+      "title": "Peace and Conflict Resolution",
+      "description":
+          "Promoting strategies for resolving conflicts, fostering peace, and building social cohesion."
+    },
+    {
+      "title": "Economic Empowerment",
+      "description":
+          "Promoting financial literacy, economic independence, and job creation within communities."
+    },
+    {
+      "title": "Technology and Innovation",
+      "description":
+          "Leveraging technology and innovation to solve societal challenges and create new opportunities."
+    },
+    {
+      "title": "Cultural Heritage and Identity",
+      "description":
+          "Preserving cultural traditions, promoting intercultural dialogue, and enhancing understanding between communities."
+    },
+    {
+      "title": "Social Entrepreneurship",
+      "description":
+          "Developing businesses and social enterprises that address critical social issues and contribute to the public good."
+    },
+    {
+      "title": "Migration and Refugee Issues",
+      "description":
+          "Supporting migration and refugee communities, ensuring integration, protection, and empowerment in their new environments."
+    },
+    {"title": "Other", "description": ""},
+  ];
 
   @override
   void initState() {
@@ -50,7 +112,7 @@ class _SIPProjectOverviewScreenState
     otherController.dispose();
     activitiesController.dispose();
     outcomesController.dispose();
-    _radioError.dispose();
+    _topicsError.dispose();
     _otherError.dispose();
     _activitiesError.dispose();
     _outcomesError.dispose();
@@ -59,29 +121,25 @@ class _SIPProjectOverviewScreenState
 
   void _validateForm() {
     bool isValid = true;
-    final radioResponses = ref.read(radioStringQuestionResponseProvider);
+    final multiSelectResponses = ref.read(surveyMultiSelectResponseProvider);
     final textResponses = ref.read(surveyTextFieldResponseProvider);
 
-    // Validate focus selection
-    final selectedFocus = radioResponses[
-        "What was the focus of your Sustainable Impact Project?"];
-    if (selectedFocus == null) {
-      _radioError.value = 'Please select a focus area';
+    final selectedFocusList = multiSelectResponses[_sipFocusQuestion] as List?;
+
+    if (selectedFocusList == null || selectedFocusList.isEmpty) {
+      _topicsError.value = 'Please select at least one focus area';
       isValid = false;
     } else {
-      _radioError.value = null;
+      _topicsError.value = null;
+      if (selectedFocusList.contains("Other") &&
+          (otherController.text.trim().isEmpty)) {
+        _otherError.value = 'Please specify your focus area';
+        isValid = false;
+      } else {
+        _otherError.value = null;
+      }
     }
 
-    // Validate "Other" field
-    if (selectedFocus == "Other" &&
-        (textResponses["SIP Focus - Other"]?.isEmpty ?? true)) {
-      _otherError.value = 'Please specify your focus area';
-      isValid = false;
-    } else {
-      _otherError.value = null;
-    }
-
-    // Validate activities
     if (textResponses[
                 "Briefly describe the main activities or strategies you implemented in your  project"]
             ?.isEmpty ??
@@ -92,7 +150,6 @@ class _SIPProjectOverviewScreenState
       _activitiesError.value = null;
     }
 
-    // Validate outcomes
     if (textResponses["What were the key outcomes or impacts of your project"]
             ?.isEmpty ??
         true) {
@@ -109,8 +166,10 @@ class _SIPProjectOverviewScreenState
 
   @override
   Widget build(BuildContext context) {
-    final selectedFocus = ref.watch(radioStringQuestionResponseProvider)[
-        "What was the focus of your Sustainable Impact Project"];
+    final selectedFocusList = ref
+        .watch(surveyMultiSelectResponseProvider)[_sipFocusQuestion] as List?;
+    final bool showOtherTextField =
+        selectedFocusList?.contains("Other") ?? false;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -130,27 +189,33 @@ class _SIPProjectOverviewScreenState
             children: [
               const SizedBox(height: 20),
               Text(
-                'Thank you for completing your Sustainable Impact Project (SIP). Your feedback  will help us understand the impact of your project and improve future programs.  This survey is voluntary, and all responses will remain anonymous.',
+                'By uploading your SIP report, photos, and any links, you\'re not just finishing a project you’re sharing your story of leadership, creativity, and impact. And here\'s the cool part: everything you upload will stay in the app. You can come back to it anytime, share it with others, and even use it for future opportunities like scholarships, jobs, or starting your own next big thing.',
+                style: PhinexaFont.highlightRegular,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'We are so proud of you. You’ve brought your DAC mindset, your vision, and your growth game to life and now the world gets to see what you\'ve done.',
+                style: PhinexaFont.highlightRegular,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Let’s finish strong',
                 style: PhinexaFont.highlightRegular,
               ),
               const SizedBox(height: 20),
               Text("Project Overview", style: PhinexaFont.headingLarge),
               const SizedBox(height: 20),
 
-              // Focus Selection
+              // Focus Selection (now RichTextMultiSelectCheckbox)
               ValueListenableBuilder<String?>(
-                valueListenable: _radioError,
+                valueListenable: _topicsError,
                 builder: (context, error, child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "What was the focus of your Sustainable Impact Project?",
-                        style: PhinexaFont.contentRegular,
-                      ),
-                      CustomSelectionRadioButtonWidget(
-                        question:
-                            "What was the focus of your Sustainable Impact Project?",
+                      RichTextMultiSelectCheckbox(
+                        question: _sipFocusQuestion,
+                        options: _sipOptions, // Pass the options list
                       ),
                       if (error != null)
                         Padding(
@@ -163,8 +228,8 @@ class _SIPProjectOverviewScreenState
                 },
               ),
 
-              // Other Text Field
-              if (selectedFocus == "Other")
+              // Other Text Field (conditionally displayed)
+              if (showOtherTextField)
                 ValueListenableBuilder<String?>(
                   valueListenable: _otherError,
                   builder: (context, error, child) {
@@ -175,7 +240,7 @@ class _SIPProjectOverviewScreenState
                           padding: const EdgeInsets.only(left: 50),
                           child: CustomFormTextField(
                             controller: otherController,
-                            hintText: 'SIP',
+                            hintText: 'Please explain',
                             obscureText: false,
                             height: 140,
                             maxLines: 10,
@@ -209,7 +274,7 @@ class _SIPProjectOverviewScreenState
                         controller: activitiesController,
                         labelText:
                             "Briefly describe the main activities or strategies you implemented in your  project",
-                        hintText: 'We did ...',
+                        hintText: '',
                         obscureText: false,
                         height: 110,
                         maxLines: 10,
@@ -239,7 +304,7 @@ class _SIPProjectOverviewScreenState
                         controller: outcomesController,
                         labelText:
                             "What were the key outcomes or impacts of your project",
-                        hintText: 'We did ...',
+                        hintText: '',
                         obscureText: false,
                         height: 110,
                         maxLines: 10,

@@ -19,13 +19,13 @@ class SIPSkillsApplicationScreen extends ConsumerStatefulWidget {
 class _SIPSkillsApplicationScreenState
     extends ConsumerState<SIPSkillsApplicationScreen> {
   final _questionErrors = {
-    "I was able to apply the leadership skills I learned during the Leadership Academy to my project":
+    "I was able to apply the leadership skills I learned during the Leadership Academy to my project.":
         ValueNotifier<String?>(null),
-    "The Sustainable Impact Plan module helped me structure and execute my project effectively":
+    "The Sustainable Impact Plan module helped me structure and execute my project effectively.":
         ValueNotifier<String?>(null),
-    "I felt confident in leading my team or community during the project":
+    "I felt confident in leading my with team or community during the project.":
         ValueNotifier<String?>(null),
-    "I was able to handle challenges or setbacks during the project using the leadership skill I learned":
+    "I was able to handle challenges or setbacks during the project using the leadership skill I learned.":
         ValueNotifier<String?>(null),
   };
 
@@ -78,32 +78,32 @@ class _SIPSkillsApplicationScreenState
               Text("Skills Application", style: PhinexaFont.headingLarge),
               const SizedBox(height: 20),
               Text(
-                "Please indicate your level of agreement with the following statements",
+                "Please indicate your level of agreement with the following statements.",
                 style: PhinexaFont.highlightRegular,
               ),
               const SizedBox(height: 20),
 
               // Question 1
               _buildQuestionWidget(
-                "I was able to apply the leadership skills I learned during the Leadership Academy to my project",
+                "I was able to apply the leadership skills I learned during the Leadership Academy to my project.",
               ),
               const SizedBox(height: 15),
 
               // Question 2
               _buildQuestionWidget(
-                "The Sustainable Impact Plan module helped me structure and execute my project effectively",
+                "The Sustainable Impact Plan module helped me structure and execute my project effectively.",
               ),
               const SizedBox(height: 15),
 
               // Question 3
               _buildQuestionWidget(
-                "I felt confident in leading my team or community during the project",
+                "I felt confident in leading my with team or community during the project.",
               ),
               const SizedBox(height: 20),
 
               // Question 4
               _buildQuestionWidget(
-                "I was able to handle challenges or setbacks during the project using the leadership skill I learned",
+                "I was able to handle challenges or setbacks during the project using the leadership skill I learned.",
               ),
               const SizedBox(height: 10),
 

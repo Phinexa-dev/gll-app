@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
+import 'package:gll/feature/bottom_bar/presentation/ui/provider/nav_provider.dart';
 import 'package:gll/feature/events/presentation/ui/screen/events_screen.dart';
 import 'package:gll/feature/home/presentation/ui/screen/home_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/other_screen.dart';
 import 'package:gll/feature/resources/presentation/ui/screen/resources_screen.dart';
-import 'package:gll/feature/bottom_bar/presentation/ui/provider/nav_provider.dart';
 
 class BottomBar extends ConsumerStatefulWidget {
   const BottomBar({super.key});
@@ -49,12 +49,12 @@ class _BottomBarState extends ConsumerState<BottomBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_outlined),
             activeIcon: Icon(Icons.folder),
-            label: 'Impact',
+            label: 'My SIP',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined),
             activeIcon: Icon(Icons.calendar_today),
-            label: 'Events',
+            label: 'Start Training',
           ),
           BottomNavigationBarItem(
             // three dots

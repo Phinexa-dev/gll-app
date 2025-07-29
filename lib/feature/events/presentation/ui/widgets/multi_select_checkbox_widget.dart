@@ -79,7 +79,8 @@ class _MultiSelectCheckboxWidgetState
               title: Text(
                 answer,
                 style: PhinexaFont.contentRegular.copyWith(
-                  color: isSelected ? Colors.black : Colors.grey,
+                  color:
+                      isSelected ? PhinexaColor.black : PhinexaColor.darkGrey,
                 ),
               ),
               controlAffinity: ListTileControlAffinity.leading,

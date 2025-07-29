@@ -48,7 +48,9 @@ class _SurveyQuestionState extends ConsumerState<SurveyQuestion> {
               title: Text(
                 option,
                 style: PhinexaFont.contentRegular.copyWith(
-                  color: _selectedOption == option ? Colors.black : Colors.grey,
+                  color: _selectedOption == option
+                      ? Colors.black
+                      : PhinexaColor.darkGrey,
                 ),
               ),
               value: option,

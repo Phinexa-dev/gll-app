@@ -66,7 +66,9 @@ class _CustomSelectionRangeRadioWidgetState
           title: Text(
             option,
             style: PhinexaFont.contentRegular.copyWith(
-              color: _selectedValue == option ? Colors.black : Colors.grey,
+              color: _selectedValue == option
+                  ? PhinexaColor.darkGrey
+                  : PhinexaColor.darkGrey,
             ),
           ),
           activeColor: PhinexaColor.primaryLightBlue,
