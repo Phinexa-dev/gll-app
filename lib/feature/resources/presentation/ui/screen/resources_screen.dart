@@ -29,7 +29,7 @@ class _ResourcesScreenState extends ConsumerState<ResourcesScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            'Impact',
+            'My SIP',
             style: PhinexaFont.headingSmall,
           )),
         ),

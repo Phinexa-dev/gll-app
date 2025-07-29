@@ -116,12 +116,6 @@ class _TTTApplicationOfSkillsScreenState
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16),
-                Text(
-                  "Your input is greatly appreciated and helps us enhance future Train the Trainer programs. Click 'Explore' to check out the app.",
-                  style: PhinexaFont.contentRegular,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 24),
                 CustomButton(
                   label: "Explore",
                   height: 40,

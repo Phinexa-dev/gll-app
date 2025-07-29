@@ -33,10 +33,20 @@ class _SIPLeadershipGrowthScreenState
   late TextEditingController commentsController;
 
   final _challengesError = ValueNotifier<String?>(null);
+  final _challengesOtherError = ValueNotifier<String?>(null);
   final _supportError = ValueNotifier<String?>(null);
   final _supportDetailsError = ValueNotifier<String?>(null);
-  final _suggestionsError = ValueNotifier<String?>(null);
-  final _commentsError = ValueNotifier<String?>(null);
+  final _toolsResourcesError = ValueNotifier<String?>(null);
+
+  final String _toolsResourcesQuestion =
+      "Which of the tools and resources provided during the Academy helpful in executing your project";
+  final List<String> _toolsResourcesOptions = const [
+    "DAC – Direction, Alignment, Commitment",
+    "Mindset",
+    "Communication and Feedback",
+    "Values and Actions",
+    "Dealing with Change",
+  ];
 
   @override
   void initState() {
@@ -64,10 +74,10 @@ class _SIPLeadershipGrowthScreenState
     suggestionsController.dispose();
     commentsController.dispose();
     _challengesError.dispose();
+    _challengesOtherError.dispose();
     _supportError.dispose();
     _supportDetailsError.dispose();
-    _suggestionsError.dispose();
-    _commentsError.dispose();
+    _toolsResourcesError.dispose();
     super.dispose();
   }
 
@@ -75,25 +85,36 @@ class _SIPLeadershipGrowthScreenState
     bool isValid = true;
     final multiSelectResponses = ref.read(surveyMultiSelectResponseProvider);
     final radioResponses = ref.read(radioQuestionResponseProvider);
-    final textResponses = ref.read(surveyTextFieldResponseProvider);
     final feedBackService = ref.read(feedbackServiceProvider);
 
-    // Challenges validation
-    if (multiSelectResponses[
-                "What challenges did you face during your project?"] ==
-            null ||
-        multiSelectResponses[
-                "What challenges did you face during your project?"]!
-            .isEmpty) {
+    final selectedToolsResources =
+        multiSelectResponses[_toolsResourcesQuestion] as List?;
+    if (selectedToolsResources == null || selectedToolsResources.isEmpty) {
+      _toolsResourcesError.value =
+          'Please select at least one tool or resource';
+      isValid = false;
+    } else {
+      _toolsResourcesError.value = null;
+    }
+
+    final selectedChallenges = multiSelectResponses[
+        "What challenges did you face during your project?"] as List?;
+    if (selectedChallenges == null || selectedChallenges.isEmpty) {
       _challengesError.value = 'Please select at least one challenge';
       isValid = false;
     } else {
       _challengesError.value = null;
+      if (selectedChallenges.contains("Other") &&
+          (challengesOtherController.text.trim().isEmpty)) {
+        _challengesOtherError.value = 'Please specify other challenges';
+        isValid = false;
+      } else {
+        _challengesOtherError.value = null;
+      }
     }
 
-    // Support validation
     if (radioResponses[
-            "Did you receive adequate support from the sponsoring organization or your facilitators?"] ==
+            "Did you receive adequate support from the sponsoring organization or your mentors?"] ==
         null) {
       _supportError.value = 'Please select an option';
       isValid = false;
@@ -101,31 +122,14 @@ class _SIPLeadershipGrowthScreenState
       _supportError.value = null;
     }
 
-    // Support details validation if answered "No"
     final receivedSupport = radioResponses[
-        "Did you receive adequate support from the sponsoring organization or your facilitators?"];
+        "Did you receive adequate support from the sponsoring organization or your mentors?"];
     if (receivedSupport == false &&
-        (textResponses["Additional support details"]?.isEmpty ?? true)) {
+        (supportDetailsController.text.trim().isEmpty)) {
       _supportDetailsError.value = 'Please specify additional support needed';
       isValid = false;
     } else {
       _supportDetailsError.value = null;
-    }
-
-    // Suggestions validation
-    if (textResponses["Suggestions for improvement"]?.isEmpty ?? true) {
-      _suggestionsError.value = 'Please provide suggestions for improvement';
-      isValid = false;
-    } else {
-      _suggestionsError.value = null;
-    }
-
-    // Comments validation
-    if (textResponses["Additional comments"]?.isEmpty ?? true) {
-      _commentsError.value = 'Please provide any additional comments';
-      isValid = false;
-    } else {
-      _commentsError.value = null;
     }
 
     if (isValid) {
@@ -141,9 +145,7 @@ class _SIPLeadershipGrowthScreenState
         feedBackService.showToast("Survey submitted successfully",
             type: FeedbackType.success);
 
-        if (mounted) {
-          context.pushNamed(RouteName.createSip);
-        }
+        _showCompletionDialog(context);
       } catch (e) {
         feedBackService.showToast("Submission failed: ${e.toString()}",
             type: FeedbackType.error);
@@ -153,13 +155,54 @@ class _SIPLeadershipGrowthScreenState
     }
   }
 
+  void _showCompletionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Thank you for completing this survey',
+                  style: PhinexaFont.headingSmall,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Great job on your project! Now, let's upload your Sustainable Impact Plan. This is your chance to showcase all your hard work and inspire others.",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                CustomButton(
+                  label: "Upload Your SIP",
+                  height: 40,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    context.go(RouteName.createSip);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(isLoadingProvider);
     final multiSelectResponses = ref.watch(surveyMultiSelectResponseProvider);
     final radioResponses = ref.watch(radioQuestionResponseProvider);
     final receivedSupport = radioResponses[
-        "Did you receive adequate support from the sponsoring organization or your facilitators?"];
+        "Did you receive adequate support from the sponsoring organization or your mentors?"];
     final hasOtherChallenge = multiSelectResponses[
                 "What challenges did you face during your project?"]
             ?.contains("Other") ??
@@ -188,8 +231,6 @@ class _SIPLeadershipGrowthScreenState
                     const SizedBox(height: 20),
                     Text("Leadership Growth", style: PhinexaFont.headingLarge),
                     const SizedBox(height: 20),
-
-                    // Challenges Multi-Select
                     ValueListenableBuilder<String?>(
                       valueListenable: _challengesError,
                       builder: (context, error, child) {
@@ -199,7 +240,7 @@ class _SIPLeadershipGrowthScreenState
                             MultiSelectCheckboxWidget(
                               question:
                                   "What challenges did you face during your project?",
-                              answers: [
+                              answers: const [
                                 "Direction unclear (goal)",
                                 "Alignment poor- responsibility/resources (role)",
                                 "Commitment Insufficient (soul)",
@@ -212,19 +253,18 @@ class _SIPLeadershipGrowthScreenState
                               ],
                             ),
                             if (hasOtherChallenge)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 50),
-                                child: ValueListenableBuilder<String?>(
-                                  valueListenable: _challengesError,
-                                  builder: (context, error, child) {
-                                    return Column(
+                              ValueListenableBuilder<String?>(
+                                valueListenable: _challengesOtherError,
+                                builder: (context, otherError, child) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 50),
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         CustomFormTextField(
                                           controller: challengesOtherController,
-                                          hintText:
-                                              'Specify other challenges...',
+                                          hintText: '',
                                           obscureText: false,
                                           onChanged: (value) {
                                             ref
@@ -236,16 +276,16 @@ class _SIPLeadershipGrowthScreenState
                                                     value);
                                           },
                                         ),
-                                        if (error != null && hasOtherChallenge)
-                                          Text(error,
+                                        if (otherError != null)
+                                          Text(otherError,
                                               style: TextStyle(
                                                   color: PhinexaColor.red)),
                                       ],
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                            if (error != null)
+                            if (error != null && !hasOtherChallenge)
                               Text(error,
                                   style: TextStyle(color: PhinexaColor.red)),
                           ],
@@ -253,8 +293,6 @@ class _SIPLeadershipGrowthScreenState
                       },
                     ),
                     const SizedBox(height: 15),
-
-                    // Support Radio
                     ValueListenableBuilder<String?>(
                       valueListenable: _supportError,
                       builder: (context, error, child) {
@@ -263,13 +301,13 @@ class _SIPLeadershipGrowthScreenState
                           children: [
                             CustomRadioQuestion(
                               question:
-                                  "Did you receive adequate support from the sponsoring organization or your facilitators?",
+                                  "Did you receive adequate support from the sponsoring organization or your mentors?",
                               onChanged: (bool? value) {
                                 ref
                                     .read(
                                         radioQuestionResponseProvider.notifier)
                                     .updateResponse(
-                                        "Did you receive adequate support from the sponsoring organization or your facilitators?",
+                                        "Did you receive adequate support from the sponsoring organization or your mentors?",
                                         value);
                               },
                             ),
@@ -281,8 +319,6 @@ class _SIPLeadershipGrowthScreenState
                       },
                     ),
                     const SizedBox(height: 15),
-
-                    // Support Details
                     ValueListenableBuilder<String?>(
                       valueListenable: _supportDetailsError,
                       builder: (context, error, child) {
@@ -294,8 +330,8 @@ class _SIPLeadershipGrowthScreenState
                               CustomFormTextField(
                                 controller: supportDetailsController,
                                 labelText:
-                                    "If no, what additional support would have been helpful?",
-                                hintText: 'We needed...',
+                                    "If not, what additional support would have been helpful?",
+                                hintText: '',
                                 obscureText: false,
                                 height: 110,
                                 maxLines: 10,
@@ -316,72 +352,61 @@ class _SIPLeadershipGrowthScreenState
                       },
                     ),
                     const SizedBox(height: 15),
-
-                    // Suggestions
                     ValueListenableBuilder<String?>(
-                      valueListenable: _suggestionsError,
+                      valueListenable: _toolsResourcesError,
                       builder: (context, error, child) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomFormTextField(
-                              controller: suggestionsController,
-                              labelText:
-                                  "What suggestions do you have for improving the Sustainable Impact Plan experience?",
-                              hintText: 'I suggest...',
-                              obscureText: false,
-                              height: 110,
-                              maxLines: 10,
-                              onChanged: (value) {
-                                ref
-                                    .read(surveyTextFieldResponseProvider
-                                        .notifier)
-                                    .updateResponse(
-                                        "Suggestions for improvement", value);
-                              },
+                            MultiSelectCheckboxWidget(
+                              question: _toolsResourcesQuestion,
+                              answers: _toolsResourcesOptions,
                             ),
                             if (error != null)
                               Text(error,
                                   style: TextStyle(color: PhinexaColor.red)),
                           ],
                         );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Text("Suggestions for Improvement",
+                        style: PhinexaFont.headingLarge),
+                    const SizedBox(height: 20),
+                    CustomFormTextField(
+                      controller: suggestionsController,
+                      labelText:
+                          "What suggestions do you have for improving the Sustainable Impact Project experience?",
+                      hintText: '',
+                      obscureText: false,
+                      height: 110,
+                      maxLines: 10,
+                      onChanged: (value) {
+                        ref
+                            .read(surveyTextFieldResponseProvider.notifier)
+                            .updateResponse(
+                                "Suggestions for improvement", value);
                       },
                     ),
                     const SizedBox(height: 15),
-
-                    // Comments
-                    ValueListenableBuilder<String?>(
-                      valueListenable: _commentsError,
-                      builder: (context, error, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomFormTextField(
-                              controller: commentsController,
-                              labelText:
-                                  "Do you have any additional comments or feedback?",
-                              hintText: 'I would like to share...',
-                              obscureText: false,
-                              height: 110,
-                              maxLines: 10,
-                              onChanged: (value) {
-                                ref
-                                    .read(surveyTextFieldResponseProvider
-                                        .notifier)
-                                    .updateResponse(
-                                        "Additional comments", value);
-                              },
-                            ),
-                            if (error != null)
-                              Text(error,
-                                  style: TextStyle(color: PhinexaColor.red)),
-                          ],
-                        );
+                    Text("Additional Comments ",
+                        style: PhinexaFont.headingLarge),
+                    const SizedBox(height: 20),
+                    CustomFormTextField(
+                      controller: commentsController,
+                      labelText:
+                          "Do you have any additional comments or feedback?",
+                      hintText: '',
+                      obscureText: false,
+                      height: 110,
+                      maxLines: 10,
+                      onChanged: (value) {
+                        ref
+                            .read(surveyTextFieldResponseProvider.notifier)
+                            .updateResponse("Additional comments", value);
                       },
                     ),
                     const SizedBox(height: 30),
-
-                    // Submit Button
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       child: CustomButton(
@@ -395,8 +420,6 @@ class _SIPLeadershipGrowthScreenState
               ),
             ),
           ),
-
-          // Loading overlay
           if (isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),

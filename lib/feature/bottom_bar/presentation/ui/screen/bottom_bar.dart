@@ -49,7 +49,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_outlined),
             activeIcon: Icon(Icons.folder),
-            label: 'Impact',
+            label: 'My SIP',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined),

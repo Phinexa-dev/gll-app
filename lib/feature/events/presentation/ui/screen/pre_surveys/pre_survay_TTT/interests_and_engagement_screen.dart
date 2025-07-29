@@ -188,6 +188,12 @@ class _TTInterestsAndEngagementScreenState
                       .copyWith(color: PhinexaColor.black),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 16),
+                Text(
+                  "You’re officially registered to GL2i Train the Trainer, high fives all around! While you wait for the Train the Trainer to kick off, take a look around the app",
+                  style: PhinexaFont.contentRegular,
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: 24),
                 CustomButton(
                   label: "Explore",
