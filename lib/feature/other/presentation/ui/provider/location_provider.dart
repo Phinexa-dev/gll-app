@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // A notifier class that manages the location state
 class LocationNotifier extends StateNotifier<LatLng> {
-  LocationNotifier() : super(LatLng(37.42796133580664, -122.085749655962));
+  LocationNotifier() : super(LatLng(7.8731, 80.7718));
 
   void updateLocation(LatLng newLocation) {
     print(newLocation);

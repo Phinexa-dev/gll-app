@@ -68,11 +68,12 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(
-          child: Text('Events', style: PhinexaFont.headingSmall),
+          child: Text('Start Training', style: PhinexaFont.headingSmall),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -82,6 +83,56 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                   'assets/events/event_screen_bg.svg',
                   fit: BoxFit.fitWidth,
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      text: 'Ready to Register?',
+                      style: PhinexaFont.featureEmphasis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      text:
+                          'Scroll to find your event, tap Register, and answer a few quick questions—boom, you\'re in. Easy, breezy, all in the app.',
+                      style: PhinexaFont.contentRegular,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      text:
+                          'After you register, you’ll get a confirmation notice. Keep an eye out for updates, prep info, and helpful tips leading up to the big day.',
+                      style: PhinexaFont.contentRegular,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      text: 'Your leadership journey starts here—let’s go!',
+                      style: PhinexaFont.highlightRegular,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                ],
               ),
             ),
             SearchBarWidget(controller: _searchController),

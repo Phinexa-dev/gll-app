@@ -71,27 +71,30 @@ class CustomPhoneNumberField extends ConsumerWidget {
                   border: Border.all(color: PhinexaColor.grey),
                 ),
                 child: DropdownButton<String>(
+                  menuMaxHeight: 300.0,
                   value: countryCodes.contains(phoneNumberState.countryCode)
                       ? phoneNumberState.countryCode
                       : countryCodes.first,
-                  padding: EdgeInsets.only(left: 12,right: 8),
+                  padding: EdgeInsets.only(left: 12, right: 8),
                   style: PhinexaFont.labelRegular,
-                  borderRadius:BorderRadius.circular(12) ,
+                  borderRadius: BorderRadius.circular(12),
                   onChanged: (newCode) {
                     if (newCode != null) {
-                      ref.read(phoneNumberProvider.notifier).updateCountryCode(newCode);
+                      ref
+                          .read(phoneNumberProvider.notifier)
+                          .updateCountryCode(newCode);
                     }
                   },
-                  icon:Icon(Icons.keyboard_arrow_down),
+                  icon: Icon(Icons.keyboard_arrow_down),
                   underline: SizedBox(),
                   isExpanded: true,
                   items: countryCodes
                       .toSet()
                       .toList()
                       .map((code) => DropdownMenuItem<String>(
-                    value: code,
-                    child: Text(code),
-                  ))
+                            value: code,
+                            child: Text(code),
+                          ))
                       .toList(),
                 ),
               ),
@@ -104,7 +107,9 @@ class CustomPhoneNumberField extends ConsumerWidget {
                   keyboardType: keyboardType,
                   textInputAction: textInputAction,
                   onChanged: (value) {
-                    ref.read(phoneNumberProvider.notifier).updatePhoneNumber(value);
+                    ref
+                        .read(phoneNumberProvider.notifier)
+                        .updatePhoneNumber(value);
                   },
                   enabled: enabled,
                   autofocus: autofocus,
@@ -113,7 +118,8 @@ class CustomPhoneNumberField extends ConsumerWidget {
                     FilteringTextInputFormatter.digitsOnly,
                   ],
                   decoration: InputDecoration(
-                    hintStyle: PhinexaFont.highlightRegular.copyWith(color: PhinexaColor.grey),
+                    hintStyle: PhinexaFont.highlightRegular
+                        .copyWith(color: PhinexaColor.grey),
                     hintText: hintText,
                     prefixIcon: prefixIcon,
                     suffixIcon: suffixIcon,
@@ -122,7 +128,8 @@ class CustomPhoneNumberField extends ConsumerWidget {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),

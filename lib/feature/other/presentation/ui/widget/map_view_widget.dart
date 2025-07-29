@@ -1,17 +1,16 @@
-// lib/feature/other/presentation/ui/widget/map_view_widget.dart
-
-import 'dart:convert';
-
+// MapViewWidget.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
-import '../../../data/local/map_custom_style.dart';
 import '../provider/location_provider.dart';
 import '../provider/sip_details_provider.dart';
 import 'country_sip_detail_bottom_sheet_widget.dart';
+
+// Define a GlobalKey for MapViewWidgetState
+final GlobalKey<_MapViewWidgetState> mapViewKey = GlobalKey();
 
 class MapViewWidget extends ConsumerStatefulWidget {
   const MapViewWidget({super.key});
@@ -21,164 +20,189 @@ class MapViewWidget extends ConsumerStatefulWidget {
 }
 
 class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
-  GoogleMapController? _mapController;
+  MapController? _mapController;
   final Set<Polygon> _countryPolygons = {};
 
-  // 15-color rainbow palette
-  static const List<Color> _rainbow = [
-    Color(0xFFFF6B6B), // Soft Red
-    Color(0xFFFF8C42), // Orange
-    Color(0xFFFFC857), // Warm Yellow
-    Color(0xFFf9a43f), // Light Green
-    Color(0xFF01B0DC),
-    Color(0xFFFFC857), // Rich Green
-    Color(0xFF00B4D8),
-    Color(0xFF5ac9c9), // Soft Red
-    Color(0xFFFFFFFF),
-    Color(0xFFFFC857), // Warm Yellow// Aqua Blue
-    Color(0xFFB5E48C),
-    Color(0xFFFFC857),
-    Color(0xFF70E000), // Bright Green
-    Color(0xFFFF6B6B), // Soft Red
-    Color(0xFFFF8C42),
-    Color(0xFFFF8C42),
-    Color(0xFFf9a43f), // Light Green
-    Color(0xFF5ac9c9), // Pink
-    Color(0xFF59a8f7), // Soft Cyan
-    // Pure White
+  bool _isLoading = false;
+
+  final List<Map<String, dynamic>> _countries = [
+    {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},
+    {'name': 'North Macedonia', 'latLng': LatLng(41.6086, 21.7453)},
+    {'name': 'United States', 'latLng': LatLng(37.0902, -95.7129)},
+    {'name': 'Hawaii', 'latLng': LatLng(21.3069, -157.8583)},
+    {'name': 'Kosovo', 'latLng': LatLng(42.6026, 20.9030)},
+    {'name': 'Nepal', 'latLng': LatLng(28.3949, 84.1240)},
   ];
 
   @override
   void initState() {
     super.initState();
-    _loadCountryPolygons();
-  }
-
-  Future<void> _loadCountryPolygons() async {
-    final raw = await rootBundle.loadString('assets/more/countries.geojson');
-    final geo = json.decode(raw) as Map<String, dynamic>;
-    final count = (geo['features'] as List).length;
-    debugPrint('▶️ GeoJSON has $count features');
-
-    int idCounter = 0;
-    for (final feature in geo['features'] as List) {
-      final props = feature['properties'] as Map<String, dynamic>;
-      final countryCode = props['ISO_A2'] as String? ??
-          props['ADM0_A3'] as String? ??
-          'C$idCounter';
-
-      final geometry = feature['geometry'] as Map<String, dynamic>;
-      final coords = geometry['coordinates'];
-
-      // choose one of 15 rainbow colors
-      final color = _rainbow[idCounter % _rainbow.length];
-
-      if (geometry['type'] == 'Polygon') {
-        _addPolygon(coords as List, countryCode, color, idCounter++);
-      } else if (geometry['type'] == 'MultiPolygon') {
-        for (final poly in coords as List) {
-          _addPolygon(poly as List, countryCode, color, idCounter++);
-        }
-      }
-    }
-
-    setState(() {});
-  }
-
-  /// Now handles holes! rings[0] = outer boundary; rings[1..] = holes
-  void _addPolygon(
-    List<dynamic> rings,
-    String countryCode,
-    Color color,
-    int idx,
-  ) {
-    // Outer ring → polygon.points
-    final outer = rings[0] as List;
-    final outerPoints = outer.map<LatLng>((pt) {
-      final lng = (pt[0] as num).toDouble();
-      final lat = (pt[1] as num).toDouble();
-      return LatLng(lat, lng);
-    }).toList();
-
-    // Any subsequent ring is a “hole”
-    final holes = <List<LatLng>>[];
-    for (var i = 1; i < rings.length; i++) {
-      final holeRing = rings[i] as List;
-      final holePoints = holeRing.map<LatLng>((pt) {
-        final lng = (pt[0] as num).toDouble();
-        final lat = (pt[1] as num).toDouble();
-        return LatLng(lat, lng);
-      }).toList();
-      holes.add(holePoints);
-    }
-
-    _countryPolygons.add(
-      Polygon(
-        polygonId: PolygonId('$countryCode-$idx'),
-        points: outerPoints,
-        holes: holes,
-        strokeColor: Colors.transparent,
-        fillColor: color,
-        strokeWidth: 1,
-      ),
-    );
+    _mapController = MapController();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final currentPosition = ref.watch(selectedLocationProvider);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_mapController != null) {
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(currentPosition, 5),
-        );
-      }
-    });
-
-    return GoogleMap(
-      style: mapStyle,
-      initialCameraPosition:
-          const CameraPosition(target: LatLng(7.8731, 80.7718), zoom: 5),
-      polygons: _countryPolygons,
-      onMapCreated: (c) => _mapController = c,
-      onTap: (latLng) async => _handleTap(latLng, context),
-    );
+  void dispose() {
+    _mapController?.dispose();
+    super.dispose();
   }
 
-  Future<void> _handleTap(LatLng latLng, BuildContext context) async {
+  // Make this function public
+  Future<void> showCountryDetailsAndMoveMap(String countryName) async {
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
     try {
-      final placemarks =
-          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-      if (placemarks.isEmpty) return;
+      final sipDetail = ref.read(sipDetailByCountryProvider(countryName));
 
-      final country = placemarks.first.country;
-      if (country == null) return;
-
-      final sipDetail = ref.watch(sipDetailByCountryProvider(country));
       if (sipDetail != null) {
+        if (!mounted) return;
         showModalBottomSheet(
           context: context,
           builder: (_) => CountryBottomSheet(sipDetail: sipDetail),
         );
+      } else {
+        debugPrint('No SIP detail found for $countryName.');
       }
 
-      final locations = await locationFromAddress(country);
+      final locations = await locationFromAddress(countryName);
       if (locations.isNotEmpty && _mapController != null) {
         final loc = locations.first;
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(
-            LatLng(loc.latitude, loc.longitude),
-            5,
-          ),
-        );
+        _mapController!.move(LatLng(loc.latitude, loc.longitude), 5);
+      } else {
+        debugPrint(
+            'Could not get location for $countryName or map controller is null.');
       }
     } catch (e) {
-      debugPrint('Error on tap: $e');
+      debugPrint('Error showing country details for $countryName: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false; // Hide loading indicator
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final googleMapsLatLng = ref.watch(selectedLocationProvider);
+    final latlong2LatLng =
+        LatLng(googleMapsLatLng.latitude, googleMapsLatLng.longitude);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_mapController != null && mounted) {
+        _mapController!.move(latlong2LatLng, 5);
+      }
+    });
+
+    return Stack(
+      key: mapViewKey, // Assign the GlobalKey here
+      children: [
+        FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter: const LatLng(28.3949, 84.1240),
+            initialZoom:
+                4.0, // Increased initial zoom slightly for better visibility
+            onTap: (tapPosition, latLng) async => _handleTap(latLng, context),
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.yourcompany.app_name',
+            ),
+            PolygonLayer(
+              polygons: _countryPolygons.toList(),
+            ),
+            // Add MarkerLayer here
+            MarkerLayer(
+              markers: _countries.map((country) {
+                return Marker(
+                  point: country['latLng'] as LatLng,
+                  width: 80.0, // Adjust size as needed
+                  height: 80.0, // Adjust size as needed
+                  child: GestureDetector(
+                    onTap: () {
+                      showCountryDetailsAndMoveMap(country['name'] as String);
+                    },
+                    child: Image.asset('assets/more/place_marker.png'),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        AnimatedOpacity(
+          opacity: _isLoading ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 300),
+          child: IgnorePointer(
+            ignoring: !_isLoading,
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                      strokeWidth: 4,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Fetching details...',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _handleTap(LatLng latLng, BuildContext context) async {
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final placemarks =
+          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+      if (placemarks.isEmpty) {
+        debugPrint('No placemarks found for tap location.');
+        return;
+      }
+
+      final country = placemarks.first.country;
+      if (country == null) {
+        debugPrint('Country not found for tap location.');
+        return;
+      }
+
+      debugPrint('Tapped on map at $latLng, resolved to country: $country');
+
+      await showCountryDetailsAndMoveMap(country);
+    } catch (e) {
+      debugPrint('Error on map tap: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 }
 
+// Your existing CampEvent, KeyObjective, SubEvent, Testimonial classes remain unchanged.
 class CampEvent {
   final String id;
   final String title;

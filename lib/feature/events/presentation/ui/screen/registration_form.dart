@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../common/theme/colors.dart';
 import '../../../../../common/widget/custom_form_number_field.dart';
 import '../../../../../common/widget/custom_form_text_field.dart';
+import '../../../../../core/data/local/user/country_codes.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../home/presentation/ui/provider/ phone_number_provider.dart';
 import '../provider/combine_response.dart';
@@ -29,26 +30,31 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   late TextEditingController fullNameController;
   late TextEditingController sponsoringOrgController;
   late TextEditingController ageController;
-  late TextEditingController educationController;
-  late TextEditingController
-      genderDescriptionController; // New controller for gender description
+  late TextEditingController genderDescriptionController;
   String? selectedGender;
+
+  // State for agreement checkboxes
+  bool _agreement1Checked = false;
+  bool _agreement2Checked = false;
 
   final _fullNameError = ValueNotifier<String?>(null);
   final _phoneError = ValueNotifier<String?>(null);
   final _sponsoringOrgError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
   final _genderError = ValueNotifier<String?>(null);
-  final _educationError = ValueNotifier<String?>(null);
-  final _genderDescriptionError =
-      ValueNotifier<String?>(null); // New error notifier for gender description
+  final _genderDescriptionError = ValueNotifier<String?>(null);
+
+  // Error notifiers for agreements
+  final _agreement1Error = ValueNotifier<bool>(false);
+  final _agreement2Error = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     final phoneState = ref.read(phoneNumberProvider);
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
-
+    _agreement1Checked = surveyResponses['agreement1'] == 'true';
+    _agreement2Checked = surveyResponses['agreement2'] == 'true';
     phoneController = TextEditingController(text: phoneState.phoneNumber);
     fullNameController =
         TextEditingController(text: surveyResponses['Full name'] ?? '');
@@ -57,11 +63,8 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                 'What organization invited/sponsored your attendance?'] ??
             '');
     ageController = TextEditingController(text: surveyResponses['Age'] ?? '');
-    educationController =
-        TextEditingController(text: surveyResponses['Education'] ?? '');
     genderDescriptionController = TextEditingController(
-        text: surveyResponses['Gender Description'] ??
-            ''); // Initialize the new controller
+        text: surveyResponses['Gender Description'] ?? '');
     selectedGender = surveyResponses['Gender'];
   }
 
@@ -71,8 +74,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     fullNameController.dispose();
     sponsoringOrgController.dispose();
     ageController.dispose();
-    educationController.dispose();
-    genderDescriptionController.dispose(); // Dispose the new controller
+    genderDescriptionController.dispose();
     super.dispose();
   }
 
@@ -127,12 +129,17 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
       _genderDescriptionError.value = null;
     }
 
-    // Education Validation
-    if (educationController.text.isEmpty) {
-      _educationError.value = 'Please enter your education';
+    // Agreement 1 Validation
+    if (!_agreement1Checked) {
+      _agreement1Error.value = true;
       isValid = false;
-    } else {
-      _educationError.value = null;
+      print(isValid);
+    }
+
+    // Agreement 2 Validation
+    if (!_agreement2Checked) {
+      _agreement2Error.value = true;
+      isValid = false;
     }
 
     if (isValid) {
@@ -167,7 +174,9 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Leadership Academy Registration",
+                widget.isTTT
+                    ? "Train the Trainer Registration"
+                    : "Leadership Academy Registration",
                 style: PhinexaFont.headingLarge,
               ),
               SizedBox(height: 12),
@@ -210,7 +219,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                         controller: phoneController,
                         labelText: "Phone Number",
                         hintText: "Enter phone number",
-                        countryCodes: ["+94", "+44", "+11", "+61"],
+                        countryCodes: allCountryCodes,
                         selectedCountryCode: phoneState.countryCode,
                       ),
                       if (error != null)
@@ -332,29 +341,126 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                   );
                 },
               ),
-              SizedBox(height: 12),
-
-              // Education Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _educationError,
+              SizedBox(height: 24),
+              ValueListenableBuilder<bool>(
+                valueListenable: _agreement1Error,
                 builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText: 'Education',
-                        hintText: 'Education',
-                        controller: educationController,
-                        obscureText: false,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse('Education', value);
-                        },
+                  void _toggleAgreement(bool? value) {
+                    if (value == null) return;
+                    setState(() {
+                      _agreement1Checked = value;
+                    });
+                    if (value) {
+                      _agreement1Error.value = false;
+                    }
+                  }
+
+                  return InkWell(
+                    onTap: () => _toggleAgreement(!_agreement1Checked),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 1. The Checkbox
+                          Checkbox(
+                            value: _agreement1Checked,
+                            onChanged: _toggleAgreement,
+                            checkColor: PhinexaColor.white,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            side: BorderSide(
+                              color: _agreement1Checked
+                                  ? PhinexaColor.primaryLightBlue
+                                  : PhinexaColor.primaryLightBlue
+                                      .withOpacity(0.5),
+                              width: 1.0,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text:
+                                    'By submitting this LA registration survey, I agree to share my information with local event organizers and partner organizations for the purpose of coordinating and enhancing event participation.',
+                                style: PhinexaFont.contentRegular.copyWith(
+                                  color: error
+                                      ? PhinexaColor.red
+                                      : PhinexaColor.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 16),
+
+              // Agreement 2
+              ValueListenableBuilder<bool>(
+                valueListenable: _agreement2Error,
+                builder: (context, error, child) {
+                  void _toggleAgreement2(bool? value) {
+                    if (value == null) return;
+                    setState(() {
+                      _agreement2Checked = value;
+                    });
+                    if (value) {
+                      _agreement2Error.value = false;
+                    }
+                  }
+
+                  return InkWell(
+                    onTap: () => _toggleAgreement2(!_agreement2Checked),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                            value: _agreement2Checked,
+                            onChanged: _toggleAgreement2,
+                            checkColor: PhinexaColor.white,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            side: BorderSide(
+                              color: _agreement2Checked
+                                  ? PhinexaColor.primaryLightBlue
+                                  : PhinexaColor.primaryLightBlue
+                                      .withOpacity(0.5),
+                              width: 1.0,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text:
+                                    'I hereby grant permission for my image to be used by GL in social media and marketing materials related to the LA event, without expectation of compensation or notification.',
+                                style: PhinexaFont.contentRegular.copyWith(
+                                  color: error
+                                      ? PhinexaColor.red
+                                      : PhinexaColor.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
               ),
