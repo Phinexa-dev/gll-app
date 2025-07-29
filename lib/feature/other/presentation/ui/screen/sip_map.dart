@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/map_view_widget.dart';
-
 import '../../../../../common/theme/fonts.dart';
 import '../widget/country_dropdown_widget.dart';
 
@@ -33,12 +32,12 @@ class _SipMapState extends ConsumerState<SipMap> {
       ),
       body: Stack(
         children: [
-          MapViewWidget(),
+          const MapViewWidget(),
           Positioned(
             top: 30,
             left: 0,
             right: 0,
-            child: CountryDropdownWidget(),
+            child: CountryMapDropdownWidget(),
           ),
         ],
       ),

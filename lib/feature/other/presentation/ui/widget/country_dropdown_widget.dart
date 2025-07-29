@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:latlong2/latlong.dart';
 import '../provider/location_provider.dart';
 
-class CountryDropdownWidget extends ConsumerStatefulWidget {
-  const CountryDropdownWidget({super.key});
+class CountryMapDropdownWidget extends ConsumerStatefulWidget {
+  const CountryMapDropdownWidget({super.key});
 
   @override
   _CountryDropdownWidgetState createState() => _CountryDropdownWidgetState();
 }
 
-class _CountryDropdownWidgetState extends ConsumerState<CountryDropdownWidget> {
+class _CountryDropdownWidgetState
+    extends ConsumerState<CountryMapDropdownWidget> {
   String? _selectedCountry;
   final List<Map<String, dynamic>> _countries = [
     {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},

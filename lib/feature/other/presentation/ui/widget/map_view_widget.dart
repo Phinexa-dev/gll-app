@@ -1,4 +1,5 @@
-// MapViewWidget.dart
+import 'dart:async'; // Added for Timer
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,9 +9,6 @@ import 'package:latlong2/latlong.dart';
 import '../provider/location_provider.dart';
 import '../provider/sip_details_provider.dart';
 import 'country_sip_detail_bottom_sheet_widget.dart';
-
-// Define a GlobalKey for MapViewWidgetState
-final GlobalKey<_MapViewWidgetState> mapViewKey = GlobalKey();
 
 class MapViewWidget extends ConsumerStatefulWidget {
   const MapViewWidget({super.key});
@@ -22,8 +20,14 @@ class MapViewWidget extends ConsumerStatefulWidget {
 class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
   MapController? _mapController;
   final Set<Polygon> _countryPolygons = {};
-
   bool _isLoading = false;
+  bool _isBottomSheetOpen = false;
+  late final ProviderSubscription<LatLng> _locationSubscription;
+
+  LatLng? _lastProcessedLatLng;
+  Timer? _debounceTimer;
+
+  int _executionId = 0;
 
   final List<Map<String, dynamic>> _countries = [
     {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},
@@ -38,171 +42,210 @@ class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
   void initState() {
     super.initState();
     _mapController = MapController();
+
+    _locationSubscription =
+        ref.listenManual(selectedLocationProvider, (previous, next) async {
+      if (!mounted) return;
+
+      debugPrint('Provider updated: $next');
+      _debouncedLocationHandler(next);
+    });
   }
 
   @override
   void dispose() {
     _mapController?.dispose();
+    _locationSubscription.close();
+    _debounceTimer?.cancel();
     super.dispose();
   }
 
-  // Make this function public
-  Future<void> showCountryDetailsAndMoveMap(String countryName) async {
-    if (!mounted) return;
-    setState(() {
-      _isLoading = true; // Show loading indicator
-    });
-    try {
-      final sipDetail = ref.read(sipDetailByCountryProvider(countryName));
-
-      if (sipDetail != null) {
-        if (!mounted) return;
-        showModalBottomSheet(
-          context: context,
-          builder: (_) => CountryBottomSheet(sipDetail: sipDetail),
-        );
-      } else {
-        debugPrint('No SIP detail found for $countryName.');
-      }
-
-      final locations = await locationFromAddress(countryName);
-      if (locations.isNotEmpty && _mapController != null) {
-        final loc = locations.first;
-        _mapController!.move(LatLng(loc.latitude, loc.longitude), 5);
-      } else {
-        debugPrint(
-            'Could not get location for $countryName or map controller is null.');
-      }
-    } catch (e) {
-      debugPrint('Error showing country details for $countryName: $e');
-    } finally {
+  void _debouncedLocationHandler(LatLng latLng) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 100), () {
       if (mounted) {
-        setState(() {
-          _isLoading = false; // Hide loading indicator
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final googleMapsLatLng = ref.watch(selectedLocationProvider);
-    final latlong2LatLng =
-        LatLng(googleMapsLatLng.latitude, googleMapsLatLng.longitude);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_mapController != null && mounted) {
-        _mapController!.move(latlong2LatLng, 5);
+        _handleLocationSelection(latLng);
       }
     });
-
-    return Stack(
-      key: mapViewKey, // Assign the GlobalKey here
-      children: [
-        FlutterMap(
-          mapController: _mapController,
-          options: MapOptions(
-            initialCenter: const LatLng(28.3949, 84.1240),
-            initialZoom:
-                4.0, // Increased initial zoom slightly for better visibility
-            onTap: (tapPosition, latLng) async => _handleTap(latLng, context),
-          ),
-          children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.yourcompany.app_name',
-            ),
-            PolygonLayer(
-              polygons: _countryPolygons.toList(),
-            ),
-            // Add MarkerLayer here
-            MarkerLayer(
-              markers: _countries.map((country) {
-                return Marker(
-                  point: country['latLng'] as LatLng,
-                  width: 80.0, // Adjust size as needed
-                  height: 80.0, // Adjust size as needed
-                  child: GestureDetector(
-                    onTap: () {
-                      showCountryDetailsAndMoveMap(country['name'] as String);
-                    },
-                    child: Image.asset('assets/more/place_marker.png'),
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-        AnimatedOpacity(
-          opacity: _isLoading ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 300),
-          child: IgnorePointer(
-            ignoring: !_isLoading,
-            child: Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                      strokeWidth: 4,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Fetching details...',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 
-  Future<void> _handleTap(LatLng latLng, BuildContext context) async {
+  Future<void> _handleLocationSelection(LatLng latLng) async {
     if (!mounted) return;
+
+    if (_lastProcessedLatLng == latLng || _isLoading || _isBottomSheetOpen) {
+      debugPrint(
+          'Skipping location selection: same location=${_lastProcessedLatLng == latLng}, loading=$_isLoading, bottomSheet=$_isBottomSheetOpen');
+      return;
+    }
+
+    final currentExecutionId = ++_executionId;
+    _lastProcessedLatLng = latLng;
+
+    debugPrint(
+        'Starting location selection for: $latLng (ID: $currentExecutionId)');
 
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final placemarks =
-          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-      if (placemarks.isEmpty) {
-        debugPrint('No placemarks found for tap location.');
+      if (currentExecutionId != _executionId) {
+        debugPrint(
+            'Execution $currentExecutionId cancelled, newer execution in progress');
         return;
       }
 
-      final country = placemarks.first.country;
-      if (country == null) {
-        debugPrint('Country not found for tap location.');
+      await _moveMapSilently(latLng);
+
+      if (currentExecutionId != _executionId || !mounted) {
+        debugPrint('Execution $currentExecutionId cancelled after map move');
         return;
       }
 
-      debugPrint('Tapped on map at $latLng, resolved to country: $country');
+      String? countryName;
+      try {
+        final placemarks =
+            await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+        if (placemarks.isNotEmpty && placemarks.first.country != null) {
+          countryName = placemarks.first.country!;
+        }
+      } catch (e) {
+        debugPrint('Error resolving country name for $latLng: $e');
+      }
 
-      await showCountryDetailsAndMoveMap(country);
+      if (currentExecutionId != _executionId || !mounted) {
+        debugPrint('Execution $currentExecutionId cancelled after geocoding');
+        return;
+      }
+
+      if (countryName != null && !_isBottomSheetOpen) {
+        final sipDetail = ref.read(sipDetailByCountryProvider(countryName));
+        if (sipDetail != null) {
+          _isBottomSheetOpen = true;
+          debugPrint(
+              'Showing bottom sheet for: $countryName (ID: $currentExecutionId)');
+
+          await showModalBottomSheet(
+            context: context,
+            isDismissible: true,
+            enableDrag: true,
+            builder: (_) => CountryBottomSheet(sipDetail: sipDetail),
+          );
+
+          if (mounted) {
+            _isBottomSheetOpen = false;
+            debugPrint('Bottom sheet closed (ID: $currentExecutionId)');
+          }
+        } else {
+          debugPrint('No SIP detail found for $countryName.');
+        }
+      }
     } catch (e) {
-      debugPrint('Error on map tap: $e');
+      debugPrint('Error in _handleLocationSelection for $latLng: $e');
     } finally {
-      if (mounted) {
+      if (mounted && currentExecutionId == _executionId) {
         setState(() {
           _isLoading = false;
         });
+        debugPrint('Completed location selection (ID: $currentExecutionId)');
       }
     }
   }
+
+  Future<void> _moveMapSilently(LatLng latLng) async {
+    if (_mapController == null) return;
+
+    if (_mapController!.camera.center != latLng) {
+      _mapController!.move(latLng, 5.0);
+      await Future.delayed(const Duration(milliseconds: 300));
+    }
+  }
+
+  Future<void> _handleDirectUserTap(LatLng latLng) async {
+    // This now simply updates the provider, and the debounced listener handles the rest.
+    // This is safer as it centralizes all the complex logic in _handleLocationSelection.
+    ref.read(selectedLocationProvider.notifier).updateLocation(latLng);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final LatLng initialMapCenter = ref.read(selectedLocationProvider);
+
+    return Stack(
+      children: [
+        FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter: initialMapCenter,
+            initialZoom: 6.0,
+            onTap: (tapPosition, latLng) => _handleDirectUserTap(latLng),
+            onMapReady: () {},
+          ),
+          children: [
+            //  urlTemplate:
+            //                   'https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png',
+            TileLayer(
+              urlTemplate:
+                  'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=ApNIW6xnmjTjofxTMiPC',
+              userAgentPackageName: 'com.yourcompany.app_name',
+            ),
+            PolygonLayer(
+              polygons: _countryPolygons.toList(),
+            ),
+            MarkerLayer(
+              markers: _countries.map((country) {
+                return Marker(
+                  point: country['latLng'] as LatLng,
+                  width: 60.0, // Increased width to accommodate text
+                  height: 60.0, // Increased height to accommodate text
+                  child: GestureDetector(
+                    onTap: () =>
+                        _handleDirectUserTap(country['latLng'] as LatLng),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Wrap content tightly
+                      children: [
+                        Expanded(
+                          // Image takes available space within the column
+                          child: Image.asset(
+                            'assets/more/place_marker.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       top: 2.0), // Small space above text
+                        //   child: Text(
+                        //     country['name'] as String,
+                        //     textAlign: TextAlign.center,
+                        //     style: const TextStyle(
+                        //       color: Colors.black,
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 12, // Adjust font size as needed
+                        //       shadows: [
+                        //         Shadow(
+                        //           blurRadius: 5.0,
+                        //           color: Colors.white,
+                        //           offset: Offset(1.0, 1.0),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     overflow: TextOverflow.ellipsis,
+                        //     maxLines: 2,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
 
-// Your existing CampEvent, KeyObjective, SubEvent, Testimonial classes remain unchanged.
 class CampEvent {
   final String id;
   final String title;
@@ -265,9 +308,10 @@ class Testimonial {
   final String feedback;
   final String imageUrl;
 
-  Testimonial(
-      {required this.name,
-      required this.role,
-      required this.feedback,
-      required this.imageUrl});
+  Testimonial({
+    required this.name,
+    required this.role,
+    required this.feedback,
+    required this.imageUrl,
+  });
 }
