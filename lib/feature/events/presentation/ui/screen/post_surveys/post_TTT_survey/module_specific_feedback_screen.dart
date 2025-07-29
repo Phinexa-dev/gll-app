@@ -33,7 +33,7 @@ class _TTTModuleSpecificFeedbackScreenState
     "Values and Actions": ValueNotifier<String?>(null),
     "Working in Teams": ValueNotifier<String?>(null),
     "Change Happens": ValueNotifier<String?>(null),
-    "Sustainable Impact Plan": ValueNotifier<String?>(null),
+    "Sustainable Impact Project": ValueNotifier<String?>(null),
     "Principles of Experiential Learning": ValueNotifier<String?>(null),
     "Module Debrief Discussion": ValueNotifier<String?>(null),
     "Module Debrief Group Presentation": ValueNotifier<String?>(null),
@@ -135,8 +135,8 @@ class _TTTModuleSpecificFeedbackScreenState
               ),
               SizedBox(height: 15),
               _buildQuestionWidget(
-                "Sustainable Impact Plan",
-                _questionErrors["Sustainable Impact Plan"]!,
+                "Sustainable Impact Project",
+                _questionErrors["Sustainable Impact Project"]!,
               ),
               SizedBox(height: 20),
 
