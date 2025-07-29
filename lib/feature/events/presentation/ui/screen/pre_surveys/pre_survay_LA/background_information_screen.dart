@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/feature/events/presentation/ui/widgets/custom_searchable_dropdown.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../../common/widget/custom_button.dart';
@@ -28,6 +29,7 @@ class _BackgroundInformationScreenState
   late TextEditingController fullNameController;
   late TextEditingController ageController;
   late TextEditingController marginalizedDescriptionController;
+  late TextEditingController statusOtherDescriptionController;
 
   String? selectedMarginalizedGroup;
   String? selectedGender;
@@ -43,6 +45,7 @@ class _BackgroundInformationScreenState
   final _countryOriginError = ValueNotifier<String?>(null);
   final _countryResidenceError = ValueNotifier<String?>(null);
   final _statusError = ValueNotifier<String?>(null);
+  final _statusOtherDescriptionError = ValueNotifier<String?>(null);
   final _radioError = ValueNotifier<String?>(null);
 
   @override
@@ -55,6 +58,9 @@ class _BackgroundInformationScreenState
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
     marginalizedDescriptionController = TextEditingController(
         text: surveyResponses['Marginalized Description'] ?? '');
+    statusOtherDescriptionController =
+        TextEditingController(text: surveyResponses['Status Other'] ?? '');
+
     selectedMarginalizedGroup = surveyResponses['Marginalized Group'];
     fullNameController.text = surveyResponses['Full name'] ?? '';
     ageController.text = surveyResponses['Age'] ?? '';
@@ -73,10 +79,8 @@ class _BackgroundInformationScreenState
   }
 
   void _submitForm() {
-    // Perform custom validation logic here
     bool isValid = true;
 
-    // Validate Full Name
     if (fullNameController.text.isEmpty) {
       _fullNameError.value = 'Please enter your full name';
       isValid = false;
@@ -84,7 +88,6 @@ class _BackgroundInformationScreenState
       _fullNameError.value = null;
     }
 
-    // Validate Age
     if (ageController.text.isEmpty) {
       _ageError.value = 'Please enter your age';
       isValid = false;
@@ -92,7 +95,6 @@ class _BackgroundInformationScreenState
       _ageError.value = null;
     }
 
-    // Validate Country of Origin
     if (selectedCountryOrigin == null) {
       _countryOriginError.value = 'Please select your country of origin';
       isValid = false;
@@ -100,7 +102,6 @@ class _BackgroundInformationScreenState
       _countryOriginError.value = null;
     }
 
-    // Marginalized Group Validation
     if (selectedMarginalizedGroup == null) {
       _marginalizedError.value = 'Please select an option';
       isValid = false;
@@ -113,7 +114,6 @@ class _BackgroundInformationScreenState
       _marginalizedDescriptionError.value = null;
     }
 
-    // Validate Country of Residence
     if (selectedCountryResidence == null) {
       _countryResidenceError.value = 'Please select your country of residence';
       isValid = false;
@@ -121,12 +121,16 @@ class _BackgroundInformationScreenState
       _countryResidenceError.value = null;
     }
 
-    // Validate Status
     if (selectedStatus == null) {
       _statusError.value = 'Please select your current status';
       isValid = false;
+    } else if (selectedStatus == 'Other' &&
+        statusOtherDescriptionController.text.isEmpty) {
+      _statusOtherDescriptionError.value = 'Please specify your status';
+      isValid = false;
     } else {
       _statusError.value = null;
+      _statusOtherDescriptionError.value = null;
     }
 
     if (selectedLeadershipProgram == null) {
@@ -137,12 +141,10 @@ class _BackgroundInformationScreenState
       _radioError.value = null;
     }
 
-    // If the form is valid, go to the next screen
     if (isValid) {
       context.pushNamed(RouteName.goalsExpectationsScreen,
           extra: widget.eventIdentity);
     } else {
-      // Optionally show a snackbar or handle invalid form
       print("Form is not valid");
     }
   }
@@ -166,9 +168,7 @@ class _BackgroundInformationScreenState
                 style: PhinexaFont.labelRegular,
               ),
               SizedBox(height: 20),
-              // Full Name Field with custom validation
               ValueListenableBuilder<String?>(
-                // Full Name error display
                 valueListenable: _fullNameError,
                 builder: (context, error, child) {
                   return Column(
@@ -193,10 +193,7 @@ class _BackgroundInformationScreenState
                 },
               ),
               SizedBox(height: 5),
-
-              // Age Field with custom validation
               ValueListenableBuilder<String?>(
-                // Age error display
                 valueListenable: _ageError,
                 builder: (context, error, child) {
                   return Column(
@@ -220,21 +217,19 @@ class _BackgroundInformationScreenState
                   );
                 },
               ),
-
               SizedBox(height: 5),
-
               ValueListenableBuilder<String?>(
-                // Country of origin error display
                 valueListenable: _countryOriginError,
                 builder: (context, error, child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomDropdown(
+                      CustomSearchableDropdown(
                         fieldName: "Country of origin",
-                        selectedGender: selectedCountryOrigin,
+                        selectedValue: selectedCountryOrigin,
                         items: countries,
-                        hint: "Country",
+                        hintText: 'Country',
+                        fieldWidth: double.infinity,
                         onChanged: (value) {
                           setState(() {
                             selectedCountryOrigin = value;
@@ -251,18 +246,15 @@ class _BackgroundInformationScreenState
                 },
               ),
               SizedBox(height: 5),
-
               ValueListenableBuilder<String?>(
-                // Country of residence error display
                 valueListenable: _countryResidenceError,
                 builder: (context, error, child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomDropdown(
+                      CustomSearchableDropdown(
                         fieldName: "Country of residence",
-                        selectedGender: selectedCountryResidence,
-                        hint: "Country",
+                        selectedValue: selectedCountryResidence,
                         items: countries,
                         onChanged: (value) {
                           setState(() {
@@ -272,6 +264,8 @@ class _BackgroundInformationScreenState
                               .read(surveyTextFieldResponseProvider.notifier)
                               .updateResponse('Country of residence', value!);
                         },
+                        hintText: 'Country',
+                        fieldWidth: double.infinity,
                       ),
                       if (error != null)
                         Text(error, style: TextStyle(color: PhinexaColor.red)),
@@ -280,7 +274,6 @@ class _BackgroundInformationScreenState
                 },
               ),
               SizedBox(height: 5),
-              // Marginalized Group Question
               ValueListenableBuilder<String?>(
                 valueListenable: _marginalizedError,
                 builder: (context, error, child) {
@@ -291,7 +284,7 @@ class _BackgroundInformationScreenState
                         fieldName:
                             "Do you identify as a member of a marginalized group, such as religious or ethnic minority?",
                         hint: "Select an option",
-                        selectedGender: selectedMarginalizedGroup,
+                        selectedValue: selectedMarginalizedGroup,
                         items: ["Yes", "No"],
                         onChanged: (value) {
                           setState(() {
@@ -333,7 +326,6 @@ class _BackgroundInformationScreenState
               ),
               SizedBox(height: 12),
               ValueListenableBuilder<String?>(
-                // Status error display
                 valueListenable: _statusError,
                 builder: (context, error, child) {
                   return Column(
@@ -342,11 +334,12 @@ class _BackgroundInformationScreenState
                       CustomDropdown(
                         fieldName: "Current status",
                         hint: "Status",
-                        selectedGender: selectedStatus,
+                        selectedValue: selectedStatus,
                         items: [
                           "High school student",
                           "College student",
-                          "Working professional"
+                          "Working professional",
+                          "Other"
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -357,6 +350,28 @@ class _BackgroundInformationScreenState
                               .updateResponse('Current status', value!);
                         },
                       ),
+                      if (selectedStatus == 'Other')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 12),
+                            CustomFormTextField(
+                              labelText: 'Please specify',
+                              hintText: 'Specify your status',
+                              controller: statusOtherDescriptionController,
+                              onChanged: (value) {
+                                ref
+                                    .read(surveyTextFieldResponseProvider
+                                        .notifier)
+                                    .updateResponse('Status Other', value);
+                              },
+                              obscureText: false,
+                            ),
+                            if (_statusOtherDescriptionError.value != null)
+                              Text(_statusOtherDescriptionError.value!,
+                                  style: TextStyle(color: PhinexaColor.red)),
+                          ],
+                        ),
                       if (error != null)
                         Text(error, style: TextStyle(color: PhinexaColor.red)),
                     ],
@@ -364,9 +379,7 @@ class _BackgroundInformationScreenState
                 },
               ),
               SizedBox(height: 10),
-
               ValueListenableBuilder<String?>(
-                // Radio button error display
                 valueListenable: _radioError,
                 builder: (context, error, child) {
                   return Column(
@@ -392,7 +405,6 @@ class _BackgroundInformationScreenState
                   );
                 },
               ),
-
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

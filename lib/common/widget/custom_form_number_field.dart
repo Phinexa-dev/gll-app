@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dropdown_search/dropdown_search.dart'; // Import the package
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,8 +49,7 @@ class CustomPhoneNumberField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Use Riverpod state
-    final phoneNumberState = ref.watch(phoneNumberProvider); // Watch the state
+    final phoneNumberState = ref.watch(phoneNumberProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,38 +66,75 @@ class CustomPhoneNumberField extends ConsumerWidget {
           height: height,
           child: Row(
             children: [
-              Container(
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: PhinexaColor.grey),
-                ),
-                child: DropdownButton<String>(
-                  menuMaxHeight: 300.0,
-                  value: countryCodes.contains(phoneNumberState.countryCode)
-                      ? phoneNumberState.countryCode
-                      : countryCodes.first,
-                  padding: EdgeInsets.only(left: 12, right: 8),
-                  style: PhinexaFont.labelRegular,
-                  borderRadius: BorderRadius.circular(12),
+              // Country Code Dropdown with Search
+              SizedBox(
+                width: 100, // Adjust width as needed
+                child: DropdownSearch<String>(
+                  // CORRECTED: The 'items' parameter itself expects the async function
+                  // for finding/filtering items in your version.
+                  items: (String filter, [LoadProps? props]) async {
+                    if (filter.isEmpty) {
+                      return countryCodes.toSet().toList();
+                    } else {
+                      return countryCodes
+                          .where((code) =>
+                              code.toLowerCase().contains(filter.toLowerCase()))
+                          .toSet()
+                          .toList();
+                    }
+                  } as FutureOr<List<String>> Function(String, [LoadProps?]),
+                  // Explicit cast
+                  selectedItem:
+                      countryCodes.contains(phoneNumberState.countryCode)
+                          ? phoneNumberState.countryCode
+                          : countryCodes.first,
                   onChanged: (newCode) {
                     if (newCode != null) {
                       ref
                           .read(phoneNumberProvider.notifier)
                           .updateCountryCode(newCode);
+                      onCountryCodeChanged?.call(newCode);
                     }
                   },
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  underline: SizedBox(),
-                  isExpanded: true,
-                  items: countryCodes
-                      .toSet()
-                      .toList()
-                      .map((code) => DropdownMenuItem<String>(
-                            value: code,
-                            child: Text(code),
-                          ))
-                      .toList(),
+                  popupProps: PopupProps.menu(
+                    showSearchBox: true, // Enable search
+                    searchFieldProps: TextFieldProps(
+                      decoration: InputDecoration(
+                        hintText: "Search country code...",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    ),
+                    menuProps: MenuProps(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    constraints: BoxConstraints(
+                        minWidth: 300,
+                        maxHeight: 300), // Max height for the dropdown menu
+                  ),
+                  decoratorProps: DropDownDecoratorProps(
+                    baseStyle: PhinexaFont.labelRegular,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: PhinexaColor.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: PhinexaColor.grey),
+                      ),
+                      suffixIcon: const Icon(Icons.keyboard_arrow_down,
+                          color: PhinexaColor.black),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(width: 8),
@@ -105,11 +144,12 @@ class CustomPhoneNumberField extends ConsumerWidget {
                   controller: controller,
                   obscureText: obscureText,
                   keyboardType: keyboardType,
-                  textInputAction: textInputAction,
+                  textInputAction: TextInputAction.done,
                   onChanged: (value) {
                     ref
                         .read(phoneNumberProvider.notifier)
                         .updatePhoneNumber(value);
+                    onChanged?.call(value);
                   },
                   enabled: enabled,
                   autofocus: autofocus,

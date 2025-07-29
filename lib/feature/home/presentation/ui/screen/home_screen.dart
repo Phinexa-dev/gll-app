@@ -97,14 +97,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               getGreeting(),
-                              style: PhinexaFont.labelRegular
+                              style: PhinexaFont.captionEmphasis
                                   .copyWith(color: PhinexaColor.darkGrey),
                             ),
                             SizedBox(
                               width: 200,
                               child: Text(
                                 user?.fullName ?? 'Guest',
-                                style: PhinexaFont.highlightEmphasis,
+                                style: PhinexaFont.contentEmphasis,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -153,14 +153,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: SvgPicture.asset(
-                'assets/home/search_icon.svg',
-                height: 28,
-                width: 28,
-              ),
-            ),
           ],
         ),
         automaticallyImplyLeading: false,
@@ -185,7 +177,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     _buildWelcomeSection(),
                     Transform.translate(
-                      offset: Offset(0, -40),
+                      offset: Offset(0, -30),
                       child: _buildHowItWorksSection(),
                     ),
                     _buildEventSection(ref),

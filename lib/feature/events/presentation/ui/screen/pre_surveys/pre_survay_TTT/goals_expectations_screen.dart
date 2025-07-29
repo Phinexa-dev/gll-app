@@ -211,7 +211,7 @@ class _TTGoalsExpectationsScreenState
                             ],
                           ),
                         ),
-                        hintText: 'Soft skills',
+                        hintText: "",
                         obscureText: false,
                         height: 110,
                         maxLines: 10,

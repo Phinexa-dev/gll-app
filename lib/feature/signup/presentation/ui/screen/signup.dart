@@ -270,7 +270,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                             // const SizedBox(height: 8),
                             CustomDropdown(
                               fieldName: "Country",
-                              selectedGender: selectedCountry,
+                              selectedValue: selectedCountry,
                               hint: "Select a country",
                               items: const [
                                 'Balkans',

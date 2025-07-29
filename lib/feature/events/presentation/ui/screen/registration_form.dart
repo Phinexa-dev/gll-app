@@ -28,7 +28,6 @@ class RegistrationForm extends ConsumerStatefulWidget {
 class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   late TextEditingController phoneController;
   late TextEditingController fullNameController;
-  late TextEditingController sponsoringOrgController;
   late TextEditingController ageController;
   late TextEditingController genderDescriptionController;
   String? selectedGender;
@@ -39,7 +38,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
 
   final _fullNameError = ValueNotifier<String?>(null);
   final _phoneError = ValueNotifier<String?>(null);
-  final _sponsoringOrgError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
   final _genderError = ValueNotifier<String?>(null);
   final _genderDescriptionError = ValueNotifier<String?>(null);
@@ -58,10 +56,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     phoneController = TextEditingController(text: phoneState.phoneNumber);
     fullNameController =
         TextEditingController(text: surveyResponses['Full name'] ?? '');
-    sponsoringOrgController = TextEditingController(
-        text: surveyResponses[
-                'What organization invited/sponsored your attendance?'] ??
-            '');
     ageController = TextEditingController(text: surveyResponses['Age'] ?? '');
     genderDescriptionController = TextEditingController(
         text: surveyResponses['Gender Description'] ?? '');
@@ -72,7 +66,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   void dispose() {
     phoneController.dispose();
     fullNameController.dispose();
-    sponsoringOrgController.dispose();
     ageController.dispose();
     genderDescriptionController.dispose();
     super.dispose();
@@ -95,14 +88,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
       isValid = false;
     } else {
       _phoneError.value = null;
-    }
-
-    // Sponsoring Org Validation
-    if (sponsoringOrgController.text.isEmpty) {
-      _sponsoringOrgError.value = 'Please enter sponsoring organization';
-      isValid = false;
-    } else {
-      _sponsoringOrgError.value = null;
     }
 
     // Age Validation
@@ -230,35 +215,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
               ),
               SizedBox(height: 12),
 
-              // Sponsoring Organization Field
-              ValueListenableBuilder<String?>(
-                valueListenable: _sponsoringOrgError,
-                builder: (context, error, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormTextField(
-                        labelText:
-                            'What organization invited/sponsored your attendance?',
-                        hintText: 'Organization Name',
-                        controller: sponsoringOrgController,
-                        onChanged: (value) {
-                          ref
-                              .read(surveyTextFieldResponseProvider.notifier)
-                              .updateResponse(
-                                  'What organization invited/sponsored your attendance?',
-                                  value);
-                        },
-                        obscureText: false,
-                      ),
-                      if (error != null)
-                        Text(error, style: TextStyle(color: PhinexaColor.red)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-
               // Age Field
               ValueListenableBuilder<String?>(
                 valueListenable: _ageError,
@@ -296,7 +252,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                       CustomDropdown(
                         fieldName: "Gender",
                         hint: "Gender",
-                        selectedGender: selectedGender,
+                        selectedValue: selectedGender,
                         items: [
                           "Male",
                           "Female",
@@ -467,7 +423,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
               SizedBox(height: 24),
 
               CustomButton(
-                label: "Next",
+                label: "Pre Survey",
                 height: 40,
                 onPressed: _validateForm,
               ),
