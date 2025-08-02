@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
@@ -43,6 +44,26 @@ class _ContactUsState extends ConsumerState<ContactUs> {
 
   Future<void> _sendEmail() async {
     final feedBackService = ref.read(feedbackServiceProvider);
+
+    // validate input
+    if (_firstNameCtrl.text.isEmpty ||
+        _lastNameCtrl.text.isEmpty ||
+        _emailCtrl.text.isEmpty ||
+        _regionCtrl.text.isEmpty ||
+        _messageCtrl.text.isEmpty) {
+      ref.read(feedbackServiceProvider).showToast(
+          "Please fill in all fields", type: FeedbackType.error);
+      return;
+    }
+
+    // validate email format
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(_emailCtrl.text)) {
+      ref.read(feedbackServiceProvider).showToast(
+          "Please enter a valid email address", type: FeedbackType.error);
+      return;
+    }
+
     setState(() => _sending = true);
     Map<String, dynamic> templateParams = {
       'first_name': _firstNameCtrl.text,
@@ -61,8 +82,11 @@ class _ContactUsState extends ConsumerState<ContactUs> {
           privateKey: dotenv.env['PUBLIC_KEY']!,
         ),
       );
-      feedBackService.showToast("Message sent successfully",
-          type: FeedbackType.success);
+      feedBackService.showToast(
+          "Thank you for reaching out! Our team is committed to getting in touch with you as soon as possible",
+          type: FeedbackType.success,
+          toastLength: Toast.LENGTH_LONG,
+      );
       context.pop(); // go back
     } catch (error) {
       String msg = 'Send failed';
@@ -80,10 +104,9 @@ class _ContactUsState extends ConsumerState<ContactUs> {
     return Scaffold(
       appBar: AppBar(
         title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text("Contact Us"),
-            Icon(Icons.more_vert_outlined),
           ],
         ),
       ),
@@ -108,7 +131,7 @@ class _ContactUsState extends ConsumerState<ContactUs> {
                       labelText: 'Last Name', controller: _lastNameCtrl),
                   const SizedBox(height: 16),
                   CustomTextField(
-                      labelText: 'Event Name', controller: _regionCtrl),
+                      labelText: 'Your Location', controller: _regionCtrl),
                   const SizedBox(height: 16),
                   CustomTextField(
                     labelText: 'Email',

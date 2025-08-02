@@ -31,7 +31,7 @@ class _FAQsState extends ConsumerState<FAQs> {
     {
       'q': 'I didn’t receive a registration email. What should I do?',
       'a':
-          'Check your spam or junk folder first. If you still don\'t see it, contact your local coordinator or email support@globallearninglab.com.',
+          'Check your spam or junk folder first. If you still don\'t see it, contact your local coordinator or email support@globallearninglab.org.',
     },
     {
       'q': 'How do I complete my post-event survey?',
@@ -50,12 +50,11 @@ class _FAQsState extends ConsumerState<FAQs> {
     {
       'q': 'What should I do if the app isn’t working properly?',
       'a':
-          'Close and reopen the app first. If needed, update to the latest version. If issues continue, contact support@globallearninglab.com.',
+          'Close and reopen the app first. If needed, update to the latest version. If issues continue, contact support@globallearninglab.org.',
     },
     {
       'q': 'Is my personal information safe?',
-      'a':
-          'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact.',
+      'a': 'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact. Also we will not provide your data to third parties without your additional permission',
     },
     // add more Q&A maps here
   ];
@@ -67,7 +66,7 @@ class _FAQsState extends ConsumerState<FAQs> {
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("F&Qs"),
+            Text("FAQs"),
             Icon(Icons.more_vert_outlined),
           ],
         ),
@@ -91,16 +90,6 @@ class _FAQsState extends ConsumerState<FAQs> {
               ),
 
               // the ListView made to size itself
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "General",
-                  style: PhinexaFont.highlightBold,
-                ),
-              ),
-              SizedBox(
-                height: 12,
-              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

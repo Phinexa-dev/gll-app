@@ -33,12 +33,12 @@ final settingsOptions = [
       'route': RouteName.contactUs,
     },
     {
-      'title': 'F&Qs',
+      'title': 'FAQs',
       'icon': 'faqs.svg',
       'route': RouteName.faqs,
     },
     {
-      'title': 'Feedbacks',
+      'title': 'Feedback',
       'icon': 'feedbacks.svg',
       'route': RouteName.feedbacks,
     }

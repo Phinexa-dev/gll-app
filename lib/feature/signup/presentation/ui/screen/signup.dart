@@ -183,71 +183,21 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   ),
                                   value: phoneCode,
                                   items: const [
-                                    DropdownMenuItem(
-                                        value: '+1',
-                                        alignment: Alignment.center,
-                                        child: Text('+1')),
-                                    // USA
-                                    DropdownMenuItem(
-                                        value: '+91',
-                                        alignment: Alignment.center,
-                                        child: Text('+91')),
-                                    // India
-                                    DropdownMenuItem(
-                                        value: '+94',
-                                        alignment: Alignment.center,
-                                        child: Text('+94')),
-                                    // Sri Lanka
-                                    DropdownMenuItem(
-                                        value: '+355',
-                                        alignment: Alignment.center,
-                                        child: Text('+355')),
-                                    // Albania
-                                    DropdownMenuItem(
-                                        value: '+381',
-                                        alignment: Alignment.center,
-                                        child: Text('+381')),
-                                    // Serbia
-                                    DropdownMenuItem(
-                                        value: '+382',
-                                        alignment: Alignment.center,
-                                        child: Text('+382')),
-                                    // Montenegro
-                                    DropdownMenuItem(
-                                        value: '+383',
-                                        alignment: Alignment.center,
-                                        child: Text('+383')),
-                                    // Kosovo
-                                    DropdownMenuItem(
-                                        value: '+385',
-                                        alignment: Alignment.center,
-                                        child: Text('+385')),
-                                    // Croatia
-                                    DropdownMenuItem(
-                                        value: '+386',
-                                        alignment: Alignment.center,
-                                        child: Text('+386')),
-                                    // Slovenia
-                                    DropdownMenuItem(
-                                        value: '+387',
-                                        alignment: Alignment.center,
-                                        child: Text('+387')),
-                                    // Bosnia and Herzegovina
-                                    DropdownMenuItem(
-                                        value: '+359',
-                                        alignment: Alignment.center,
-                                        child: Text('+359')),
-                                    // Bulgaria
-                                    DropdownMenuItem(
-                                        value: '+389',
-                                        alignment: Alignment.center,
-                                        child: Text('+389')),
-                                    // North Macedonia
-                                    DropdownMenuItem(
-                                        value: '+977',
-                                        alignment: Alignment.center,
-                                        child: Text('+977')),
-                                    // Nepal
+                                    DropdownMenuItem(value: '+1', alignment: Alignment.center, child: Text('+1')), // USA
+                                    DropdownMenuItem(value: '+91', alignment: Alignment.center, child: Text('+91')), // India
+                                    DropdownMenuItem(value: '+94', alignment: Alignment.center, child: Text('+94')), // Sri Lanka
+                                    DropdownMenuItem(value: '+977', alignment: Alignment.center, child: Text('+977')), // Nepal
+                                    DropdownMenuItem(value: '+355', alignment: Alignment.center, child: Text('+355')), // Albania
+                                    DropdownMenuItem(value: '+381', alignment: Alignment.center, child: Text('+381')), // Serbia
+                                    DropdownMenuItem(value: '+382', alignment: Alignment.center, child: Text('+382')), // Montenegro
+                                    DropdownMenuItem(value: '+383', alignment: Alignment.center, child: Text('+383')), // Kosovo
+                                    DropdownMenuItem(value: '+385', alignment: Alignment.center, child: Text('+385')), // Croatia
+                                    DropdownMenuItem(value: '+386', alignment: Alignment.center, child: Text('+386')), // Slovenia
+                                    DropdownMenuItem(value: '+387', alignment: Alignment.center, child: Text('+387')), // Bosnia and Herzegovina
+                                    DropdownMenuItem(value: '+359', alignment: Alignment.center, child: Text('+359')), // Bulgaria
+                                    DropdownMenuItem(value: '+389', alignment: Alignment.center, child: Text('+389')), // North Macedonia
+                                    DropdownMenuItem(value: '+63', alignment: Alignment.center, child: Text('+63')), // Philippines
+                                    DropdownMenuItem(value: '+62', alignment: Alignment.center, child: Text('+62')), // Indonesia
                                   ],
                                   onChanged: (value) {
                                     ref.read(phoneCodeProvider.notifier).state =
@@ -273,12 +223,14 @@ class _SignUpState extends ConsumerState<SignUp> {
                               selectedValue: selectedCountry,
                               hint: "Select a country",
                               items: const [
-                                'Balkans',
                                 'India',
                                 'Macedonia',
                                 'Nepal',
                                 'Sri Lanka',
                                 'USA',
+                                'Kosovo',
+                                'Philippines',
+                                'Indonesia',
                               ],
                               onChanged: (value) {
                                 ref.read(countryProvider.notifier).state =
@@ -296,6 +248,14 @@ class _SignUpState extends ConsumerState<SignUp> {
                               labelText: 'Confirm Password',
                               controller: confirmPasswordController,
                               obscureText: true,
+                            ),
+                            const SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Password must be at least 8 characters long and contain at least one letter and one number',
+                                style: PhinexaFont.labelRegular.copyWith(color: Colors.grey.shade600),
+                              ),
                             ),
                           ],
                         ),
