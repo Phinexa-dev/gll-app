@@ -34,6 +34,8 @@ mixin _$SignUpRequest {
   String get password => throw _privateConstructorUsedError;
   @JsonKey(name: "confirmPassword")
   String get confirmPassword => throw _privateConstructorUsedError;
+  @JsonKey(name: "gender")
+  String get gender => throw _privateConstructorUsedError;
 
   /// Serializes this SignUpRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,7 +60,8 @@ abstract class $SignUpRequestCopyWith<$Res> {
       @JsonKey(name: "mobileNumber") String mobileNumber,
       @JsonKey(name: "country") String country,
       @JsonKey(name: "password") String password,
-      @JsonKey(name: "confirmPassword") String confirmPassword});
+      @JsonKey(name: "confirmPassword") String confirmPassword,
+      @JsonKey(name: "gender") String gender});
 }
 
 /// @nodoc
@@ -83,6 +86,7 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
     Object? country = null,
     Object? password = null,
     Object? confirmPassword = null,
+    Object? gender = null,
   }) {
     return _then(_value.copyWith(
       fullName: null == fullName
@@ -113,6 +117,10 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
               as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -132,7 +140,8 @@ abstract class _$$SignUpRequestImplCopyWith<$Res>
       @JsonKey(name: "mobileNumber") String mobileNumber,
       @JsonKey(name: "country") String country,
       @JsonKey(name: "password") String password,
-      @JsonKey(name: "confirmPassword") String confirmPassword});
+      @JsonKey(name: "confirmPassword") String confirmPassword,
+      @JsonKey(name: "gender") String gender});
 }
 
 /// @nodoc
@@ -155,6 +164,7 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
     Object? country = null,
     Object? password = null,
     Object? confirmPassword = null,
+    Object? gender = null,
   }) {
     return _then(_$SignUpRequestImpl(
       fullName: null == fullName
@@ -185,6 +195,10 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
               as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -199,7 +213,8 @@ class _$SignUpRequestImpl implements _SignUpRequest {
       @JsonKey(name: "mobileNumber") required this.mobileNumber,
       @JsonKey(name: "country") required this.country,
       @JsonKey(name: "password") required this.password,
-      @JsonKey(name: "confirmPassword") required this.confirmPassword});
+      @JsonKey(name: "confirmPassword") required this.confirmPassword,
+      @JsonKey(name: "gender") required this.gender});
 
   factory _$SignUpRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpRequestImplFromJson(json);
@@ -225,10 +240,13 @@ class _$SignUpRequestImpl implements _SignUpRequest {
   @override
   @JsonKey(name: "confirmPassword")
   final String confirmPassword;
+  @override
+  @JsonKey(name: "gender")
+  final String gender;
 
   @override
   String toString() {
-    return 'SignUpRequest(fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, country: $country, password: $password, confirmPassword: $confirmPassword)';
+    return 'SignUpRequest(fullName: $fullName, email: $email, dialCode: $dialCode, mobileNumber: $mobileNumber, country: $country, password: $password, confirmPassword: $confirmPassword, gender: $gender)';
   }
 
   @override
@@ -247,13 +265,14 @@ class _$SignUpRequestImpl implements _SignUpRequest {
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.confirmPassword, confirmPassword) ||
-                other.confirmPassword == confirmPassword));
+                other.confirmPassword == confirmPassword) &&
+            (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fullName, email, dialCode,
-      mobileNumber, country, password, confirmPassword);
+      mobileNumber, country, password, confirmPassword, gender);
 
   /// Create a copy of SignUpRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -279,8 +298,9 @@ abstract class _SignUpRequest implements SignUpRequest {
       @JsonKey(name: "mobileNumber") required final String mobileNumber,
       @JsonKey(name: "country") required final String country,
       @JsonKey(name: "password") required final String password,
-      @JsonKey(name: "confirmPassword")
-      required final String confirmPassword}) = _$SignUpRequestImpl;
+      @JsonKey(name: "confirmPassword") required final String confirmPassword,
+      @JsonKey(name: "gender")
+      required final String gender}) = _$SignUpRequestImpl;
 
   factory _SignUpRequest.fromJson(Map<String, dynamic> json) =
       _$SignUpRequestImpl.fromJson;
@@ -306,6 +326,9 @@ abstract class _SignUpRequest implements SignUpRequest {
   @override
   @JsonKey(name: "confirmPassword")
   String get confirmPassword;
+  @override
+  @JsonKey(name: "gender")
+  String get gender;
 
   /// Create a copy of SignUpRequest
   /// with the given fields replaced by the non-null parameter values.
