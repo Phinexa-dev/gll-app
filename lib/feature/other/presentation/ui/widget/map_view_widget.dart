@@ -196,8 +196,8 @@ class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
               markers: _countries.map((country) {
                 return Marker(
                   point: country['latLng'] as LatLng,
-                  width: 60.0, // Increased width to accommodate text
-                  height: 60.0, // Increased height to accommodate text
+                  width: 30.0, // Increased width to accommodate text
+                  height: 30.0, // Increased height to accommodate text
                   child: GestureDetector(
                     onTap: () =>
                         _handleDirectUserTap(country['latLng'] as LatLng),
