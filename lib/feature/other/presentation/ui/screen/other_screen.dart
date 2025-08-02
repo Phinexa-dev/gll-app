@@ -118,7 +118,14 @@ class _OtherScreenState extends ConsumerState<OtherScreen> {
                   context.pushNamed(RouteName.profile);
                 },
                 child: ProfileBar(
-                    profileImage: userData?["profileImage"]?? 'assets/more/mock_user_profile.png',
+                    profileImage: userData?["profileImage"]??
+                        userData?["gender"]=="male"?
+                    'assets/more/mock_user_boy_profile.png'
+                        :
+                    userData?["gender"]=="female"?
+                    'assets/more/mock_user_girl_profile.png'
+                        :
+                    'assets/more/mock_user_profile.png',
                 ),
               ),
             ),

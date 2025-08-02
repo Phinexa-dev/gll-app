@@ -69,7 +69,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       interestsController.text = formValues?['Interests'] ?? "";
       phoneCode = formValues?['dialCode'] ?? "";
       profileImageUrl =
-          formValues?['profileImage'] ?? 'assets/more/mock_user_profile.png';
+          formValues?['profileImage'] ??
+              formValues?["gender"]=="male"?
+                'assets/more/mock_user_boy_profile.png'
+              :
+              formValues?["gender"]=="female"?
+                'assets/more/mock_user_girl_profile.png'
+              :
+                'assets/more/mock_user_profile.png';
     });
   }
 

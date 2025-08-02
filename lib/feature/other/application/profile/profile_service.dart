@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/data/dto/request/profile/editSocials/edit_social_request.dart';
 import 'package:gll/feature/other/data/dto/request/profile/edit_profile/edit_profile_request.dart';
 import 'package:gll/feature/other/domain/model/profile/profile_data_model.dart';
+import '../../data/dto/response/profile/edit_profile_response.dart';
 import '../../data/repository/profile/iprofile_repository.dart';
 import '../../data/repository/profile/profile_repository.dart';
 import 'iprofile_service.dart';
@@ -54,7 +55,7 @@ final class ProfileService implements IProfileService {
     }
   }
 
-  ProfileDataModel _mapToProfileDataModel(dynamic response) {
+  ProfileDataModel _mapToProfileDataModel(EditProfileResponse response) {
     return ProfileDataModel(
       id: response.id,
       fullName: response.fullName,
@@ -70,6 +71,7 @@ final class ProfileService implements IProfileService {
       userIntrests: response.userIntrests,
       languages: response.languages,
       profileImage: response.profileImage,
+      gender: response.gender,
     );
   }
 }
