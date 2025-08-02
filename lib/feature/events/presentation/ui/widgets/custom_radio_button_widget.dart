@@ -86,7 +86,7 @@ class _CustomRadioQuestionState extends ConsumerState<CustomRadioQuestion> {
         Text(
           label,
           style: PhinexaFont.contentRegular.copyWith(
-            color: isSelected ? PhinexaColor.black : PhinexaColor.grey,
+            color: isSelected ? PhinexaColor.black : PhinexaColor.darkGrey,
           ),
         ),
       ],

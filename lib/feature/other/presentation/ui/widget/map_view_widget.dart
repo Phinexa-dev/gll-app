@@ -1,14 +1,11 @@
-// lib/feature/other/presentation/ui/widget/map_view_widget.dart
-
-import 'dart:convert';
+import 'dart:async'; // Added for Timer
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
-import '../../../data/local/map_custom_style.dart';
 import '../provider/location_provider.dart';
 import '../provider/sip_details_provider.dart';
 import 'country_sip_detail_bottom_sheet_widget.dart';
@@ -21,161 +18,231 @@ class MapViewWidget extends ConsumerStatefulWidget {
 }
 
 class _MapViewWidgetState extends ConsumerState<MapViewWidget> {
-  GoogleMapController? _mapController;
+  MapController? _mapController;
   final Set<Polygon> _countryPolygons = {};
+  bool _isLoading = false;
+  bool _isBottomSheetOpen = false;
+  late final ProviderSubscription<LatLng> _locationSubscription;
 
-  // 15-color rainbow palette
-  static const List<Color> _rainbow = [
-    Color(0xFFFF6B6B), // Soft Red
-    Color(0xFFFF8C42), // Orange
-    Color(0xFFFFC857), // Warm Yellow
-    Color(0xFFf9a43f), // Light Green
-    Color(0xFF01B0DC),
-    Color(0xFFFFC857), // Rich Green
-    Color(0xFF00B4D8),
-    Color(0xFF5ac9c9), // Soft Red
-    Color(0xFFFFFFFF),
-    Color(0xFFFFC857), // Warm Yellow// Aqua Blue
-    Color(0xFFB5E48C),
-    Color(0xFFFFC857),
-    Color(0xFF70E000), // Bright Green
-    Color(0xFFFF6B6B), // Soft Red
-    Color(0xFFFF8C42),
-    Color(0xFFFF8C42),
-    Color(0xFFf9a43f), // Light Green
-    Color(0xFF5ac9c9), // Pink
-    Color(0xFF59a8f7), // Soft Cyan
-    // Pure White
+  LatLng? _lastProcessedLatLng;
+  Timer? _debounceTimer;
+
+  int _executionId = 0;
+
+  final List<Map<String, dynamic>> _countries = [
+    {'name': 'Sri Lanka', 'latLng': LatLng(7.8731, 80.7718)},
+    {'name': 'North Macedonia', 'latLng': LatLng(41.6086, 21.7453)},
+    {'name': 'United States', 'latLng': LatLng(37.0902, -95.7129)},
+    {'name': 'Hawaii', 'latLng': LatLng(21.3069, -157.8583)},
+    {'name': 'Kosovo', 'latLng': LatLng(42.6026, 20.9030)},
+    {'name': 'Nepal', 'latLng': LatLng(28.3949, 84.1240)},
   ];
 
   @override
   void initState() {
     super.initState();
-    _loadCountryPolygons();
+    _mapController = MapController();
+
+    _locationSubscription =
+        ref.listenManual(selectedLocationProvider, (previous, next) async {
+      if (!mounted) return;
+
+      debugPrint('Provider updated: $next');
+      _debouncedLocationHandler(next);
+    });
   }
 
-  Future<void> _loadCountryPolygons() async {
-    final raw = await rootBundle.loadString('assets/more/countries.geojson');
-    final geo = json.decode(raw) as Map<String, dynamic>;
-    final count = (geo['features'] as List).length;
-    debugPrint('▶️ GeoJSON has $count features');
+  @override
+  void dispose() {
+    _mapController?.dispose();
+    _locationSubscription.close();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
 
-    int idCounter = 0;
-    for (final feature in geo['features'] as List) {
-      final props = feature['properties'] as Map<String, dynamic>;
-      final countryCode = props['ISO_A2'] as String? ??
-          props['ADM0_A3'] as String? ??
-          'C$idCounter';
+  void _debouncedLocationHandler(LatLng latLng) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        _handleLocationSelection(latLng);
+      }
+    });
+  }
 
-      final geometry = feature['geometry'] as Map<String, dynamic>;
-      final coords = geometry['coordinates'];
+  Future<void> _handleLocationSelection(LatLng latLng) async {
+    if (!mounted) return;
 
-      // choose one of 15 rainbow colors
-      final color = _rainbow[idCounter % _rainbow.length];
+    if (_lastProcessedLatLng == latLng || _isLoading || _isBottomSheetOpen) {
+      debugPrint(
+          'Skipping location selection: same location=${_lastProcessedLatLng == latLng}, loading=$_isLoading, bottomSheet=$_isBottomSheetOpen');
+      return;
+    }
 
-      if (geometry['type'] == 'Polygon') {
-        _addPolygon(coords as List, countryCode, color, idCounter++);
-      } else if (geometry['type'] == 'MultiPolygon') {
-        for (final poly in coords as List) {
-          _addPolygon(poly as List, countryCode, color, idCounter++);
+    final currentExecutionId = ++_executionId;
+    _lastProcessedLatLng = latLng;
+
+    debugPrint(
+        'Starting location selection for: $latLng (ID: $currentExecutionId)');
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      if (currentExecutionId != _executionId) {
+        debugPrint(
+            'Execution $currentExecutionId cancelled, newer execution in progress');
+        return;
+      }
+
+      await _moveMapSilently(latLng);
+
+      if (currentExecutionId != _executionId || !mounted) {
+        debugPrint('Execution $currentExecutionId cancelled after map move');
+        return;
+      }
+
+      String? countryName;
+      try {
+        final placemarks =
+            await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+        if (placemarks.isNotEmpty && placemarks.first.country != null) {
+          countryName = placemarks.first.country!;
+        }
+      } catch (e) {
+        debugPrint('Error resolving country name for $latLng: $e');
+      }
+
+      if (currentExecutionId != _executionId || !mounted) {
+        debugPrint('Execution $currentExecutionId cancelled after geocoding');
+        return;
+      }
+
+      if (countryName != null && !_isBottomSheetOpen) {
+        final sipDetail = ref.read(sipDetailByCountryProvider(countryName));
+        if (sipDetail != null) {
+          _isBottomSheetOpen = true;
+          debugPrint(
+              'Showing bottom sheet for: $countryName (ID: $currentExecutionId)');
+
+          await showModalBottomSheet(
+            context: context,
+            isDismissible: true,
+            enableDrag: true,
+            builder: (_) => CountryBottomSheet(sipDetail: sipDetail),
+          );
+
+          if (mounted) {
+            _isBottomSheetOpen = false;
+            debugPrint('Bottom sheet closed (ID: $currentExecutionId)');
+          }
+        } else {
+          debugPrint('No SIP detail found for $countryName.');
         }
       }
+    } catch (e) {
+      debugPrint('Error in _handleLocationSelection for $latLng: $e');
+    } finally {
+      if (mounted && currentExecutionId == _executionId) {
+        setState(() {
+          _isLoading = false;
+        });
+        debugPrint('Completed location selection (ID: $currentExecutionId)');
+      }
     }
-
-    setState(() {});
   }
 
-  /// Now handles holes! rings[0] = outer boundary; rings[1..] = holes
-  void _addPolygon(
-    List<dynamic> rings,
-    String countryCode,
-    Color color,
-    int idx,
-  ) {
-    // Outer ring → polygon.points
-    final outer = rings[0] as List;
-    final outerPoints = outer.map<LatLng>((pt) {
-      final lng = (pt[0] as num).toDouble();
-      final lat = (pt[1] as num).toDouble();
-      return LatLng(lat, lng);
-    }).toList();
+  Future<void> _moveMapSilently(LatLng latLng) async {
+    if (_mapController == null) return;
 
-    // Any subsequent ring is a “hole”
-    final holes = <List<LatLng>>[];
-    for (var i = 1; i < rings.length; i++) {
-      final holeRing = rings[i] as List;
-      final holePoints = holeRing.map<LatLng>((pt) {
-        final lng = (pt[0] as num).toDouble();
-        final lat = (pt[1] as num).toDouble();
-        return LatLng(lat, lng);
-      }).toList();
-      holes.add(holePoints);
+    if (_mapController!.camera.center != latLng) {
+      _mapController!.move(latLng, 5.0);
+      await Future.delayed(const Duration(milliseconds: 300));
     }
+  }
 
-    _countryPolygons.add(
-      Polygon(
-        polygonId: PolygonId('$countryCode-$idx'),
-        points: outerPoints,
-        holes: holes,
-        strokeColor: Colors.transparent,
-        fillColor: color,
-        strokeWidth: 1,
-      ),
-    );
+  Future<void> _handleDirectUserTap(LatLng latLng) async {
+    // This now simply updates the provider, and the debounced listener handles the rest.
+    // This is safer as it centralizes all the complex logic in _handleLocationSelection.
+    ref.read(selectedLocationProvider.notifier).updateLocation(latLng);
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentPosition = ref.watch(selectedLocationProvider);
+    final LatLng initialMapCenter = ref.read(selectedLocationProvider);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_mapController != null) {
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(currentPosition, 5),
-        );
-      }
-    });
-
-    return GoogleMap(
-      style: mapStyle,
-      initialCameraPosition:
-          const CameraPosition(target: LatLng(7.8731, 80.7718), zoom: 5),
-      polygons: _countryPolygons,
-      onMapCreated: (c) => _mapController = c,
-      onTap: (latLng) async => _handleTap(latLng, context),
-    );
-  }
-
-  Future<void> _handleTap(LatLng latLng, BuildContext context) async {
-    try {
-      final placemarks =
-          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-      if (placemarks.isEmpty) return;
-
-      final country = placemarks.first.country;
-      if (country == null) return;
-
-      final sipDetail = ref.watch(sipDetailByCountryProvider(country));
-      if (sipDetail != null) {
-        showModalBottomSheet(
-          context: context,
-          builder: (_) => CountryBottomSheet(sipDetail: sipDetail),
-        );
-      }
-
-      final locations = await locationFromAddress(country);
-      if (locations.isNotEmpty && _mapController != null) {
-        final loc = locations.first;
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(
-            LatLng(loc.latitude, loc.longitude),
-            5,
+    return Stack(
+      children: [
+        FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter: initialMapCenter,
+            initialZoom: 6.0,
+            onTap: (tapPosition, latLng) => _handleDirectUserTap(latLng),
+            onMapReady: () {},
           ),
-        );
-      }
-    } catch (e) {
-      debugPrint('Error on tap: $e');
-    }
+          children: [
+            //  urlTemplate:
+            //                   'https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png',
+            TileLayer(
+              urlTemplate:
+                  'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=ApNIW6xnmjTjofxTMiPC',
+              userAgentPackageName: 'com.yourcompany.app_name',
+            ),
+            PolygonLayer(
+              polygons: _countryPolygons.toList(),
+            ),
+            MarkerLayer(
+              markers: _countries.map((country) {
+                return Marker(
+                  point: country['latLng'] as LatLng,
+                  width: 30.0, // Increased width to accommodate text
+                  height: 30.0, // Increased height to accommodate text
+                  child: GestureDetector(
+                    onTap: () =>
+                        _handleDirectUserTap(country['latLng'] as LatLng),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Wrap content tightly
+                      children: [
+                        Expanded(
+                          // Image takes available space within the column
+                          child: Image.asset(
+                            'assets/more/place_marker.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       top: 2.0), // Small space above text
+                        //   child: Text(
+                        //     country['name'] as String,
+                        //     textAlign: TextAlign.center,
+                        //     style: const TextStyle(
+                        //       color: Colors.black,
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 12, // Adjust font size as needed
+                        //       shadows: [
+                        //         Shadow(
+                        //           blurRadius: 5.0,
+                        //           color: Colors.white,
+                        //           offset: Offset(1.0, 1.0),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     overflow: TextOverflow.ellipsis,
+                        //     maxLines: 2,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -241,9 +308,10 @@ class Testimonial {
   final String feedback;
   final String imageUrl;
 
-  Testimonial(
-      {required this.name,
-      required this.role,
-      required this.feedback,
-      required this.imageUrl});
+  Testimonial({
+    required this.name,
+    required this.role,
+    required this.feedback,
+    required this.imageUrl,
+  });
 }

@@ -33,7 +33,7 @@ class _LAModuleSpecificFeedbackScreenState
     "Values and Actions": ValueNotifier<String?>(null),
     "Working in Teams": ValueNotifier<String?>(null),
     "Change Happens": ValueNotifier<String?>(null),
-    "Sustainable Impact Plan": ValueNotifier<String?>(null),
+    "Sustainable Impact Project": ValueNotifier<String?>(null),
   };
 
   @override
@@ -131,8 +131,8 @@ class _LAModuleSpecificFeedbackScreenState
 
               // Question 8
               _buildQuestionWidget(
-                "Sustainable Impact Plan",
-                _questionErrors["Sustainable Impact Plan"]!,
+                "Sustainable Impact Project",
+                _questionErrors["Sustainable Impact Project"]!,
               ),
               SizedBox(height: 10),
 

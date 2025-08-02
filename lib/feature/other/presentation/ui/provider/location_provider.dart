@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
-// A notifier class that manages the location state
 class LocationNotifier extends StateNotifier<LatLng> {
-  LocationNotifier() : super(LatLng(37.42796133580664, -122.085749655962));
+  LocationNotifier() : super(const LatLng(7.8731, 80.7718));
 
   void updateLocation(LatLng newLocation) {
     print(newLocation);
@@ -11,7 +10,6 @@ class LocationNotifier extends StateNotifier<LatLng> {
   }
 }
 
-// StateNotifierProvider for LocationNotifier
 final selectedLocationProvider =
     StateNotifierProvider<LocationNotifier, LatLng>((ref) {
   return LocationNotifier();

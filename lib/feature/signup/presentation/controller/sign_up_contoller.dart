@@ -30,6 +30,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     final confirmPassword = state.signUpForm?['confirmPassword'];
     final dialCode = state.signUpForm?['dialCode'];
     final phoneNumber = state.signUpForm?['phoneNumber'];
+    final gender = state.signUpForm?['gender'];
 
 
     if (fullName.isEmpty ||
@@ -38,7 +39,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         confirmPassword.isEmpty ||
         phoneNumber.isEmpty ||
         dialCode.isEmpty ||
-        country.isEmpty
+        country.isEmpty ||
+        gender.isEmpty
     ) {
       state = state.copyWith(
         isLoading: false,
@@ -104,6 +106,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         dialCode: dialCode,
         mobileNumber: phoneNumber,
         country: country,
+        gender: gender,
       );
 
       final result = await ref.read(signUpServiceProvider).signUp(signUpRequest);

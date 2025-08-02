@@ -3,7 +3,7 @@ import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
 class CustomDropdown extends StatelessWidget {
-  final String? selectedGender;
+  final String? selectedValue;
   final String fieldName;
   final ValueChanged<String?> onChanged;
   final List<String> items;
@@ -11,7 +11,7 @@ class CustomDropdown extends StatelessWidget {
 
   const CustomDropdown(
       {super.key,
-      this.selectedGender,
+      this.selectedValue,
       required this.fieldName,
       required this.onChanged,
       required this.items,
@@ -45,21 +45,30 @@ class CustomDropdown extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Theme.of(context).primaryColor),
             ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
-          value: selectedGender,
+          value: selectedValue,
           hint: Text(
             hint,
             style:
                 PhinexaFont.contentRegular.copyWith(color: PhinexaColor.grey),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
           items: items
               .map((gender) => DropdownMenuItem<String>(
                     value: gender,
-                    child: Text(gender),
+                    child: Text(
+                      gender,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ))
               .toList(),
           onChanged: onChanged,
           menuMaxHeight: items.length > 10 ? 400 : null,
+          isExpanded: true,
         ),
       ],
     );

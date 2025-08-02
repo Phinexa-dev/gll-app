@@ -257,8 +257,9 @@ class _SIPProjectImpactScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomFormTextField(
-                          labelText: "If no, what challenges prevented you?",
-                          hintText: 'We face ...',
+                          labelText:
+                              "If not, what challenges prevented you from meeting your goals?",
+                          hintText: '',
                           obscureText: false,
                           height: 110,
                           maxLines: 10,

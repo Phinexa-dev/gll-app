@@ -99,7 +99,6 @@ Widget _buildKeyTakeAwaysSection(BuildContext context, SipDetail sipDetails) {
                 // Generate a list of KeyObjectCard widgets
                 final keyObjects = sipDetails.keyTakeAways.map((feature) {
                   return KeyObjectCard(
-                    iconPath: feature.icon,
                     amount: feature.amount,
                     featureDescription: feature.description,
                   );

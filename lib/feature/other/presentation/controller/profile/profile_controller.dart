@@ -82,6 +82,7 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
           'X': profile.x,
           'Instagram': profile.instagram,
           'profileImage': profile.profileImage,
+          'gender': profile.gender,
         },
       );
 

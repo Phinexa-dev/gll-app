@@ -57,72 +57,76 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
           // Profile Picture
           userAsync.isLoading
               ? Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: CircleAvatar(
-              radius: 24,
-              backgroundColor: Colors.grey[300],
-            ),
-          )
-              :
-              isLoading?
-          const Shimmer(
-            gradient: LinearGradient(
-              colors: [
-                Colors.grey,
-                Colors.white,
-              ],
-            ),
-            child: CircleAvatar(
-              radius: 24,
-              backgroundColor: Colors.grey,
-            ),
-          )
-              :  // Profile Picture
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: Colors.grey[400],
-            backgroundImage: widget.profileImage.startsWith('assets')
-                ? AssetImage(widget.profileImage)
-                : widget.profileImage.startsWith('http')
-                ? NetworkImage(widget.profileImage)
-                : FileImage(File(widget.profileImage)) as ImageProvider,
-          ),
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Colors.grey[300],
+                  ),
+                )
+              : isLoading
+                  ? const Shimmer(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.grey,
+                          Colors.white,
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        radius: 24,
+                        backgroundColor: Colors.grey,
+                      ),
+                    )
+                  : // Profile Picture
+                  CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Colors.grey[400],
+                      backgroundImage: widget.profileImage.startsWith('assets')
+                          ? AssetImage(widget.profileImage)
+                          : widget.profileImage.startsWith('http')
+                              ? NetworkImage(widget.profileImage)
+                              : FileImage(File(widget.profileImage))
+                                  as ImageProvider,
+                    ),
           const SizedBox(width: 12),
-          ConstrainedBox(
-            constraints:
-            BoxConstraints(maxWidth: 200), // Adjust this value as needed
-            child: userAsync.isLoading
-                ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                shimmerBox(width: 100),
-                const SizedBox(height: 4),
-                shimmerBox(width: 140),
-              ],
-            )
-                : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userAsync.value?.fullName ?? 'Guest',
-                  style: PhinexaFont.highlightAccent,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                Text(
-                  userAsync.value?.email ?? 'Email',
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.grey),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ],
+          Expanded(
+            // <--- WRAP the ConstrainedBox with Expanded
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 400),
+              child: userAsync.isLoading
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        shimmerBox(width: 100),
+                        const SizedBox(height: 4),
+                        shimmerBox(width: 140),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          userAsync.value?.fullName ?? 'Guest',
+                          style: PhinexaFont.contentAccent,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          userAsync.value?.email ?? 'Email',
+                          style: PhinexaFont.captionRegular
+                              .copyWith(color: PhinexaColor.grey),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
             ),
           ),
-          const Spacer(),
+          const SizedBox(
+            width: 10,
+          ),
           IconButton(
             icon: const Icon(Icons.logout, color: Color(0xFFE87878)),
             onPressed: () async {
@@ -143,8 +147,7 @@ class _ProfileBarState extends ConsumerState<ProfileBar> {
                 ref.read(navProvider.notifier).onItemTapped(0);
                 final feedbackService = ref.read(feedbackServiceProvider);
                 feedbackService.showToast("Logged Out");
-              }
-              else {
+              } else {
                 // TEST: token expired situation
                 final accessToken = "Jargon Web access Token";
                 final refreshToken = "Jargon Web refresh Token";
