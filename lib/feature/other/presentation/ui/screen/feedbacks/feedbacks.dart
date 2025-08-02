@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:emailjs/emailjs.dart' as emailjs;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
-import 'dart:math';
+
 import '../../../../../../../../common/theme/fonts.dart';
 import '../../../../../system_feedback/model/feedback.dart';
 import '../../../../../system_feedback/provider/feedback_provider.dart';
@@ -38,6 +40,30 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
 
   Future<void> _sendFeedback() async {
     final feedBackService = ref.read(feedbackServiceProvider);
+
+    // --- ADDED VALIDATION LOGIC ---
+    if (firstNameController.text.isEmpty ||
+        lastNameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        yourLocation.text.isEmpty ||
+        messageController.text.isEmpty) {
+      feedBackService.showToast(
+        "Please fill in all fields",
+        type: FeedbackType.error,
+      );
+      return;
+    }
+
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(emailController.text)) {
+      feedBackService.showToast(
+        "Please enter a valid email address",
+        type: FeedbackType.error,
+      );
+      return;
+    }
+    // --------------------------------
+
     setState(() => _sending = true);
 
     final templateParams = {
@@ -60,9 +86,9 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
       );
 
       feedBackService.showToast(
-          "Thank you for reaching out! Our team is committed to getting in touch with you as soon as possible",
-          type: FeedbackType.success,
-          toastLength: Toast.LENGTH_LONG,
+        "Thank you for your feedback. We have received your submission and will take it into consideration.",
+        type: FeedbackType.success,
+        toastLength: Toast.LENGTH_LONG,
       );
       context.pop();
     } catch (error) {
@@ -117,9 +143,9 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                         const SizedBox(height: 20),
                         Text(
                           'Do you have a suggestion for how to make GL2i even better?\n'
-                              'Have you had a captivating experience during one of your GL2i activities and want to share it with us?\n\n'
-                              'We are all ears! Every message is read and valued by us.\n'
-                              'Thank you for helping us build the GL2i movement.',
+                          'Have you had a captivating experience during one of your GL2i activities and want to share it with us?\n\n'
+                          'We are all ears! Every message is read and valued by us.\n'
+                          'Thank you for helping us build the GL2i movement.',
                           style: PhinexaFont.labelRegular.copyWith(
                             fontSize: 13,
                             height: 1.5,
@@ -128,7 +154,8 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                           textAlign: TextAlign.justify,
                         ),
                         const SizedBox(height: 24),
-                        Text('Your Feedback', style: PhinexaFont.headingExLarge),
+                        Text('Your Feedback',
+                            style: PhinexaFont.headingExLarge),
                         const SizedBox(height: 20),
                         CustomTextField(
                             labelText: 'First Name',
@@ -167,14 +194,13 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                     ),
                   ),
 
-
-
                   // Testimonials Header
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text('Testimonials', style: PhinexaFont.headingMedium),
+                      child: Text('Testimonials',
+                          style: PhinexaFont.headingMedium),
                     ),
                   ),
 
@@ -184,7 +210,8 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                       '"We thought it would be just another speech where we’d sit, listen, and yawn—but this training was nothing like that. It was eye-opening, life-changing, and genuinely fun."',
                       '"We’ve never experienced such engaging, experiential learning that empowered us to lead ourselves, uplift others, and drive positive change in our community."',
                     ],
-                    'Mr. Mahendra Kumar Giri\nChief Executive of SAHARA Nepal': [
+                    'Mr. Mahendra Kumar Giri\nChief Executive of SAHARA Nepal':
+                        [
                       '"I’m glad we’ve launched this Leadership Academy at a time when youth brain drain is high, and many are facing challenges with addiction. When we empower young leaders from the ground up, we cultivate responsible citizens, entrepreneurs, and changemakers. Experiential learning gives them the tools to lead and contribute meaningfully to their communities and the nation."',
                     ],
                     'Prasun\nLeadership Academy trainer (Nepal)': [
@@ -208,7 +235,7 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
 
                   _buildLocationSection('Macedonia', {
                     'Aleksandar, 19 y.o.\nLeadership Academy alumni & facilitator (Macedonia)':
-                    [
+                        [
                       '"I improved my social skills— I have more confidence to speak with people, my knowledge is better than in the past. This academy can make you find something new in yourself that you didn’t know you had before."',
                       '"In the past I saw leadership differently. I didn’t think of myself as a leader. Now I see everyone can be a leader— if you study, work hard, have something in your mind you want to achieve. If you want to do something, you can achieve it."',
                       '"Don’t be scared and do the Leadership Academy. It will change your life. You will have so many opportunities to work with what you learned every day. It can allow you to have a beautiful start of your career, you will improve yourself, know yourself better, be a great leader in your community, change yourself and your community."',
@@ -231,7 +258,6 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
       ),
     );
   }
-
 
   Widget _buildLocationSection(
       String location, Map<String, List<String>> testimonialsByPerson) {
@@ -275,7 +301,7 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
                           child: Text(
                             quote,
                             style:
-                            PhinexaFont.labelRegular.copyWith(fontSize: 13),
+                                PhinexaFont.labelRegular.copyWith(fontSize: 13),
                             textAlign: TextAlign.justify,
                           ),
                         ),
