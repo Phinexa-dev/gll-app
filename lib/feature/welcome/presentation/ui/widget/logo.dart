@@ -53,6 +53,13 @@ class Logo extends ConsumerWidget {
                   ),
                   children: [
                     TextSpan(
+                      text: 'Global Learning Lab\n',
+                      style: PhinexaFont.headingLarge.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
                       text: 'Connect, learn, and grow\n',
                       style: PhinexaFont.headingSmall.copyWith(
                         fontWeight: FontWeight.normal,
