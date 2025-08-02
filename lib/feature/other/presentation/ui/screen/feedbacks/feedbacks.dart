@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gll/common/widget/custom_text_field.dart';
 import 'package:gll/common/widget/start_button.dart';
 import 'package:go_router/go_router.dart';
@@ -58,8 +59,11 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
         ),
       );
 
-      feedBackService.showToast("Feedback sent successfully",
-          type: FeedbackType.success);
+      feedBackService.showToast(
+          "Thank you for reaching out! Our team is committed to getting in touch with you as soon as possible",
+          type: FeedbackType.success,
+          toastLength: Toast.LENGTH_LONG,
+      );
       context.pop();
     } catch (error) {
       String msg = 'Send failed';
