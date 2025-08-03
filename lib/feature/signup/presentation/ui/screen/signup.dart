@@ -233,6 +233,10 @@ class _SignUpState extends ConsumerState<SignUp> {
                             // const SizedBox(height: 8),
                             CustomDropdown(
                               fieldName: "Country",
+                              fieldFont: PhinexaFont.labelRegular.copyWith(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                              ),
                               selectedValue: selectedCountry,
                               hint: "Select a country",
                               items: const [
@@ -262,41 +266,38 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
+                                Column(
                                   children: [
-                                    Checkbox(
-                                      value: selectedGender == 'Male',
-                                      onChanged: (bool? value) {
-                                        if (value == true) {
-                                          ref
-                                              .read(genderProvider.notifier)
-                                              .state = 'male';
-                                        }
+                                    RadioListTile<String>(
+                                      title: const Text('Male'),
+                                      value: 'male',
+                                      groupValue: selectedGender,
+                                      onChanged: (value) {
+                                        ref.read(genderProvider.notifier).state = value;
                                       },
+                                      dense: true,
+                                      contentPadding: EdgeInsets.zero,
                                     ),
-                                    const Text('male'),
-                                    Checkbox(
-                                      value: selectedGender == 'Female',
-                                      onChanged: (bool? value) {
-                                        if (value == true) {
-                                          ref
-                                              .read(genderProvider.notifier)
-                                              .state = 'female';
-                                        }
+                                    RadioListTile<String>(
+                                      title: const Text('Female'),
+                                      value: 'female',
+                                      groupValue: selectedGender,
+                                      onChanged: (value) {
+                                        ref.read(genderProvider.notifier).state = value;
                                       },
+                                      dense: true,
+                                      contentPadding: EdgeInsets.zero,
                                     ),
-                                    const Text('Female'),
-                                    Checkbox(
-                                      value: selectedGender == 'Not Preferred',
-                                      onChanged: (bool? value) {
-                                        if (value == true) {
-                                          ref
-                                              .read(genderProvider.notifier)
-                                              .state = 'not preferred';
-                                        }
+                                    RadioListTile<String>(
+                                      title: const Text('Not Preferred'),
+                                      value: 'not preferred',
+                                      groupValue: selectedGender,
+                                      onChanged: (value) {
+                                        ref.read(genderProvider.notifier).state = value;
                                       },
+                                      dense: true,
+                                      contentPadding: EdgeInsets.zero,
                                     ),
-                                    const Text('Not Preferred'),
                                   ],
                                 ),
                               ],

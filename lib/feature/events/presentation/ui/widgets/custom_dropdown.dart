@@ -8,14 +8,17 @@ class CustomDropdown extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final List<String> items;
   final String hint;
+  final TextStyle fieldFont;
 
-  const CustomDropdown(
-      {super.key,
-      this.selectedValue,
-      required this.fieldName,
-      required this.onChanged,
-      required this.items,
-      required this.hint});
+  CustomDropdown({
+    super.key,
+    this.selectedValue,
+    required this.fieldName,
+    required this.onChanged,
+    required this.items,
+    required this.hint,
+    TextStyle? fieldFont,
+  }) : fieldFont = fieldFont ?? PhinexaFont.contentRegular;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class CustomDropdown extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             fieldName,
-            style: PhinexaFont.contentRegular,
+            style: fieldFont
           ),
         ),
         // Dropdown field
