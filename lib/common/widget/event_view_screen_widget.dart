@@ -27,18 +27,18 @@ class EventViewScreenWidget extends ConsumerWidget {
       future: userFuture,
       builder: (context, userSnapshot) {
         if (userSnapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (userSnapshot.hasError || userSnapshot.data == null) {
-          return Center(child: Text("User not logged in."));
+          return const Center(child: Text("User not logged in."));
         }
 
         final user = userSnapshot.data!;
         final userEmail = user.email;
 
         if (userEmail == null) {
-          return Center(child: Text("User email not found."));
+          return const Center(child: Text("User email not found."));
         }
 
         // Retrieve survey names for the current user
@@ -48,7 +48,7 @@ class EventViewScreenWidget extends ConsumerWidget {
           appBar: AppBar(
             backgroundColor: PhinexaColor.transparent,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: PhinexaColor.black),
+              icon: const Icon(Icons.arrow_back, color: PhinexaColor.black),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -59,21 +59,27 @@ class EventViewScreenWidget extends ConsumerWidget {
             builder: (context, surveySnapshot) {
               // Handle loading state for survey names
               if (surveySnapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
 
               // Handle error for survey names
               if (surveySnapshot.hasError) {
-                return Center(child: Text("Failed to load survey data."));
+                return const Center(child: Text("Failed to load survey data."));
               }
 
               final surveyNames = surveySnapshot.data ?? [];
 
               // Generate the survey names for this event
+              // Note: The format is dependent on the `startDate` having a day.
+              final String eventDateIdentifier =
+                  (event.startDate.day == 1 && event.startDate.hour == 0)
+                      ? DateFormat('yyyy_MM').format(event.startDate)
+                      : DateFormat('yyyy_MM_dd').format(event.startDate);
+
               final preSurveyName =
-                  'Pre_Survey_${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}';
+                  'Pre_Survey_${event.title}_$eventDateIdentifier';
               final postSurveyName =
-                  'Post_Survey_${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}';
+                  'Post_Survey_${event.title}_$eventDateIdentifier';
 
               // Check if the user has filled out the surveys
               final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
@@ -91,7 +97,7 @@ class EventViewScreenWidget extends ConsumerWidget {
                             const Icon(Icons.broken_image, size: 100),
                       ),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
@@ -99,11 +105,12 @@ class EventViewScreenWidget extends ConsumerWidget {
                         children: [
                           Text(
                             event.title,
-                            style: PhinexaFont.headingDoubleExLarge,
+                            style: PhinexaFont.headingMedium,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
+                          // Display formatted date and time
                           Text(
                             formatEventDateTime(event.startDate, event.endDate),
                             style: PhinexaFont.contentRegular
@@ -118,26 +125,26 @@ class EventViewScreenWidget extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           Text(
                             event.subTitle,
                             style: PhinexaFont.headingMedium,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           ...event.subEvents
                               .map((subEvent) =>
                                   _buildSubEventComponent(context, subEvent))
                               .toList(),
-                          SizedBox(height: 10),
-                          Text(
-                            event.ledBy,
-                            style: PhinexaFont.highlightEmphasis
-                                .copyWith(color: PhinexaColor.primaryLightBlue),
-                          ),
+                          const SizedBox(height: 10),
+                          // Text(
+                          //   event.ledBy,
+                          //   style: PhinexaFont.highlightEmphasis
+                          //       .copyWith(color: PhinexaColor.primaryLightBlue),
+                          // ),
                           if (!hasFilledPreSurvey)
                             Column(
                               children: [
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CustomButton(
                                   label: "Register Now",
                                   height: 40,
@@ -147,17 +154,17 @@ class EventViewScreenWidget extends ConsumerWidget {
                                         extra: {
                                           'isTTT': event.isTTT ? true : false,
                                           'eventIdentity':
-                                              '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+                                              '${event.title}_$eventDateIdentifier',
                                         });
                                   },
                                 ),
                               ],
                             ),
-                          // Conditionally render Pre Survey button
+                          // Conditionally render Post Survey button
                           if (!hasFilledPostSurvey && hasFilledPreSurvey)
                             Column(
                               children: [
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CustomButton(
                                   label: "Post Survey",
                                   height: 40,
@@ -167,13 +174,13 @@ class EventViewScreenWidget extends ConsumerWidget {
                                           RouteName
                                               .tttOverallProgramFeedbackScreen,
                                           extra:
-                                              '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}');
+                                              '${event.title}_$eventDateIdentifier');
                                     } else {
                                       context.pushNamed(
                                           RouteName
                                               .laOverallProgramFeedbackScreen,
                                           extra:
-                                              '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}');
+                                              '${event.title}_$eventDateIdentifier');
                                     }
                                   },
                                 ),
@@ -182,7 +189,7 @@ class EventViewScreenWidget extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                   ],
                 ),
               );
@@ -224,26 +231,59 @@ Widget _buildSubEventComponent(BuildContext context, SubEvent subEvent) {
   );
 }
 
+// Updated formatting function for the main event date/time
 String formatEventDateTime(DateTime startDate, DateTime endDate) {
-  final dateFormat = DateFormat('MMM d, yyyy');
-  final timeFormat = DateFormat('h:mm a');
+  // Check if a specific time is available
+  bool hasTime = startDate.hour != 0 || startDate.minute != 0;
 
-  String formattedDate = dateFormat.format(startDate);
-  String formattedStartTime = timeFormat.format(startDate);
-  String formattedEndTime = timeFormat.format(endDate);
+  // Check if a specific day is available
+  bool hasDay = startDate.day != 1 || startDate.hour != 0;
 
-  return "$formattedDate, $formattedStartTime - $formattedEndTime";
+  if (hasDay && hasTime) {
+    // If day and time are available
+    final dateFormat = DateFormat('MMM d, yyyy');
+    final timeFormat = DateFormat('h:mm a');
+    return "${dateFormat.format(startDate)}, ${timeFormat.format(startDate)} - ${timeFormat.format(endDate)}";
+  } else if (hasDay) {
+    // If only day is available (no time)
+    final dateFormat = DateFormat('MMM d, yyyy');
+    return dateFormat.format(startDate);
+  } else {
+    // If only month and year are available
+    final dateFormat = DateFormat('MMMM, yyyy');
+    return dateFormat.format(startDate);
+  }
 }
 
+// Updated formatting function for sub-event date range
 String formatSubEventDateRange(DateTime startDate, DateTime endDate) {
-  final monthFormat = DateFormat('MMMM');
-  final dayFormat = DateFormat('d');
+  // Check if a specific day is available
+  bool hasDay = startDate.day != 1 || startDate.hour != 0;
 
-  String formattedMonth = monthFormat.format(startDate);
-  String formattedStartDay = dayFormat.format(startDate);
-  String formattedEndDay = dayFormat.format(endDate);
+  if (hasDay) {
+    // If specific days are available
+    final monthFormat = DateFormat('MMMM');
+    final dayFormat = DateFormat('d');
 
-  return "$formattedMonth $formattedStartDay - $formattedEndDay : ";
+    String formattedMonth = monthFormat.format(startDate);
+    String formattedStartDay = dayFormat.format(startDate);
+    String formattedEndDay = dayFormat.format(endDate);
+
+    if (startDate.month == endDate.month) {
+      // If start and end are in the same month
+      return "$formattedMonth $formattedStartDay - $formattedEndDay : ";
+    } else {
+      // If start and end are in different months
+      final endMonthFormat = DateFormat('MMMM');
+      String formattedEndMonth = endMonthFormat.format(endDate);
+      return "$formattedMonth $formattedStartDay - $formattedEndMonth $formattedEndDay : ";
+    }
+  } else {
+    // If only month and year are available
+    final monthFormat = DateFormat('MMMM');
+    String formattedMonth = monthFormat.format(startDate);
+    return "$formattedMonth : ";
+  }
 }
 
 Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
