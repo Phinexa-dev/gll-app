@@ -14,6 +14,7 @@ class MainApp extends ConsumerWidget {
     final goRouter = ref.watch(routerProvider);
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: scaffoldMessengerKey,
       routerConfig: goRouter,
       builder: (context, child) {
