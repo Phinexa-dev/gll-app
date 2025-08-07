@@ -22,11 +22,13 @@ abstract class EditProfileApi {
   Future<EditProfileResponse> getProfile();
 
   @PATCH('/user/{id}')
-  Future<EditProfileResponse> editProfile(@Body() EditProfileRequest data, @Path('id') int userId);
+  Future<EditProfileResponse> editProfile(
+      @Body() EditProfileRequest data, @Path('id') int userId);
 
   @PATCH('/user/{id}')
-  Future<EditProfileResponse> editSocials(@Body() EditSocialRequest data, @Path('id') int userId);
+  Future<EditProfileResponse> editSocials(
+      @Body() EditSocialRequest data, @Path('id') int userId);
 
-  @DELETE('/user/{id}')
+  @DELETE('/user/delete-account/{id}')
   Future<void> deleteProfile(@Path('id') int userId);
 }
