@@ -63,31 +63,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: [
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: isLoading
-                      ? Shimmer(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.grey,
-                              Colors.white,
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.grey,
-                          ),
-                        )
-                      : userData?['profileImage'] != null
-                          ? CircleAvatar(
-                              radius: 24,
-                              backgroundImage:
-                                  NetworkImage(userData?['profileImage']),
-                            )
-                          : CircleAvatar(
-                              radius: 24,
-                              child: Icon(Icons.person),
+                InkWell(
+                  onTap: () => context.pushNamed(RouteName.profile),
+                  customBorder: const CircleBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: isLoading
+                        ? Shimmer(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Colors.grey,
+                                Colors.white,
+                              ],
                             ),
+                            child: const CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Colors.grey,
+                            ),
+                          )
+                        : userData?['profileImage'] != null &&
+                                (userData!['profileImage'] as String).isNotEmpty
+                            ? CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.grey[300],
+                                backgroundImage:
+                                    NetworkImage(userData!['profileImage']),
+                              )
+                            : const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Color(0xFFE0E0E0),
+                                child: Icon(Icons.person, color: Colors.white),
+                              ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -120,7 +120,6 @@ class _FeedbacksState extends ConsumerState<Feedbacks> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Feedbacks"),
-            Icon(Icons.more_vert_outlined),
           ],
         ),
       ),

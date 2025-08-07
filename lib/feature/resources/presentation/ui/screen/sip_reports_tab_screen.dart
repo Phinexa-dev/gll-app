@@ -76,7 +76,7 @@ class _SipReportsTabScreenState extends ConsumerState<SipReportsTabScreen> {
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.only(top: 16, bottom: 64),
                   child: SipReportPostWidget(report: filteredReports[i]),
                 ),
               ],

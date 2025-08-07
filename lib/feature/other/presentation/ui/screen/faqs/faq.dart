@@ -54,7 +54,8 @@ class _FAQsState extends ConsumerState<FAQs> {
     },
     {
       'q': 'Is my personal information safe?',
-      'a': 'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact. Also we will not provide your data to third parties without your additional permission',
+      'a':
+          'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact. Also we will not provide your data to third parties without your additional permission',
     },
     // add more Q&A maps here
   ];
@@ -67,7 +68,6 @@ class _FAQsState extends ConsumerState<FAQs> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("FAQs"),
-            Icon(Icons.more_vert_outlined),
           ],
         ),
       ),

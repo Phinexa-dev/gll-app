@@ -4,10 +4,11 @@ import 'package:gll/feature/signup/application/sign_up_service.dart';
 import 'package:gll/feature/signup/presentation/state/sign_up_state.dart';
 import '../../data/dto/request/sign_up_request.dart';
 
-final signUpControllerProvider = AutoDisposeNotifierProvider<SignUpController, SignUpState>(SignUpController.new);
+final signUpControllerProvider =
+    AutoDisposeNotifierProvider<SignUpController, SignUpState>(
+        SignUpController.new);
 
 class SignUpController extends AutoDisposeNotifier<SignUpState> {
-
   @override
   SignUpState build() {
     return SignUpState();
@@ -32,16 +33,16 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     final phoneNumber = state.signUpForm?['phoneNumber'];
     final gender = state.signUpForm?['gender'];
 
-
+    // --- FIX APPLIED HERE ---
+    // The `gender` field has been removed from this validation check.
+    // An empty string for gender is now considered a valid, optional field.
     if (fullName.isEmpty ||
         email.isEmpty ||
         password.isEmpty ||
         confirmPassword.isEmpty ||
         phoneNumber.isEmpty ||
         dialCode.isEmpty ||
-        country.isEmpty ||
-        gender.isEmpty
-    ) {
+        country.isEmpty) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -67,7 +68,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     }
 
     // validate email
-    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     if (!emailRegex.hasMatch(email)) {
       state = state.copyWith(
         isLoading: false,
@@ -85,13 +87,13 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: 'Password must be at least 8 characters long and contain at least one letter and one number',
+        errorMessage:
+            'Password must be at least 8 characters long and contain at least one letter and one number',
       );
       return;
     }
 
-    try{
-
+    try {
       state = state.copyWith(
         isLoading: true,
         isSuccess: null,
@@ -109,16 +111,15 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         gender: gender,
       );
 
-      final result = await ref.read(signUpServiceProvider).signUp(signUpRequest);
+      final result =
+          await ref.read(signUpServiceProvider).signUp(signUpRequest);
 
       state = state.copyWith(
         isLoading: false,
         isSuccess: result,
         isFailure: !result,
       );
-
-    }
-    on DioException catch(e){
+    } on DioException catch (e) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -156,13 +157,17 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       case '+355': // Albania
         if (phoneNumber.length != 9 && phoneNumber.length != 8) {
           isPhoneNumberValid = false;
-          errorMessage = 'Albanian phone numbers must be 9 (mobile) or 8 (landline) digits';
+          errorMessage =
+              'Albanian phone numbers must be 9 (mobile) or 8 (landline) digits';
         }
         break;
       case '+381': // Serbia
-        if (phoneNumber.length != 9 && phoneNumber.length != 7 && phoneNumber.length != 8) {
+        if (phoneNumber.length != 9 &&
+            phoneNumber.length != 7 &&
+            phoneNumber.length != 8) {
           isPhoneNumberValid = false;
-          errorMessage = 'Serbian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
+          errorMessage =
+              'Serbian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
         }
         break;
       case '+382': // Montenegro
@@ -180,7 +185,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       case '+385': // Croatia
         if (phoneNumber.length != 9 && phoneNumber.length != 8) {
           isPhoneNumberValid = false;
-          errorMessage = 'Croatian phone numbers must be 9 (mobile) or 8–9 (landline) digits';
+          errorMessage =
+              'Croatian phone numbers must be 9 (mobile) or 8–9 (landline) digits';
         }
         break;
       case '+386': // Slovenia
@@ -196,9 +202,12 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         }
         break;
       case '+359': // Bulgaria
-        if (phoneNumber.length != 9 && phoneNumber.length != 7 && phoneNumber.length != 8) {
+        if (phoneNumber.length != 9 &&
+            phoneNumber.length != 7 &&
+            phoneNumber.length != 8) {
           isPhoneNumberValid = false;
-          errorMessage = 'Bulgarian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
+          errorMessage =
+              'Bulgarian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
         }
         break;
       case '+389': // North Macedonia
@@ -210,7 +219,8 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       case '+977': // Nepal
         if (phoneNumber.length != 10 && phoneNumber.length != 8) {
           isPhoneNumberValid = false;
-          errorMessage = 'Nepalese phone numbers must be 10 (mobile) or 8 (landline) digits';
+          errorMessage =
+              'Nepalese phone numbers must be 10 (mobile) or 8 (landline) digits';
         }
         break;
       default:
@@ -235,5 +245,4 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       signUpForm: formData,
     );
   }
-
 }

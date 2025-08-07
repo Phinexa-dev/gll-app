@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
-import 'package:gll/common/theme/fonts.dart';
+import '../../../../../common/theme/fonts.dart';
 import 'package:gll/common/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/route/route_name.dart';
 import '../../../domain/model/sip_report/sip_report_model.dart';
@@ -16,6 +15,8 @@ class SipReportPostWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authorName = _getAuthorNameFromUrl(report.image);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -24,7 +25,7 @@ class SipReportPostWidget extends ConsumerWidget {
           const SizedBox(height: 24),
           _buildPostDetails(),
           const SizedBox(height: 8),
-          _buildPdfPreview(),
+          _buildPdfPreview(authorName),
           const SizedBox(height: 8),
           _buildPostDescription(),
           const SizedBox(height: 16),
@@ -49,38 +50,34 @@ class SipReportPostWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildPdfPreview() {
-    return GestureDetector(
-      onTap: () => _launchPdfUrl(report.image),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: PhinexaColor.grey),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            Icon(Icons.picture_as_pdf, color: PhinexaColor.primaryLightBlue),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'SIP Report PDF',
-                    style: PhinexaFont.contentAccent,
-                  ),
-                  Text(
-                    _getFileNameFromUrl(report.image),
-                    style: PhinexaFont.captionRegular,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+  Widget _buildPdfPreview(String authorName) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: PhinexaColor.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          Icon(Icons.picture_as_pdf, color: PhinexaColor.primaryLightBlue),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SIP Report PDF',
+                  style: PhinexaFont.contentAccent,
+                ),
+                Text(
+                  authorName,
+                  style: PhinexaFont.captionRegular,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-            Icon(Icons.open_in_new, color: PhinexaColor.grey),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -107,17 +104,26 @@ class SipReportPostWidget extends ConsumerWidget {
     );
   }
 
-  String _getFileNameFromUrl(String url) {
+  // --- FINAL WORKING FUNCTION FOR FIREBASE URLS ---
+  String _getAuthorNameFromUrl(String url) {
     try {
-      return Uri.parse(url).pathSegments.last;
-    } catch (e) {
-      return 'report.pdf';
-    }
-  }
+      // 1. Create a Uri object from the full URL string.
+      final uri = Uri.parse(url);
 
-  Future<void> _launchPdfUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+      final encodedPath = uri.pathSegments.last;
+
+      final decodedPath = Uri.decodeComponent(encodedPath);
+
+      final pathParts = decodedPath.split('/');
+
+      if (pathParts.length >= 2) {
+        return pathParts[pathParts.length - 2];
+      }
+
+      return 'Unknown Author'; // Fallback
+    } catch (e) {
+      print("Error parsing Firebase URL: $e");
+      return 'Unknown Author'; // Fallback
     }
   }
 }

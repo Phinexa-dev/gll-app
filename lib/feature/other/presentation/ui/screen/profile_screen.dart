@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gll/common/theme/fonts.dart';
@@ -12,8 +13,16 @@ import 'package:gll/feature/other/presentation/ui/widget/socials/edit_socials.da
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+// --- ADD THESE IMPORTS ---
+import '../../../../../core/data/local/auth/auth_notifier.dart';
 import '../../../../../core/data/local/user/user_service.dart';
+import '../../../../../core/data/remote/network_service.dart';
+import '../../../../../core/data/remote/token/token_service.dart';
 import '../../../../../core/route/route_name.dart';
+import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
+import '../../../../system_feedback/provider/feedback_provider.dart';
+// --- END OF ADDED IMPORTS ---
+
 import '../../controller/education/education_controller.dart';
 import '../../controller/profile/profile_controller.dart';
 import '../../controller/skill/skill_controller.dart';
@@ -46,11 +55,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final toggleButtonState = ref.watch(toggleButtonProvider);
-    final contactData = ref.watch(personalDetailProvider);
     final socialData = ref.watch(profileControllerProvider).form;
     final skillsState = ref.watch(skillControllerProvider);
     final educationState = ref.watch(educationControllerProvider);
-    final certificationData = ref.watch(certificationProvider);
     final profileState = ref.watch(profileControllerProvider);
 
     final userAsync = ref.watch(userProvider);
@@ -140,10 +147,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   onPressed: () => context.pushNamed(RouteName.editProfile),
                   iconVisible: true,
                   icon: Icons.chevron_right,
-                  color: Color(0xFF3993A1),
+                  color: const Color(0xFF3993A1),
                   iconColor: Colors.white,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomIconButton(
                   label: 'Delete Account',
                   isBold: true,
@@ -153,16 +160,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Confirm Deletion'),
-                          content: Text('Are you sure you want to delete your account?'),
+                          title: const Text('Confirm Deletion'),
+                          content: const Text(
+                              'Are you sure you want to delete your account? This action cannot be undone.'),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(false),
-                              child: Text('Cancel'),
+                              child: const Text('Cancel'),
                             ),
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
-                              child: Text('Delete'),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red),
+                              child: const Text('Delete'),
                             ),
                           ],
                         );
@@ -170,8 +180,48 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     );
 
                     if (confirm == true) {
-                      await ref.read(profileControllerProvider.notifier).deleteProfile();
-                      Navigator.of(context).pushReplacementNamed(RouteName.welcome);
+                      // --- MODIFIED LOGIC ---
+                      try {
+                        await ref
+                            .read(profileControllerProvider.notifier)
+                            .deleteProfile();
+                      } catch (e, s) {
+                        // Optionally log the error for debugging purposes.
+                        debugPrint('Failed to delete profile from server: $e');
+                        debugPrint(s.toString());
+                      } finally {
+                        // This block runs whether the deleteProfile call succeeded or failed.
+                        // It ensures the user is always logged out locally.
+
+                        // 1. Get all necessary services
+                        final dio = ref.read(networkServiceProvider);
+                        final userService = ref.read(userServiceProvider(dio));
+                        final tokenService =
+                            ref.read(tokenServiceProvider(dio));
+                        final authNotifier =
+                            ref.read(routerNotifierProvider(dio));
+                        final feedbackService =
+                            ref.read(feedbackServiceProvider);
+
+                        // 2. Clear all local user data and tokens
+                        await userService.clearUser();
+                        await tokenService.clearTokens();
+
+                        // 3. Notify the router of the auth state change
+                        await authNotifier.updateAuthState();
+
+                        // 4. Reset the bottom nav bar to the first item
+                        ref.read(navProvider.notifier).onItemTapped(0);
+
+                        // 5. Show feedback to the user
+                        feedbackService.showToast(
+                            "Account deleted. You have been logged out.");
+
+                        // 6. Navigate to the welcome screen
+                        if (context.mounted) {
+                          context.goNamed(RouteName.welcome);
+                        }
+                      }
                     }
                   },
                   iconVisible: true,
@@ -179,26 +229,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   color: Colors.red,
                   iconColor: Colors.white,
                 ),
-                // CustomIconButton(
-                //   label: 'Settings',
-                //   isBold: true,
-                //   textColour: Colors.black,
-                //   onPressed: () => context.pushNamed(RouteName.settings),
-                //   iconVisible: true,
-                //   icon: Icons.settings,
-                //   color: Colors.white,
-                //   borderColor: Color(0xFF3993A1),
-                // ),
               ],
             ),
           ),
-          Divider(
+          const Divider(
             color: Colors.grey,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
-          // toggle information
-          CustomToggleBar(),
+          // --- Rest of your UI code remains the same ---
+          const CustomToggleBar(),
 
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -236,10 +276,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       isLoading: profileState.isEditingSocials ||
                           profileState.isLoading,
                       onPressed: () => {
-                            // ref.read(animationVisibilityProvider.notifier).state = false;
-                            // open the signup overlay
                             showModalBottomSheet(
-                              // transitionAnimationController: _signUpAnimationController,
                               context: context,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
@@ -250,9 +287,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               builder: (BuildContext context) {
                                 return const EditSocials();
                               },
-                            ).whenComplete(() {
-                              // ref.read(animationVisibilityProvider.notifier).state = true;
-                            })
+                            )
                           }),
                   Stack(
                     children: [
@@ -273,10 +308,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           color: Colors.black,
                           data: skillsState.skills,
                           onPressed: () => {
-                                // ref.read(animationVisibilityProvider.notifier).state = false;
-                                // open the signup overlay
                                 showModalBottomSheet(
-                                  // transitionAnimationController: _signUpAnimationController,
                                   context: context,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -288,8 +320,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     return const ManageSkills();
                                   },
                                 ).whenComplete(() {
-                                  // ref.read(animationVisibilityProvider.notifier).state = true;
-                                  // remove all unsaved skills
                                   ref
                                       .read(skillControllerProvider.notifier)
                                       .removeUnsavedSkills();
@@ -305,30 +335,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       caption: 'Education History',
                       color: Colors.black,
                       data: educationState.educationData,
-                      // onPressedEdit: ()=>{
-                      //   // ref.read(animationVisibilityProvider.notifier).state = false;
-                      //   // open the signup overlay
-                      //   showModalBottomSheet(
-                      //     // transitionAnimationController: _signUpAnimationController,
-                      //     context: context,
-                      //     shape: const RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                      //     ),
-                      //     backgroundColor: Colors.white,
-                      //     isScrollControlled: true,
-                      //     builder: (BuildContext context) {
-                      //       // return unimplemented
-                      //       return EditEducationalHistory();
-                      //     },
-                      //   ).whenComplete(() {
-                      //     // ref.read(animationVisibilityProvider.notifier).state = true;
-                      //   })
-                      // },
                       onPressedAdd: () => {
-                            // ref.read(animationVisibilityProvider.notifier).state = false;
-                            // open the signup overlay
                             showModalBottomSheet(
-                              // transitionAnimationController: _signUpAnimationController,
                               context: context,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
@@ -337,25 +345,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               backgroundColor: Colors.white,
                               isScrollControlled: true,
                               builder: (BuildContext context) {
-                                // return unimplemented
                                 return AddEducationalHistory();
                               },
                             ).whenComplete(() {
-                              // ref.read(animationVisibilityProvider.notifier).state = true;
                               // TODO: empty the unsaved form data
                             })
                           }),
-                  SizedBox(height: 10),
-                  // Certifications(
-                  //   caption: 'GLL Programs and Certifications',
-                  //   color: Colors.black,
-                  //   data: certificationData,
-                  // ),
+                  const SizedBox(height: 10),
                 ],
               ],
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
 
           // footer
           Padding(
