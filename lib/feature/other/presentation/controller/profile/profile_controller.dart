@@ -242,6 +242,43 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     }
   }
 
+  Future<void> deleteProfile() async {
+    try{
+
+      state = state.copyWith(
+        isLoading: true,
+        isSuccess: null,
+        isFailure: null,
+      );
+
+      final dio = ref.watch(networkServiceProvider);
+      final user = await ref.read(userServiceProvider(dio)).getUser();
+      if (user == null) return;
+
+      await ref.read(profileServiceProvider).deleteProfile(user.id);
+
+      // delete user data from local storage
+      final userService = ref.read(userServiceProvider(dio));
+      await userService.clearUser();
+      // ref.refresh(userProvider);
+
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        isFailure: false,
+      );
+
+    }
+    on DioException catch(e){
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: e.response?.statusMessage?? 'An error occurred',
+      );
+    }
+  }
+
   void setFormData(Map<String, dynamic> formData) {
     state = state.copyWith(
       form: formData,
