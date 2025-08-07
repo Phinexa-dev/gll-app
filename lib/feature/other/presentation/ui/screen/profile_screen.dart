@@ -144,6 +144,41 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   iconColor: Colors.white,
                 ),
                 SizedBox(width: 10),
+                CustomIconButton(
+                  label: 'Delete Account',
+                  isBold: true,
+                  textColour: Colors.white,
+                  onPressed: () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirm Deletion'),
+                          content: Text('Are you sure you want to delete your account?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    if (confirm == true) {
+                      await ref.read(profileControllerProvider.notifier).deleteProfile();
+                      Navigator.of(context).pushReplacementNamed(RouteName.welcome);
+                    }
+                  },
+                  iconVisible: true,
+                  icon: Icons.delete,
+                  color: Colors.red,
+                  iconColor: Colors.white,
+                ),
                 // CustomIconButton(
                 //   label: 'Settings',
                 //   isBold: true,

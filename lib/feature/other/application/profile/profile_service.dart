@@ -55,6 +55,15 @@ final class ProfileService implements IProfileService {
     }
   }
 
+  @override
+  Future<void> deleteProfile(int userId) async {
+    try {
+      await _profileRepository.deleteProfile(userId);
+    } on DioException catch (_) {
+      rethrow;
+    }
+  }
+
   ProfileDataModel _mapToProfileDataModel(EditProfileResponse response) {
     return ProfileDataModel(
       id: response.id,

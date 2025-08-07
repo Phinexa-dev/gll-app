@@ -9,4 +9,6 @@ abstract interface class IProfileService {
   Future<bool> editSocials(EditSocialRequest data, int userId);
 
   Future<ProfileDataModel> getProfile();
+
+  Future<void> deleteProfile(int userId);
 }

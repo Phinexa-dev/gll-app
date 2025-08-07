@@ -9,4 +9,6 @@ abstract interface class IProfileRepository {
   Future<EditProfileResponse> editSocials(EditSocialRequest data, int userId);
 
   Future<EditProfileResponse> getProfile();
+
+  Future<void> deleteProfile(int userId);
 }

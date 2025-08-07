@@ -26,4 +26,7 @@ abstract class EditProfileApi {
 
   @PATCH('/user/{id}')
   Future<EditProfileResponse> editSocials(@Body() EditSocialRequest data, @Path('id') int userId);
+
+  @DELETE('/user/{id}')
+  Future<void> deleteProfile(@Path('id') int userId);
 }

@@ -51,4 +51,15 @@ final class ProfileRepository implements IProfileRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteProfile(int userId) async {
+    try {
+
+      await _profileApi.deleteProfile(userId);
+
+    } on DioException catch (_) {
+      rethrow;
+    }
+  }
 }
