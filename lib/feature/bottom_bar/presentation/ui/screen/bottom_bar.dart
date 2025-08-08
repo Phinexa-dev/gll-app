@@ -32,6 +32,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: navState.currentIndex,
         onTap: (value) {
+          print(value);
           ref.read(navProvider.notifier).onItemTapped(value);
         },
         elevation: 10,
@@ -61,7 +62,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
             icon: Icon(Icons.more_horiz),
             activeIcon: Icon(Icons.more_horiz_outlined),
             label: 'More',
-          )
+          ),
         ],
       ),
     );
