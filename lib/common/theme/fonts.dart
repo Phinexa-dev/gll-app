@@ -5,7 +5,8 @@ import 'colors.dart';
 
 class PhinexaFont {
   static TextStyle baseStyle = GoogleFonts.poppins(
-      textStyle: TextStyle(height: 1.4, color: PhinexaColor.textColor));
+    textStyle: TextStyle(height: 1.4, color: PhinexaColor.textColor),
+  );
 
   // Styles for body
   static final TextStyle footnoteSemiRegular = baseStyle.copyWith(
@@ -132,7 +133,7 @@ class PhinexaFont {
   );
   static final TextStyle headingLargeSemiMedium = baseStyle.copyWith(
     fontSize: 24,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
   static final TextStyle headingLarge = baseStyle.copyWith(
     fontSize: 24,
@@ -149,5 +150,9 @@ class PhinexaFont {
   static final TextStyle headingDoubleExLargeExBold = baseStyle.copyWith(
     fontSize: 28,
     fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle hawaiianFont = GoogleFonts.notoSans(
+    textStyle: TextStyle(height: 1.4, color: PhinexaColor.textColor),
   );
 }

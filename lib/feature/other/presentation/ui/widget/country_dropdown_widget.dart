@@ -6,7 +6,9 @@ import 'package:latlong2/latlong.dart';
 import '../provider/location_provider.dart';
 
 class CountryMapDropdownWidget extends ConsumerStatefulWidget {
-  const CountryMapDropdownWidget({super.key});
+  final Function(LatLng)? onCountrySelected;
+
+  const CountryMapDropdownWidget({super.key, this.onCountrySelected});
 
   @override
   _CountryDropdownWidgetState createState() => _CountryDropdownWidgetState();
@@ -32,22 +34,21 @@ class _CountryDropdownWidgetState
       decoration: BoxDecoration(
         color: PhinexaColor.lighterGrey,
         borderRadius: BorderRadius.circular(30.0),
-        border: Border.all(
-          color: PhinexaColor.grey,
-          width: 1,
-        ),
+        border: Border.all(color: PhinexaColor.grey, width: 1),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: _selectedCountry,
           hint: Text(
             "Select a country",
-            style:
-                PhinexaFont.highlightRegular.copyWith(color: PhinexaColor.grey),
+            style: PhinexaFont.highlightRegular.copyWith(
+              color: PhinexaColor.grey,
+            ),
           ),
           borderRadius: BorderRadius.circular(15.0),
-          style:
-              PhinexaFont.contentRegular.copyWith(color: PhinexaColor.darkGrey),
+          style: PhinexaFont.contentRegular.copyWith(
+            color: PhinexaColor.darkGrey,
+          ),
           icon: Icon(Icons.arrow_drop_down, color: PhinexaColor.grey),
           isExpanded: true,
           onChanged: (String? newValue) {
@@ -55,21 +56,29 @@ class _CountryDropdownWidgetState
               setState(() {
                 _selectedCountry = newValue;
               });
-              final selected =
-                  _countries.firstWhere((c) => c['name'] == newValue);
+              final selected = _countries.firstWhere(
+                (c) => c['name'] == newValue,
+              );
+
+              final selectedLatLng = selected['latLng'] as LatLng;
+
+              // Update the location provider
               ref
                   .read(selectedLocationProvider.notifier)
-                  .updateLocation(selected['latLng']);
+                  .updateLocation(selectedLatLng);
+
+              // Call the callback to trigger bottom sheet
+              if (widget.onCountrySelected != null) {
+                widget.onCountrySelected!(selectedLatLng);
+              }
             }
           },
-          items: _countries
-              .map<DropdownMenuItem<String>>((Map<String, dynamic> country) {
+          items: _countries.map<DropdownMenuItem<String>>((
+            Map<String, dynamic> country,
+          ) {
             return DropdownMenuItem<String>(
               value: country['name'],
-              child: Text(
-                country['name'],
-                style: PhinexaFont.highlightRegular,
-              ),
+              child: Text(country['name'], style: PhinexaFont.highlightRegular),
             );
           }).toList(),
         ),
