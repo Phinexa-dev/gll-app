@@ -49,8 +49,10 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
     final file = ref.read(selectedFileProvider);
     if (file == null) {
       if (mounted) {
-        feedBackService.showToast("Please select a PDF to upload",
-            type: FeedbackType.error);
+        feedBackService.showToast(
+          "Please select a PDF to upload",
+          type: FeedbackType.error,
+        );
       }
       return;
     }
@@ -60,8 +62,10 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       final user = await ref.read(userProvider.future);
       if (user == null) {
         if (mounted) {
-          feedBackService.showToast('User not authenticated. Please log in.',
-              type: FeedbackType.error);
+          feedBackService.showToast(
+            'User not authenticated. Please log in.',
+            type: FeedbackType.error,
+          );
         }
         return;
       }
@@ -76,30 +80,32 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       final formData = {
         'title': _titleController.text,
         'description': _descriptionController.text,
-        'image': downloadUrl, // Assuming 'image' field stores the PDF URL
-        'link': _linkController.text.trim(), // Trim link to avoid empty spaces
+        'image': downloadUrl,
+        'link': _linkController.text.trim(),
       };
 
-      // send to controller
       ref.read(sipReportControllerProvider.notifier).setFormData(formData);
       await ref.read(sipReportControllerProvider.notifier).uploadSipReport();
 
-      // clear selected file and form fields before navigating
       ref.read(selectedFileProvider.notifier).state = null;
       _titleController.clear();
       _descriptionController.clear();
       _linkController.clear();
-      clearSurveyResponses(ref); // Assuming this clears any related survey data
+      clearSurveyResponses(ref);
 
       if (mounted) {
-        feedBackService.showToast("SIP Report uploaded successfully!",
-            type: FeedbackType.success);
-        _showCompletionDialog(context); // Show the success dialog
+        feedBackService.showToast(
+          "SIP Report uploaded successfully!",
+          type: FeedbackType.success,
+        );
+        _showCompletionDialog(context);
       }
     } catch (e) {
       if (mounted) {
-        feedBackService.showToast("Failed to upload SIP: ${e.toString()}",
-            type: FeedbackType.error);
+        feedBackService.showToast(
+          "Failed to upload SIP: ${e.toString()}",
+          type: FeedbackType.error,
+        );
       }
     } finally {
       if (mounted) {
@@ -111,11 +117,12 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
   void _showCompletionDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible: false, // User must tap button to dismiss
+      barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -123,8 +130,9 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
               children: [
                 Text(
                   'Thank you for uploading the report',
-                  style: PhinexaFont.headingSmall
-                      .copyWith(color: PhinexaColor.black),
+                  style: PhinexaFont.headingSmall.copyWith(
+                    color: PhinexaColor.black,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -150,14 +158,10 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                   label: "Continue",
                   height: 40,
                   onPressed: () {
-                    Navigator.of(dialogContext).pop(); // Dismiss the dialog
-                    ref
-                        .read(navProvider.notifier)
-                        .onItemTapped(1); // Set tab to Resources
-                    ref.read(tabIndexProvider.notifier).state =
-                        0; // Set sub-tab to default if applicable
-                    context.goNamed(RouteName
-                        .dashboard); // Navigate to dashboard and clear stack
+                    Navigator.of(dialogContext).pop();
+                    ref.read(navProvider.notifier).onItemTapped(0);
+                    ref.read(tabIndexProvider.notifier).state = 0;
+                    context.goNamed(RouteName.dashboard);
                   },
                 ),
               ],
@@ -180,45 +184,49 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
           overflow: TextOverflow.ellipsis,
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Create SIP Report", style: PhinexaFont.headingLarge),
-              const SizedBox(height: 12),
-              CustomFormTextField(
-                controller: _titleController,
-                labelText: 'SIP Title*',
-                hintText: 'Community Clean-Up Initiative',
-                validator: (value) => (value == null || value.trim().isEmpty)
-                    ? 'Please enter a title'
-                    : null,
-              ),
-              const SizedBox(height: 12),
-              CustomFormTextField(
-                controller: _descriptionController,
-                labelText: 'Description*',
-                hintText: 'Impact - 2,000+ residents benefited',
-                height: 180,
-                maxLines: 10,
-                validator: (value) => (value == null || value.trim().isEmpty)
-                    ? 'Please enter a description'
-                    : null,
-              ),
-              const SizedBox(height: 24),
-              _buildUploader(),
-              const SizedBox(height: 12),
-              CustomFormTextField(
-                controller: _linkController,
-                labelText: 'Link (Optional)', // Made link optional
-                hintText: 'URL',
-                // No validator for link as it's optional
-              ),
-              const SizedBox(height: 12),
-            ],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Create SIP Report", style: PhinexaFont.headingLarge),
+                const SizedBox(height: 12),
+                CustomFormTextField(
+                  controller: _titleController,
+                  labelText: 'SIP Title*',
+                  hintText: '',
+                  validator: (value) => (value == null || value.trim().isEmpty)
+                      ? 'Please enter a title'
+                      : null,
+                ),
+                const SizedBox(height: 12),
+                CustomFormTextField(
+                  controller: _descriptionController,
+                  labelText: 'Description*',
+                  hintText: '',
+                  height: 180,
+                  maxLines: 10,
+                  validator: (value) => (value == null || value.trim().isEmpty)
+                      ? 'Please enter a description'
+                      : null,
+                ),
+                const SizedBox(height: 24),
+                _buildUploader(),
+                const SizedBox(height: 12),
+                CustomFormTextField(
+                  controller: _linkController,
+                  labelText: 'Link (Optional)',
+                  hintText: '',
+                ),
+                const SizedBox(height: 12),
+              ],
+            ),
           ),
         ),
       ),
@@ -226,8 +234,7 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
         margin: const EdgeInsets.all(20),
         child: Consumer(
           builder: (context, ref, _) {
-            final isSubmitting =
-                ref.watch(this.isSubmittingProvider); // Use `this` for clarity
+            final isSubmitting = ref.watch(this.isSubmittingProvider);
             return CustomButton(
               label: "Upload SIP",
               height: 40,
@@ -260,7 +267,6 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
       dashPattern: const [4, 4],
       child: InkWell(
         onTap: () async {
-          // You might want to disable picking if already submitting
           if (ref.read(isSubmittingProvider)) return;
           final filePicker = ref.read(filePickerServiceProvider);
           await filePicker.pickPdfFile();
@@ -284,8 +290,9 @@ class _SipCreateScreenState extends ConsumerState<SipCreateScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: PhinexaFont.contentRegular
-                    .copyWith(color: PhinexaColor.grey),
+                style: PhinexaFont.contentRegular.copyWith(
+                  color: PhinexaColor.grey,
+                ),
               ),
             ],
           ),

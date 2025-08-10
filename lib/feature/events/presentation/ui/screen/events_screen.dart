@@ -52,16 +52,15 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
     _filteredEvents = _filteredEvents.isEmpty ? events : _filteredEvents;
 
     if (events.isEmpty) {
-      return const Scaffold(
-        body: Center(child: Text('No events available')),
-      );
+      return const Scaffold(body: Center(child: Text('No events available')));
     }
 
     Event firstEvent = events.first;
     bool showFirstEvent = _filteredEvents.contains(firstEvent);
 
-    List<Event> remainingEvents =
-        _filteredEvents.where((event) => event != firstEvent).toList();
+    List<Event> remainingEvents = _filteredEvents
+        .where((event) => event != firstEvent)
+        .toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -97,9 +96,7 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                       style: PhinexaFont.featureEmphasis,
                     ),
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  SizedBox(height: 16),
                   RichText(
                     textAlign: TextAlign.left,
                     text: TextSpan(
@@ -108,9 +105,7 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                       style: PhinexaFont.contentRegular,
                     ),
                   ),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 8),
                   RichText(
                     textAlign: TextAlign.left,
                     text: TextSpan(
@@ -119,9 +114,7 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                       style: PhinexaFont.contentRegular,
                     ),
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  SizedBox(height: 16),
                   RichText(
                     textAlign: TextAlign.left,
                     text: TextSpan(
@@ -129,9 +122,7 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                       style: PhinexaFont.highlightRegular,
                     ),
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),
@@ -161,14 +152,15 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                     ),
                     Text(
                       DateFormat('MMMM d, yyyy').format(firstEvent.startDate),
-                      style: PhinexaFont.captionRegular
-                          .copyWith(color: PhinexaColor.grey),
+                      style: PhinexaFont.captionRegular.copyWith(
+                        color: PhinexaColor.grey,
+                      ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                     const SizedBox(height: 12),
                     CustomButton(
-                      label: "Explore More",
+                      label: "Register Here",
                       onPressed: () {
                         context.pushNamed(
                           RouteName.eventDetails,

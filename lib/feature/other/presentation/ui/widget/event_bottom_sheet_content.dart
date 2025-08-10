@@ -7,15 +7,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../common/widget/custom_button.dart';
 import '../../../../../core/route/route_name.dart';
-import '../widget/map_view_widget.dart';
+import '../../../domain/model/camp_event/camp_event_model.dart';
 
 class EventBottomSheetContent extends ConsumerWidget {
   final CampEvent event;
 
-  const EventBottomSheetContent({
-    super.key,
-    required this.event,
-  });
+  const EventBottomSheetContent({super.key, required this.event});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,10 +24,7 @@ class EventBottomSheetContent extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Icon(
-                Icons.drag_handle_sharp,
-                size: 32,
-              ),
+              Icon(Icons.drag_handle_sharp, size: 32),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
@@ -53,8 +47,9 @@ class EventBottomSheetContent extends ConsumerWidget {
                           ),
                           Text(
                             event.location,
-                            style: PhinexaFont.contentEmphasis
-                                .copyWith(color: PhinexaColor.grey),
+                            style: PhinexaFont.contentEmphasis.copyWith(
+                              color: PhinexaColor.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -66,10 +61,7 @@ class EventBottomSheetContent extends ConsumerWidget {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          icon: Icon(
-                            Icons.close_rounded,
-                            size: 26,
-                          ),
+                          icon: Icon(Icons.close_rounded, size: 26),
                         ),
                       ],
                     ),
@@ -103,8 +95,7 @@ class EventBottomSheetContent extends ConsumerWidget {
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: 250,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
+                                loadingBuilder: (context, child, loadingProgress) {
                                   if (loadingProgress == null) {
                                     return child;
                                   }
@@ -112,14 +103,15 @@ class EventBottomSheetContent extends ConsumerWidget {
                                     height: 200,
                                     child: Center(
                                       child: CircularProgressIndicator(
-                                        value: loadingProgress
+                                        value:
+                                            loadingProgress
                                                     .expectedTotalBytes !=
                                                 null
                                             ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                (loadingProgress
-                                                        .expectedTotalBytes ??
-                                                    1)
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
                                             : null,
                                       ),
                                     ),
@@ -133,12 +125,10 @@ class EventBottomSheetContent extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 12,
-              ),
+              SizedBox(height: 12),
               Transform.translate(
                 offset: Offset(0, -80),
                 child: Padding(
@@ -154,9 +144,7 @@ class EventBottomSheetContent extends ConsumerWidget {
                         overflow: TextOverflow.fade,
                         maxLines: 6,
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      SizedBox(height: 40),
                       CustomButton(
                         label: "Explorer More",
                         height: 40,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/other/presentation/ui/widget/map_view_widget.dart';
+import 'package:latlong2/latlong.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../widget/country_dropdown_widget.dart';
 
@@ -12,6 +13,13 @@ class SipMap extends ConsumerStatefulWidget {
 }
 
 class _SipMapState extends ConsumerState<SipMap> {
+  final GlobalKey<MapViewWidgetState> _mapKey = GlobalKey<MapViewWidgetState>();
+
+  void _handleDropdownSelection(LatLng latLng) {
+    // Call the map widget's method directly
+    _mapKey.currentState?.handleTap(latLng, source: 'dropdown');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,10 +29,7 @@ class _SipMapState extends ConsumerState<SipMap> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'SIP Map',
-                style: PhinexaFont.headingSmall,
-              ),
+              Text('SIP Map', style: PhinexaFont.headingSmall),
               const SizedBox(width: 50),
             ],
           ),
@@ -32,12 +37,14 @@ class _SipMapState extends ConsumerState<SipMap> {
       ),
       body: Stack(
         children: [
-          const MapViewWidget(),
+          MapViewWidget(key: _mapKey),
           Positioned(
             top: 30,
             left: 0,
             right: 0,
-            child: CountryMapDropdownWidget(),
+            child: CountryMapDropdownWidget(
+              onCountrySelected: _handleDropdownSelection,
+            ),
           ),
         ],
       ),

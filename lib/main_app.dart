@@ -18,8 +18,17 @@ class MainApp extends ConsumerWidget {
       scaffoldMessengerKey: scaffoldMessengerKey,
       routerConfig: goRouter,
       builder: (context, child) {
-        return FeedbackListener(child: child!);
+        final mediaQueryData = MediaQuery.of(context);
+        final fixedScaleMediaQueryData = mediaQueryData.copyWith(
+          textScaler: TextScaler.linear(1.0),
+        );
+
+        return MediaQuery(
+          data: fixedScaleMediaQueryData,
+          child: FeedbackListener(child: child!),
+        );
       },
+
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ref.watch(themeProvider),

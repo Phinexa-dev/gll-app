@@ -37,15 +37,50 @@ class _SIPSkillsApplicationScreenState
     super.dispose();
   }
 
+  void _showTopSnackBar(BuildContext context, String message) {
+    OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 50.0,
+        left: 20.0,
+        right: 20.0,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.red.withOpacity(0.85),
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Text(message, style: TextStyle(color: Colors.white)),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(overlayEntry);
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      overlayEntry.remove();
+    });
+  }
+
   void _validateForm() {
     bool isValid = true;
-    final responses = ref.read(radioStringQuestionResponseProvider);
+    String errorMessage = "The following fields are required:\n";
 
-    // Validate all questions
+    final responses = ref.read(radioStringQuestionResponseProvider);
     _questionErrors.forEach((question, errorNotifier) {
       if (responses[question] == null) {
         errorNotifier.value = 'Please answer this question';
         isValid = false;
+        errorMessage += "- $question\n";
       } else {
         errorNotifier.value = null;
       }
@@ -53,81 +88,9 @@ class _SIPSkillsApplicationScreenState
 
     if (isValid) {
       context.pushNamed(RouteName.sipProjectImpactScreen);
+    } else {
+      _showTopSnackBar(context, errorMessage);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Post Survey - SIP',
-          style: PhinexaFont.highlightAccent,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Text("Skills Application", style: PhinexaFont.headingLarge),
-              const SizedBox(height: 20),
-              Text(
-                "Please indicate your level of agreement with the following statements.",
-                style: PhinexaFont.highlightRegular,
-              ),
-              const SizedBox(height: 20),
-
-              // Question 1
-              _buildQuestionWidget(
-                "I was able to apply the leadership skills I learned during the Leadership Academy to my project.",
-              ),
-              const SizedBox(height: 15),
-
-              // Question 2
-              _buildQuestionWidget(
-                "The Sustainable Impact Plan module helped me structure and execute my project effectively.",
-              ),
-              const SizedBox(height: 15),
-
-              // Question 3
-              _buildQuestionWidget(
-                "I felt confident in leading my with team or community during the project.",
-              ),
-              const SizedBox(height: 20),
-
-              // Question 4
-              _buildQuestionWidget(
-                "I was able to handle challenges or setbacks during the project using the leadership skill I learned.",
-              ),
-              const SizedBox(height: 10),
-
-              // Next Button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 20),
-                    child: CustomButton(
-                      width: 100,
-                      label: "Next",
-                      icon: Icons.chevron_right_rounded,
-                      height: 40,
-                      onPressed: _validateForm,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildQuestionWidget(String question) {
@@ -146,6 +109,75 @@ class _SIPSkillsApplicationScreenState
           ],
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          'Post Survey - SIP',
+          style: PhinexaFont.highlightAccent,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Text("Skills Application", style: PhinexaFont.headingLarge),
+                const SizedBox(height: 20),
+                Text(
+                  "Please indicate your level of agreement with the following statements.",
+                  style: PhinexaFont.highlightRegular,
+                ),
+                const SizedBox(height: 20),
+                _buildQuestionWidget(
+                  "I was able to apply the leadership skills I learned during the Leadership Academy to my project.",
+                ),
+                const SizedBox(height: 15),
+                _buildQuestionWidget(
+                  "The Sustainable Impact Plan module helped me structure and execute my project effectively.",
+                ),
+                const SizedBox(height: 15),
+                _buildQuestionWidget(
+                  "I felt confident in leading my with team or community during the project.",
+                ),
+                const SizedBox(height: 20),
+                _buildQuestionWidget(
+                  "I was able to handle challenges or setbacks during the project using the leadership skill I learned.",
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: CustomButton(
+                        width: 100,
+                        label: "Next",
+                        icon: Icons.chevron_right_rounded,
+                        height: 40,
+                        onPressed: _validateForm,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

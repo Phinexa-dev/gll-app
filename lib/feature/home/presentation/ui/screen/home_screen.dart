@@ -71,10 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: isLoading
                         ? Shimmer(
                             gradient: const LinearGradient(
-                              colors: [
-                                Colors.grey,
-                                Colors.white,
-                              ],
+                              colors: [Colors.grey, Colors.white],
                             ),
                             child: const CircleAvatar(
                               radius: 24,
@@ -82,30 +79,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           )
                         : userData?['profileImage'] != null &&
-                                (userData!['profileImage'] as String).isNotEmpty
-                            ? CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Colors.grey[300],
-                                backgroundImage:
-                                    NetworkImage(userData!['profileImage']),
-                              )
-                            : const CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Color(0xFFE0E0E0),
-                                child: Icon(Icons.person, color: Colors.white),
-                              ),
+                              (userData!['profileImage'] as String).isNotEmpty
+                        ? CircleAvatar(
+                            radius: 24,
+                            backgroundColor: Colors.grey[300],
+                            backgroundImage: NetworkImage(
+                              userData!['profileImage'],
+                            ),
+                          )
+                        : const CircleAvatar(
+                            radius: 24,
+                            backgroundColor: Color(0xFFE0E0E0),
+                            child: Icon(Icons.person, color: Colors.white),
+                          ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ref.watch(userProvider).when(
+                  child: ref
+                      .watch(userProvider)
+                      .when(
                         data: (user) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               getGreeting(),
-                              style: PhinexaFont.captionEmphasis
-                                  .copyWith(color: PhinexaColor.darkGrey),
+                              style: PhinexaFont.captionEmphasis.copyWith(
+                                color: PhinexaColor.darkGrey,
+                              ),
                             ),
                             SizedBox(
                               width: 200,
@@ -123,8 +124,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               getGreeting(),
-                              style: PhinexaFont.labelRegular
-                                  .copyWith(color: PhinexaColor.darkGrey),
+                              style: PhinexaFont.labelRegular.copyWith(
+                                color: PhinexaColor.darkGrey,
+                              ),
                             ),
                             SizedBox(
                               width: 200,
@@ -142,8 +144,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               getGreeting(),
-                              style: PhinexaFont.labelRegular
-                                  .copyWith(color: PhinexaColor.darkGrey),
+                              style: PhinexaFont.labelRegular.copyWith(
+                                color: PhinexaColor.darkGrey,
+                              ),
                             ),
                             SizedBox(
                               width: 200,
@@ -258,7 +261,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? _getUserSurveyNames(ref, userEmail)
           : Future.value([]),
       builder: (context, snapshot) {
-        final hasRegistered = snapshot.data?.contains(
+        final hasRegistered =
+            snapshot.data?.contains(
               'Pre_Survey_${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
             ) ??
             false;
@@ -269,7 +273,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildEventSectionContent(
-      BuildContext context, WidgetRef ref, Event event, bool hasRegistered) {
+    BuildContext context,
+    WidgetRef ref,
+    Event event,
+    bool hasRegistered,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -282,19 +290,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               Text("Start Training", style: PhinexaFont.headingLarge),
               TextButton(
-                  onPressed: () {
-                    ref.read(navProvider.notifier).onItemTapped(2);
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.chevron_right_rounded,
-                        size: 30,
-                        color: PhinexaColor.darkGrey,
-                      )
-                    ],
-                  ))
+                onPressed: () {
+                  ref.read(navProvider.notifier).onItemTapped(2);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      size: 30,
+                      color: PhinexaColor.darkGrey,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           SizedBox(height: 12),
@@ -317,10 +326,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 12),
-              Text(event.title,
-                  style: PhinexaFont.featureAccent,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2),
+              Text(
+                event.title,
+                style: PhinexaFont.featureAccent,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
               Row(
                 children: [
                   Icon(
@@ -328,13 +339,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     size: 14,
                     color: PhinexaColor.grey,
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
+                  SizedBox(width: 5),
                   Text(
                     DateFormat('MMMM d, yyyy').format(event.startDate),
-                    style: PhinexaFont.captionRegular
-                        .copyWith(color: PhinexaColor.grey),
+                    style: PhinexaFont.captionRegular.copyWith(
+                      color: PhinexaColor.grey,
+                    ),
                   ),
                 ],
               ),
@@ -346,11 +356,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       label: "Register Now",
                       height: 40,
                       onPressed: () {
-                        context.pushNamed(RouteName.registrationForm, extra: {
-                          'isTTT': event.isTTT,
-                          'eventIdentity':
-                              '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
-                        });
+                        context.pushNamed(
+                          RouteName.registrationForm,
+                          extra: {
+                            'isTTT': event.isTTT,
+                            'eventIdentity':
+                                '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
+                          },
+                        );
                       },
                     ),
                   ],
@@ -371,8 +384,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: SvgPicture.asset('assets/home/home_screen_bg_2.svg',
-                  fit: BoxFit.fill),
+              child: SvgPicture.asset(
+                'assets/home/home_screen_bg_2.svg',
+                fit: BoxFit.fill,
+              ),
             ),
           ],
         ),
@@ -382,8 +397,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 12),
-              Text("Your Leadership Journey: LA → SIP → TTT",
-                  style: PhinexaFont.headingSmall),
+              Text(
+                "Your Leadership Journey: LA → SIP → TTT",
+                style: PhinexaFont.headingSmall,
+              ),
               SizedBox(height: 12),
               Text(
                 "Leadership Academy (LA):",
@@ -395,10 +412,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 text: TextSpan(
                   text:
                       "Where it all begins. LA is hands-on, real-world, and all about you—building the mindset, skills, and confidence to lead positive change. During LA, you’ll create the vision and foundation for your Sustainable Impact Project (SIP).",
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.darkGrey),
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
                 ),
               ),
+              SizedBox(height: 12),
+              Text(
+                "Sustainable Impact Project (SIP):",
+                style: PhinexaFont.highlightAccent,
+              ),
+              SizedBox(height: 4),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  text: "Your chance to say:",
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  text:
+                      "“I see something that needs to change, and I’m going to do something about it.”",
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  text:
+                      "You design it. You lead it. You make it real. Whether it’s a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
+                ),
+              ),
+
               SizedBox(height: 12),
               Text(
                 "Train the Trainer (TTT):",
@@ -410,8 +465,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 text: TextSpan(
                   text:
                       "Ready to lead others? TTT is your next step. You’ll build the confidence, tools, and facilitation skills to train future changemakers and lead your own Leadership Academies.",
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.darkGrey),
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
                 ),
               ),
               SizedBox(height: 12),
@@ -429,8 +485,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text: "Your chance to say:   ",
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.darkGrey),
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
                 ),
               ),
               SizedBox(height: 4),
@@ -439,8 +496,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 text: TextSpan(
                   text:
                       "“I see something that needs to change, and I’m going to do something about it.”",
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.darkGrey),
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
                 ),
               ),
               SizedBox(height: 4),
@@ -449,8 +507,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 text: TextSpan(
                   text:
                       "You design it. You lead it. You make it real. Whether it’s a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
-                  style: PhinexaFont.contentRegular
-                      .copyWith(color: PhinexaColor.darkGrey),
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
                 ),
               ),
             ],
@@ -458,8 +517,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: SvgPicture.asset('assets/home/home_screen_bg_4.svg',
-              fit: BoxFit.fill),
+          child: SvgPicture.asset(
+            'assets/home/home_screen_bg_4.svg',
+            fit: BoxFit.fill,
+          ),
         ),
         SizedBox(height: 24),
         Padding(
@@ -470,38 +531,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               RichText(
                 textAlign: TextAlign.left,
                 text: TextSpan(
-                    text: "Path to Global Trainer",
-                    style: PhinexaFont.featureEmphasis),
+                  text: "Path to Global Trainer",
+                  style: PhinexaFont.featureEmphasis,
+                ),
               ),
               SizedBox(height: 16),
               RichText(
                 textAlign: TextAlign.justify,
                 text: TextSpan(
-                    text: "From participant to leader to global change maker.",
-                    style: PhinexaFont.highlightEmphasis),
+                  text: "From participant to leader to global change maker.",
+                  style: PhinexaFont.highlightEmphasis,
+                ),
               ),
               SizedBox(height: 4),
               RichText(
                 textAlign: TextAlign.justify,
                 text: TextSpan(
-                    text:
-                        "The path to becoming a Global Trainer starts with the Leadership Academy and continues through your Sustainable Impact Project, and grows through experience, mentorship, and impact. It's a journey of leadership, facilitation, and paying what you have received forward.",
-                    style: PhinexaFont.contentRegular
-                        .copyWith(color: PhinexaColor.darkGrey)),
+                  text:
+                      "The path to becoming a Global Trainer starts with the Leadership Academy and continues through your Sustainable Impact Project, and grows through experience, mentorship, and impact. It's a journey of leadership, facilitation, and paying what you have received forward.",
+                  style: PhinexaFont.contentRegular.copyWith(
+                    color: PhinexaColor.darkGrey,
+                  ),
+                ),
               ),
               SizedBox(height: 16),
               RichText(
-                  textAlign: TextAlign.left,
-                  text: TextSpan(
-                      text: "Ready to see how it all connects?",
-                      style: PhinexaFont.highlightRegular)),
+                textAlign: TextAlign.left,
+                text: TextSpan(
+                  text: "Ready to see how it all connects?",
+                  style: PhinexaFont.highlightRegular,
+                ),
+              ),
               SizedBox(height: 16),
               CustomButton(
                 label: "Explore the Cascading Model",
                 height: 40,
                 onPressed: () {
-                  context.pushNamed(RouteName.pdfViewer,
-                      extra: "assets/pdf/casacading_model.pdf");
+                  context.pushNamed(
+                    RouteName.pdfViewer,
+                    extra: "assets/pdf/casacading_model.pdf",
+                  );
                 },
               ),
             ],
@@ -521,22 +590,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 48),
-              Text("Explore the Global Wave of Change",
-                  style: PhinexaFont.headingLarge),
+              Text(
+                "Explore the Global Wave of Change",
+                style: PhinexaFont.headingLarge,
+              ),
               SizedBox(height: 12),
               RichText(
-                  textAlign: TextAlign.justify,
-                  text: TextSpan(
-                      text:
-                          "Each SIP starts with one idea, one ripple. All together, they’re making waves around the world.",
-                      style: PhinexaFont.contentRegular)),
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  text:
+                      "Each SIP starts with one idea, one ripple. All together, they’re making waves around the world.",
+                  style: PhinexaFont.contentRegular,
+                ),
+              ),
               SizedBox(height: 12),
               RichText(
-                  textAlign: TextAlign.justify,
-                  text: TextSpan(
-                      text:
-                          "Use the interactive map below to explore the global impact of Sustainable Impact Projects (SIPs).  Click on any location marked with a star to discover SIPs led by young changemakers like you, and get inspired!",
-                      style: PhinexaFont.contentRegular)),
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  text:
+                      "Use the interactive map below to explore the global impact of Sustainable Impact Projects (SIPs).  Click on any location marked with a star to discover SIPs led by young changemakers like you, and get inspired!",
+                  style: PhinexaFont.contentRegular,
+                ),
+              ),
               SizedBox(height: 12),
               Container(
                 width: double.infinity,
@@ -560,11 +635,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               SizedBox(height: 90),
               RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "Empowering Youth to Lead and Innovate Globally",
-                      style: PhinexaFont.headingDoubleExLargeExBold
-                          .copyWith(height: 1.5))),
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: "Empowering Youth to Lead and Innovate Globally",
+                  style: PhinexaFont.headingDoubleExLargeExBold.copyWith(
+                    height: 1.5,
+                  ),
+                ),
+              ),
               SizedBox(height: 90),
             ],
           ),

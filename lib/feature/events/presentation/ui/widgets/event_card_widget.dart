@@ -46,15 +46,17 @@ class EventCardWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the first sub-event to display its date and time
-    final SubEvent? firstSubEvent =
-        event.subEvents.isNotEmpty ? event.subEvents.first : null;
+    final SubEvent? firstSubEvent = event.subEvents.isNotEmpty
+        ? event.subEvents.first
+        : null;
 
     if (firstSubEvent == null) {
       return const SizedBox.shrink(); // Hide card if no sub-events
     }
 
     // Determine if the time section should be visible
-    final bool showTime = firstSubEvent.startDate.hour != 0 ||
+    final bool showTime =
+        firstSubEvent.startDate.hour != 0 ||
         firstSubEvent.startDate.minute != 0;
 
     return Container(
@@ -72,9 +74,7 @@ class EventCardWidget extends ConsumerWidget {
         ],
       ),
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 0,
         margin: EdgeInsets.zero,
         child: Column(
@@ -136,7 +136,9 @@ class EventCardWidget extends ConsumerWidget {
                         const SizedBox(width: 8),
                         Text(
                           _getEventTime(
-                              firstSubEvent.startDate, firstSubEvent.endDate),
+                            firstSubEvent.startDate,
+                            firstSubEvent.endDate,
+                          ),
                           style: PhinexaFont.labelRegular.copyWith(
                             color: PhinexaColor.darkGrey,
                           ),
@@ -155,12 +157,10 @@ class EventCardWidget extends ConsumerWidget {
                       minimumSize: const Size(double.infinity, 40),
                     ),
                     child: const Text(
-                      'Explore More',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                      'Register Here',
+                      style: TextStyle(color: Colors.white),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
