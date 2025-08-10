@@ -15,7 +15,6 @@ import 'package:gll/feature/login/presentation/ui/screen/login.dart';
 import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/forget_password_screen.dart';
 import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/otp_screen.dart';
 import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/success_reset_screen.dart';
-import 'package:gll/feature/other/domain/model/sip/sip_detail.dart';
 import 'package:gll/feature/other/presentation/ui/screen/camp_detail_screen.dart';
 import 'package:gll/feature/other/presentation/ui/screen/contact_us/contact_us.dart';
 import 'package:gll/feature/other/presentation/ui/screen/faqs/faq.dart';
@@ -134,17 +133,15 @@ final appRoutes = [
     builder: (context, state) {
       if (state.extra is! Map<String, dynamic>) {
         throw Exception(
-            'Invalid extra parameter: Expected Map<String, dynamic>');
+          'Invalid extra parameter: Expected Map<String, dynamic>',
+        );
       }
 
       final extras = state.extra as Map<String, dynamic>;
       final isTTT = extras['isTTT'] as bool;
       final eventIdentity = extras['eventIdentity'] as String;
 
-      return RegistrationForm(
-        isTTT: isTTT,
-        eventIdentity: eventIdentity,
-      );
+      return RegistrationForm(isTTT: isTTT, eventIdentity: eventIdentity);
     },
   ),
 
@@ -155,9 +152,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return BackgroundInformationScreen(
-        eventIdentity: eventIdentity,
-      );
+      return BackgroundInformationScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -166,9 +161,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return GoalsExpectationsScreen(
-        eventIdentity: eventIdentity,
-      );
+      return GoalsExpectationsScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -177,9 +170,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return InterestsAndEngagementScreen(
-        eventIdentity: eventIdentity,
-      );
+      return InterestsAndEngagementScreen(eventIdentity: eventIdentity);
     },
   ),
 
@@ -190,9 +181,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTBackgroundInformationScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTBackgroundInformationScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -201,9 +190,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTGoalsExpectationsScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTGoalsExpectationsScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -212,9 +199,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTInterestsAndEngagementScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTInterestsAndEngagementScreen(eventIdentity: eventIdentity);
     },
   ),
 
@@ -225,9 +210,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return LAOverallProgramFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return LAOverallProgramFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -236,9 +219,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return LAModuleSpecificFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return LAModuleSpecificFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -247,9 +228,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return LATrainerFacilitationFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return LATrainerFacilitationFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -258,9 +237,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return LAApplicationOfSkillsScreen(
-        eventIdentity: eventIdentity,
-      );
+      return LAApplicationOfSkillsScreen(eventIdentity: eventIdentity);
     },
   ),
 
@@ -271,9 +248,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTTOverallProgramFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTTOverallProgramFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -282,9 +257,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTTModuleSpecificFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTTModuleSpecificFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -293,9 +266,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTTTrainerFacilitationFeedbackScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTTTrainerFacilitationFeedbackScreen(eventIdentity: eventIdentity);
     },
   ),
   GoRoute(
@@ -304,9 +275,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final eventIdentity = state.extra as String;
-      return TTTApplicationOfSkillsScreen(
-        eventIdentity: eventIdentity,
-      );
+      return TTTApplicationOfSkillsScreen(eventIdentity: eventIdentity);
     },
   ),
 
@@ -355,10 +324,8 @@ final appRoutes = [
     name: RouteName.campMoreDetail,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final sipDetail = state.extra as SipDetail;
-      return CampDetailScreen(
-        sipDetail: sipDetail,
-      );
+      final country = state.extra as String;
+      return CampDetailScreen(country: country);
     },
   ),
   GoRoute(
@@ -367,9 +334,7 @@ final appRoutes = [
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
       final pdfAssetPath = state.extra as String;
-      return PdfViewerScreen(
-        pdfAssetPath: pdfAssetPath,
-      );
+      return PdfViewerScreen(pdfAssetPath: pdfAssetPath);
     },
   ),
   GoRoute(
