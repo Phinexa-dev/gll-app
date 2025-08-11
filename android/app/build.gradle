@@ -1,15 +1,17 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    // Move this to the end
+    id 'com.google.gms.google-services'
 }
-
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 android {
-    namespace = "com.phinexa.gll"
+    namespace = "org.globallearninglab.gll"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,8 +23,29 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                println "=== DEBUG: Loading keystore properties ==="
+                println "Key properties file exists: ${keystorePropertiesFile.exists()}"
+                println "Key properties file path: ${keystorePropertiesFile.absolutePath}"
+                println "StoreFile value: '${keystoreProperties['storeFile']}'"
+                println "KeyAlias value: '${keystoreProperties['keyAlias']}'"
+                println "Resolved store file path: ${file(keystoreProperties['storeFile']).absolutePath}"
+                println "Store file exists: ${file(keystoreProperties['storeFile']).exists()}"
 
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            } else {
+                println "=== ERROR: key.properties file NOT FOUND ==="
+                println "Looking for: ${keystorePropertiesFile.absolutePath}"
+            }
+        }
+    }
     defaultConfig {
+        multiDexEnabled true
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "org.globallearninglab.gll"
         // You can update the following values to match your application needs.
@@ -36,11 +59,20 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled true
+            shrinkResources true
+
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
 
 flutter {
