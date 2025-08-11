@@ -1,4 +1,4 @@
-package com.phinexa.gll
+package org.globallearninglab.gll
 
 import io.flutter.embedding.android.FlutterActivity
 

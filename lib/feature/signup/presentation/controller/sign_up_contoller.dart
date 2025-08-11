@@ -6,7 +6,8 @@ import '../../data/dto/request/sign_up_request.dart';
 
 final signUpControllerProvider =
     AutoDisposeNotifierProvider<SignUpController, SignUpState>(
-        SignUpController.new);
+      SignUpController.new,
+    );
 
 class SignUpController extends AutoDisposeNotifier<SignUpState> {
   @override
@@ -26,7 +27,6 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
   Future<void> signUp() async {
     final fullName = state.signUpForm?['fullName'];
     final email = state.signUpForm?['email'];
-    final country = state.signUpForm?['country'];
     final password = state.signUpForm?['password'];
     final confirmPassword = state.signUpForm?['confirmPassword'];
     final dialCode = state.signUpForm?['dialCode'];
@@ -41,8 +41,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         password.isEmpty ||
         confirmPassword.isEmpty ||
         phoneNumber.isEmpty ||
-        dialCode.isEmpty ||
-        country.isEmpty) {
+        dialCode.isEmpty) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
@@ -68,8 +67,9 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     }
 
     // validate email
-    final emailRegex =
-        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
     if (!emailRegex.hasMatch(email)) {
       state = state.copyWith(
         isLoading: false,
@@ -94,11 +94,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     }
 
     try {
-      state = state.copyWith(
-        isLoading: true,
-        isSuccess: null,
-        isFailure: null,
-      );
+      state = state.copyWith(isLoading: true, isSuccess: null, isFailure: null);
 
       final signUpRequest = SignUpRequest(
         fullName: fullName,
@@ -107,12 +103,12 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         confirmPassword: confirmPassword,
         dialCode: dialCode,
         mobileNumber: phoneNumber,
-        country: country,
         gender: gender,
       );
 
-      final result =
-          await ref.read(signUpServiceProvider).signUp(signUpRequest);
+      final result = await ref
+          .read(signUpServiceProvider)
+          .signUp(signUpRequest);
 
       state = state.copyWith(
         isLoading: false,
@@ -120,12 +116,12 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         isFailure: !result,
       );
     } on DioException catch (e) {
+      final errorMessage = e.response?.data['message'] as String?;
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        // errorMessage: e.response?.statusMessage?? 'An error occurred',
-        errorMessage: null,
+        errorMessage: errorMessage ?? 'An error occurred',
       );
     }
   }
@@ -241,8 +237,6 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
   }
 
   void setFormData(Map<String, dynamic> formData) {
-    state = state.copyWith(
-      signUpForm: formData,
-    );
+    state = state.copyWith(signUpForm: formData);
   }
 }

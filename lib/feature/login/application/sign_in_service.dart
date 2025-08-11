@@ -14,8 +14,9 @@ import '../data/repository/sign_in_repository.dart';
 import 'isign_in_service.dart';
 
 final signInServiceProvider = Provider<ISignInService>((ref) {
-  final ISignInRepository signInRepository =
-      ref.watch(signInRepositoryProvider);
+  final ISignInRepository signInRepository = ref.watch(
+    signInRepositoryProvider,
+  );
   final dio = ref.watch(networkServiceProvider);
   final tokenService = ref.watch(tokenServiceProvider(dio));
   final userService = ref.watch(userServiceProvider(dio));
@@ -40,7 +41,6 @@ final class SignInService implements ISignInService {
         id: response.user.id,
         fullName: response.user.fullName,
         email: response.user.email,
-        country: response.user.country, 
       );
       await _userService.saveUser(localUserModel);
       await _tokenService.saveTokens(response.accessToken, "");

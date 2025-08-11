@@ -7,7 +7,11 @@ import '../../../../core/presentation/provider/user_notifier_provider.dart';
 import 'save_file_web.dart';
 
 Future<void> createCertificate(
-    WidgetRef ref, String country, String certificateName, bool minimal) async {
+  WidgetRef ref,
+  String country,
+  String certificateName,
+  bool minimal,
+) async {
   // Create a new PDF document
   final PdfDocument document = PdfDocument();
   document.pageSettings.orientation = PdfPageOrientation.landscape;
@@ -21,8 +25,9 @@ Future<void> createCertificate(
   final Size pageSize = page.getClientSize();
 
   // Load the background PNG image
-  final PdfBitmap backgroundImage =
-      PdfBitmap(await _readImageData('assets/certificates/$certificateName'));
+  final PdfBitmap backgroundImage = PdfBitmap(
+    await _readImageData('assets/certificates/$certificateName'),
+  );
 
   // Draw the background image on the page
   page.graphics.drawImage(
@@ -36,7 +41,10 @@ Future<void> createCertificate(
 
   // Draw "Name" text
   double x = _calculateXPosition(
-      userState.user?.fullName ?? 'Guest', nameFont, pageSize.width);
+    userState.user?.fullName ?? 'Guest',
+    nameFont,
+    pageSize.width,
+  );
   page.graphics.drawString(
     userState.user?.fullName ?? 'Guest',
     nameFont,
@@ -50,7 +58,11 @@ Future<void> createCertificate(
     formattedDate,
     dateFont,
     bounds: Rect.fromLTWH(
-        x - 140 - (minimal ? 15 : 0), 354 - (minimal ? 23 : 0), 0, 0),
+      x - 140 - (minimal ? 15 : 0),
+      354 - (minimal ? 23 : 0),
+      0,
+      0,
+    ),
     brush: PdfSolidBrush(PdfColor(0, 0, 0)),
   );
 
@@ -60,13 +72,18 @@ Future<void> createCertificate(
     locationText,
     dateFont,
     bounds: Rect.fromLTWH(
-        x + 145 + (minimal ? 10 : 0), 354 - (minimal ? 23 : 0), 0, 0),
+      x + 145 + (minimal ? 10 : 0),
+      354 - (minimal ? 23 : 0),
+      0,
+      0,
+    ),
     brush: PdfSolidBrush(PdfColor(0, 0, 0)),
   );
 
   // Load the first signature PNG image
   final PdfBitmap primarySignatureImage = PdfBitmap(
-      await _readImageData('assets/signatures/rick_hathaway_signature.png'));
+    await _readImageData('assets/signatures/rick_hathaway_signature.png'),
+  );
 
   // Draw the signature image on the certificate
   page.graphics.drawImage(
@@ -75,8 +92,9 @@ Future<void> createCertificate(
   );
 
   // Load the second signature PNG image
-  final PdfBitmap secondarySignatureImage =
-      PdfBitmap(await _readImageData(getSignaturePath(country)));
+  final PdfBitmap secondarySignatureImage = PdfBitmap(
+    await _readImageData(getSignaturePath(country)),
+  );
 
   // Draw the signature image on the certificate
   page.graphics.drawImage(
@@ -93,8 +111,10 @@ Future<void> createCertificate(
 }
 
 double _calculateXPosition(String text, PdfFont font, double pageWidth) {
-  final Size textSize =
-      font.measureString(text, layoutArea: Size(pageWidth, 0));
+  final Size textSize = font.measureString(
+    text,
+    layoutArea: Size(pageWidth, 0),
+  );
   return (pageWidth - textSize.width) / 2;
 }
 
@@ -106,7 +126,7 @@ Future<Uint8List> _readImageData(String path) async {
 String getSignaturePath(String country) {
   if (country == "India") {
     return 'assets/signatures/apoorv_poojary_signature.png';
-  } else if (country == "Macedonia" || country == "Balkans") {
+  } else if (country == "North Macedonia" || country == "Balkans") {
     return 'assets/signatures/milena_musovska_signature.png';
   } else if (country == "Nepal") {
     return 'assets/signatures/sushma_b_shrestha_signature.png';

@@ -9,6 +9,7 @@ import 'package:gll/feature/login/presentation/controller/forgot_password_contro
 import 'package:go_router/go_router.dart';
 
 import '../../../../../welcome/presentation/ui/widget/logo.dart';
+import '../../../state/forgot_password_state.dart';
 
 class ForgetPasswordScreen extends ConsumerStatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -36,6 +37,24 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(forgotPasswordControllerProvider);
+
+    // Listen for state changes to handle navigation and errors
+    ref.listen<ForgotPasswordState>(forgotPasswordControllerProvider, (
+      previous,
+      next,
+    ) {
+      if (next.isSuccess == true && mounted) {
+        // Navigate to success screen on success
+        context.pushNamed(RouteName.successResetScreen);
+      } else if (next.isFailure == true && mounted) {
+        // Show error message on failure
+        setState(() {
+          errorText =
+              next.errorMessage ??
+              'Failed to send reset link. Please try again.';
+        });
+      }
+    });
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -69,7 +88,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                           child: Text(
                             'Don\'t worry, we\'ll send you the instructions.',
                             style: PhinexaFont.contentRegular.copyWith(
-                                color: PhinexaColor.grey, letterSpacing: 0.5),
+                              color: PhinexaColor.grey,
+                              letterSpacing: 0.5,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 48),
@@ -84,13 +105,14 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                             child: Text(
                               errorText!,
                               style: const TextStyle(
-                                  color: Colors.red, fontSize: 13),
+                                color: Colors.red,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         const SizedBox(height: 32),
                         StartButton(
                           label: 'Send Password Reset Link',
-                          isLoading: state.isLoading,
                           onPressed: () async {
                             final email = emailController.text.trim();
                             if (email.isEmpty) {
@@ -109,22 +131,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                             setState(() {
                               errorText = null;
                             });
-                            try {
-                              await ref
-                                  .read(forgotPasswordControllerProvider.notifier)
-                                  .forgotPassword(email);
-                              if (state.isSuccess == true && mounted) {
-                                context.pushNamed(RouteName.successResetScreen);
-                              } else if (state.isFailure == true) {
-                                setState(() {
-                                  errorText = state.errorMessage ?? 'Failed to send reset link. Please try again.';
-                                });
-                              }
-                            } catch (e) {
-                              setState(() {
-                                errorText = 'An error occurred. Please try again.';
-                              });
-                            }
+                            ref
+                                .read(forgotPasswordControllerProvider.notifier)
+                                .forgotPassword(email);
                           },
                         ),
                         TextButton(
@@ -143,6 +152,12 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
               ),
             ],
           ),
+          // Full-screen loader
+          if (state.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
         ],
       ),
     );

@@ -12,7 +12,6 @@ import '../../../../../core/route/route_name.dart';
 import '../../../../home/presentation/ui/provider/ phone_number_provider.dart';
 import '../provider/combine_response.dart';
 import '../provider/text_and_dropdown_reponses_provider.dart';
-import '../widgets/custom_dropdown.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
   final bool isTTT;
@@ -32,8 +31,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   late TextEditingController phoneController;
   late TextEditingController fullNameController;
   late TextEditingController ageController;
-  late TextEditingController genderDescriptionController;
-  String? selectedGender;
 
   bool _agreement1Checked = false;
   bool _agreement2Checked = false;
@@ -41,8 +38,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
   final _fullNameError = ValueNotifier<String?>(null);
   final _phoneError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
-  final _genderError = ValueNotifier<String?>(null);
-  final _genderDescriptionError = ValueNotifier<String?>(null);
 
   @override
   void initState() {
@@ -56,10 +51,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
       text: surveyResponses['Full name'] ?? '',
     );
     ageController = TextEditingController(text: surveyResponses['Age'] ?? '');
-    genderDescriptionController = TextEditingController(
-      text: surveyResponses['Gender Description'] ?? '',
-    );
-    selectedGender = surveyResponses['Gender'];
   }
 
   @override
@@ -67,7 +58,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
     phoneController.dispose();
     fullNameController.dispose();
     ageController.dispose();
-    genderDescriptionController.dispose();
     super.dispose();
   }
 
@@ -135,20 +125,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
       errorMessage += "- Age (must be a number)\n";
     } else {
       _ageError.value = null;
-    }
-
-    if (selectedGender == null) {
-      _genderError.value = 'Please select your gender';
-      isValid = false;
-      errorMessage += "- Gender\n";
-    } else if (selectedGender == 'Non-binary/Prefer to self-describe' &&
-        genderDescriptionController.text.isEmpty) {
-      _genderDescriptionError.value = 'Please describe your gender';
-      isValid = false;
-      errorMessage += "- Gender description\n";
-    } else {
-      _genderError.value = null;
-      _genderDescriptionError.value = null;
     }
 
     ref
@@ -277,70 +253,6 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                                 .updateResponse('Age', value);
                           },
                         ),
-                        if (error != null)
-                          Text(
-                            error,
-                            style: TextStyle(color: PhinexaColor.red),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(height: 12),
-                ValueListenableBuilder<String?>(
-                  valueListenable: _genderError,
-                  builder: (context, error, child) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomDropdown(
-                          fieldName: "Gender",
-                          hint: "Gender",
-                          selectedValue: selectedGender,
-                          items: [
-                            "Male",
-                            "Female",
-                            "Non-binary/Prefer to self-describe",
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value;
-                            });
-                            ref
-                                .read(surveyTextFieldResponseProvider.notifier)
-                                .updateResponse('Gender', value!);
-                          },
-                        ),
-                        if (selectedGender ==
-                            'Non-binary/Prefer to self-describe')
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              CustomFormTextField(
-                                labelText: 'Describe your gender',
-                                hintText: 'Enter your gender description',
-                                controller: genderDescriptionController,
-                                onChanged: (value) {
-                                  ref
-                                      .read(
-                                        surveyTextFieldResponseProvider
-                                            .notifier,
-                                      )
-                                      .updateResponse(
-                                        'Gender Description',
-                                        value,
-                                      );
-                                },
-                                obscureText: false,
-                              ),
-                              if (_genderDescriptionError.value != null)
-                                Text(
-                                  _genderDescriptionError.value!,
-                                  style: TextStyle(color: PhinexaColor.red),
-                                ),
-                            ],
-                          ),
                         if (error != null)
                           Text(
                             error,

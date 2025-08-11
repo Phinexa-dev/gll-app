@@ -6,7 +6,7 @@ part of 'manage_skills_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
 class _ManageSkillsApi implements ManageSkillsApi {
   _ManageSkillsApi(this._dio, {this.baseUrl, this.errorLogger});
@@ -37,9 +37,7 @@ class _ManageSkillsApi implements ManageSkillsApi {
     late List<SkillResponse> _value;
     try {
       _value = _result.data!
-          .map(
-            (dynamic i) => SkillResponse.fromJson(i as Map<String, dynamic>),
-          )
+          .map((dynamic i) => SkillResponse.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

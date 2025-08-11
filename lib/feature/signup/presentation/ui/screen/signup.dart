@@ -16,12 +16,6 @@ import '../../state/sign_up_state.dart';
 
 final phoneCodeProvider = StateProvider<String>((ref) => '+94');
 
-final countryProvider = StateProvider<String?>((ref) {
-  final formData = ref.read(signUpControllerProvider).signUpForm;
-  return formData?['country'];
-});
-
-// Initial state for gender is an empty string to represent "Not Selected"
 final genderProvider = StateProvider<String?>((ref) => '');
 
 class SignUp extends ConsumerStatefulWidget {
@@ -42,15 +36,19 @@ class _SignUpState extends ConsumerState<SignUp> {
   void initState() {
     super.initState();
     final formData = ref.read(signUpControllerProvider).signUpForm;
-    fullNameController =
-        TextEditingController(text: formData?['fullName'] ?? "");
+    fullNameController = TextEditingController(
+      text: formData?['fullName'] ?? "",
+    );
     emailController = TextEditingController(text: formData?['email'] ?? "");
-    passwordController =
-        TextEditingController(text: formData?['password'] ?? "");
-    confirmPasswordController =
-        TextEditingController(text: formData?['confirmPassword'] ?? "");
-    phoneNumberController =
-        TextEditingController(text: formData?['phoneNumber'] ?? "");
+    passwordController = TextEditingController(
+      text: formData?['password'] ?? "",
+    );
+    confirmPasswordController = TextEditingController(
+      text: formData?['confirmPassword'] ?? "",
+    );
+    phoneNumberController = TextEditingController(
+      text: formData?['phoneNumber'] ?? "",
+    );
   }
 
   @override
@@ -67,32 +65,28 @@ class _SignUpState extends ConsumerState<SignUp> {
   Widget build(BuildContext context) {
     final feedBackService = ref.read(feedbackServiceProvider);
     final phoneCode = ref.watch(phoneCodeProvider);
-    final selectedCountry = ref.watch(countryProvider);
     final selectedGender = ref.watch(genderProvider);
 
-    // Watch the loading state
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
-    ref.listen<SignUpState>(
-      signUpControllerProvider,
-      (previous, next) {
-        if (next.isSuccess != null && next.isSuccess == true) {
-          feedBackService.showToast("Registration successful",
-              type: FeedbackType.success);
-          ref.read(signUpControllerProvider.notifier).clearStates();
-          ref.read(countryProvider.notifier).state = null;
-          ref.read(genderProvider.notifier).state = '';
-          context.goNamed(RouteName.signIn);
-        } else if (next.isFailure != null && next.isFailure == true) {
-          final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
-          ref.read(signUpControllerProvider.notifier).clearStates();
-          feedBackService.showToast(
-              errorMessage ?? "Registration failed. Try again",
-              type: FeedbackType.error);
-        }
-      },
-    );
+    ref.listen<SignUpState>(signUpControllerProvider, (previous, next) {
+      if (next.isSuccess != null && next.isSuccess == true) {
+        feedBackService.showToast(
+          "Registration successful",
+          type: FeedbackType.success,
+        );
+        ref.read(signUpControllerProvider.notifier).clearStates();
+        ref.read(genderProvider.notifier).state = '';
+        context.goNamed(RouteName.signIn);
+      } else if (next.isFailure != null && next.isFailure == true) {
+        final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
+        ref.read(signUpControllerProvider.notifier).clearStates();
+        feedBackService.showToast(
+          errorMessage ?? "Registration failed. Try again",
+          type: FeedbackType.error,
+        );
+      }
+    });
 
-    // Wrap the Scaffold with a GestureDetector to dismiss the keyboard
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -115,7 +109,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                         Logo(heightFactor: 10 / 3),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
+                            horizontal: 24,
+                            vertical: 16,
+                          ),
                           child: Column(
                             children: [
                               Align(
@@ -140,14 +136,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     Row(
                                       children: [
                                         TextButton(
-                                          onPressed: () => context
-                                              .pushNamed(RouteName.signIn),
+                                          onPressed: () => context.pushNamed(
+                                            RouteName.signIn,
+                                          ),
                                           child: Text(
                                             'Login',
                                             style: PhinexaFont.labelRegular
-                                                .copyWith(
-                                              color: Colors.blue,
-                                            ),
+                                                .copyWith(color: Colors.blue),
                                           ),
                                         ),
                                         const Icon(
@@ -159,7 +154,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -201,70 +196,86 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     value: phoneCode,
                                     items: const [
                                       DropdownMenuItem(
-                                          value: '+1',
-                                          alignment: Alignment.center,
-                                          child: Text('+1')),
+                                        value: '+1',
+                                        alignment: Alignment.center,
+                                        child: Text('+1'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+91',
-                                          alignment: Alignment.center,
-                                          child: Text('+91')),
+                                        value: '+91',
+                                        alignment: Alignment.center,
+                                        child: Text('+91'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+94',
-                                          alignment: Alignment.center,
-                                          child: Text('+94')),
+                                        value: '+94',
+                                        alignment: Alignment.center,
+                                        child: Text('+94'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+977',
-                                          alignment: Alignment.center,
-                                          child: Text('+977')),
+                                        value: '+977',
+                                        alignment: Alignment.center,
+                                        child: Text('+977'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+355',
-                                          alignment: Alignment.center,
-                                          child: Text('+355')),
+                                        value: '+355',
+                                        alignment: Alignment.center,
+                                        child: Text('+355'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+381',
-                                          alignment: Alignment.center,
-                                          child: Text('+381')),
+                                        value: '+381',
+                                        alignment: Alignment.center,
+                                        child: Text('+381'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+382',
-                                          alignment: Alignment.center,
-                                          child: Text('+382')),
+                                        value: '+382',
+                                        alignment: Alignment.center,
+                                        child: Text('+382'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+383',
-                                          alignment: Alignment.center,
-                                          child: Text('+383')),
+                                        value: '+383',
+                                        alignment: Alignment.center,
+                                        child: Text('+383'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+385',
-                                          alignment: Alignment.center,
-                                          child: Text('+385')),
+                                        value: '+385',
+                                        alignment: Alignment.center,
+                                        child: Text('+385'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+386',
-                                          alignment: Alignment.center,
-                                          child: Text('+386')),
+                                        value: '+386',
+                                        alignment: Alignment.center,
+                                        child: Text('+386'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+387',
-                                          alignment: Alignment.center,
-                                          child: Text('+387')),
+                                        value: '+387',
+                                        alignment: Alignment.center,
+                                        child: Text('+387'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+359',
-                                          alignment: Alignment.center,
-                                          child: Text('+359')),
+                                        value: '+359',
+                                        alignment: Alignment.center,
+                                        child: Text('+359'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+389',
-                                          alignment: Alignment.center,
-                                          child: Text('+389')),
+                                        value: '+389',
+                                        alignment: Alignment.center,
+                                        child: Text('+389'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+63',
-                                          alignment: Alignment.center,
-                                          child: Text('+63')),
+                                        value: '+63',
+                                        alignment: Alignment.center,
+                                        child: Text('+63'),
+                                      ),
                                       DropdownMenuItem(
-                                          value: '+62',
-                                          alignment: Alignment.center,
-                                          child: Text('+62')),
+                                        value: '+62',
+                                        alignment: Alignment.center,
+                                        child: Text('+62'),
+                                      ),
                                     ],
                                     onChanged: (value) {
                                       ref
-                                          .read(phoneCodeProvider.notifier)
-                                          .state = value!;
+                                              .read(phoneCodeProvider.notifier)
+                                              .state =
+                                          value!;
                                     },
                                     menuMaxHeight: 250,
                                   ),
@@ -282,49 +293,19 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   ),
                                 ],
                               ),
-                              CustomDropdown(
-                                fieldName: "Country",
-                                fieldFont: PhinexaFont.labelRegular.copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                                selectedValue: selectedCountry,
-                                hint: "Select a country",
-                                items: const [
-                                  'India',
-                                  'Macedonia',
-                                  'Nepal',
-                                  'Sri Lanka',
-                                  'USA',
-                                  'Kosovo',
-                                  'Philippines',
-                                  'Indonesia',
-                                ],
-                                onChanged: (value) {
-                                  ref.read(countryProvider.notifier).state =
-                                      value;
-                                },
-                              ),
                               const SizedBox(height: 8),
-                              // MODIFIED GENDER DROPDOWN
                               CustomDropdown(
                                 fieldName: 'Gender',
                                 fieldFont: PhinexaFont.labelRegular.copyWith(
                                   fontWeight: FontWeight.normal,
                                   color: Colors.grey,
                                 ),
-                                // Map the empty string to 'Not Selected' for display
                                 selectedValue: selectedGender == ''
                                     ? 'Not Selected'
                                     : selectedGender,
                                 hint: 'Select Gender',
-                                items: const [
-                                  'Not Selected',
-                                  'Male',
-                                  'Female',
-                                ],
+                                items: const ['Not Selected', 'Male', 'Female'],
                                 onChanged: (value) {
-                                  // If 'Not Selected' is chosen, set the value to an empty string.
                                   if (value == 'Not Selected') {
                                     ref.read(genderProvider.notifier).state =
                                         '';
@@ -361,8 +342,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Password must be at least 8 characters long and contain at least one letter and one number',
-                                  style: PhinexaFont.labelRegular
-                                      .copyWith(color: Colors.grey.shade600),
+                                  style: PhinexaFont.labelRegular.copyWith(
+                                    color: Colors.grey.shade600,
+                                  ),
                                 ),
                               ),
                             ],
@@ -377,7 +359,6 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 'fullName': fullNameController.text,
                                 'email': emailController.text,
                                 'password': passwordController.text,
-                                'country': selectedCountry ?? '',
                                 'confirmPassword':
                                     confirmPasswordController.text,
                                 'dialCode': phoneCode,
@@ -404,9 +385,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               Container(
                 color: Colors.black.withAlpha(128),
                 child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
+                  child: CircularProgressIndicator(color: Colors.white),
                 ),
               ),
           ],
