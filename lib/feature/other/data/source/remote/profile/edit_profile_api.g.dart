@@ -6,7 +6,7 @@ part of 'edit_profile_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
 class _EditProfileApi implements EditProfileApi {
   _EditProfileApi(this._dio, {this.baseUrl, this.errorLogger});
@@ -114,7 +114,7 @@ class _EditProfileApi implements EditProfileApi {
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/user/${userId}',
+            '/user/delete-account/${userId}',
             queryParameters: queryParameters,
             data: _data,
           )

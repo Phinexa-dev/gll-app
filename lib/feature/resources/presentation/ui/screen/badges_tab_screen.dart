@@ -17,8 +17,10 @@ class _BadgesTabScreenState extends ConsumerState<BadgesTabScreen> {
   void initState() {
     super.initState();
     // Fetch certificates when the tab is loaded
-    Future.microtask(() =>
-        ref.read(certificateControllerProvider.notifier).fetchCertificates());
+    Future.microtask(
+      () =>
+          ref.read(certificateControllerProvider.notifier).fetchCertificates(),
+    );
   }
 
   @override
@@ -31,48 +33,71 @@ class _BadgesTabScreenState extends ConsumerState<BadgesTabScreen> {
       data: (fetchedCertificates) {
         // Filter badges based on fetched data
         final availableBadges = allBadges.where((previewBadge) {
-          return fetchedCertificates.any((fetchedCert) => previewBadge.path
-              .toLowerCase()
-              .contains(fetchedCert.name.toLowerCase()));
+          return fetchedCertificates.any(
+            (fetchedCert) => previewBadge.path.toLowerCase().contains(
+              fetchedCert.name.toLowerCase(),
+            ),
+          );
         }).toList();
 
         if (availableBadges.isEmpty) {
           return const Center(
-            child: Text('No badges available'),
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.workspace_premium_outlined,
+                    color: Colors.blueGrey,
+                    size: 60,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'No badges yet, but your journey has just begun!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 8),
+                ],
+              ),
+            ),
           );
         }
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: List.generate(
-              availableBadges.length,
-              (index) {
-                final badge = availableBadges[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 24.0),
-                  child: GestureDetector(
-                    onTap: () => createBadgePdf(ref, badge.path),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        'assets/badges/${badge.path}',
-                        width: screenWidth * 0.9,
-                        fit: BoxFit.cover,
-                      ),
+            children: List.generate(availableBadges.length, (index) {
+              final badge = availableBadges[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 24.0,
+                ),
+                child: GestureDetector(
+                  onTap: () => createBadgePdf(ref, badge.path),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      'assets/badges/${badge.path}',
+                      width: screenWidth * 0.9,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            }),
           ),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(
-        child: Text('Error loading badges: ${error.toString()}'),
-      ),
+      error: (error, stack) =>
+          Center(child: Text('Error loading badges: ${error.toString()}')),
     );
   }
 }

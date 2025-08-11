@@ -10,13 +10,6 @@ import '../../remote/token/token_service.dart';
 import 'iuser_service.dart';
 import 'model/user_model.dart';
 
-// final userServiceProvider = Provider<IUserService>((ref) {
-//   final secureStorage = ref.watch(secureStorageProvider);
-//   final dio = ref.watch(networkServiceProvider);
-//   final tokenService = ref.watch(tokenServiceProvider(dio));
-//   return UserService(secureStorage, tokenService);
-// });
-
 final userServiceProvider = Provider.family<IUserService, Dio>((ref, dio) {
   final secureStorage = ref.watch(secureStorageProvider);
   final tokenService = ref.watch(tokenServiceProvider(dio));
@@ -63,7 +56,6 @@ class UserService implements IUserService {
     if (id != null &&
         name != null &&
         email != null &&
-        country != null &&
         int.tryParse(id) != null) {
       return UserModel(
         id: int.parse(id),
@@ -72,7 +64,7 @@ class UserService implements IUserService {
         country: country,
       );
     }
-    return null; //  TODO: log out handling
+    return null;
   }
 
   @override
@@ -90,12 +82,17 @@ class UserService implements IUserService {
 
   @override
   Future<void> saveUser(UserModel user) {
-    final operations = [
+    final List<Future> operations = [
       _secureStorage.write(key: userId, value: user.id.toString()),
       _secureStorage.write(key: userName, value: user.fullName),
       _secureStorage.write(key: userEmail, value: user.email),
-      _secureStorage.write(key: userCountry, value: user.country),
     ];
+
+    if (user.country != null) {
+      operations.add(
+        _secureStorage.write(key: userCountry, value: user.country!),
+      );
+    }
 
     return Future.wait(operations);
   }
