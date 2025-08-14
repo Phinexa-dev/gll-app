@@ -7,7 +7,7 @@ final eventProvider = Provider<List<Event>>((ref) {
     Event(
       title: "Leadership Academy – CCIU",
       image: "assets/events/event_3.png",
-      venue: "Hartford, Connecticut",
+      venue: "Manchester, CT",
       subTitle: 'Empowering Tomorrow’s Leaders Today!',
       ledBy:
           'Led by Global Master Trainers from Macedonia and the U.S, this immersive experience takes place in Sarajevo, Bosia',
@@ -24,7 +24,7 @@ final eventProvider = Provider<List<Event>>((ref) {
     Event(
       title: "Train the Trainer – CCIU",
       image: "assets/events/event_4.png",
-      venue: "Hartford, Connecticut",
+      venue: "Manchester, CT",
       subTitle: 'Empowering Tomorrow’s Leaders Today!',
       ledBy:
           'Led by Global Master Trainers from Nepal, India, Macedonia, and the U.S, this immersive experience takes place at the world-class HMTX Headquarters.',
