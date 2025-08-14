@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
 
+import '../../core/data/local/user/country_codes.dart';
 import '../../feature/home/presentation/ui/provider/ phone_number_provider.dart';
 
 class CustomPhoneNumberField extends ConsumerWidget {
@@ -23,7 +24,7 @@ class CustomPhoneNumberField extends ConsumerWidget {
   final bool autofocus;
   final double? height;
   final String? selectedCountryCode;
-  final List<String> countryCodes;
+  final List<Country> countries;
   final ValueChanged<String?>? onChanged;
   final ValueChanged<String?>? onCountryCodeChanged;
 
@@ -41,8 +42,8 @@ class CustomPhoneNumberField extends ConsumerWidget {
     this.maxLines = 1,
     this.autofocus = false,
     this.height,
-    this.selectedCountryCode = "+1",
-    required this.countryCodes,
+    this.selectedCountryCode,
+    required this.countries,
     this.onChanged,
     this.onCountryCodeChanged,
   });
@@ -51,13 +52,8 @@ class CustomPhoneNumberField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final phoneNumberState = ref.watch(phoneNumberProvider);
 
-    // MODIFICATION: Sort the country codes numerically before using them.
-    final sortedCountryCodes = List<String>.from(countryCodes);
-    sortedCountryCodes.sort((a, b) {
-      final numA = int.tryParse(a.substring(1)) ?? 0;
-      final numB = int.tryParse(b.substring(1)) ?? 0;
-      return numA.compareTo(numB);
-    });
+    final sortedCountries = List<Country>.from(countries);
+    sortedCountries.sort((a, b) => a.name.compareTo(b.name));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,64 +68,88 @@ class CustomPhoneNumberField extends ConsumerWidget {
           child: Row(
             children: [
               SizedBox(
-                width: 100,
-                child: DropdownSearch<String>(
-                  items:
-                      (String filter, [LoadProps? props]) async {
-                            if (filter.isEmpty) {
-                              // Use the sorted list
-                              return sortedCountryCodes;
-                            } else {
-                              // Filter from the sorted list
-                              return sortedCountryCodes
-                                  .where(
-                                    (code) => code.toLowerCase().contains(
-                                      filter.toLowerCase(),
-                                    ),
-                                  )
-                                  .toList();
-                            }
-                          }
-                          as FutureOr<List<String>> Function(
-                            String, [
-                            LoadProps?,
-                          ]),
-                  selectedItem:
-                      // Check for existence in the sorted list
-                      sortedCountryCodes.contains(phoneNumberState.countryCode)
-                      ? phoneNumberState.countryCode
-                      : sortedCountryCodes.first,
-                  onChanged: (newCode) {
-                    if (newCode != null) {
+                width: 120,
+                child: DropdownSearch<Country>(
+                  items: (String filter, LoadProps? props) async {
+                    await Future.delayed(const Duration(milliseconds: 50));
+                    final lowerFilter = filter.toLowerCase().trim();
+
+                    if (lowerFilter.isEmpty) return sortedCountries;
+
+                    return sortedCountries.where((country) {
+                      return country.name.toLowerCase().contains(lowerFilter) ||
+                          country.abbreviation.toLowerCase().contains(
+                            lowerFilter,
+                          ) ||
+                          country.code.toLowerCase().contains(lowerFilter);
+                    }).toList();
+                  },
+                  compareFn: (Country country1, Country country2) {
+                    return country1.code == country2.code;
+                  },
+                  itemAsString: (Country country) =>
+                      '${country.name} (${country.abbreviation}, ${country.code})',
+                  selectedItem: sortedCountries.firstWhere(
+                    (country) => country.code == phoneNumberState.countryCode,
+                    orElse: () => sortedCountries.first,
+                  ),
+                  onChanged: (newCountry) {
+                    if (newCountry != null) {
                       ref
                           .read(phoneNumberProvider.notifier)
-                          .updateCountryCode(newCode);
-                      onCountryCodeChanged?.call(newCode);
+                          .updateCountryCode(newCountry.code);
+                      onCountryCodeChanged?.call(newCountry.code);
                     }
+                  },
+                  dropdownBuilder: (context, selectedItem) {
+                    if (selectedItem == null) return const Text("");
+                    return Text(
+                      '${selectedItem.code}',
+                      style: PhinexaFont.labelRegular,
+                    );
                   },
                   popupProps: PopupProps.menu(
                     showSearchBox: true,
+                    itemBuilder: (context, item, isDisabled, isSelected) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        child: Text(
+                          '${item.name} (${item.code})',
+                          style: PhinexaFont.labelRegular,
+                        ),
+                      );
+                    },
                     searchFieldProps: TextFieldProps(
                       decoration: InputDecoration(
-                        hintText: "Search country code...",
+                        hintText: "Search ",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                        ),
                       ),
                     ),
                     menuProps: MenuProps(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    constraints: BoxConstraints(minWidth: 300, maxHeight: 300),
+                    constraints: const BoxConstraints(
+                      minWidth: 300,
+                      maxHeight: 300,
+                    ),
                   ),
                   decoratorProps: DropDownDecoratorProps(
                     baseStyle: PhinexaFont.labelRegular,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: PhinexaColor.grey),
+                        borderSide: const BorderSide(color: PhinexaColor.grey),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -139,7 +159,7 @@ class CustomPhoneNumberField extends ConsumerWidget {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: PhinexaColor.grey),
+                        borderSide: const BorderSide(color: PhinexaColor.grey),
                       ),
                       suffixIcon: const Icon(
                         Icons.keyboard_arrow_down,
@@ -149,7 +169,7 @@ class CustomPhoneNumberField extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextField(
                   controller: controller,
@@ -184,7 +204,7 @@ class CustomPhoneNumberField extends ConsumerWidget {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: PhinexaColor.grey),
+                      borderSide: const BorderSide(color: PhinexaColor.grey),
                     ),
                   ),
                 ),

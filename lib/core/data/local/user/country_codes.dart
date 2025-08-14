@@ -1,244 +1,260 @@
-const List<String> allCountryCodes = [
-  '+93', // Afghanistan
-  '+355', // Albania
-  '+213', // Algeria
-  '+1-684', // American Samoa
-  '+376', // Andorra
-  '+244', // Angola
-  '+1-264', // Anguilla
-  '+672', // Antarctica
-  '+1-268', // Antigua and Barbuda
-  '+54', // Argentina
-  '+374', // Armenia
-  '+297', // Aruba
-  '+61', // Australia
-  '+43', // Austria
-  '+994', // Azerbaijan
-  '+1-242', // Bahamas
-  '+973', // Bahrain
-  '+880', // Bangladesh
-  '+1-246', // Barbados
-  '+375', // Belarus
-  '+32', // Belgium
-  '+501', // Belize
-  '+229', // Benin
-  '+1-441', // Bermuda
-  '+975', // Bhutan
-  '+591', // Bolivia
-  '+387', // Bosnia and Herzegovina
-  '+267', // Botswana
-  '+55', // Brazil
-  '+246', // British Indian Ocean Territory
-  '+1-284', // British Virgin Islands
-  '+673', // Brunei
-  '+359', // Bulgaria
-  '+226', // Burkina Faso
-  '+257', // Burundi
-  '+855', // Cambodia
-  '+237', // Cameroon
-  '+1', // Canada
-  '+238', // Cape Verde
-  '+1-345', // Cayman Islands
-  '+236', // Central African Republic
-  '+235', // Chad
-  '+56', // Chile
-  '+86', // China
-  '+61', // Christmas Island
-  '+61', // Cocos Islands
-  '+57', // Colombia
-  '+269', // Comoros
-  '+682', // Cook Islands
-  '+506', // Costa Rica
-  '+385', // Croatia
-  '+53', // Cuba
-  '+599', // Curacao
-  '+357', // Cyprus
-  '+420', // Czech Republic
-  '+243', // Democratic Republic of the Congo
-  '+45', // Denmark
-  '+253', // Djibouti
-  '+1-767', // Dominica
-  '+1-809', // Dominican Republic
-  '+1-829', // Dominican Republic
-  '+1-849', // Dominican Republic
-  '+670', // East Timor
-  '+593', // Ecuador
-  '+20', // Egypt
-  '+503', // El Salvador
-  '+240', // Equatorial Guinea
-  '+291', // Eritrea
-  '+372', // Estonia
-  '+251', // Ethiopia
-  '+500', // Falkland Islands
-  '+298', // Faroe Islands
-  '+679', // Fiji
-  '+358', // Finland
-  '+33', // France
-  '+689', // French Polynesia
-  '+241', // Gabon
-  '+220', // Gambia
-  '+995', // Georgia
-  '+49', // Germany
-  '+233', // Ghana
-  '+350', // Gibraltar
-  '+30', // Greece
-  '+299', // Greenland
-  '+1-473', // Grenada
-  '+1-671', // Guam
-  '+502', // Guatemala
-  '+44-1481', // Guernsey
-  '+224', // Guinea
-  '+245', // Guinea-Bissau
-  '+592', // Guyana
-  '+509', // Haiti
-  '+504', // Honduras
-  '+852', // Hong Kong
-  '+36', // Hungary
-  '+354', // Iceland
-  '+91', // India
-  '+62', // Indonesia
-  '+98', // Iran
-  '+964', // Iraq
-  '+353', // Ireland
-  '+44-1624', // Isle of Man
-  '+972', // Israel
-  '+39', // Italy
-  '+225', // Ivory Coast
-  '+1-876', // Jamaica
-  '+81', // Japan
-  '+44-1534', // Jersey
-  '+962', // Jordan
-  '+7', // Kazakhstan
-  '+254', // Kenya
-  '+686', // Kiribati
-  '+965', // Kuwait
-  '+996', // Kyrgyzstan
-  '+856', // Laos
-  '+371', // Latvia
-  '+961', // Lebanon
-  '+266', // Lesotho
-  '+231', // Liberia
-  '+218', // Libya
-  '+423', // Liechtenstein
-  '+370', // Lithuania
-  '+352', // Luxembourg
-  '+853', // Macau
-  '+389', // Macedonia
-  '+261', // Madagascar
-  '+265', // Malawi
-  '+60', // Malaysia
-  '+960', // Maldives
-  '+223', // Mali
-  '+356', // Malta
-  '+692', // Marshall Islands
-  '+222', // Mauritania
-  '+230', // Mauritius
-  '+262', // Mayotte
-  '+52', // Mexico
-  '+691', // Micronesia
-  '+373', // Moldova
-  '+377', // Monaco
-  '+976', // Mongolia
-  '+382', // Montenegro
-  '+1-664', // Montserrat
-  '+212', // Morocco
-  '+258', // Mozambique
-  '+95', // Myanmar
-  '+264', // Namibia
-  '+674', // Nauru
-  '+977', // Nepal
-  '+31', // Netherlands
-  '+599', // Netherlands Antilles
-  '+687', // New Caledonia
-  '+64', // New Zealand
-  '+505', // Nicaragua
-  '+227', // Niger
-  '+234', // Nigeria
-  '+683', // Niue
-  '+850', // North Korea
-  '+1-670', // Northern Mariana Islands
-  '+47', // Norway
-  '+968', // Oman
-  '+92', // Pakistan
-  '+680', // Palau
-  '+970', // Palestine
-  '+507', // Panama
-  '+675', // Papua New Guinea
-  '+595', // Paraguay
-  '+51', // Peru
-  '+63', // Philippines
-  '+64', // Pitcairn
-  '+48', // Poland
-  '+351', // Portugal
-  '+1-787', // Puerto Rico
-  '+1-939', // Puerto Rico
-  '+974', // Qatar
-  '+242', // Republic of the Congo
-  '+262', // Reunion
-  '+40', // Romania
-  '+7', // Russia
-  '+250', // Rwanda
-  '+590', // Saint Barthelemy
-  '+290', // Saint Helena
-  '+1-869', // Saint Kitts and Nevis
-  '+1-758', // Saint Lucia
-  '+590', // Saint Martin
-  '+508', // Saint Pierre and Miquelon
-  '+1-784', // Saint Vincent and the Grenadines
-  '+685', // Samoa
-  '+378', // San Marino
-  '+239', // Sao Tome and Principe
-  '+966', // Saudi Arabia
-  '+221', // Senegal
-  '+381', // Serbia
-  '+248', // Seychelles
-  '+232', // Sierra Leone
-  '+65', // Singapore
-  '+1-721', // Sint Maarten
-  '+421', // Slovakia
-  '+386', // Slovenia
-  '+677', // Solomon Islands
-  '+252', // Somalia
-  '+27', // South Africa
-  '+82', // South Korea
-  '+211', // South Sudan
-  '+34', // Spain
-  '+94', // Sri Lanka
-  '+249', // Sudan
-  '+597', // Suriname
-  '+47', // Svalbard and Jan Mayen
-  '+268', // Swaziland
-  '+46', // Sweden
-  '+41', // Switzerland
-  '+963', // Syria
-  '+886', // Taiwan
-  '+992', // Tajikistan
-  '+255', // Tanzania
-  '+66', // Thailand
-  '+228', // Togo
-  '+690', // Tokelau
-  '+676', // Tonga
-  '+1-868', // Trinidad and Tobago
-  '+216', // Tunisia
-  '+90', // Turkey
-  '+993', // Turkmenistan
-  '+1-649', // Turks and Caicos Islands
-  '+688', // Tuvalu
-  '+1-340', // U.S. Virgin Islands
-  '+256', // Uganda
-  '+380', // Ukraine
-  '+971', // United Arab Emirates
-  '+44', // United Kingdom
-  '+1', // United States
-  '+598', // Uruguay
-  '+998', // Uzbekistan
-  '+678', // Vanuatu
-  '+379', // Vatican
-  '+58', // Venezuela
-  '+84', // Vietnam
-  '+681', // Wallis and Futuna
-  '+212', // Western Sahara
-  '+967', // Yemen
-  '+260', // Zambia
-  '+263', // Zimbabwe
+class Country {
+  final String name;
+  final String code;
+  final String abbreviation;
+  Country({required this.name, required this.code, required this.abbreviation});
+}
+
+final List<Country> allCountries = [
+  Country(name: 'Afghanistan', code: '+93', abbreviation: 'AF'),
+  Country(name: 'Albania', code: '+355', abbreviation: 'AL'),
+  Country(name: 'Algeria', code: '+213', abbreviation: 'DZ'),
+  Country(name: 'American Samoa', code: '+1-684', abbreviation: 'AS'),
+  Country(name: 'Andorra', code: '+376', abbreviation: 'AD'),
+  Country(name: 'Angola', code: '+244', abbreviation: 'AO'),
+  Country(name: 'Anguilla', code: '+1-264', abbreviation: 'AI'),
+  Country(name: 'Antarctica', code: '+672', abbreviation: 'AQ'),
+  Country(name: 'Antigua and Barbuda', code: '+1-268', abbreviation: 'AG'),
+  Country(name: 'Argentina', code: '+54', abbreviation: 'AR'),
+  Country(name: 'Armenia', code: '+374', abbreviation: 'AM'),
+  Country(name: 'Aruba', code: '+297', abbreviation: 'AW'),
+  Country(name: 'Australia', code: '+61', abbreviation: 'AU'),
+  Country(name: 'Austria', code: '+43', abbreviation: 'AT'),
+  Country(name: 'Azerbaijan', code: '+994', abbreviation: 'AZ'),
+  Country(name: 'Bahamas', code: '+1-242', abbreviation: 'BS'),
+  Country(name: 'Bahrain', code: '+973', abbreviation: 'BH'),
+  Country(name: 'Bangladesh', code: '+880', abbreviation: 'BD'),
+  Country(name: 'Barbados', code: '+1-246', abbreviation: 'BB'),
+  Country(name: 'Belarus', code: '+375', abbreviation: 'BY'),
+  Country(name: 'Belgium', code: '+32', abbreviation: 'BE'),
+  Country(name: 'Belize', code: '+501', abbreviation: 'BZ'),
+  Country(name: 'Benin', code: '+229', abbreviation: 'BJ'),
+  Country(name: 'Bermuda', code: '+1-441', abbreviation: 'BM'),
+  Country(name: 'Bhutan', code: '+975', abbreviation: 'BT'),
+  Country(name: 'Bolivia', code: '+591', abbreviation: 'BO'),
+  Country(name: 'Bosnia and Herzegovina', code: '+387', abbreviation: 'BA'),
+  Country(name: 'Botswana', code: '+267', abbreviation: 'BW'),
+  Country(name: 'Brazil', code: '+55', abbreviation: 'BR'),
+  Country(
+    name: 'British Indian Ocean Territory',
+    code: '+246',
+    abbreviation: 'IO',
+  ),
+  Country(name: 'British Virgin Islands', code: '+1-284', abbreviation: 'VG'),
+  Country(name: 'Brunei', code: '+673', abbreviation: 'BN'),
+  Country(name: 'Bulgaria', code: '+359', abbreviation: 'BG'),
+  Country(name: 'Burkina Faso', code: '+226', abbreviation: 'BF'),
+  Country(name: 'Burundi', code: '+257', abbreviation: 'BI'),
+  Country(name: 'Cambodia', code: '+855', abbreviation: 'KH'),
+  Country(name: 'Cameroon', code: '+237', abbreviation: 'CM'),
+  Country(name: 'Canada', code: '+1', abbreviation: 'CA'),
+  Country(name: 'Cape Verde', code: '+238', abbreviation: 'CV'),
+  Country(name: 'Cayman Islands', code: '+1-345', abbreviation: 'KY'),
+  Country(name: 'Central African Republic', code: '+236', abbreviation: 'CF'),
+  Country(name: 'Chad', code: '+235', abbreviation: 'TD'),
+  Country(name: 'Chile', code: '+56', abbreviation: 'CL'),
+  Country(name: 'China', code: '+86', abbreviation: 'CN'),
+  Country(name: 'Christmas Island', code: '+61', abbreviation: 'CX'),
+  Country(name: 'Cocos Islands', code: '+61', abbreviation: 'CC'),
+  Country(name: 'Colombia', code: '+57', abbreviation: 'CO'),
+  Country(name: 'Comoros', code: '+269', abbreviation: 'KM'),
+  Country(name: 'Cook Islands', code: '+682', abbreviation: 'CK'),
+  Country(name: 'Costa Rica', code: '+506', abbreviation: 'CR'),
+  Country(name: 'Croatia', code: '+385', abbreviation: 'HR'),
+  Country(name: 'Cuba', code: '+53', abbreviation: 'CU'),
+  Country(name: 'Curacao', code: '+599', abbreviation: 'CW'),
+  Country(name: 'Cyprus', code: '+357', abbreviation: 'CY'),
+  Country(name: 'Czech Republic', code: '+420', abbreviation: 'CZ'),
+  Country(
+    name: 'Democratic Republic of the Congo',
+    code: '+243',
+    abbreviation: 'CD',
+  ),
+  Country(name: 'Denmark', code: '+45', abbreviation: 'DK'),
+  Country(name: 'Djibouti', code: '+253', abbreviation: 'DJ'),
+  Country(name: 'Dominica', code: '+1-767', abbreviation: 'DM'),
+  Country(name: 'Dominican Republic', code: '+1-809', abbreviation: 'DO'),
+  Country(name: 'East Timor', code: '+670', abbreviation: 'TL'),
+  Country(name: 'Ecuador', code: '+593', abbreviation: 'EC'),
+  Country(name: 'Egypt', code: '+20', abbreviation: 'EG'),
+  Country(name: 'El Salvador', code: '+503', abbreviation: 'SV'),
+  Country(name: 'Equatorial Guinea', code: '+240', abbreviation: 'GQ'),
+  Country(name: 'Eritrea', code: '+291', abbreviation: 'ER'),
+  Country(name: 'Estonia', code: '+372', abbreviation: 'EE'),
+  Country(name: 'Ethiopia', code: '+251', abbreviation: 'ET'),
+  Country(name: 'Falkland Islands', code: '+500', abbreviation: 'FK'),
+  Country(name: 'Faroe Islands', code: '+298', abbreviation: 'FO'),
+  Country(name: 'Fiji', code: '+679', abbreviation: 'FJ'),
+  Country(name: 'Finland', code: '+358', abbreviation: 'FI'),
+  Country(name: 'France', code: '+33', abbreviation: 'FR'),
+  Country(name: 'French Polynesia', code: '+689', abbreviation: 'PF'),
+  Country(name: 'Gabon', code: '+241', abbreviation: 'GA'),
+  Country(name: 'Gambia', code: '+220', abbreviation: 'GM'),
+  Country(name: 'Georgia', code: '+995', abbreviation: 'GE'),
+  Country(name: 'Germany', code: '+49', abbreviation: 'DE'),
+  Country(name: 'Ghana', code: '+233', abbreviation: 'GH'),
+  Country(name: 'Gibraltar', code: '+350', abbreviation: 'GI'),
+  Country(name: 'Greece', code: '+30', abbreviation: 'GR'),
+  Country(name: 'Greenland', code: '+299', abbreviation: 'GL'),
+  Country(name: 'Grenada', code: '+1-473', abbreviation: 'GD'),
+  Country(name: 'Guam', code: '+1-671', abbreviation: 'GU'),
+  Country(name: 'Guatemala', code: '+502', abbreviation: 'GT'),
+  Country(name: 'Guernsey', code: '+44-1481', abbreviation: 'GG'),
+  Country(name: 'Guinea', code: '+224', abbreviation: 'GN'),
+  Country(name: 'Guinea-Bissau', code: '+245', abbreviation: 'GW'),
+  Country(name: 'Guyana', code: '+592', abbreviation: 'GY'),
+  Country(name: 'Haiti', code: '+509', abbreviation: 'HT'),
+  Country(name: 'Honduras', code: '+504', abbreviation: 'HN'),
+  Country(name: 'Hong Kong', code: '+852', abbreviation: 'HK'),
+  Country(name: 'Hungary', code: '+36', abbreviation: 'HU'),
+  Country(name: 'Iceland', code: '+354', abbreviation: 'IS'),
+  Country(name: 'India', code: '+91', abbreviation: 'IN'),
+  Country(name: 'Indonesia', code: '+62', abbreviation: 'ID'),
+  Country(name: 'Iran', code: '+98', abbreviation: 'IR'),
+  Country(name: 'Iraq', code: '+964', abbreviation: 'IQ'),
+  Country(name: 'Ireland', code: '+353', abbreviation: 'IE'),
+  Country(name: 'Isle of Man', code: '+44-1624', abbreviation: 'IM'),
+  Country(name: 'Israel', code: '+972', abbreviation: 'IL'),
+  Country(name: 'Italy', code: '+39', abbreviation: 'IT'),
+  Country(name: 'Ivory Coast', code: '+225', abbreviation: 'CI'),
+  Country(name: 'Jamaica', code: '+1-876', abbreviation: 'JM'),
+  Country(name: 'Japan', code: '+81', abbreviation: 'JP'),
+  Country(name: 'Jersey', code: '+44-1534', abbreviation: 'JE'),
+  Country(name: 'Jordan', code: '+962', abbreviation: 'JO'),
+  Country(name: 'Kazakhstan', code: '+7', abbreviation: 'KZ'),
+  Country(name: 'Kenya', code: '+254', abbreviation: 'KE'),
+  Country(name: 'Kiribati', code: '+686', abbreviation: 'KI'),
+  Country(name: 'Kuwait', code: '+965', abbreviation: 'KW'),
+  Country(name: 'Kyrgyzstan', code: '+996', abbreviation: 'KG'),
+  Country(name: 'Laos', code: '+856', abbreviation: 'LA'),
+  Country(name: 'Latvia', code: '+371', abbreviation: 'LV'),
+  Country(name: 'Lebanon', code: '+961', abbreviation: 'LB'),
+  Country(name: 'Lesotho', code: '+266', abbreviation: 'LS'),
+  Country(name: 'Liberia', code: '+231', abbreviation: 'LR'),
+  Country(name: 'Libya', code: '+218', abbreviation: 'LY'),
+  Country(name: 'Liechtenstein', code: '+423', abbreviation: 'LI'),
+  Country(name: 'Lithuania', code: '+370', abbreviation: 'LT'),
+  Country(name: 'Luxembourg', code: '+352', abbreviation: 'LU'),
+  Country(name: 'Macau', code: '+853', abbreviation: 'MO'),
+  Country(name: 'Macedonia', code: '+389', abbreviation: 'MK'),
+  Country(name: 'Madagascar', code: '+261', abbreviation: 'MG'),
+  Country(name: 'Malawi', code: '+265', abbreviation: 'MW'),
+  Country(name: 'Malaysia', code: '+60', abbreviation: 'MY'),
+  Country(name: 'Maldives', code: '+960', abbreviation: 'MV'),
+  Country(name: 'Mali', code: '+223', abbreviation: 'ML'),
+  Country(name: 'Malta', code: '+356', abbreviation: 'MT'),
+  Country(name: 'Marshall Islands', code: '+692', abbreviation: 'MH'),
+  Country(name: 'Mauritania', code: '+222', abbreviation: 'MR'),
+  Country(name: 'Mauritius', code: '+230', abbreviation: 'MU'),
+  Country(name: 'Mayotte', code: '+262', abbreviation: 'YT'),
+  Country(name: 'Mexico', code: '+52', abbreviation: 'MX'),
+  Country(name: 'Micronesia', code: '+691', abbreviation: 'FM'),
+  Country(name: 'Moldova', code: '+373', abbreviation: 'MD'),
+  Country(name: 'Monaco', code: '+377', abbreviation: 'MC'),
+  Country(name: 'Mongolia', code: '+976', abbreviation: 'MN'),
+  Country(name: 'Montenegro', code: '+382', abbreviation: 'ME'),
+  Country(name: 'Montserrat', code: '+1-664', abbreviation: 'MS'),
+  Country(name: 'Morocco', code: '+212', abbreviation: 'MA'),
+  Country(name: 'Mozambique', code: '+258', abbreviation: 'MZ'),
+  Country(name: 'Myanmar', code: '+95', abbreviation: 'MM'),
+  Country(name: 'Namibia', code: '+264', abbreviation: 'NA'),
+  Country(name: 'Nauru', code: '+674', abbreviation: 'NR'),
+  Country(name: 'Nepal', code: '+977', abbreviation: 'NP'),
+  Country(name: 'Netherlands', code: '+31', abbreviation: 'NL'),
+  Country(name: 'Netherlands Antilles', code: '+599', abbreviation: 'AN'),
+  Country(name: 'New Caledonia', code: '+687', abbreviation: 'NC'),
+  Country(name: 'New Zealand', code: '+64', abbreviation: 'NZ'),
+  Country(name: 'Nicaragua', code: '+505', abbreviation: 'NI'),
+  Country(name: 'Niger', code: '+227', abbreviation: 'NE'),
+  Country(name: 'Nigeria', code: '+234', abbreviation: 'NG'),
+  Country(name: 'Niue', code: '+683', abbreviation: 'NU'),
+  Country(name: 'North Korea', code: '+850', abbreviation: 'KP'),
+  Country(name: 'Northern Mariana Islands', code: '+1-670', abbreviation: 'MP'),
+  Country(name: 'Norway', code: '+47', abbreviation: 'NO'),
+  Country(name: 'Oman', code: '+968', abbreviation: 'OM'),
+  Country(name: 'Pakistan', code: '+92', abbreviation: 'PK'),
+  Country(name: 'Palau', code: '+680', abbreviation: 'PW'),
+  Country(name: 'Palestine', code: '+970', abbreviation: 'PS'),
+  Country(name: 'Panama', code: '+507', abbreviation: 'PA'),
+  Country(name: 'Papua New Guinea', code: '+675', abbreviation: 'PG'),
+  Country(name: 'Paraguay', code: '+595', abbreviation: 'PY'),
+  Country(name: 'Peru', code: '+51', abbreviation: 'PE'),
+  Country(name: 'Philippines', code: '+63', abbreviation: 'PH'),
+  Country(name: 'Pitcairn', code: '+64', abbreviation: 'PN'),
+  Country(name: 'Poland', code: '+48', abbreviation: 'PL'),
+  Country(name: 'Portugal', code: '+351', abbreviation: 'PT'),
+  Country(name: 'Puerto Rico', code: '+1-787', abbreviation: 'PR'),
+  Country(name: 'Qatar', code: '+974', abbreviation: 'QA'),
+  Country(name: 'Republic of the Congo', code: '+242', abbreviation: 'CG'),
+  Country(name: 'Reunion', code: '+262', abbreviation: 'RE'),
+  Country(name: 'Romania', code: '+40', abbreviation: 'RO'),
+  Country(name: 'Russia', code: '+7', abbreviation: 'RU'),
+  Country(name: 'Rwanda', code: '+250', abbreviation: 'RW'),
+  Country(name: 'Saint Barthelemy', code: '+590', abbreviation: 'BL'),
+  Country(name: 'Saint Helena', code: '+290', abbreviation: 'SH'),
+  Country(name: 'Saint Kitts and Nevis', code: '+1-869', abbreviation: 'KN'),
+  Country(name: 'Saint Lucia', code: '+1-758', abbreviation: 'LC'),
+  Country(name: 'Saint Martin', code: '+590', abbreviation: 'MF'),
+  Country(name: 'Saint Pierre and Miquelon', code: '+508', abbreviation: 'PM'),
+  Country(
+    name: 'Saint Vincent and the Grenadines',
+    code: '+1-784',
+    abbreviation: 'VC',
+  ),
+  Country(name: 'Samoa', code: '+685', abbreviation: 'WS'),
+  Country(name: 'San Marino', code: '+378', abbreviation: 'SM'),
+  Country(name: 'Sao Tome and Principe', code: '+239', abbreviation: 'ST'),
+  Country(name: 'Saudi Arabia', code: '+966', abbreviation: 'SA'),
+  Country(name: 'Senegal', code: '+221', abbreviation: 'SN'),
+  Country(name: 'Serbia', code: '+381', abbreviation: 'RS'),
+  Country(name: 'Seychelles', code: '+248', abbreviation: 'SC'),
+  Country(name: 'Sierra Leone', code: '+232', abbreviation: 'SL'),
+  Country(name: 'Singapore', code: '+65', abbreviation: 'SG'),
+  Country(name: 'Sint Maarten', code: '+1-721', abbreviation: 'SX'),
+  Country(name: 'Slovakia', code: '+421', abbreviation: 'SK'),
+  Country(name: 'Slovenia', code: '+386', abbreviation: 'SI'),
+  Country(name: 'Solomon Islands', code: '+677', abbreviation: 'SB'),
+  Country(name: 'Somalia', code: '+252', abbreviation: 'SO'),
+  Country(name: 'South Africa', code: '+27', abbreviation: 'ZA'),
+  Country(name: 'South Korea', code: '+82', abbreviation: 'KR'),
+  Country(name: 'South Sudan', code: '+211', abbreviation: 'SS'),
+  Country(name: 'Spain', code: '+34', abbreviation: 'ES'),
+  Country(name: 'Sri Lanka', code: '+94', abbreviation: 'LK'),
+  Country(name: 'Sudan', code: '+249', abbreviation: 'SD'),
+  Country(name: 'Suriname', code: '+597', abbreviation: 'SR'),
+  Country(name: 'Svalbard and Jan Mayen', code: '+47', abbreviation: 'SJ'),
+  Country(name: 'Swaziland', code: '+268', abbreviation: 'SZ'),
+  Country(name: 'Sweden', code: '+46', abbreviation: 'SE'),
+  Country(name: 'Switzerland', code: '+41', abbreviation: 'CH'),
+  Country(name: 'Syria', code: '+963', abbreviation: 'SY'),
+  Country(name: 'Taiwan', code: '+886', abbreviation: 'TW'),
+  Country(name: 'Tajikistan', code: '+992', abbreviation: 'TJ'),
+  Country(name: 'Tanzania', code: '+255', abbreviation: 'TZ'),
+  Country(name: 'Thailand', code: '+66', abbreviation: 'TH'),
+  Country(name: 'Togo', code: '+228', abbreviation: 'TG'),
+  Country(name: 'Tokelau', code: '+690', abbreviation: 'TK'),
+  Country(name: 'Tonga', code: '+676', abbreviation: 'TO'),
+  Country(name: 'Trinidad and Tobago', code: '+1-868', abbreviation: 'TT'),
+  Country(name: 'Tunisia', code: '+216', abbreviation: 'TN'),
+  Country(name: 'Turkey', code: '+90', abbreviation: 'TR'),
+  Country(name: 'Turkmenistan', code: '+993', abbreviation: 'TM'),
+  Country(name: 'Turks and Caicos Islands', code: '+1-649', abbreviation: 'TC'),
+  Country(name: 'Tuvalu', code: '+688', abbreviation: 'TV'),
+  Country(name: 'U.S. Virgin Islands', code: '+1-340', abbreviation: 'VI'),
+  Country(name: 'Uganda', code: '+256', abbreviation: 'UG'),
+  Country(name: 'Ukraine', code: '+380', abbreviation: 'UA'),
+  Country(name: 'United Arab Emirates', code: '+971', abbreviation: 'AE'),
+  Country(name: 'United Kingdom', code: '+44', abbreviation: 'GB'),
+  Country(name: 'United States', code: '+1', abbreviation: 'US'),
+  Country(name: 'Uruguay', code: '+598', abbreviation: 'UY'),
+  Country(name: 'Uzbekistan', code: '+998', abbreviation: 'UZ'),
+  Country(name: 'Vanuatu', code: '+678', abbreviation: 'VU'),
+  Country(name: 'Vatican', code: '+379', abbreviation: 'VA'),
+  Country(name: 'Venezuela', code: '+58', abbreviation: 'VE'),
+  Country(name: 'Vietnam', code: '+84', abbreviation: 'VN'),
+  Country(name: 'Wallis and Futuna', code: '+681', abbreviation: 'WF'),
+  Country(name: 'Western Sahara', code: '+212', abbreviation: 'EH'),
+  Country(name: 'Yemen', code: '+967', abbreviation: 'YE'),
+  Country(name: 'Zambia', code: '+260', abbreviation: 'ZM'),
+  Country(name: 'Zimbabwe', code: '+263', abbreviation: 'ZW'),
 ];
