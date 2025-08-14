@@ -5,38 +5,6 @@ import '../data/event.dart';
 final eventProvider = Provider<List<Event>>((ref) {
   return [
     Event(
-      title: "Leadership Academy (Beta Test)",
-      venue: "Civil Resource Center, Shtip, Macedonia",
-      image: "assets/events/event_1.png",
-      subTitle: 'Empowering Tomorrow’s Leaders Today!',
-      ledBy: '',
-      isTTT: false,
-      subEvents: [
-        SubEvent(
-          startDate: DateTime(2025, 8, 10, 8, 30),
-          endDate: DateTime(2025, 8, 13, 17, 00),
-          description:
-              "Participate in the Leadership Academy to develop essential leadership skills, engage in hands-on learning, and design and carry out your own Sustainable Impact Project (SIP).",
-        ),
-      ],
-    ),
-    Event(
-      title: "Train the Trainer (Beta Test)",
-      image: "assets/events/event_2.png",
-      venue: "Civil Resource Center, Skopje, Macedonia",
-      subTitle: 'Prepare to lead. Empower to impact. Join us!',
-      ledBy: 'Led by Master Trainers Macedonia',
-      isTTT: true,
-      subEvents: [
-        SubEvent(
-          startDate: DateTime(2025, 8, 10),
-          endDate: DateTime(2025, 8, 13),
-          description:
-              "Advance with Train the Trainer certification! Learn to facilitate the  Academy and inspire others through the Global Learning Lab.",
-        ),
-      ],
-    ),
-    Event(
       title: "Leadership Academy – CCIU",
       image: "assets/events/event_3.png",
       venue: "Hartford, Connecticut",
@@ -64,7 +32,7 @@ final eventProvider = Provider<List<Event>>((ref) {
       subEvents: [
         SubEvent(
           startDate: DateTime(2025, 8, 21),
-          endDate: DateTime(2025, 8, 25),
+          endDate: DateTime(2025, 8, 22),
           description:
               "Participate in the Leadership Academy to develop essential leadership skills, engage in hands-on learning, and design and carry out your own Sustainable Impact Project (SIP).",
         ),

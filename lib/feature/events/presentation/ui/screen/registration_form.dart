@@ -222,7 +222,7 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
                           controller: phoneController,
                           labelText: "Phone Number",
                           hintText: "Enter phone number",
-                          countryCodes: allCountryCodes,
+                          countries: allCountries,
                           selectedCountryCode: phoneState.countryCode,
                         ),
                         if (error != null)
