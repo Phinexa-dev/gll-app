@@ -4,7 +4,7 @@ import 'phone_number_state.dart';
 
 class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   PhoneNumberNotifier()
-      : super(PhoneNumberState(countryCode: "+94", phoneNumber: ""));
+    : super(PhoneNumberState(countryCode: "", phoneNumber: ""));
 
   void updateCountryCode(String newCountryCode) {
     state = state.copyWith(countryCode: newCountryCode);
@@ -15,6 +15,6 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   }
 
   void clearPhoneNumber() {
-    state = state.copyWith(countryCode: "+94", phoneNumber: "");
+    state = state.copyWith(countryCode: "", phoneNumber: "");
   }
 }

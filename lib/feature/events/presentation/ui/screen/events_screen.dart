@@ -151,7 +151,7 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
                       maxLines: 2,
                     ),
                     Text(
-                      DateFormat('MMMM d, yyyy').format(firstEvent.startDate),
+                      _formatDate(firstEvent.startDate, firstEvent.endDate),
                       style: PhinexaFont.captionRegular.copyWith(
                         color: PhinexaColor.grey,
                       ),
@@ -183,5 +183,21 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
         ),
       ),
     );
+  }
+}
+
+String _formatDate(DateTime startDate, DateTime endDate) {
+  final dateFormat = DateFormat('MMMM d, yyyy');
+
+  // Check if the start and end dates are the same
+  if (startDate.year == endDate.year &&
+      startDate.month == endDate.month &&
+      startDate.day == endDate.day) {
+    return dateFormat.format(startDate);
+  } else {
+    // If the dates are different, format as "Month day1-day2, yyyy"
+    final startDay = DateFormat('MMMM d').format(startDate);
+    final endDay = DateFormat('d, yyyy').format(endDate);
+    return '$startDay-$endDay';
   }
 }

@@ -14,16 +14,19 @@ class EventCardWidget extends ConsumerWidget {
   const EventCardWidget({super.key, required this.event});
 
   // Helper function to format the date string
-  String _formatDate(DateTime date) {
-    // Check if the day is not 1 and the time is not midnight.
-    // This is how we can determine if a full date and time were provided.
-    // The `DateTime(year, month)` constructor defaults to day 1, 00:00:00.
-    if (date.day == 1 && date.hour == 0 && date.minute == 0) {
-      // If only month and year are provided, format as "Month, yyyy"
-      return DateFormat('MMMM, yyyy').format(date);
+  String _formatDate(DateTime startDate, DateTime endDate) {
+    final dateFormat = DateFormat('MMMM d, yyyy');
+
+    // Check if the start and end dates are the same
+    if (startDate.year == endDate.year &&
+        startDate.month == endDate.month &&
+        startDate.day == endDate.day) {
+      return dateFormat.format(startDate);
     } else {
-      // If a specific day is provided, format as "Month day, yyyy"
-      return DateFormat('MMMM d, yyyy').format(date);
+      // If the dates are different, format as "Month day1-day2, yyyy"
+      final startDay = DateFormat('MMMM d').format(startDate);
+      final endDay = DateFormat('d, yyyy').format(endDate);
+      return '$startDay-$endDay';
     }
   }
 
@@ -115,7 +118,10 @@ class EventCardWidget extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        _formatDate(firstSubEvent.startDate),
+                        _formatDate(
+                          firstSubEvent.startDate,
+                          firstSubEvent.endDate,
+                        ),
                         style: PhinexaFont.labelRegular.copyWith(
                           color: PhinexaColor.darkGrey,
                         ),
