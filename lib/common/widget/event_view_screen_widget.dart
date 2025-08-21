@@ -288,7 +288,7 @@ String formatSubEventDateRange(DateTime startDate, DateTime endDate) {
 
 Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
   try {
-    return await retrieveSurveyNames(ref, email);
+    return await retrieveSurveyNames(email);
   } catch (error) {
     print("Failed to retrieve survey names: $error");
     return [];
