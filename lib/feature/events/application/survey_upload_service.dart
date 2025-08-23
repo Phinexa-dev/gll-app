@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/local/user/model/user_model.dart';
 import '../../../core/data/local/user/user_service.dart';
 import '../../../core/data/remote/network_service.dart';
+import '../presentation/ui/provider/survey_state_notifier.dart';
 
 final databaseRef = FirebaseDatabase.instance.ref();
 
@@ -28,7 +29,7 @@ Future<void> uploadSurveyData(
 
     // Add survey name to the user's survey list if it doesn't already exist
     await _addSurveyNameToArray(safeEmail, safeSurvey);
-
+    ref.read(surveyRefreshProvider.notifier).state++;
     print("Survey data uploaded successfully!");
   } catch (error) {
     print("Failed to upload survey data: $error");
@@ -59,7 +60,7 @@ Future<void> _addSurveyNameToArray(String safeEmail, String safeSurvey) async {
 }
 
 /// Retrieves and returns a list of survey names for a specific user.
-Future<List<String>> retrieveSurveyNames(WidgetRef ref, String email) async {
+Future<List<String>> retrieveSurveyNames(String email) async {
   try {
     String safeEmail = _sanitizeKey(email);
     final surveysRef = databaseRef.child("Users/$safeEmail/surveys");
@@ -68,9 +69,7 @@ Future<List<String>> retrieveSurveyNames(WidgetRef ref, String email) async {
     DataSnapshot snapshot = event.snapshot;
 
     if (snapshot.exists) {
-      // Convert the fixed-length list to a modifiable list
-      List<dynamic> surveyNames =
-          List.from(snapshot.value as List<dynamic>? ?? []);
+      List<dynamic> surveyNames = List.from(snapshot.value as List<dynamic>? ?? []);
       return surveyNames.map((name) => name.toString()).toList();
     }
 

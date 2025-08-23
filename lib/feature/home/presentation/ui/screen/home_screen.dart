@@ -8,13 +8,15 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../../common/theme/colors.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
+import '../../../../../core/data/local/user/model/user_model.dart';
 import '../../../../../core/data/local/user/user_service.dart';
-import '../../../../../core/presentation/provider/user_notifier_provider.dart';
+import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../events/application/survey_upload_service.dart';
 import '../../../../events/data/event.dart';
 import '../../../../events/data/event_provider.dart';
+import '../../../../events/presentation/ui/provider/survey_state_notifier.dart';
 import '../../../../other/presentation/controller/profile/profile_controller.dart';
 import '../../../../other/presentation/ui/widget/map_view_widget.dart';
 
@@ -37,11 +39,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
+  String getEventDateIdentifier(DateTime startDate) {
+    return (startDate.day == 1 && startDate.hour == 0)
+        ? DateFormat('yyyy_MM').format(startDate)
+        : DateFormat('yyyy_MM_dd').format(startDate);
+  }
+
+  String getPreSurveyName(Event event) {
+    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
+    return 'Pre_Survey_${event.title}_$eventDateIdentifier';
+  }
+
+  String getPostSurveyName(Event event) {
+    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
+    return 'Post_Survey_${event.title}_$eventDateIdentifier';
+  }
+
+  String _getButtonTextForEvent(Event event, List<String> surveyNames) {
+    final preSurveyName = getPreSurveyName(event);
+    final postSurveyName = getPostSurveyName(event);
+
+    final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
+    final hasFilledPostSurvey = surveyNames.contains(postSurveyName);
+
+    if (!hasFilledPreSurvey && !hasFilledPostSurvey) {
+      return "Register Now";
+    } else if (hasFilledPreSurvey && !hasFilledPostSurvey) {
+      return "Complete Post Survey";
+    } else {
+      return "Explore More";
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    // fetch data needed
     Future.microtask(() {
       ref.read(profileControllerProvider.notifier).updateFormData();
     });
@@ -51,8 +84,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(profileControllerProvider).isLoading;
     final userData = ref.read(profileControllerProvider).form;
-
-    print("User Data dp: ${userData?['profileImage']}");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -70,96 +101,94 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: isLoading
                         ? Shimmer(
-                            gradient: const LinearGradient(
-                              colors: [Colors.grey, Colors.white],
-                            ),
-                            child: const CircleAvatar(
-                              radius: 24,
-                              backgroundColor: Colors.grey,
-                            ),
-                          )
+                      gradient: const LinearGradient(
+                        colors: [Colors.grey, Colors.white],
+                      ),
+                      child: const CircleAvatar(
+                        radius: 24,
+                        backgroundColor: Colors.grey,
+                      ),
+                    )
                         : userData?['profileImage'] != null &&
-                              (userData!['profileImage'] as String).isNotEmpty
+                        (userData!['profileImage'] as String).isNotEmpty
                         ? CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.grey[300],
-                            backgroundImage: NetworkImage(
-                              userData!['profileImage'],
-                            ),
-                          )
+                      radius: 24,
+                      backgroundColor: Colors.grey[300],
+                      backgroundImage: NetworkImage(
+                        userData!['profileImage'],
+                      ),
+                    )
                         : const CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Color(0xFFE0E0E0),
-                            child: Icon(Icons.person, color: Colors.white),
-                          ),
+                      radius: 24,
+                      backgroundColor: Color(0xFFE0E0E0),
+                      child: Icon(Icons.person, color: Colors.white),
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ref
-                      .watch(userProvider)
-                      .when(
-                        data: (user) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getGreeting(),
-                              style: PhinexaFont.captionEmphasis.copyWith(
-                                color: PhinexaColor.darkGrey,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                user?.fullName ?? 'Guest',
-                                style: PhinexaFont.contentEmphasis,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
+                  child: ref.watch(userProvider).when(
+                    data: (user) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getGreeting(),
+                          style: PhinexaFont.captionEmphasis.copyWith(
+                            color: PhinexaColor.darkGrey,
+                          ),
                         ),
-                        loading: () => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getGreeting(),
-                              style: PhinexaFont.labelRegular.copyWith(
-                                color: PhinexaColor.darkGrey,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                'Loading...',
-                                style: PhinexaFont.highlightEmphasis,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            user?.fullName ?? 'Guest',
+                            style: PhinexaFont.contentEmphasis,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
-                        error: (error, _) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getGreeting(),
-                              style: PhinexaFont.labelRegular.copyWith(
-                                color: PhinexaColor.darkGrey,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                'Error loading name',
-                                style: PhinexaFont.highlightEmphasis,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
+                      ],
+                    ),
+                    loading: () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getGreeting(),
+                          style: PhinexaFont.labelRegular.copyWith(
+                            color: PhinexaColor.darkGrey,
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            'Loading...',
+                            style: PhinexaFont.highlightEmphasis,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    error: (error, _) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getGreeting(),
+                          style: PhinexaFont.labelRegular.copyWith(
+                            color: PhinexaColor.darkGrey,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            'Error loading name',
+                            style: PhinexaFont.highlightEmphasis,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -218,7 +247,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              text: 'You’re not just here to learn-you’re here to lead.',
+              text: 'You\'re not just here to learn-you\'re here to lead.',
               style: PhinexaFont.highlightRegular,
             ),
           ),
@@ -227,7 +256,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             textAlign: TextAlign.center,
             text: TextSpan(
               text:
-                  'This is your space to grow your skills, launch real change, and connect with a global community of young leaders.',
+              'This is your space to grow your skills, launch real change, and connect with a global community of young leaders.',
               style: PhinexaFont.highlightRegular,
             ),
           ),
@@ -236,7 +265,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             textAlign: TextAlign.center,
             text: TextSpan(
               text:
-                  'Whether you’re starting your journey or already deep into your Sustainable Impact Project, you belong here-and we’re so glad you showed up.',
+              'Whether you\'re starting your journey or already deep into your Sustainable Impact Project, you belong here-and we\'re so glad you showed up.',
               style: PhinexaFont.highlightRegular,
             ),
           ),
@@ -246,38 +275,132 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildEventSection(WidgetRef ref) {
+    final surveyRefresh = ref.watch(surveyRefreshProvider);
     final events = ref.watch(eventProvider);
-    final userState = ref.watch(userNotifierProvider);
+    final dio = ref.watch(networkServiceProvider);
+    final userService = ref.watch(userServiceProvider(dio));
 
     if (events.isEmpty) {
       return Center(child: Text("No events available."));
     }
 
     final event = events.first;
-    final userEmail = userState.user?.email;
 
-    return FutureBuilder<List<String>>(
-      future: userEmail != null
-          ? _getUserSurveyNames(ref, userEmail)
-          : Future.value([]),
-      builder: (context, snapshot) {
-        final hasRegistered =
-            snapshot.data?.contains(
-              'Pre_Survey_${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
-            ) ??
-            false;
+    return FutureBuilder<UserModel?>(
+      future: userService.getUser(),
+      builder: (context, userSnapshot) {
+        if (userSnapshot.connectionState == ConnectionState.waiting) {
+          return _buildEventLoadingState(event);
+        }
 
-        return _buildEventSectionContent(context, ref, event, hasRegistered);
+        if (userSnapshot.hasError || userSnapshot.data == null) {
+          return _buildEventContent(context, ref, event, "Register Now");
+        }
+
+        final user = userSnapshot.data!;
+        final userEmail = user.email;
+
+        if (userEmail.isEmpty) {
+          return _buildEventContent(context, ref, event, "Register Now");
+        }
+
+        return FutureBuilder<List<String>>(
+          future: retrieveSurveyNames(userEmail),
+          builder: (context, surveySnapshot) {
+            if (surveySnapshot.connectionState == ConnectionState.waiting) {
+              return _buildEventLoadingState(event);
+            }
+
+            final surveyNames = surveySnapshot.data ?? [];
+            final buttonText = _getButtonTextForEvent(event, surveyNames);
+
+            return _buildEventContent(context, ref, event, buttonText);
+          },
+        );
       },
     );
   }
 
-  Widget _buildEventSectionContent(
-    BuildContext context,
-    WidgetRef ref,
-    Event event,
-    bool hasRegistered,
-  ) {
+  Widget _buildEventLoadingState(Event event) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Start Training", style: PhinexaFont.headingLarge),
+              TextButton(
+                onPressed: () {
+                  ref.read(navProvider.notifier).onItemTapped(2);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      size: 30,
+                      color: PhinexaColor.darkGrey,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              event.image,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              errorBuilder: (context, error, stackTrace) =>
+                  Icon(Icons.broken_image, size: 100),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 12),
+              Text(
+                event.title,
+                style: PhinexaFont.featureAccent,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    size: 14,
+                    color: PhinexaColor.grey,
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    _formatDate(event.startDate, event.endDate),
+                    style: PhinexaFont.captionRegular.copyWith(
+                      color: PhinexaColor.grey,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 12),
+              CustomButton(
+                label: "Loading...",
+                height: 40,
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEventContent(BuildContext context, WidgetRef ref, Event event, String buttonText) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -348,26 +471,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ],
               ),
-              if (!hasRegistered)
-                Column(
-                  children: [
-                    SizedBox(height: 12),
-                    CustomButton(
-                      label: "Register Now",
-                      height: 40,
-                      onPressed: () {
-                        context.pushNamed(
-                          RouteName.registrationForm,
-                          extra: {
-                            'isTTT': event.isTTT,
-                            'eventIdentity':
-                                '${event.title}_${DateFormat('yyyy_MM_dd').format(event.startDate)}',
-                          },
-                        );
+              SizedBox(height: 12),
+              CustomButton(
+                label: buttonText,
+                height: 40,
+                onPressed: () {
+                  if (buttonText == "Register Now") {
+                    context.pushNamed(
+                      RouteName.registrationForm,
+                      extra: {
+                        'isTTT': event.isTTT,
+                        'eventIdentity':
+                        '${event.title}_${getEventDateIdentifier(event.startDate)}',
                       },
-                    ),
-                  ],
-                ),
+                    );
+                  } else if (buttonText == "Complete Post Survey") {
+                    if (event.isTTT) {
+                      context.pushNamed(
+                        RouteName.tttOverallProgramFeedbackScreen,
+                        extra: '${event.title}_${getEventDateIdentifier(event.startDate)}',
+                      );
+                    } else {
+                      context.pushNamed(
+                        RouteName.laOverallProgramFeedbackScreen,
+                        extra: '${event.title}_${getEventDateIdentifier(event.startDate)}',
+                      );
+                    }
+                  } else {
+                    context.pushNamed(RouteName.eventDetails, extra: event);
+                  }
+                },
+              ),
             ],
           ),
         ],
@@ -411,7 +545,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "Where it all begins. LA is hands-on, real-world, and all about you—building the mindset, skills, and confidence to lead positive change. During LA, you’ll create the vision and foundation for your Sustainable Impact Project (SIP).",
+                  "Where it all begins. LA is hands-on, real-world, and all about you—building the mindset, skills, and confidence to lead positive change. During LA, you'll create the vision and foundation for your Sustainable Impact Project (SIP).",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
@@ -436,7 +570,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "“I see something that needs to change, and I’m going to do something about it.”",
+                  "\"I see something that needs to change, and I'm going to do something about it.\"",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                     fontStyle: FontStyle.italic,
@@ -447,13 +581,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "You design it. You lead it. You make it real. Whether it’s a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
+                  "You design it. You lead it. You make it real. Whether it's a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
                 ),
               ),
-
               SizedBox(height: 12),
               Text(
                 "Train the Trainer (TTT):",
@@ -464,7 +597,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "Ready to lead others? TTT is your next step. You’ll build the confidence, tools, and facilitation skills to train future changemakers and lead your own Leadership Academies.",
+                  "Ready to lead others? TTT is your next step. You'll build the confidence, tools, and facilitation skills to train future changemakers and lead your own Leadership Academies.",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
@@ -495,7 +628,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "“I see something that needs to change, and I’m going to do something about it.”",
+                  "\"I see something that needs to change, and I'm going to do something about it.\"",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
@@ -506,7 +639,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "You design it. You lead it. You make it real. Whether it’s a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
+                  "You design it. You lead it. You make it real. Whether it's a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
@@ -548,7 +681,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "The path to becoming a Global Trainer starts with the Leadership Academy and continues through your Sustainable Impact Project, and grows through experience, mentorship, and impact. It's a journey of leadership, facilitation, and paying what you have received forward.",
+                  "The path to becoming a Global Trainer starts with the Leadership Academy and continues through your Sustainable Impact Project, and grows through experience, mentorship, and impact. It's a journey of leadership, facilitation, and paying what you have received forward.",
                   style: PhinexaFont.contentRegular.copyWith(
                     color: PhinexaColor.darkGrey,
                   ),
@@ -599,7 +732,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "Each SIP starts with one idea, one ripple. All together, they’re making waves around the world.",
+                  "Each SIP starts with one idea, one ripple. All together, they're making waves around the world.",
                   style: PhinexaFont.contentRegular,
                 ),
               ),
@@ -608,7 +741,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 textAlign: TextAlign.justify,
                 text: TextSpan(
                   text:
-                      "Use the interactive map below to explore the global impact of Sustainable Impact Projects (SIPs).  Click on any location marked with a star to discover SIPs led by young changemakers like you, and get inspired!",
+                  "Use the interactive map below to explore the global impact of Sustainable Impact Projects (SIPs).  Click on any location marked with a star to discover SIPs led by young changemakers like you, and get inspired!",
                   style: PhinexaFont.contentRegular,
                 ),
               ),
@@ -650,27 +783,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ],
     );
   }
-
-  Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
-    try {
-      return await retrieveSurveyNames(ref, email);
-    } catch (error) {
-      print("Failed to retrieve survey names: $error");
-      return [];
-    }
-  }
 }
 
 String _formatDate(DateTime startDate, DateTime endDate) {
   final dateFormat = DateFormat('MMMM d, yyyy');
 
-  // Check if the start and end dates are the same
   if (startDate.year == endDate.year &&
       startDate.month == endDate.month &&
       startDate.day == endDate.day) {
     return dateFormat.format(startDate);
   } else {
-    // If the dates are different, format as "Month day1-day2, yyyy"
     final startDay = DateFormat('MMMM d').format(startDate);
     final endDay = DateFormat('d, yyyy').format(endDate);
     return '$startDay-$endDay';

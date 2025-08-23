@@ -10,57 +10,85 @@ import '../../../data/event.dart';
 
 class EventCardWidget extends ConsumerWidget {
   final Event event;
+  final List<String> surveyNames;
 
-  const EventCardWidget({super.key, required this.event});
+  const EventCardWidget({
+    super.key,
+    required this.event,
+    required this.surveyNames
+  });
 
-  // Helper function to format the date string
   String _formatDate(DateTime startDate, DateTime endDate) {
     final dateFormat = DateFormat('MMMM d, yyyy');
 
-    // Check if the start and end dates are the same
     if (startDate.year == endDate.year &&
         startDate.month == endDate.month &&
         startDate.day == endDate.day) {
       return dateFormat.format(startDate);
     } else {
-      // If the dates are different, format as "Month day1-day2, yyyy"
       final startDay = DateFormat('MMMM d').format(startDate);
       final endDay = DateFormat('d, yyyy').format(endDate);
       return '$startDay-$endDay';
     }
   }
 
-  // Helper function to get the time range
   String _getEventTime(DateTime startDate, DateTime endDate) {
-    // Check if the time is midnight, which indicates no specific time was set.
     if (startDate.hour == 0 &&
         startDate.minute == 0 &&
         endDate.hour == 0 &&
         endDate.minute == 0) {
-      // If no specific time is provided, return an empty string or a message
-      return ''; // Or you can return 'Time not specified'
+      return '';
     } else {
-      // If a specific time is provided, format and return the time range
       final DateFormat timeFormatter = DateFormat('hh:mm a');
       return '${timeFormatter.format(startDate)} - ${timeFormatter.format(endDate)}';
     }
   }
 
+  String getEventDateIdentifier(DateTime startDate) {
+    return (startDate.day == 1 && startDate.hour == 0)
+        ? DateFormat('yyyy_MM').format(startDate)
+        : DateFormat('yyyy_MM_dd').format(startDate);
+  }
+
+  String getPreSurveyName(Event event) {
+    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
+    return 'Pre_Survey_${event.title}_$eventDateIdentifier';
+  }
+
+  String getPostSurveyName(Event event) {
+    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
+    return 'Post_Survey_${event.title}_$eventDateIdentifier';
+  }
+
+  String _getButtonText() {
+    final preSurveyName = getPreSurveyName(event);
+    final postSurveyName = getPostSurveyName(event);
+
+    final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
+    final hasFilledPostSurvey = surveyNames.contains(postSurveyName);
+
+    if (!hasFilledPreSurvey && !hasFilledPostSurvey) {
+      return "Register Here";
+    } else if (hasFilledPreSurvey && !hasFilledPostSurvey) {
+      return "Complete Post Survey";
+    } else {
+      return "Explore More";
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Get the first sub-event to display its date and time
     final SubEvent? firstSubEvent = event.subEvents.isNotEmpty
         ? event.subEvents.first
         : null;
 
     if (firstSubEvent == null) {
-      return const SizedBox.shrink(); // Hide card if no sub-events
+      return const SizedBox.shrink();
     }
 
-    // Determine if the time section should be visible
     final bool showTime =
         firstSubEvent.startDate.hour != 0 ||
-        firstSubEvent.startDate.minute != 0;
+            firstSubEvent.startDate.minute != 0;
 
     return Container(
       margin: const EdgeInsets.only(top: 16.0, bottom: 16),
@@ -92,7 +120,7 @@ class EventCardWidget extends ConsumerWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image, size: 100),
+                const Icon(Icons.broken_image, size: 100),
               ),
             ),
             Padding(
@@ -107,8 +135,6 @@ class EventCardWidget extends ConsumerWidget {
                     maxLines: 1,
                   ),
                   const SizedBox(height: 8.0),
-
-                  // Date section
                   Row(
                     children: [
                       const Icon(
@@ -128,8 +154,6 @@ class EventCardWidget extends ConsumerWidget {
                       ),
                     ],
                   ),
-
-                  // Time section, only show if time is specified
                   if (showTime) ...[
                     const SizedBox(height: 8.0),
                     Row(
@@ -152,7 +176,6 @@ class EventCardWidget extends ConsumerWidget {
                       ],
                     ),
                   ],
-
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
@@ -162,9 +185,9 @@ class EventCardWidget extends ConsumerWidget {
                       backgroundColor: PhinexaColor.primaryColor,
                       minimumSize: const Size(double.infinity, 40),
                     ),
-                    child: const Text(
-                      'Register Here',
-                      style: TextStyle(color: Colors.white),
+                    child: Text(
+                      _getButtonText(),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
