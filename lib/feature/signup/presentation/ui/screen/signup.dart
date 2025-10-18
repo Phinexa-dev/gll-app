@@ -76,7 +76,7 @@ class _SignUpState extends ConsumerState<SignUp> {
         );
         ref.read(signUpControllerProvider.notifier).clearStates();
         ref.read(genderProvider.notifier).state = '';
-        context.goNamed(RouteName.signIn);
+        // context.goNamed(RouteName.signIn);
       } else if (next.isFailure != null && next.isFailure == true) {
         final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
         ref.read(signUpControllerProvider.notifier).clearStates();
@@ -273,9 +273,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     ],
                                     onChanged: (value) {
                                       ref
-                                              .read(phoneCodeProvider.notifier)
-                                              .state =
-                                          value!;
+                                          .read(phoneCodeProvider.notifier)
+                                          .state = value!;
                                     },
                                     menuMaxHeight: 250,
                                   ),

@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/signup/application/sign_up_service.dart';
 import 'package:gll/feature/signup/presentation/state/sign_up_state.dart';
 import '../../data/dto/request/sign_up_request.dart';
+import 'package:gll/feature/login/application/sign_in_service.dart';
+import 'package:gll/feature/login/data/dto/request/sign_in_request.dart';
+import 'package:gll/core/data/local/auth/auth_notifier.dart';
+import 'package:gll/core/data/remote/network_service.dart';
+import 'package:gll/core/presentation/provider/user_notifier_provider.dart';
 
 final signUpControllerProvider =
     AutoDisposeNotifierProvider<SignUpController, SignUpState>(
@@ -106,15 +111,46 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
         gender: gender,
       );
 
-      final result = await ref
-          .read(signUpServiceProvider)
-          .signUp(signUpRequest);
+      final result = await ref.read(signUpServiceProvider).signUp(signUpRequest);
 
-      state = state.copyWith(
-        isLoading: false,
-        isSuccess: result,
-        isFailure: !result,
-      );
+      // If signup successful, attempt to sign the user in automatically
+      if (result == true) {
+        try {
+          final signInRequest = SignInRequest(
+            email: email,
+            password: password,
+          );
+
+          final signInResult =
+              await ref.read(signInServiceProvider).signIn(signInRequest);
+
+          // notify the router and load user data (same as sign-in flow)
+          final dio = ref.watch(networkServiceProvider);
+          final authNotifier = ref.read(routerNotifierProvider(dio));
+          await authNotifier.updateAuthState();
+          ref.read(userNotifierProvider.notifier).loadUser();
+
+          state = state.copyWith(
+            isLoading: false,
+            isSuccess: signInResult.success,
+            isFailure: !signInResult.success,
+          );
+        } on DioException catch (e) {
+          final errorMessage = e.response?.data['message'] as String?;
+          state = state.copyWith(
+            isLoading: false,
+            isSuccess: false,
+            isFailure: true,
+            errorMessage: errorMessage ?? 'Sign in after signup failed',
+          );
+        }
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          isSuccess: false,
+          isFailure: true,
+        );
+      }
     } on DioException catch (e) {
       final errorMessage = e.response?.data['message'] as String?;
       state = state.copyWith(
