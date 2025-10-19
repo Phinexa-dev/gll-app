@@ -1,8 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/data/local/user/model/user_model.dart';
-import '../../../core/data/local/user/user_service.dart';
-import '../../../core/data/remote/network_service.dart';
 import '../application/survey/survey_service.dart';
 import '../presentation/state/survey_submission_state.dart';
 import '../presentation/ui/provider/survey_state_notifier.dart';
