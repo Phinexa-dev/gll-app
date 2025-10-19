@@ -5,9 +5,7 @@ import 'package:gll/common/theme/fonts.dart';
 import 'package:gll/feature/event/domain/model/event/event_data_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../core/data/local/user/user_service.dart';
 import '../../core/route/route_name.dart';
-import '../../feature/event/application/survey_upload_service.dart';
 import 'custom_button.dart';
 
 class EventViewScreenWidget extends ConsumerWidget {
