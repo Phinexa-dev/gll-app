@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/feature/event/domain/model/event/event_data_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/route/route_name.dart';
-import '../../../data/event.dart';
 
 class EventCardWidget extends ConsumerWidget {
-  final Event event;
-  final List<String> surveyNames;
+  final EventDataModel event;
 
   const EventCardWidget({
     super.key,
     required this.event,
-    required this.surveyNames
   });
 
   String _formatDate(DateTime startDate, DateTime endDate) {
@@ -50,26 +48,15 @@ class EventCardWidget extends ConsumerWidget {
         : DateFormat('yyyy_MM_dd').format(startDate);
   }
 
-  String getPreSurveyName(Event event) {
-    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
-    return 'Pre_Survey_${event.title}_$eventDateIdentifier';
-  }
 
-  String getPostSurveyName(Event event) {
-    final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
-    return 'Post_Survey_${event.title}_$eventDateIdentifier';
-  }
+  String _getButtonText(List<UserEventDataModel> userEventModel) {
+    if(userEventModel.isEmpty){
+      return "Register Now";
+    }
 
-  String _getButtonText() {
-    final preSurveyName = getPreSurveyName(event);
-    final postSurveyName = getPostSurveyName(event);
-
-    final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
-    final hasFilledPostSurvey = surveyNames.contains(postSurveyName);
-
-    if (!hasFilledPreSurvey && !hasFilledPostSurvey) {
-      return "Register Here";
-    } else if (hasFilledPreSurvey && !hasFilledPostSurvey) {
+    if (userEventModel.first.surveySubmitted ==false) {
+      return "Register Now";
+    } else if (userEventModel.first.postSurveySubmitted == false) {
       return "Complete Post Survey";
     } else {
       return "Explore More";
@@ -78,17 +65,6 @@ class EventCardWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SubEvent? firstSubEvent = event.subEvents.isNotEmpty
-        ? event.subEvents.first
-        : null;
-
-    if (firstSubEvent == null) {
-      return const SizedBox.shrink();
-    }
-
-    final bool showTime =
-        firstSubEvent.startDate.hour != 0 ||
-            firstSubEvent.startDate.minute != 0;
 
     return Container(
       margin: const EdgeInsets.only(top: 16.0, bottom: 16),
@@ -129,7 +105,7 @@ class EventCardWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    event.title,
+                    event.name,
                     style: PhinexaFont.highlightEmphasis,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -145,8 +121,8 @@ class EventCardWidget extends ConsumerWidget {
                       const SizedBox(width: 8),
                       Text(
                         _formatDate(
-                          firstSubEvent.startDate,
-                          firstSubEvent.endDate,
+                          event.startDate,
+                          event.endDate,
                         ),
                         style: PhinexaFont.labelRegular.copyWith(
                           color: PhinexaColor.darkGrey,
@@ -154,7 +130,7 @@ class EventCardWidget extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  if (showTime) ...[
+
                     const SizedBox(height: 8.0),
                     Row(
                       children: [
@@ -166,8 +142,8 @@ class EventCardWidget extends ConsumerWidget {
                         const SizedBox(width: 8),
                         Text(
                           _getEventTime(
-                            firstSubEvent.startDate,
-                            firstSubEvent.endDate,
+                            event.startDate,
+                            event.endDate,
                           ),
                           style: PhinexaFont.labelRegular.copyWith(
                             color: PhinexaColor.darkGrey,
@@ -175,7 +151,7 @@ class EventCardWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                  ],
+
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
@@ -186,7 +162,7 @@ class EventCardWidget extends ConsumerWidget {
                       minimumSize: const Size(double.infinity, 40),
                     ),
                     child: Text(
-                      _getButtonText(),
+                      _getButtonText(event.userEvents),
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
