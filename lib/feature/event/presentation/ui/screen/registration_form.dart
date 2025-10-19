@@ -15,12 +15,12 @@ import '../provider/text_and_dropdown_reponses_provider.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
   final bool isTTT;
-  final String eventIdentity;
+  final int eventID;
 
   const RegistrationForm({
     super.key,
     required this.isTTT,
-    required this.eventIdentity,
+    required this.eventID,
   });
 
   @override
@@ -142,9 +142,9 @@ class _RegistrationFormState extends ConsumerState<RegistrationForm> {
 
     if (isValid) {
       if (widget.isTTT) {
-        context.pushNamed(RouteName.ttPreSurvey, extra: widget.eventIdentity);
+        context.pushNamed(RouteName.ttPreSurvey, extra: widget.eventID);
       } else {
-        context.pushNamed(RouteName.preSurvey, extra: widget.eventIdentity);
+        context.pushNamed(RouteName.preSurvey, extra: widget.eventID);
       }
     } else {
       _showTopSnackBar(context, errorMessage);

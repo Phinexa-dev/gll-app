@@ -13,28 +13,29 @@ import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
-class GoalsExpectationsScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+class TTGoalsExpectationsScreen extends ConsumerStatefulWidget {
+  final int eventID;
 
-  const GoalsExpectationsScreen({super.key, required this.eventIdentity});
+  const TTGoalsExpectationsScreen({super.key, required this.eventID});
 
   @override
-  _GoalsExpectationsScreenState createState() =>
-      _GoalsExpectationsScreenState();
+  _TTGoalsExpectationsScreenState createState() =>
+      _TTGoalsExpectationsScreenState();
 }
 
-class _GoalsExpectationsScreenState
-    extends ConsumerState<GoalsExpectationsScreen> {
+class _TTGoalsExpectationsScreenState
+    extends ConsumerState<TTGoalsExpectationsScreen> {
   late TextEditingController interestController;
   late TextEditingController skillsController;
   late TextEditingController ledTeamController;
 
   final _interestError = ValueNotifier<String?>(null);
   final _skillsError = ValueNotifier<String?>(null);
-  final _ledTeamError = ValueNotifier<String?>(null);
   final _confidenceError = ValueNotifier<String?>(null);
-  final _publicSpeakingError = ValueNotifier<String?>(null);
   final _radioError = ValueNotifier<String?>(null);
+  final _ledTeamError = ValueNotifier<String?>(null);
+  final _publicSpeakingError = ValueNotifier<String?>(null);
+  final _engagementError = ValueNotifier<String?>(null);
 
   @override
   void initState() {
@@ -48,11 +49,12 @@ class _GoalsExpectationsScreenState
     interestController.text =
         surveyResponses['Why are you interested in this leadership workshop?'] ??
         '';
+    skillsController.text =
+        surveyResponses['What skills or knowledge do you hope to gain from the Train the Trainer session?'] ??
+        '';
     ledTeamController.text =
         surveyResponses['Have you ever led a team, project, or group activity? If yes, please describe briefly'] ??
         '';
-    skillsController.text =
-        surveyResponses['What skills or knowledge do you hope to gain?'] ?? '';
   }
 
   @override
@@ -60,6 +62,13 @@ class _GoalsExpectationsScreenState
     interestController.dispose();
     skillsController.dispose();
     ledTeamController.dispose();
+    _interestError.dispose();
+    _skillsError.dispose();
+    _confidenceError.dispose();
+    _radioError.dispose();
+    _ledTeamError.dispose();
+    _publicSpeakingError.dispose();
+    _engagementError.dispose();
     super.dispose();
   }
 
@@ -120,7 +129,7 @@ class _GoalsExpectationsScreenState
       _skillsError.value = null;
     }
 
-    if (gridResponses["How confident are you in your leadership abilities right now?"] ==
+    if (gridResponses["How confident are you in your ability to lead and facilitate learning experiences right now?"] ==
         null) {
       _confidenceError.value = 'Please rate your confidence level';
       isValid = false;
@@ -157,10 +166,19 @@ class _GoalsExpectationsScreenState
       _publicSpeakingError.value = null;
     }
 
+    if (gridResponses["How would you rate your ability to engage and motivate others?"] ==
+        null) {
+      _engagementError.value = 'Please rate your engagement ability';
+      isValid = false;
+      errorMessage += "- Engagement and motivation ability\n";
+    } else {
+      _engagementError.value = null;
+    }
+
     if (isValid) {
       context.pushNamed(
-        RouteName.interestsAndEngagementScreen,
-        extra: widget.eventIdentity,
+        RouteName.ttInterestsAndEngagementScreen,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);
@@ -169,13 +187,16 @@ class _GoalsExpectationsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final gridResponses = ref.watch(surveyGridResponseProvider);
+    final responses = ref.watch(surveyGridResponseProvider);
     final radioResponses = ref.watch(radioQuestionResponseProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
+        title: Text(
+          'Pre-Workshop Survey - Train the Trainer',
+          style: PhinexaFont.headingSmall,
+        ),
       ),
       body: GestureDetector(
         onTap: () {
@@ -201,9 +222,9 @@ class _GoalsExpectationsScreenState
                               'Why are you interested in this leadership workshop?',
                           hintText: '',
                           obscureText: false,
-                          controller: interestController,
                           height: 110,
                           maxLines: 10,
+                          controller: interestController,
                           onChanged: (value) {
                             ref
                                 .read(surveyTextFieldResponseProvider.notifier)
@@ -230,18 +251,35 @@ class _GoalsExpectationsScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomFormTextField(
-                          labelText:
-                              'What skills or knowledge do you hope to gain?',
-                          hintText: '',
-                          controller: skillsController,
+                          customLabelText: Text.rich(
+                            TextSpan(
+                              text:
+                                  'What skills or knowledge do you hope to gain from the ',
+                              style: PhinexaFont.contentRegular,
+                              children: [
+                                TextSpan(
+                                  text: 'Train the Trainer',
+                                  style: PhinexaFont.contentRegular.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ' session?',
+                                  style: PhinexaFont.contentRegular,
+                                ),
+                              ],
+                            ),
+                          ),
+                          hintText: "",
                           obscureText: false,
                           height: 110,
                           maxLines: 10,
+                          controller: skillsController,
                           onChanged: (value) {
                             ref
                                 .read(surveyTextFieldResponseProvider.notifier)
                                 .updateResponse(
-                                  'What skills or knowledge do you hope to gain?',
+                                  'What skills or knowledge do you hope to gain from the Train the Trainer session?',
                                   value,
                                 );
                           },
@@ -264,10 +302,10 @@ class _GoalsExpectationsScreenState
                       children: [
                         CustomSquareBoxSelectionWidget(
                           question:
-                              "How confident are you in your leadership abilities right now?",
+                              "How confident are you in your ability to lead and facilitate learning experiences right now?",
                           firstGrade: "Not confident",
                           lastGrade: "Very confident",
-                          responses: gridResponses,
+                          responses: responses,
                           onResponseSelected: (question, value) {
                             ref
                                 .read(surveyGridResponseProvider.notifier)
@@ -330,8 +368,8 @@ class _GoalsExpectationsScreenState
                             hintText: '',
                             obscureText: false,
                             height: 110,
-                            controller: ledTeamController,
                             maxLines: 10,
+                            controller: ledTeamController,
                             onChanged: (value) {
                               ref
                                   .read(
@@ -364,7 +402,34 @@ class _GoalsExpectationsScreenState
                               "How comfortable are you with public speaking?",
                           firstGrade: "Not comfortable",
                           lastGrade: "Very comfortable",
-                          responses: gridResponses,
+                          responses: responses,
+                          onResponseSelected: (question, value) {
+                            ref
+                                .read(surveyGridResponseProvider.notifier)
+                                .updateResponse(question, value);
+                          },
+                        ),
+                        if (error != null)
+                          Text(
+                            error,
+                            style: TextStyle(color: PhinexaColor.red),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                ValueListenableBuilder<String?>(
+                  valueListenable: _engagementError,
+                  builder: (context, error, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomSquareBoxSelectionWidget(
+                          question:
+                              "How would you rate your ability to engage and motivate others?",
+                          firstGrade: "Need improvements",
+                          lastGrade: "Excellent",
+                          responses: responses,
                           onResponseSelected: (question, value) {
                             ref
                                 .read(surveyGridResponseProvider.notifier)

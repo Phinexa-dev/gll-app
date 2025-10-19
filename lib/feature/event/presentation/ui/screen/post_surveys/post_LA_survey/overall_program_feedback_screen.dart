@@ -5,32 +5,39 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
-import '../../../provider/survey_grid_notifier.dart';
-import '../../../widgets/custom_square_box_selection_widget.dart';
+import '../../../../../../../common/theme/colors.dart';
+import '../../../provider/combine_response.dart';
+import '../../../provider/survey_radio_string_response_provider.dart';
+import '../../../widgets/survey_question_widget.dart';
 
-class LATrainerFacilitationFeedbackScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+class LAOverallProgramFeedbackScreen extends ConsumerStatefulWidget {
+  final int eventID;
 
-  const LATrainerFacilitationFeedbackScreen({
+  const LAOverallProgramFeedbackScreen({
     super.key,
-    required this.eventIdentity,
+    required this.eventID,
   });
 
   @override
-  _LATrainerFacilitationFeedbackScreenState createState() =>
-      _LATrainerFacilitationFeedbackScreenState();
+  _LAOverallProgramFeedbackScreenState createState() =>
+      _LAOverallProgramFeedbackScreenState();
 }
 
-class _LATrainerFacilitationFeedbackScreenState
-    extends ConsumerState<LATrainerFacilitationFeedbackScreen> {
+class _LAOverallProgramFeedbackScreenState
+    extends ConsumerState<LAOverallProgramFeedbackScreen> {
+
   final _questionErrors = {
-    "Credibility and expertise": ValueNotifier<String?>(null),
-    "Connection with participants": ValueNotifier<String?>(null),
-    "Ability to manage group conversations effectively": ValueNotifier<String?>(
+    "The Leadership Academy met my expectations": ValueNotifier<String?>(null),
+    "The program was well-organized and easy to follow": ValueNotifier<String?>(
       null,
     ),
-    "Knowledge of the content": ValueNotifier<String?>(null),
-    "Clarity in delivery and presentation": ValueNotifier<String?>(null),
+    "The content was practical, intuitive, and helpful": ValueNotifier<String?>(
+      null,
+    ),
+    "The training materials and format were suitable for high school youth":
+        ValueNotifier<String?>(null),
+    "I was satisfied with the learning content and materials":
+        ValueNotifier<String?>(null),
   };
 
   @override
@@ -79,7 +86,7 @@ class _LATrainerFacilitationFeedbackScreenState
     bool isValid = true;
     String errorMessage = "The following fields are required:\n";
 
-    final responses = ref.read(surveyGridResponseProvider);
+    final responses = ref.read(radioStringQuestionResponseProvider);
     for (var question in _questionErrors.keys) {
       if (responses[question] == null) {
         _questionErrors[question]!.value = 'Please answer this question';
@@ -92,17 +99,17 @@ class _LATrainerFacilitationFeedbackScreenState
 
     if (isValid) {
       context.pushNamed(
-        RouteName.laApplicationOfSkillsScreen,
-        extra: widget.eventIdentity,
+        RouteName.laModuleSpecificFeedbackScreen,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);
     }
   }
 
+
   Widget _buildQuestionWidget(
     String question,
-    Map<String, int?> responses,
     ValueNotifier<String?> errorNotifier,
   ) {
     return ValueListenableBuilder<String?>(
@@ -111,17 +118,7 @@ class _LATrainerFacilitationFeedbackScreenState
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomSquareBoxSelectionWidget(
-              question: question,
-              firstGrade: "Disagree",
-              lastGrade: "Strongly Agree",
-              responses: responses.cast<String, int>(),
-              onResponseSelected: (question, value) {
-                ref
-                    .read(surveyGridResponseProvider.notifier)
-                    .updateResponse(question, value);
-              },
-            ),
+            SurveyQuestion(question: question),
             if (error != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4, left: 8),
@@ -135,10 +132,16 @@ class _LATrainerFacilitationFeedbackScreenState
 
   @override
   Widget build(BuildContext context) {
-    final responses = ref.watch(surveyGridResponseProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: PhinexaColor.black),
+          onPressed: () {
+            Navigator.pop(context);
+            clearSurveyResponses(ref);
+          },
+        ),
         title: Text(
           'Post Survey - Leadership Academy',
           style: PhinexaFont.highlightAccent,
@@ -155,44 +158,57 @@ class _LATrainerFacilitationFeedbackScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
+                 Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: PhinexaFont.highlightRegular,
+                            children: [
+                              TextSpan(
+                                text:
+                                    "Thank you for participating in the Leadership Academy",
+                              ),
+                              TextSpan(
+                                text:
+                                    ". \n \nYour feedback is valuable and will help improve future programs. "
+                                    "This survey is voluntary, and all responses will remain anonymous.",
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                SizedBox(height: 20),
                 Text(
-                  "Trainer Facilitation Feedback",
+                  "Overall Program Feedback",
                   style: PhinexaFont.headingLarge,
                 ),
                 SizedBox(height: 20),
-                Text(
-                  "For each facilitator, please rate their performance",
-                  style: PhinexaFont.highlightRegular,
-                ),
-                SizedBox(height: 20),
                 _buildQuestionWidget(
-                  "Credibility and expertise",
-                  responses,
-                  _questionErrors["Credibility and expertise"]!,
+                  "The Leadership Academy met my expectations",
+                  _questionErrors["The Leadership Academy met my expectations"]!,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Connection with participants",
-                  responses,
-                  _questionErrors["Connection with participants"]!,
+                  "The program was well-organized and easy to follow",
+                  _questionErrors["The program was well-organized and easy to follow"]!,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Ability to manage group conversations effectively",
-                  responses,
-                  _questionErrors["Ability to manage group conversations effectively"]!,
+                  "The content was practical, intuitive, and helpful",
+                  _questionErrors["The content was practical, intuitive, and helpful"]!,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Knowledge of the content",
-                  responses,
-                  _questionErrors["Knowledge of the content"]!,
+                  "The training materials and format were suitable for high school youth",
+                  _questionErrors["The training materials and format were suitable for high school youth"]!,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Clarity in delivery and presentation",
-                  responses,
-                  _questionErrors["Clarity in delivery and presentation"]!,
+                  "I was satisfied with the learning content and materials",
+                  _questionErrors["I was satisfied with the learning content and materials"]!,
                 ),
                 SizedBox(height: 10),
                 Row(

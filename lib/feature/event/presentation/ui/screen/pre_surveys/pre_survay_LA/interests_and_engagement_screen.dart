@@ -12,78 +12,63 @@ import '../../../../../../bottom_bar/presentation/ui/provider/nav_provider.dart'
 import '../../../../../../system_feedback/model/feedback.dart';
 import '../../../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../../application/survey_upload_service.dart';
+import '../../../../controller/event/event_controller.dart';
 import '../../../provider/combine_response.dart';
 import '../../../provider/survey_state_notifier.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/multi_select_checkbox_widget.dart';
 
-class TTInterestsAndEngagementScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+class InterestsAndEngagementScreen extends ConsumerStatefulWidget {
+  final int eventID;
 
-  const TTInterestsAndEngagementScreen({
-    super.key,
-    required this.eventIdentity,
-  });
+  const InterestsAndEngagementScreen({super.key, required this.eventID});
 
   @override
-  _TTInterestsAndEngagementScreenState createState() =>
-      _TTInterestsAndEngagementScreenState();
+  _InterestsAndEngagementScreenState createState() =>
+      _InterestsAndEngagementScreenState();
 }
 
-class _TTInterestsAndEngagementScreenState
-    extends ConsumerState<TTInterestsAndEngagementScreen> {
-  late TextEditingController otherTopicsController;
-  late TextEditingController challengesController;
+class _InterestsAndEngagementScreenState
+    extends ConsumerState<InterestsAndEngagementScreen> {
   late TextEditingController accessibilityController;
-  late TextEditingController feedbackController;
+  late TextEditingController knowBeforeController;
   late TextEditingController learningPreferenceOtherController;
 
-  final _topicsError = ValueNotifier<String?>(null);
-  final _otherTopicsError = ValueNotifier<String?>(null);
-  final _challengesError = ValueNotifier<String?>(null);
-  final _learningPreferenceError = ValueNotifier<String?>(null);
-  final _learningPreferenceOtherError = ValueNotifier<String?>(null);
-  final _accessibilityError = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _topicsError = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _learningPreferenceError =
+      ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _learningPreferenceOtherError =
+      ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _accessibilityError = ValueNotifier<String?>(
+    null,
+  );
 
   @override
   void initState() {
     super.initState();
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
 
-    otherTopicsController = TextEditingController(
-      text: surveyResponses['If there any other mention here..'] ?? '',
-    );
-    challengesController = TextEditingController(
-      text:
-          surveyResponses['Are there specific challenges or concerns you have about facilitating workshops or training sessions?'] ??
-          '',
-    );
     accessibilityController = TextEditingController(
       text:
           surveyResponses['Do you have any accessibility needs or accommodations we should be aware of?'] ??
           '',
     );
-    feedbackController = TextEditingController(
+    knowBeforeController = TextEditingController(
       text:
           surveyResponses["Is there anything else you'd like us to know before the workshop?"] ??
           '',
     );
     learningPreferenceOtherController = TextEditingController(
-      text: surveyResponses['Learning Preference Other TT'] ?? '',
+      text: surveyResponses['Learning Preference Other'] ?? '',
     );
   }
 
   @override
   void dispose() {
-    otherTopicsController.dispose();
-    challengesController.dispose();
     accessibilityController.dispose();
-    feedbackController.dispose();
+    knowBeforeController.dispose();
     learningPreferenceOtherController.dispose();
-
     _topicsError.dispose();
-    _otherTopicsError.dispose();
-    _challengesError.dispose();
     _learningPreferenceError.dispose();
     _learningPreferenceOtherError.dispose();
     _accessibilityError.dispose();
@@ -124,7 +109,7 @@ class _TTInterestsAndEngagementScreenState
     });
   }
 
-  Future<void> _validateForm() async {
+  void _validateForm() async {
     bool isValid = true;
     String errorMessage = "The following fields are required:\n";
 
@@ -132,33 +117,16 @@ class _TTInterestsAndEngagementScreenState
       surveyMultiSelectResponseProvider,
     );
 
-    final selectedTopics =
-        surveyMultiSelectResponses["What topics are you most interested in exploring in this workshop? (Check all that apply)"]
-            as List?;
-
-    if (selectedTopics == null || selectedTopics.isEmpty) {
+    if (surveyMultiSelectResponses["What topics are you most interested in exploring in this workshop? (Check all that apply)"] ==
+            null ||
+        (surveyMultiSelectResponses["What topics are you most interested in exploring in this workshop? (Check all that apply)"]
+                as List)
+            .isEmpty) {
       _topicsError.value = 'Please select at least one topic';
       isValid = false;
       errorMessage += "- Topics of interest\n";
     } else {
       _topicsError.value = null;
-      if (selectedTopics.contains("Other") &&
-          otherTopicsController.text.trim().isEmpty) {
-        _otherTopicsError.value = 'Please mention any other topics';
-        isValid = false;
-        errorMessage += "- Other topics elaboration\n";
-      } else {
-        _otherTopicsError.value = null;
-      }
-    }
-
-    if (challengesController.text.isEmpty) {
-      _challengesError.value =
-          'Please describe any challenges or concerns you have';
-      isValid = false;
-      errorMessage += "- Challenges or concerns\n";
-    } else {
-      _challengesError.value = null;
     }
 
     final learningPreferences =
@@ -192,24 +160,27 @@ class _TTInterestsAndEngagementScreenState
     }
 
     if (isValid) {
-      ref.read(isLoadingProvider.notifier).state = true;
-      final responses = await combineSurveyResponses(ref);
-      await uploadSurveyData(
-        ref,
-        responses,
-        'Pre_Survey_${widget.eventIdentity}',
-      );
-      clearSurveyResponses(ref);
+      try {
+        final responses = await formatSurveyForAPI(ref);
+        await uploadPreSurveyData(ref, responses, widget.eventID);
 
-      ref.read(isLoadingProvider.notifier).state = false;
-      ref
-          .read(feedbackServiceProvider)
-          .showToast(
+        clearSurveyResponses(ref);
+
+        if (mounted) {
+          ref.read(feedbackServiceProvider).showToast(
             "Survey submitted successfully",
             type: FeedbackType.success,
           );
-
-      _showCompletionDialog(context);
+          _showCompletionDialog(context);
+        }
+      } catch (error) {
+        if (mounted) {
+          ref.read(feedbackServiceProvider).showToast(
+            "Failed to submit survey. Please try again.",
+            type: FeedbackType.error,
+          );
+        }
+      }
     } else {
       _showTopSnackBar(context, errorMessage);
     }
@@ -238,7 +209,7 @@ class _TTInterestsAndEngagementScreenState
                 ),
                 SizedBox(height: 16),
                 Text(
-                  "You’re officially registered to GL2i Train the Trainer, high fives all around! While you wait for the Train the Trainer to kick off, take a look around the app",
+                  "You're officially registered to GL2i Leadership Academy, high fives all around! While you wait for the Leadership Academy to kick off, take a look around the app",
                   style: PhinexaFont.contentRegular,
                   textAlign: TextAlign.center,
                 ),
@@ -248,6 +219,7 @@ class _TTInterestsAndEngagementScreenState
                   height: 40,
                   onPressed: () {
                     Navigator.of(dialogContext).pop();
+                    ref.read(eventControllerProvider.notifier).getEvents();
                     ref.read(navProvider.notifier).onItemTapped(0);
                     GoRouter.of(
                       navigationKey.currentContext!,
@@ -264,7 +236,7 @@ class _TTInterestsAndEngagementScreenState
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(isLoadingProvider);
+    final isLoading = ref.watch(surveySubmissionStateProvider).isLoading;
     final surveyMultiSelectResponses = ref.watch(
       surveyMultiSelectResponseProvider,
     );
@@ -272,10 +244,7 @@ class _TTInterestsAndEngagementScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Pre-Workshop Survey - Train the Trainer',
-          style: PhinexaFont.headingSmall,
-        ),
+        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
       ),
       body: GestureDetector(
         onTap: () {
@@ -312,9 +281,7 @@ class _TTInterestsAndEngagementScreenState
                                   "Communication and Feedback",
                                   "Mindset",
                                   "Sustainable Impact Projects",
-                                  "Delivering content with clarity and impact",
-                                  "Not sure/Don’t know",
-                                  "Other",
+                                  "Not sure/Don\'t know",
                                 ],
                               ),
                               if (error != null)
@@ -326,77 +293,7 @@ class _TTInterestsAndEngagementScreenState
                           );
                         },
                       ),
-                      if (surveyMultiSelectResponses["What topics are you most interested in exploring in this workshop? (Check all that apply)"]
-                              ?.contains("Other") ??
-                          false)
-                        ValueListenableBuilder<String?>(
-                          valueListenable: _otherTopicsError,
-                          builder: (context, error, child) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomFormTextField(
-                                  hintText: "Other topic(s)",
-                                  autofocus: false,
-                                  obscureText: false,
-                                  controller: otherTopicsController,
-                                  onChanged: (value) {
-                                    ref
-                                        .read(
-                                          surveyTextFieldResponseProvider
-                                              .notifier,
-                                        )
-                                        .updateResponse(
-                                          'If there any other mention here..',
-                                          value,
-                                        );
-                                  },
-                                ),
-                                if (error != null)
-                                  Text(
-                                    error,
-                                    style: TextStyle(color: PhinexaColor.red),
-                                  ),
-                              ],
-                            );
-                          },
-                        ),
                       SizedBox(height: 10),
-                      ValueListenableBuilder<String?>(
-                        valueListenable: _challengesError,
-                        builder: (context, error, child) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomFormTextField(
-                                labelText:
-                                    "Are there specific challenges or concerns you have about facilitating workshops or training sessions?",
-                                hintText: '',
-                                obscureText: false,
-                                height: 110,
-                                maxLines: 10,
-                                controller: challengesController,
-                                onChanged: (value) {
-                                  ref
-                                      .read(
-                                        surveyTextFieldResponseProvider
-                                            .notifier,
-                                      )
-                                      .updateResponse(
-                                        'Are there specific challenges or concerns you have about facilitating workshops or training sessions?',
-                                        value,
-                                      );
-                                },
-                              ),
-                              if (error != null)
-                                Text(
-                                  error,
-                                  style: TextStyle(color: PhinexaColor.red),
-                                ),
-                            ],
-                          );
-                        },
-                      ),
                       SizedBox(height: 30),
                       Text(
                         "Logistics and Preferences",
@@ -444,7 +341,7 @@ class _TTInterestsAndEngagementScreenState
                                                       .notifier,
                                                 )
                                                 .updateResponse(
-                                                  'Learning Preference Other TT',
+                                                  'Learning Preference Other',
                                                   value,
                                                 );
                                           },
@@ -482,9 +379,9 @@ class _TTInterestsAndEngagementScreenState
                                     "Do you have any accessibility needs or accommodations we should be aware of?",
                                 hintText: '',
                                 obscureText: false,
+                                controller: accessibilityController,
                                 height: 110,
                                 maxLines: 10,
-                                controller: accessibilityController,
                                 onChanged: (value) {
                                   ref
                                       .read(
@@ -516,10 +413,10 @@ class _TTInterestsAndEngagementScreenState
                         labelText:
                             "Is there anything else you'd like us to know before the workshop?",
                         hintText: '',
+                        controller: knowBeforeController,
                         obscureText: false,
                         height: 110,
                         maxLines: 10,
-                        controller: feedbackController,
                         onChanged: (value) {
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)

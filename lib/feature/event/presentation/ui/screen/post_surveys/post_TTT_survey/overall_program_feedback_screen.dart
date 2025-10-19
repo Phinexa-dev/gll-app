@@ -2,37 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../core/route/route_name.dart';
+import '../../../../../../../common/theme/colors.dart';
+import '../../../provider/combine_response.dart';
 import '../../../provider/survey_radio_string_response_provider.dart';
 import '../../../widgets/survey_question_widget.dart';
 
-class LAModuleSpecificFeedbackScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+class TTTOverallProgramFeedbackScreen extends ConsumerStatefulWidget {
+  final int eventID;
 
-  const LAModuleSpecificFeedbackScreen({
+  const TTTOverallProgramFeedbackScreen({
     super.key,
-    required this.eventIdentity,
+    required this.eventID,
   });
 
   @override
-  _LAModuleSpecificFeedbackScreenState createState() =>
-      _LAModuleSpecificFeedbackScreenState();
+  _TTTOverallProgramFeedbackScreenState createState() =>
+      _TTTOverallProgramFeedbackScreenState();
 }
 
-class _LAModuleSpecificFeedbackScreenState
-    extends ConsumerState<LAModuleSpecificFeedbackScreen> {
+class _TTTOverallProgramFeedbackScreenState
+    extends ConsumerState<TTTOverallProgramFeedbackScreen> {
   final _questionErrors = {
-    "Sustainable Development Goals, Vision Trees": ValueNotifier<String?>(null),
-    "Leadership 101: Direction, Alignment, and Commitment":
+    "The Leadership Academy and Train the Trainer Workshop met my expectations":
         ValueNotifier<String?>(null),
-    "Perspectives and Mindset": ValueNotifier<String?>(null),
-    "Communication & Feedback or SBI": ValueNotifier<String?>(null),
-    "Values and Actions": ValueNotifier<String?>(null),
-    "Working in Teams": ValueNotifier<String?>(null),
-    "Change Happens": ValueNotifier<String?>(null),
-    "Sustainable Impact Project": ValueNotifier<String?>(null),
+    "The program was well-organized and easy to follow": ValueNotifier<String?>(
+      null,
+    ),
+    "The content was practical, intuitive, and helpful": ValueNotifier<String?>(
+      null,
+    ),
+    "The training materials and format were effective for preparing facilitators":
+        ValueNotifier<String?>(null),
+    "I was satisfied with the learning content and facilitation strategies provided":
+        ValueNotifier<String?>(null),
   };
 
   @override
@@ -94,8 +98,8 @@ class _LAModuleSpecificFeedbackScreenState
 
     if (isValid) {
       context.pushNamed(
-        RouteName.laTrainerFacilitationFeedbackScreen,
-        extra: widget.eventIdentity,
+        RouteName.tttModuleSpecificFeedbackScreen,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);
@@ -129,9 +133,20 @@ class _LAModuleSpecificFeedbackScreenState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Post Survey - Leadership Academy',
-          style: PhinexaFont.highlightAccent,
+        title: Flexible(
+          child: Text(
+            'Post Survey - Train the Trainer',
+            style: PhinexaFont.highlightAccent,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: PhinexaColor.black),
+          onPressed: () {
+            Navigator.pop(context);
+            clearSurveyResponses(ref);
+          },
         ),
       ),
       body: GestureDetector(
@@ -145,58 +160,67 @@ class _LAModuleSpecificFeedbackScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
+                Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: PhinexaFont.highlightRegular,
+                            children: [
+                              TextSpan(
+                                text:
+                                    "Thank you for participating in the Leadership Academy ",
+                              ),
+                              TextSpan(
+                                text: "Train the Trainer",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text:
+                                    ". \n \nYour feedback is valuable and will help improve future programs. "
+                                    "This survey is voluntary, and all responses will remain anonymous.",
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                SizedBox(height: 20),
                 Text(
-                  "Module Specific Feedback",
+                  "Overall Workshop Feedback",
                   style: PhinexaFont.headingLarge,
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "For each module, please indicate how strongly you agree with the statement:  \"This module was relevant, engaging, and beneficial to youth leadership training.\"",
-                  style: PhinexaFont.highlightRegular,
+                  "Please rate the following statements",
+                  style: PhinexaFont.featureRegular,
                 ),
                 SizedBox(height: 20),
-                Text("Day 1", style: PhinexaFont.headingLarge),
-                SizedBox(height: 20),
                 _buildQuestionWidget(
-                  "Sustainable Development Goals, Vision Trees",
-                  _questionErrors["Sustainable Development Goals, Vision Trees"]!,
+                  "The Leadership Academy and Train the Trainer Workshop met my expectations",
+                  _questionErrors["The Leadership Academy and Train the Trainer Workshop met my expectations"]!,
                 ),
                 SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Leadership 101: Direction, Alignment, and Commitment",
-                  _questionErrors["Leadership 101: Direction, Alignment, and Commitment"]!,
+                  "The program was well-organized and easy to follow",
+                  _questionErrors["The program was well-organized and easy to follow"]!,
                 ),
                 SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Perspectives and Mindset",
-                  _questionErrors["Perspectives and Mindset"]!,
-                ),
-                SizedBox(height: 20),
-                Text("Day 2", style: PhinexaFont.headingLarge),
-                SizedBox(height: 20),
-                _buildQuestionWidget(
-                  "Communication & Feedback or SBI",
-                  _questionErrors["Communication & Feedback or SBI"]!,
+                  "The content was practical, intuitive, and helpful",
+                  _questionErrors["The content was practical, intuitive, and helpful"]!,
                 ),
                 SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Values and Actions",
-                  _questionErrors["Values and Actions"]!,
+                  "The training materials and format were effective for preparing facilitators",
+                  _questionErrors["The training materials and format were effective for preparing facilitators"]!,
                 ),
                 SizedBox(height: 15),
                 _buildQuestionWidget(
-                  "Working in Teams",
-                  _questionErrors["Working in Teams"]!,
-                ),
-                SizedBox(height: 15),
-                _buildQuestionWidget(
-                  "Change Happens",
-                  _questionErrors["Change Happens"]!,
-                ),
-                SizedBox(height: 15),
-                _buildQuestionWidget(
-                  "Sustainable Impact Project",
-                  _questionErrors["Sustainable Impact Project"]!,
+                  "I was satisfied with the learning content and facilitation strategies provided",
+                  _questionErrors["I was satisfied with the learning content and facilitation strategies provided"]!,
                 ),
                 SizedBox(height: 10),
                 Row(

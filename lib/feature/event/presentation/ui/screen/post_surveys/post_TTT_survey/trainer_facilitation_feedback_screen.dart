@@ -9,11 +9,11 @@ import '../../../provider/survey_grid_notifier.dart';
 import '../../../widgets/custom_square_box_selection_widget.dart';
 
 class TTTTrainerFacilitationFeedbackScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+  final int eventID;
 
   const TTTTrainerFacilitationFeedbackScreen({
     super.key,
-    required this.eventIdentity,
+    required this.eventID,
   });
 
   @override
@@ -93,7 +93,7 @@ class _TTTTrainerFacilitationFeedbackScreenState
     if (isValid) {
       context.pushNamed(
         RouteName.tttApplicationOfSkillsScreen,
-        extra: widget.eventIdentity,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);

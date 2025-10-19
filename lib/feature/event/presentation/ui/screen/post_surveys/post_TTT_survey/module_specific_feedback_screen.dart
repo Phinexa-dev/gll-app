@@ -9,11 +9,11 @@ import '../../../provider/survey_radio_string_response_provider.dart';
 import '../../../widgets/survey_question_widget.dart';
 
 class TTTModuleSpecificFeedbackScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+  final int eventID;
 
   const TTTModuleSpecificFeedbackScreen({
     super.key,
-    required this.eventIdentity,
+    required this.eventID,
   });
 
   @override
@@ -103,7 +103,7 @@ class _TTTModuleSpecificFeedbackScreenState
     if (isValid) {
       context.pushNamed(
         RouteName.tttTrainerFacilitationFeedbackScreen,
-        extra: widget.eventIdentity,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);
