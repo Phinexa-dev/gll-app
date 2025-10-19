@@ -12,7 +12,8 @@ part of 'sign_in_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignInModel {
@@ -32,11 +33,17 @@ mixin _$SignInModel {
 /// @nodoc
 abstract class $SignInModelCopyWith<$Res> {
   factory $SignInModelCopyWith(
-          SignInModel value, $Res Function(SignInModel) then) =
-      _$SignInModelCopyWithImpl<$Res, SignInModel>;
+    SignInModel value,
+    $Res Function(SignInModel) then,
+  ) = _$SignInModelCopyWithImpl<$Res, SignInModel>;
   @useResult
-  $Res call(
-      {String accessToken, int id, String name, String email, bool success});
+  $Res call({
+    String accessToken,
+    int id,
+    String name,
+    String email,
+    bool success,
+  });
 }
 
 /// @nodoc
@@ -60,28 +67,31 @@ class _$SignInModelCopyWithImpl<$Res, $Val extends SignInModel>
     Object? email = null,
     Object? success = null,
   }) {
-    return _then(_value.copyWith(
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            accessToken: null == accessToken
+                ? _value.accessToken
+                : accessToken // ignore: cast_nullable_to_non_nullable
+                      as String,
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            success: null == success
+                ? _value.success
+                : success // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -89,12 +99,18 @@ class _$SignInModelCopyWithImpl<$Res, $Val extends SignInModel>
 abstract class _$$SignInModelImplCopyWith<$Res>
     implements $SignInModelCopyWith<$Res> {
   factory _$$SignInModelImplCopyWith(
-          _$SignInModelImpl value, $Res Function(_$SignInModelImpl) then) =
-      __$$SignInModelImplCopyWithImpl<$Res>;
+    _$SignInModelImpl value,
+    $Res Function(_$SignInModelImpl) then,
+  ) = __$$SignInModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String accessToken, int id, String name, String email, bool success});
+  $Res call({
+    String accessToken,
+    int id,
+    String name,
+    String email,
+    bool success,
+  });
 }
 
 /// @nodoc
@@ -102,8 +118,9 @@ class __$$SignInModelImplCopyWithImpl<$Res>
     extends _$SignInModelCopyWithImpl<$Res, _$SignInModelImpl>
     implements _$$SignInModelImplCopyWith<$Res> {
   __$$SignInModelImplCopyWithImpl(
-      _$SignInModelImpl _value, $Res Function(_$SignInModelImpl) _then)
-      : super(_value, _then);
+    _$SignInModelImpl _value,
+    $Res Function(_$SignInModelImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInModel
   /// with the given fields replaced by the non-null parameter values.
@@ -116,40 +133,43 @@ class __$$SignInModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? success = null,
   }) {
-    return _then(_$SignInModelImpl(
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$SignInModelImpl(
+        accessToken: null == accessToken
+            ? _value.accessToken
+            : accessToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        success: null == success
+            ? _value.success
+            : success // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SignInModelImpl implements _SignInModel {
-  _$SignInModelImpl(
-      {required this.accessToken,
-      required this.id,
-      required this.name,
-      required this.email,
-      required this.success});
+  _$SignInModelImpl({
+    required this.accessToken,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.success,
+  });
 
   @override
   final String accessToken;
@@ -194,12 +214,13 @@ class _$SignInModelImpl implements _SignInModel {
 }
 
 abstract class _SignInModel implements SignInModel {
-  factory _SignInModel(
-      {required final String accessToken,
-      required final int id,
-      required final String name,
-      required final String email,
-      required final bool success}) = _$SignInModelImpl;
+  factory _SignInModel({
+    required final String accessToken,
+    required final int id,
+    required final String name,
+    required final String email,
+    required final bool success,
+  }) = _$SignInModelImpl;
 
   @override
   String get accessToken;

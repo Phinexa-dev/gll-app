@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/data/local/user/user_service.dart';
 import '../../../../../core/route/route_name.dart';
-import '../../../../events/presentation/ui/provider/combine_response.dart';
+import '../../../../event/presentation/ui/provider/combine_response.dart';
 import '../../../../system_feedback/model/feedback.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../application/firebase_services/firebaseStorageService.dart';

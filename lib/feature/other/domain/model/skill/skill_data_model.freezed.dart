@@ -12,7 +12,8 @@ part of 'skill_data_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SkillDataModel {
@@ -29,8 +30,9 @@ mixin _$SkillDataModel {
 /// @nodoc
 abstract class $SkillDataModelCopyWith<$Res> {
   factory $SkillDataModelCopyWith(
-          SkillDataModel value, $Res Function(SkillDataModel) then) =
-      _$SkillDataModelCopyWithImpl<$Res, SkillDataModel>;
+    SkillDataModel value,
+    $Res Function(SkillDataModel) then,
+  ) = _$SkillDataModelCopyWithImpl<$Res, SkillDataModel>;
   @useResult
   $Res call({int id, String skill});
 }
@@ -49,29 +51,30 @@ class _$SkillDataModelCopyWithImpl<$Res, $Val extends SkillDataModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? skill = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      skill: null == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? id = null, Object? skill = null}) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            skill: null == skill
+                ? _value.skill
+                : skill // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SkillDataModelImplCopyWith<$Res>
     implements $SkillDataModelCopyWith<$Res> {
-  factory _$$SkillDataModelImplCopyWith(_$SkillDataModelImpl value,
-          $Res Function(_$SkillDataModelImpl) then) =
-      __$$SkillDataModelImplCopyWithImpl<$Res>;
+  factory _$$SkillDataModelImplCopyWith(
+    _$SkillDataModelImpl value,
+    $Res Function(_$SkillDataModelImpl) then,
+  ) = __$$SkillDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String skill});
@@ -82,27 +85,27 @@ class __$$SkillDataModelImplCopyWithImpl<$Res>
     extends _$SkillDataModelCopyWithImpl<$Res, _$SkillDataModelImpl>
     implements _$$SkillDataModelImplCopyWith<$Res> {
   __$$SkillDataModelImplCopyWithImpl(
-      _$SkillDataModelImpl _value, $Res Function(_$SkillDataModelImpl) _then)
-      : super(_value, _then);
+    _$SkillDataModelImpl _value,
+    $Res Function(_$SkillDataModelImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SkillDataModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? skill = null,
-  }) {
-    return _then(_$SkillDataModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      skill: null == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? id = null, Object? skill = null}) {
+    return _then(
+      _$SkillDataModelImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        skill: null == skill
+            ? _value.skill
+            : skill // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -140,13 +143,16 @@ class _$SkillDataModelImpl implements _SkillDataModel {
   @pragma('vm:prefer-inline')
   _$$SkillDataModelImplCopyWith<_$SkillDataModelImpl> get copyWith =>
       __$$SkillDataModelImplCopyWithImpl<_$SkillDataModelImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _SkillDataModel implements SkillDataModel {
-  const factory _SkillDataModel(
-      {required final int id,
-      required final String skill}) = _$SkillDataModelImpl;
+  const factory _SkillDataModel({
+    required final int id,
+    required final String skill,
+  }) = _$SkillDataModelImpl;
 
   @override
   int get id;
