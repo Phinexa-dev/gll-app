@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gll/feature/events/presentation/ui/provider/survey_grid_notifier.dart';
-import 'package:gll/feature/events/presentation/ui/provider/survey_radio_response_provider.dart';
-import 'package:gll/feature/events/presentation/ui/provider/survey_radio_string_response_provider.dart';
-import 'package:gll/feature/events/presentation/ui/provider/text_and_dropdown_reponses_provider.dart';
+import 'package:gll/feature/event/presentation/ui/provider/survey_grid_notifier.dart';
+import 'package:gll/feature/event/presentation/ui/provider/survey_radio_response_provider.dart';
+import 'package:gll/feature/event/presentation/ui/provider/survey_radio_string_response_provider.dart';
+import 'package:gll/feature/event/presentation/ui/provider/text_and_dropdown_reponses_provider.dart';
 import 'package:gll/feature/home/presentation/ui/provider/%20phone_number_provider.dart';
 
 import '../widgets/multi_select_checkbox_widget.dart';
@@ -25,6 +25,15 @@ Future<Map<String, dynamic>> combineSurveyResponses(WidgetRef ref) async {
     'valuedRadioResponses': valuedRadioResponses
   };
   return responses;
+}
+
+Future<Map<String, dynamic>> formatSurveyForAPI(WidgetRef ref) async {
+  final combinedResponses = await combineSurveyResponses(ref);
+
+  return {
+    'consent': true,
+    'responses': combinedResponses,
+  };
 }
 
 void clearSurveyResponses(WidgetRef ref) {

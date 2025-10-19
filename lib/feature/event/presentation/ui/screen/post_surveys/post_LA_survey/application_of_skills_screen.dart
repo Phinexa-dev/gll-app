@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../../../controller/event/event_controller.dart';
 import '../../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../../core/route/app_routes.dart';
@@ -18,9 +18,9 @@ import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
 
 class LAApplicationOfSkillsScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+  final int eventID;
 
-  const LAApplicationOfSkillsScreen({super.key, required this.eventIdentity});
+  const LAApplicationOfSkillsScreen({super.key, required this.eventID});
 
   @override
   _LAApplicationOfSkillsScreenState createState() =>
@@ -97,7 +97,7 @@ class _LAApplicationOfSkillsScreenState
     });
   }
 
-  Future<void> _submitForm() async {
+  void _validateForm() async {
     bool isValid = true;
     String errorMessage = "The following fields are required:\n";
 
@@ -113,24 +113,27 @@ class _LAApplicationOfSkillsScreenState
     }
 
     if (isValid) {
-      ref.read(isLoadingProvider.notifier).state = true;
-      final responses = await combineSurveyResponses(ref);
-      await uploadSurveyData(
-        ref,
-        responses,
-        'Post_Survey_${widget.eventIdentity}',
-      );
-      clearSurveyResponses(ref);
+      try {
+        final responses = await formatSurveyForAPI(ref);
+        await uploadPostSurveyData(ref, responses, widget.eventID);
 
-      ref.read(isLoadingProvider.notifier).state = false;
-      ref
-          .read(feedbackServiceProvider)
-          .showToast(
+        clearSurveyResponses(ref);
+
+        if (mounted) {
+          ref.read(feedbackServiceProvider).showToast(
             "Survey submitted successfully",
             type: FeedbackType.success,
           );
-
-      _showCompletionDialog(context);
+          _showCompletionDialog(context);
+        }
+      } catch (error) {
+        if (mounted) {
+          ref.read(feedbackServiceProvider).showToast(
+            "Failed to submit survey. Please try again.",
+            type: FeedbackType.error,
+          );
+        }
+      }
     } else {
       _showTopSnackBar(context, errorMessage);
     }
@@ -161,6 +164,7 @@ class _LAApplicationOfSkillsScreenState
                   height: 40,
                   onPressed: () {
                     Navigator.of(dialogContext).pop();
+                    ref.read(eventControllerProvider.notifier).getEvents();
                     ref.read(navProvider.notifier).onItemTapped(0);
                     GoRouter.of(
                       navigationKey.currentContext!,
@@ -206,7 +210,7 @@ class _LAApplicationOfSkillsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(isLoadingProvider);
+    final isLoading = ref.watch(surveySubmissionStateProvider).isLoading;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -283,7 +287,7 @@ class _LAApplicationOfSkillsScreenState
                         child: CustomButton(
                           label: "Submit",
                           height: 40,
-                          onPressed: _submitForm,
+                          onPressed: _validateForm,
                         ),
                       ),
                     ],

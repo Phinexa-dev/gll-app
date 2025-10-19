@@ -12,7 +12,8 @@ part of 'certificate_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$CertificateModel {
@@ -31,8 +32,9 @@ mixin _$CertificateModel {
 /// @nodoc
 abstract class $CertificateModelCopyWith<$Res> {
   factory $CertificateModelCopyWith(
-          CertificateModel value, $Res Function(CertificateModel) then) =
-      _$CertificateModelCopyWithImpl<$Res, CertificateModel>;
+    CertificateModel value,
+    $Res Function(CertificateModel) then,
+  ) = _$CertificateModelCopyWithImpl<$Res, CertificateModel>;
   @useResult
   $Res call({int id, String name, String organization, String description});
 }
@@ -57,33 +59,37 @@ class _$CertificateModelCopyWithImpl<$Res, $Val extends CertificateModel>
     Object? organization = null,
     Object? description = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      organization: null == organization
-          ? _value.organization
-          : organization // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            organization: null == organization
+                ? _value.organization
+                : organization // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CertificateModelImplCopyWith<$Res>
     implements $CertificateModelCopyWith<$Res> {
-  factory _$$CertificateModelImplCopyWith(_$CertificateModelImpl value,
-          $Res Function(_$CertificateModelImpl) then) =
-      __$$CertificateModelImplCopyWithImpl<$Res>;
+  factory _$$CertificateModelImplCopyWith(
+    _$CertificateModelImpl value,
+    $Res Function(_$CertificateModelImpl) then,
+  ) = __$$CertificateModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String name, String organization, String description});
@@ -93,9 +99,10 @@ abstract class _$$CertificateModelImplCopyWith<$Res>
 class __$$CertificateModelImplCopyWithImpl<$Res>
     extends _$CertificateModelCopyWithImpl<$Res, _$CertificateModelImpl>
     implements _$$CertificateModelImplCopyWith<$Res> {
-  __$$CertificateModelImplCopyWithImpl(_$CertificateModelImpl _value,
-      $Res Function(_$CertificateModelImpl) _then)
-      : super(_value, _then);
+  __$$CertificateModelImplCopyWithImpl(
+    _$CertificateModelImpl _value,
+    $Res Function(_$CertificateModelImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CertificateModel
   /// with the given fields replaced by the non-null parameter values.
@@ -107,35 +114,38 @@ class __$$CertificateModelImplCopyWithImpl<$Res>
     Object? organization = null,
     Object? description = null,
   }) {
-    return _then(_$CertificateModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      organization: null == organization
-          ? _value.organization
-          : organization // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$CertificateModelImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        organization: null == organization
+            ? _value.organization
+            : organization // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$CertificateModelImpl implements _CertificateModel {
-  _$CertificateModelImpl(
-      {required this.id,
-      required this.name,
-      required this.organization,
-      required this.description});
+  _$CertificateModelImpl({
+    required this.id,
+    required this.name,
+    required this.organization,
+    required this.description,
+  });
 
   @override
   final int id;
@@ -175,15 +185,18 @@ class _$CertificateModelImpl implements _CertificateModel {
   @pragma('vm:prefer-inline')
   _$$CertificateModelImplCopyWith<_$CertificateModelImpl> get copyWith =>
       __$$CertificateModelImplCopyWithImpl<_$CertificateModelImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _CertificateModel implements CertificateModel {
-  factory _CertificateModel(
-      {required final int id,
-      required final String name,
-      required final String organization,
-      required final String description}) = _$CertificateModelImpl;
+  factory _CertificateModel({
+    required final int id,
+    required final String name,
+    required final String organization,
+    required final String description,
+  }) = _$CertificateModelImpl;
 
   @override
   int get id;

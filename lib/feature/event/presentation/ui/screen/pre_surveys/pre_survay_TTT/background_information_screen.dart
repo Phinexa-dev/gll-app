@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:gll/feature/events/presentation/ui/widgets/custom_searchable_dropdown.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../../common/theme/colors.dart';
 import '../../../../../../../common/widget/custom_button.dart';
 import '../../../../../../../common/widget/custom_form_text_field.dart';
 import '../../../../../../../core/data/local/ countries.dart';
@@ -13,72 +12,85 @@ import '../../../provider/survey_radio_response_provider.dart';
 import '../../../provider/text_and_dropdown_reponses_provider.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_radio_button_widget.dart';
+import '../../../widgets/custom_searchable_dropdown.dart';
 
-class BackgroundInformationScreen extends ConsumerStatefulWidget {
-  final String eventIdentity;
+class TTBackgroundInformationScreen extends ConsumerStatefulWidget {
+  final int eventID;
 
-  const BackgroundInformationScreen({super.key, required this.eventIdentity});
+  const TTBackgroundInformationScreen({super.key, required this.eventID});
 
   @override
-  _BackgroundInformationScreenState createState() =>
-      _BackgroundInformationScreenState();
+  _TTBackgroundInformationScreenState createState() =>
+      _TTBackgroundInformationScreenState();
 }
 
-class _BackgroundInformationScreenState
-    extends ConsumerState<BackgroundInformationScreen> {
+class _TTBackgroundInformationScreenState
+    extends ConsumerState<TTBackgroundInformationScreen> {
   late TextEditingController fullNameController;
   late TextEditingController ageController;
-  late TextEditingController marginalizedDescriptionController;
+  late TextEditingController workshopDescriptionController;
   late TextEditingController statusOtherDescriptionController;
 
-  String? selectedMarginalizedGroup;
-  String? selectedGender;
   String? selectedCountryOrigin;
   String? selectedCountryResidence;
   String? selectedStatus;
   bool? selectedLeadershipProgram;
+  bool? selectedFacilitatedWorkshop;
 
-  final _marginalizedError = ValueNotifier<String?>(null);
-  final _marginalizedDescriptionError = ValueNotifier<String?>(null);
   final _fullNameError = ValueNotifier<String?>(null);
   final _ageError = ValueNotifier<String?>(null);
   final _countryOriginError = ValueNotifier<String?>(null);
   final _countryResidenceError = ValueNotifier<String?>(null);
   final _statusError = ValueNotifier<String?>(null);
   final _statusOtherDescriptionError = ValueNotifier<String?>(null);
-  final _radioError = ValueNotifier<String?>(null);
+  final _leadershipProgramError = ValueNotifier<String?>(null);
+  final _facilitatedWorkshopError = ValueNotifier<String?>(null);
+  final _workshopDescriptionError = ValueNotifier<String?>(null);
 
   @override
   void initState() {
     super.initState();
-
     fullNameController = TextEditingController();
     ageController = TextEditingController();
+    workshopDescriptionController = TextEditingController();
+    statusOtherDescriptionController = TextEditingController();
 
     final surveyResponses = ref.read(surveyTextFieldResponseProvider);
-    marginalizedDescriptionController = TextEditingController(
-      text: surveyResponses['Marginalized Description'] ?? '',
-    );
-    statusOtherDescriptionController = TextEditingController(
-      text: surveyResponses['Status Other'] ?? '',
-    );
+    final radioResponses = ref.read(radioQuestionResponseProvider);
 
-    selectedMarginalizedGroup = surveyResponses['Marginalized Group'];
     fullNameController.text = surveyResponses['Full name'] ?? '';
     ageController.text = surveyResponses['Age'] ?? '';
-    selectedLeadershipProgram = ref.read(
-      radioQuestionResponseProvider,
-    )["Have you participated in a leadership program or workshop before?"];
+    selectedCountryOrigin = surveyResponses['Country of origin'];
+    selectedCountryResidence = surveyResponses['Country of residence'];
+    selectedStatus = surveyResponses['Current status'];
+    statusOtherDescriptionController.text =
+        surveyResponses['Status Other'] ?? '';
 
-    _updateDropdownSelections(surveyResponses);
+    selectedLeadershipProgram =
+        radioResponses["Have you participated in a leadership program or workshop before?"];
+    selectedFacilitatedWorkshop =
+        radioResponses["Have you facilitated workshops, training sessions, or group activities before?"];
+    workshopDescriptionController.text =
+        surveyResponses['If yes, please describe briefly (facilitated workshops)'] ??
+        '';
   }
 
-  void _updateDropdownSelections(Map<String, String?> surveyResponses) {
-    setState(() {
-      selectedCountryOrigin = surveyResponses['Country of origin'];
-      selectedCountryResidence = surveyResponses['Country of residence'];
-      selectedStatus = surveyResponses['Current status'];
-    });
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    ageController.dispose();
+    workshopDescriptionController.dispose();
+    statusOtherDescriptionController.dispose();
+    _fullNameError.dispose();
+    _ageError.dispose();
+    _countryOriginError.dispose();
+    _countryResidenceError.dispose();
+    _statusError.dispose();
+    _statusOtherDescriptionError.dispose();
+    _leadershipProgramError.dispose();
+    _facilitatedWorkshopError.dispose();
+    _workshopDescriptionError.dispose();
+    super.dispose();
   }
 
   void _showTopSnackBar(BuildContext context, String message) {
@@ -115,7 +127,7 @@ class _BackgroundInformationScreenState
     });
   }
 
-  void _submitForm() {
+  void _validateForm() {
     bool isValid = true;
     String errorMessage = "The following fields are required:\n";
 
@@ -131,6 +143,10 @@ class _BackgroundInformationScreenState
       _ageError.value = 'Please enter your age';
       isValid = false;
       errorMessage += "- Age\n";
+    } else if (int.tryParse(ageController.text) == null) {
+      _ageError.value = 'Please enter a valid number';
+      isValid = false;
+      errorMessage += "- Age (must be a number)\n";
     } else {
       _ageError.value = null;
     }
@@ -141,20 +157,6 @@ class _BackgroundInformationScreenState
       errorMessage += "- Country of origin\n";
     } else {
       _countryOriginError.value = null;
-    }
-
-    if (selectedMarginalizedGroup == null) {
-      _marginalizedError.value = 'Please select an option';
-      isValid = false;
-      errorMessage += "- Marginalized group identification\n";
-    } else if (selectedMarginalizedGroup == 'Yes' &&
-        marginalizedDescriptionController.text.isEmpty) {
-      _marginalizedDescriptionError.value = 'Please elaborate';
-      isValid = false;
-      errorMessage += "- Marginalized group elaboration\n";
-    } else {
-      _marginalizedError.value = null;
-      _marginalizedDescriptionError.value = null;
     }
 
     if (selectedCountryResidence == null) {
@@ -180,18 +182,36 @@ class _BackgroundInformationScreenState
     }
 
     if (selectedLeadershipProgram == null) {
-      _radioError.value =
+      _leadershipProgramError.value =
           'Please select if you have participated in a leadership program';
       isValid = false;
       errorMessage += "- Leadership program participation\n";
     } else {
-      _radioError.value = null;
+      _leadershipProgramError.value = null;
+    }
+
+    if (selectedFacilitatedWorkshop == null) {
+      _facilitatedWorkshopError.value =
+          'Please select if you have facilitated workshops before';
+      isValid = false;
+      errorMessage += "- Workshop facilitation experience\n";
+    } else {
+      _facilitatedWorkshopError.value = null;
+    }
+
+    if (selectedFacilitatedWorkshop == true &&
+        workshopDescriptionController.text.isEmpty) {
+      _workshopDescriptionError.value = 'Please describe your experience';
+      isValid = false;
+      errorMessage += "- Workshop facilitation description\n";
+    } else {
+      _workshopDescriptionError.value = null;
     }
 
     if (isValid) {
       context.pushNamed(
-        RouteName.goalsExpectationsScreen,
-        extra: widget.eventIdentity,
+        RouteName.ttGoalsExpectationsScreen,
+        extra: widget.eventID,
       );
     } else {
       _showTopSnackBar(context, errorMessage);
@@ -200,10 +220,15 @@ class _BackgroundInformationScreenState
 
   @override
   Widget build(BuildContext context) {
+    final radioResponses = ref.watch(radioQuestionResponseProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Pre-Workshop Survey', style: PhinexaFont.headingSmall),
+        title: Text(
+          'Pre Survey - Train the Trainer',
+          style: PhinexaFont.contentBold,
+        ),
       ),
       body: GestureDetector(
         onTap: () {
@@ -216,10 +241,7 @@ class _BackgroundInformationScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
-                Text(
-                  "Tell us a bit about you and your goals before the Leadership Academy begins",
-                  style: PhinexaFont.labelRegular,
-                ),
+                Text('Background Information', style: PhinexaFont.headingSmall),
                 SizedBox(height: 20),
                 ValueListenableBuilder<String?>(
                   valueListenable: _fullNameError,
@@ -285,10 +307,10 @@ class _BackgroundInformationScreenState
                       children: [
                         CustomSearchableDropdown(
                           fieldName: "Country of origin",
-                          selectedValue: selectedCountryOrigin,
-                          items: countries,
                           hintText: 'Country',
                           fieldWidth: double.infinity,
+                          selectedValue: selectedCountryOrigin,
+                          items: countries,
                           onChanged: (value) {
                             setState(() {
                               selectedCountryOrigin = value;
@@ -316,6 +338,8 @@ class _BackgroundInformationScreenState
                       children: [
                         CustomSearchableDropdown(
                           fieldName: "Country of residence",
+                          hintText: 'Country',
+                          fieldWidth: double.infinity,
                           selectedValue: selectedCountryResidence,
                           items: countries,
                           onChanged: (value) {
@@ -326,8 +350,6 @@ class _BackgroundInformationScreenState
                                 .read(surveyTextFieldResponseProvider.notifier)
                                 .updateResponse('Country of residence', value!);
                           },
-                          hintText: 'Country',
-                          fieldWidth: double.infinity,
                         ),
                         if (error != null)
                           Text(
@@ -340,66 +362,6 @@ class _BackgroundInformationScreenState
                 ),
                 SizedBox(height: 5),
                 ValueListenableBuilder<String?>(
-                  valueListenable: _marginalizedError,
-                  builder: (context, error, child) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomDropdown(
-                          fieldName:
-                              "Do you identify as a member of a marginalized group, such as religious or ethnic minority?",
-                          hint: "Select an option",
-                          selectedValue: selectedMarginalizedGroup,
-                          items: ["Yes", "No"],
-                          onChanged: (value) {
-                            setState(() {
-                              selectedMarginalizedGroup = value;
-                            });
-                            ref
-                                .read(surveyTextFieldResponseProvider.notifier)
-                                .updateResponse('Marginalized Group', value!);
-                          },
-                        ),
-                        if (selectedMarginalizedGroup == 'Yes')
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              CustomFormTextField(
-                                labelText: 'Please elaborate',
-                                hintText: 'Elaborate here',
-                                controller: marginalizedDescriptionController,
-                                onChanged: (value) {
-                                  ref
-                                      .read(
-                                        surveyTextFieldResponseProvider
-                                            .notifier,
-                                      )
-                                      .updateResponse(
-                                        'Marginalized Description',
-                                        value,
-                                      );
-                                },
-                                obscureText: false,
-                              ),
-                              if (_marginalizedDescriptionError.value != null)
-                                Text(
-                                  _marginalizedDescriptionError.value!,
-                                  style: TextStyle(color: PhinexaColor.red),
-                                ),
-                            ],
-                          ),
-                        if (error != null)
-                          Text(
-                            error,
-                            style: TextStyle(color: PhinexaColor.red),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(height: 12),
-                ValueListenableBuilder<String?>(
                   valueListenable: _statusError,
                   builder: (context, error, child) {
                     return Column(
@@ -409,7 +371,7 @@ class _BackgroundInformationScreenState
                           fieldName: "Current status",
                           hint: "Status",
                           selectedValue: selectedStatus,
-                          items: [
+                          items: const [
                             "High school student",
                             "College student",
                             "Working professional",
@@ -425,30 +387,39 @@ class _BackgroundInformationScreenState
                           },
                         ),
                         if (selectedStatus == 'Other')
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              CustomFormTextField(
-                                labelText: 'Please specify',
-                                hintText: 'Specify your status',
-                                controller: statusOtherDescriptionController,
-                                onChanged: (value) {
-                                  ref
-                                      .read(
-                                        surveyTextFieldResponseProvider
-                                            .notifier,
-                                      )
-                                      .updateResponse('Status Other', value);
-                                },
-                                obscureText: false,
-                              ),
-                              if (_statusOtherDescriptionError.value != null)
-                                Text(
-                                  _statusOtherDescriptionError.value!,
-                                  style: TextStyle(color: PhinexaColor.red),
-                                ),
-                            ],
+                          ValueListenableBuilder<String?>(
+                            valueListenable: _statusOtherDescriptionError,
+                            builder: (context, otherError, child) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 12),
+                                  CustomFormTextField(
+                                    labelText: 'Please specify',
+                                    hintText: 'Specify your status',
+                                    controller:
+                                        statusOtherDescriptionController,
+                                    onChanged: (value) {
+                                      ref
+                                          .read(
+                                            surveyTextFieldResponseProvider
+                                                .notifier,
+                                          )
+                                          .updateResponse(
+                                            'Status Other',
+                                            value,
+                                          );
+                                    },
+                                    obscureText: false,
+                                  ),
+                                  if (otherError != null)
+                                    Text(
+                                      otherError,
+                                      style: TextStyle(color: PhinexaColor.red),
+                                    ),
+                                ],
+                              );
+                            },
                           ),
                         if (error != null)
                           Text(
@@ -461,7 +432,7 @@ class _BackgroundInformationScreenState
                 ),
                 SizedBox(height: 10),
                 ValueListenableBuilder<String?>(
-                  valueListenable: _radioError,
+                  valueListenable: _leadershipProgramError,
                   builder: (context, error, child) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -491,6 +462,71 @@ class _BackgroundInformationScreenState
                   },
                 ),
                 SizedBox(height: 10),
+                ValueListenableBuilder<String?>(
+                  valueListenable: _facilitatedWorkshopError,
+                  builder: (context, error, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomRadioQuestion(
+                          question:
+                              "Have you facilitated workshops, training sessions, or group activities before?",
+                          onChanged: (bool? value) {
+                            setState(() {
+                              selectedFacilitatedWorkshop = value;
+                            });
+                            ref
+                                .read(radioQuestionResponseProvider.notifier)
+                                .updateResponse(
+                                  "Have you facilitated workshops, training sessions, or group activities before?",
+                                  value,
+                                );
+                          },
+                        ),
+                        if (error != null)
+                          Text(
+                            error,
+                            style: TextStyle(color: PhinexaColor.red),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                if (selectedFacilitatedWorkshop == true)
+                  ValueListenableBuilder<String?>(
+                    valueListenable: _workshopDescriptionError,
+                    builder: (context, error, child) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomFormTextField(
+                            labelText: 'If yes, please describe briefly',
+                            hintText: '',
+                            obscureText: false,
+                            height: 110,
+                            maxLines: 10,
+                            controller: workshopDescriptionController,
+                            onChanged: (value) {
+                              ref
+                                  .read(
+                                    surveyTextFieldResponseProvider.notifier,
+                                  )
+                                  .updateResponse(
+                                    'If yes, please describe briefly (facilitated workshops)',
+                                    value,
+                                  );
+                            },
+                          ),
+                          if (error != null)
+                            Text(
+                              error,
+                              style: TextStyle(color: PhinexaColor.red),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -501,7 +537,7 @@ class _BackgroundInformationScreenState
                         label: "Next",
                         icon: Icons.chevron_right_rounded,
                         height: 40,
-                        onPressed: _submitForm,
+                        onPressed: _validateForm,
                       ),
                     ),
                   ],
