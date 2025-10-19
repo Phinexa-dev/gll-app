@@ -19,6 +19,19 @@ class _FAQsState extends ConsumerState<FAQs> {
           'The app is your tool for tracking your Leadership Academy journey, Sustainable Impact Projects (SIPs), mentorship activities, and certifications. It keeps you connected and helps show your leadership growth over time.',
     },
     {
+      'q': 'How does it work?',
+      'a':
+          'Your Leadership Journey: LA → SIP → TTT\n\n'
+          'Leadership Academy (LA):\n'
+          'Where it all begins. LA is hands-on, real-world, and all about you—building the mindset, skills, and confidence to lead positive change. During LA, you\'ll create the vision and foundation for your Sustainable Impact Project (SIP).\n\n'
+          'Sustainable Impact Project (SIP):\n'
+          'Your chance to say: "I see something that needs to change, and I\'m going to do something about it."\n'
+          'You design it. You lead it. You make it real. Whether it\'s a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.\n\n'
+          'Train the Trainer (TTT):\n'
+          'Ready to lead others? TTT is your next step. You\'ll build the confidence, tools, and facilitation skills to train future changemakers and lead your own Leadership Academies.\n\n'
+          'LA + SIP + TTT = a global ripple effect.',
+    },
+    {
       'q': 'Who can use the app?',
       'a':
           'Leadership Academy participants, trainers, mentors, and partner organizations involved with Global Learning Lab International.',
@@ -56,6 +69,11 @@ class _FAQsState extends ConsumerState<FAQs> {
       'q': 'Is my personal information safe?',
       'a':
           'Yes! We use encryption to keep your data safe. Your information is used only to support your leadership journey and track project impact. Also we will not provide your data to third parties without your additional permission',
+    },
+    {
+      'q': 'Can I be a trainer for the Leadership Academy?',
+      'a':
+          'Tap below to explore how you can become a trainer for the Leadership Academy.\n\n'
     },
     // add more Q&A maps here
   ];
