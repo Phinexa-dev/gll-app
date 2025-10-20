@@ -20,13 +20,13 @@ class _SIPSkillsApplicationScreenState
     extends ConsumerState<SIPSkillsApplicationScreen> {
   final _questionErrors = {
     "I was able to apply the leadership skills I learned during the Leadership Academy to my project.":
-        ValueNotifier<String?>(null),
+    ValueNotifier<String?>(null),
     "The Sustainable Impact Plan module helped me structure and execute my project effectively.":
-        ValueNotifier<String?>(null),
+    ValueNotifier<String?>(null),
     "I felt confident in leading my with team or community during the project.":
-        ValueNotifier<String?>(null),
+    ValueNotifier<String?>(null),
     "I was able to handle challenges or setbacks during the project using the leadership skill I learned.":
-        ValueNotifier<String?>(null),
+    ValueNotifier<String?>(null),
   };
 
   @override

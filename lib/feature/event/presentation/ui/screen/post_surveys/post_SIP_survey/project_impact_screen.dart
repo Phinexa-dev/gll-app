@@ -42,7 +42,7 @@ class _SIPProjectImpactScreenState
     );
     impactCountController = TextEditingController(
       text:
-          surveyResponses["How many people were directly impacted? Specify"] ??
+      surveyResponses["How many people were directly impacted? Specify"] ??
           '',
     );
     challengesController = TextEditingController(
@@ -124,9 +124,9 @@ class _SIPProjectImpactScreenState
     }
 
     if (radioStringResponses["How many people were directly impacted by your project?"] ==
-            "Other" &&
+        "Other" &&
         (textResponses["How many people were directly impacted? Specify"]
-                ?.isEmpty ??
+            ?.isEmpty ??
             true)) {
       _impactCountError.value = 'Please Specify the range';
       isValid = false;
@@ -145,7 +145,7 @@ class _SIPProjectImpactScreenState
     }
 
     final didAchieve =
-        radioResponses["Did you achieve the goals you set for your project?"];
+    radioResponses["Did you achieve the goals you set for your project?"];
     if (didAchieve == false &&
         (textResponses["If no, what challenges prevented you?"]?.isEmpty ??
             true)) {
@@ -168,7 +168,7 @@ class _SIPProjectImpactScreenState
     final gridResponses = ref.watch(surveyGridResponseProvider);
     final radioResponses = ref.watch(radioQuestionResponseProvider);
     final didAchieve =
-        radioResponses["Did you achieve the goals you set for your project?"];
+    radioResponses["Did you achieve the goals you set for your project?"];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -201,7 +201,7 @@ class _SIPProjectImpactScreenState
                       children: [
                         CustomSquareBoxSelectionWidget(
                           question:
-                              "How would you rate the overall success of your project?",
+                          "How would you rate the overall success of your project?",
                           firstGrade: "Low",
                           lastGrade: "High",
                           responses: gridResponses,
@@ -230,11 +230,11 @@ class _SIPProjectImpactScreenState
                         ),
                         CustomSelectionRangeRadioWidget(
                           question:
-                              "How many people were directly impacted by your project?",
+                          "How many people were directly impacted by your project?",
                         ),
                         if (ref.watch(
-                              surveyTextFieldResponseProvider,
-                            )["How many people were directly impacted by your project?"] ==
+                          surveyTextFieldResponseProvider,
+                        )["How many people were directly impacted by your project?"] ==
                             "Other")
                           Padding(
                             padding: const EdgeInsets.only(left: 50),
@@ -246,12 +246,12 @@ class _SIPProjectImpactScreenState
                               onChanged: (value) {
                                 ref
                                     .read(
-                                      surveyTextFieldResponseProvider.notifier,
-                                    )
+                                  surveyTextFieldResponseProvider.notifier,
+                                )
                                     .updateResponse(
-                                      "How many people were directly impacted? Specify",
-                                      value,
-                                    );
+                                  "How many people were directly impacted? Specify",
+                                  value,
+                                );
                               },
                             ),
                           ),
@@ -270,14 +270,14 @@ class _SIPProjectImpactScreenState
                       children: [
                         CustomRadioQuestion(
                           question:
-                              "Did you achieve the goals you set for your project?",
+                          "Did you achieve the goals you set for your project?",
                           onChanged: (bool? value) {
                             ref
                                 .read(radioQuestionResponseProvider.notifier)
                                 .updateResponse(
-                                  "Did you achieve the goals you set for your project?",
-                                  value,
-                                );
+                              "Did you achieve the goals you set for your project?",
+                              value,
+                            );
                           },
                         ),
                         if (error != null)
@@ -297,7 +297,7 @@ class _SIPProjectImpactScreenState
                         children: [
                           CustomFormTextField(
                             labelText:
-                                "If not, what challenges prevented you from meeting your goals?",
+                            "If not, what challenges prevented you from meeting your goals?",
                             hintText: '',
                             obscureText: false,
                             height: 110,
@@ -306,12 +306,12 @@ class _SIPProjectImpactScreenState
                             onChanged: (value) {
                               ref
                                   .read(
-                                    surveyTextFieldResponseProvider.notifier,
-                                  )
+                                surveyTextFieldResponseProvider.notifier,
+                              )
                                   .updateResponse(
-                                    "If no, what challenges prevented you?",
-                                    value,
-                                  );
+                                "If no, what challenges prevented you?",
+                                value,
+                              );
                             },
                           ),
                           if (error != null)

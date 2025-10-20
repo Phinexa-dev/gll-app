@@ -5,16 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/fonts.dart';
 
 import 'package:go_router/go_router.dart';
-import '../../../../controller/event/event_controller.dart';
+
 import '../../../../../../../common/theme/colors.dart';
+
 import '../../../../../../../common/widget/custom_button.dart';
+
 import '../../../../../../../common/widget/custom_form_text_field.dart';
+
 import '../../../../../../../core/route/app_routes.dart';
 import '../../../../../../../core/route/route_name.dart';
 import '../../../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
 import '../../../../../../system_feedback/model/feedback.dart';
 import '../../../../../../system_feedback/provider/feedback_provider.dart';
-import '../../../../../application/survey_upload_service.dart';
+import '../../../../../application/survey_upload_firebase_service.dart';
 import '../../../provider/combine_response.dart';
 import '../../../provider/survey_radio_response_provider.dart';
 import '../../../provider/survey_state_notifier.dart';
@@ -130,10 +133,10 @@ class _SIPLeadershipGrowthScreenState
     final feedBackService = ref.read(feedbackServiceProvider);
 
     final selectedToolsResources =
-        multiSelectResponses[_toolsResourcesQuestion] as List?;
+    multiSelectResponses[_toolsResourcesQuestion] as List?;
     if (selectedToolsResources == null || selectedToolsResources.isEmpty) {
       _toolsResourcesError.value =
-          'Please select at least one tool or resource';
+      'Please select at least one tool or resource';
       isValid = false;
       errorMessage += "- Tools and resources\n";
     } else {
@@ -141,8 +144,8 @@ class _SIPLeadershipGrowthScreenState
     }
 
     final selectedChallenges =
-        multiSelectResponses["What challenges did you face during your project?"]
-            as List?;
+    multiSelectResponses["What challenges did you face during your project?"]
+    as List?;
     if (selectedChallenges == null || selectedChallenges.isEmpty) {
       _challengesError.value = 'Please select at least one challenge';
       isValid = false;
@@ -169,7 +172,7 @@ class _SIPLeadershipGrowthScreenState
     }
 
     final receivedSupport =
-        radioResponses["Did you receive adequate support from the sponsoring organization or your mentors?"];
+    radioResponses["Did you receive adequate support from the sponsoring organization or your mentors?"];
     if (receivedSupport == false &&
         (supportDetailsController.text.trim().isEmpty)) {
       _supportDetailsError.value = 'Please specify additional support needed';
@@ -178,28 +181,31 @@ class _SIPLeadershipGrowthScreenState
     } else {
       _supportDetailsError.value = null;
     }
-/////Todo: Add revent id
+
     if (isValid) {
       try {
-        final responses = await formatSurveyForAPI(ref);
-        await uploadPostSurveyData(ref, responses, 3);
-
+        ref.read(isLoadingProvider.notifier).state = true;
+        final date = DateTime.now();
+        final formattedDate =
+            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+        final fileName = 'Post_Survey_SIP_$formattedDate';
+        final responses = await combineSurveyResponses(ref);
+        await uploadFirebaseSurveyData(ref, responses, fileName);
         clearSurveyResponses(ref);
 
-        if (mounted) {
-          feedBackService.showToast(
-            "Survey submitted successfully",
-            type: FeedbackType.success,
-          );
-          _showCompletionDialog(context);
-        }
-      } catch (error) {
-        if (mounted) {
-          feedBackService.showToast(
-            "Failed to submit survey. Please try again.",
-            type: FeedbackType.error,
-          );
-        }
+        feedBackService.showToast(
+          "Survey submitted successfully",
+          type: FeedbackType.success,
+        );
+
+        _showCompletionDialog(context);
+      } catch (e) {
+        feedBackService.showToast(
+          "Submission failed: ${e.toString()}",
+          type: FeedbackType.error,
+        );
+      } finally {
+        ref.read(isLoadingProvider.notifier).state = false;
       }
     } else {
       _showTopSnackBar(context, errorMessage);
@@ -237,7 +243,6 @@ class _SIPLeadershipGrowthScreenState
                   height: 40,
                   onPressed: () {
                     Navigator.of(dialogContext).pop();
-                    ref.read(eventControllerProvider.notifier).getEvents();
                     ref.read(navProvider.notifier).onItemTapped(0);
                     GoRouter.of(
                       navigationKey.currentContext!,
@@ -254,15 +259,15 @@ class _SIPLeadershipGrowthScreenState
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(surveySubmissionStateProvider).isLoading;
+    final isLoading = ref.watch(isLoadingProvider);
     final multiSelectResponses = ref.watch(surveyMultiSelectResponseProvider);
     final radioResponses = ref.watch(radioQuestionResponseProvider);
     final receivedSupport =
-        radioResponses["Did you receive adequate support from the sponsoring organization or your mentors?"];
+    radioResponses["Did you receive adequate support from the sponsoring organization or your mentors?"];
     final hasOtherChallenge =
         multiSelectResponses["What challenges did you face during your project?"]
             ?.contains("Other") ??
-        false;
+            false;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -302,7 +307,7 @@ class _SIPLeadershipGrowthScreenState
                             children: [
                               MultiSelectCheckboxWidget(
                                 question:
-                                    "What challenges did you face during your project?",
+                                "What challenges did you face during your project?",
                                 answers: const [
                                   "Direction unclear (goal)",
                                   "Alignment poor- responsibility/resources (role)",
@@ -323,24 +328,24 @@ class _SIPLeadershipGrowthScreenState
                                       padding: const EdgeInsets.only(left: 50),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           CustomFormTextField(
                                             controller:
-                                                challengesOtherController,
+                                            challengesOtherController,
                                             labelText: 'Other Challenges',
                                             hintText: '',
                                             obscureText: false,
                                             onChanged: (value) {
                                               ref
                                                   .read(
-                                                    surveyTextFieldResponseProvider
-                                                        .notifier,
-                                                  )
+                                                surveyTextFieldResponseProvider
+                                                    .notifier,
+                                              )
                                                   .updateResponse(
-                                                    "Challenges - Other",
-                                                    value,
-                                                  );
+                                                "Challenges - Other",
+                                                value,
+                                              );
                                             },
                                           ),
                                           if (otherError != null)
@@ -373,16 +378,16 @@ class _SIPLeadershipGrowthScreenState
                             children: [
                               CustomRadioQuestion(
                                 question:
-                                    "Did you receive adequate support from the sponsoring organization or your mentors?",
+                                "Did you receive adequate support from the sponsoring organization or your mentors?",
                                 onChanged: (bool? value) {
                                   ref
                                       .read(
-                                        radioQuestionResponseProvider.notifier,
-                                      )
+                                    radioQuestionResponseProvider.notifier,
+                                  )
                                       .updateResponse(
-                                        "Did you receive adequate support from the sponsoring organization or your mentors?",
-                                        value,
-                                      );
+                                    "Did you receive adequate support from the sponsoring organization or your mentors?",
+                                    value,
+                                  );
                                 },
                               ),
                               if (error != null)
@@ -406,7 +411,7 @@ class _SIPLeadershipGrowthScreenState
                                 CustomFormTextField(
                                   controller: supportDetailsController,
                                   labelText:
-                                      "If not, what additional support would have been helpful?",
+                                  "If not, what additional support would have been helpful?",
                                   hintText: '',
                                   obscureText: false,
                                   height: 110,
@@ -414,13 +419,13 @@ class _SIPLeadershipGrowthScreenState
                                   onChanged: (value) {
                                     ref
                                         .read(
-                                          surveyTextFieldResponseProvider
-                                              .notifier,
-                                        )
+                                      surveyTextFieldResponseProvider
+                                          .notifier,
+                                    )
                                         .updateResponse(
-                                          "Additional support details",
-                                          value,
-                                        );
+                                      "Additional support details",
+                                      value,
+                                    );
                                   },
                                 ),
                                 if (error != null)
@@ -462,7 +467,7 @@ class _SIPLeadershipGrowthScreenState
                       CustomFormTextField(
                         controller: suggestionsController,
                         labelText:
-                            "What suggestions do you have for improving the Sustainable Impact Project experience?",
+                        "What suggestions do you have for improving the Sustainable Impact Project experience?",
                         hintText: '',
                         obscureText: false,
                         height: 110,
@@ -471,9 +476,9 @@ class _SIPLeadershipGrowthScreenState
                           ref
                               .read(surveyTextFieldResponseProvider.notifier)
                               .updateResponse(
-                                "Suggestions for improvement",
-                                value,
-                              );
+                            "Suggestions for improvement",
+                            value,
+                          );
                         },
                       ),
                       const SizedBox(height: 15),
@@ -485,7 +490,7 @@ class _SIPLeadershipGrowthScreenState
                       CustomFormTextField(
                         controller: commentsController,
                         labelText:
-                            "Do you have any additional comments or feedback?",
+                        "Do you have any additional comments or feedback?",
                         hintText: '',
                         obscureText: false,
                         height: 110,

@@ -37,57 +37,57 @@ class _SIPProjectOverviewScreenState
     {
       "title": "Environment/Climate",
       "description":
-          "Promoting environmental sustainability, conservation, and responsible resource management.",
+      "Promoting environmental sustainability, conservation, and responsible resource management.",
     },
     {
       "title": "Health",
       "description":
-          "Supporting physical and mental health initiatives, access to healthcare, and overall well-being.",
+      "Supporting physical and mental health initiatives, access to healthcare, and overall well-being.",
     },
     {
       "title": "Vulnerable/Marginalized Groups",
       "description":
-          "Empowering and supporting communities facing discrimination or disadvantage to overcome barriers.",
+      "Empowering and supporting communities facing discrimination or disadvantage to overcome barriers.",
     },
     {
       "title": "Education",
       "description":
-          "Ensuring access to quality education and developing skills that promote lifelong learning.",
+      "Ensuring access to quality education and developing skills that promote lifelong learning.",
     },
     {
       "title": "Human Rights and Social Justice",
       "description":
-          "Advocating for equality, human rights, and social justice for all communities.",
+      "Advocating for equality, human rights, and social justice for all communities.",
     },
     {
       "title": "Peace and Conflict Resolution",
       "description":
-          "Promoting strategies for resolving conflicts, fostering peace, and building social cohesion.",
+      "Promoting strategies for resolving conflicts, fostering peace, and building social cohesion.",
     },
     {
       "title": "Economic Empowerment",
       "description":
-          "Promoting financial literacy, economic independence, and job creation within communities.",
+      "Promoting financial literacy, economic independence, and job creation within communities.",
     },
     {
       "title": "Technology and Innovation",
       "description":
-          "Leveraging technology and innovation to solve societal challenges and create new opportunities.",
+      "Leveraging technology and innovation to solve societal challenges and create new opportunities.",
     },
     {
       "title": "Cultural Heritage and Identity",
       "description":
-          "Preserving cultural traditions, promoting intercultural dialogue, and enhancing understanding between communities.",
+      "Preserving cultural traditions, promoting intercultural dialogue, and enhancing understanding between communities.",
     },
     {
       "title": "Social Entrepreneurship",
       "description":
-          "Developing businesses and social enterprises that address critical social issues and contribute to the public good.",
+      "Developing businesses and social enterprises that address critical social issues and contribute to the public good.",
     },
     {
       "title": "Migration and Refugee Issues",
       "description":
-          "Supporting migration and refugee communities, ensuring integration, protection, and empowerment in their new environments.",
+      "Supporting migration and refugee communities, ensuring integration, protection, and empowerment in their new environments.",
     },
     {"title": "Other", "description": ""},
   ];
@@ -180,7 +180,7 @@ class _SIPProjectOverviewScreenState
     }
 
     if (textResponses["Briefly describe the main activities or strategies you implemented in your  project"]
-            ?.isEmpty ??
+        ?.isEmpty ??
         true) {
       _activitiesError.value = 'Please describe the main activities';
       isValid = false;
@@ -190,7 +190,7 @@ class _SIPProjectOverviewScreenState
     }
 
     if (textResponses["What were the key outcomes or impacts of your project"]
-            ?.isEmpty ??
+        ?.isEmpty ??
         true) {
       _outcomesError.value = 'Please describe the key outcomes';
       isValid = false;
@@ -209,8 +209,8 @@ class _SIPProjectOverviewScreenState
   @override
   Widget build(BuildContext context) {
     final selectedFocusList =
-        ref.watch(surveyMultiSelectResponseProvider)[_sipFocusQuestion]
-            as List?;
+    ref.watch(surveyMultiSelectResponseProvider)[_sipFocusQuestion]
+    as List?;
     final bool showOtherTextField =
         selectedFocusList?.contains("Other") ?? false;
 
@@ -293,8 +293,8 @@ class _SIPProjectOverviewScreenState
                               onChanged: (value) {
                                 ref
                                     .read(
-                                      surveyTextFieldResponseProvider.notifier,
-                                    )
+                                  surveyTextFieldResponseProvider.notifier,
+                                )
                                     .updateResponse("SIP Focus - Other", value);
                               },
                             ),
@@ -320,7 +320,7 @@ class _SIPProjectOverviewScreenState
                         CustomFormTextField(
                           controller: activitiesController,
                           labelText:
-                              "Briefly describe the main activities or strategies you implemented in your  project",
+                          "Briefly describe the main activities or strategies you implemented in your  project",
                           hintText: '',
                           obscureText: false,
                           height: 110,
@@ -329,9 +329,9 @@ class _SIPProjectOverviewScreenState
                             ref
                                 .read(surveyTextFieldResponseProvider.notifier)
                                 .updateResponse(
-                                  "Briefly describe the main activities or strategies you implemented in your  project",
-                                  value,
-                                );
+                              "Briefly describe the main activities or strategies you implemented in your  project",
+                              value,
+                            );
                           },
                         ),
                         if (error != null)
@@ -349,7 +349,7 @@ class _SIPProjectOverviewScreenState
                         CustomFormTextField(
                           controller: outcomesController,
                           labelText:
-                              "What were the key outcomes or impacts of your project",
+                          "What were the key outcomes or impacts of your project",
                           hintText: '',
                           obscureText: false,
                           height: 110,
@@ -358,9 +358,9 @@ class _SIPProjectOverviewScreenState
                             ref
                                 .read(surveyTextFieldResponseProvider.notifier)
                                 .updateResponse(
-                                  "What were the key outcomes or impacts of your project",
-                                  value,
-                                );
+                              "What were the key outcomes or impacts of your project",
+                              value,
+                            );
                           },
                         ),
                         if (error != null)
