@@ -12,10 +12,12 @@ part of 'education_data_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 EducationDataResponse _$EducationDataResponseFromJson(
-    Map<String, dynamic> json) {
+  Map<String, dynamic> json,
+) {
   return _EducationDataResponse.fromJson(json);
 }
 
@@ -46,22 +48,26 @@ mixin _$EducationDataResponse {
 
 /// @nodoc
 abstract class $EducationDataResponseCopyWith<$Res> {
-  factory $EducationDataResponseCopyWith(EducationDataResponse value,
-          $Res Function(EducationDataResponse) then) =
-      _$EducationDataResponseCopyWithImpl<$Res, EducationDataResponse>;
+  factory $EducationDataResponseCopyWith(
+    EducationDataResponse value,
+    $Res Function(EducationDataResponse) then,
+  ) = _$EducationDataResponseCopyWithImpl<$Res, EducationDataResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "uid") int uid,
-      @JsonKey(name: "school") String school,
-      @JsonKey(name: "degree") String degree,
-      @JsonKey(name: "startdate") DateTime startdate,
-      @JsonKey(name: "enddate") DateTime enddate});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "uid") int uid,
+    @JsonKey(name: "school") String school,
+    @JsonKey(name: "degree") String degree,
+    @JsonKey(name: "startdate") DateTime startdate,
+    @JsonKey(name: "enddate") DateTime enddate,
+  });
 }
 
 /// @nodoc
-class _$EducationDataResponseCopyWithImpl<$Res,
-        $Val extends EducationDataResponse>
+class _$EducationDataResponseCopyWithImpl<
+  $Res,
+  $Val extends EducationDataResponse
+>
     implements $EducationDataResponseCopyWith<$Res> {
   _$EducationDataResponseCopyWithImpl(this._value, this._then);
 
@@ -82,32 +88,35 @@ class _$EducationDataResponseCopyWithImpl<$Res,
     Object? startdate = null,
     Object? enddate = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-      school: null == school
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as String,
-      degree: null == degree
-          ? _value.degree
-          : degree // ignore: cast_nullable_to_non_nullable
-              as String,
-      startdate: null == startdate
-          ? _value.startdate
-          : startdate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      enddate: null == enddate
-          ? _value.enddate
-          : enddate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as int,
+            school: null == school
+                ? _value.school
+                : school // ignore: cast_nullable_to_non_nullable
+                      as String,
+            degree: null == degree
+                ? _value.degree
+                : degree // ignore: cast_nullable_to_non_nullable
+                      as String,
+            startdate: null == startdate
+                ? _value.startdate
+                : startdate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            enddate: null == enddate
+                ? _value.enddate
+                : enddate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -115,28 +124,30 @@ class _$EducationDataResponseCopyWithImpl<$Res,
 abstract class _$$EducationDataResponseImplCopyWith<$Res>
     implements $EducationDataResponseCopyWith<$Res> {
   factory _$$EducationDataResponseImplCopyWith(
-          _$EducationDataResponseImpl value,
-          $Res Function(_$EducationDataResponseImpl) then) =
-      __$$EducationDataResponseImplCopyWithImpl<$Res>;
+    _$EducationDataResponseImpl value,
+    $Res Function(_$EducationDataResponseImpl) then,
+  ) = __$$EducationDataResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "uid") int uid,
-      @JsonKey(name: "school") String school,
-      @JsonKey(name: "degree") String degree,
-      @JsonKey(name: "startdate") DateTime startdate,
-      @JsonKey(name: "enddate") DateTime enddate});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "uid") int uid,
+    @JsonKey(name: "school") String school,
+    @JsonKey(name: "degree") String degree,
+    @JsonKey(name: "startdate") DateTime startdate,
+    @JsonKey(name: "enddate") DateTime enddate,
+  });
 }
 
 /// @nodoc
 class __$$EducationDataResponseImplCopyWithImpl<$Res>
-    extends _$EducationDataResponseCopyWithImpl<$Res,
-        _$EducationDataResponseImpl>
+    extends
+        _$EducationDataResponseCopyWithImpl<$Res, _$EducationDataResponseImpl>
     implements _$$EducationDataResponseImplCopyWith<$Res> {
-  __$$EducationDataResponseImplCopyWithImpl(_$EducationDataResponseImpl _value,
-      $Res Function(_$EducationDataResponseImpl) _then)
-      : super(_value, _then);
+  __$$EducationDataResponseImplCopyWithImpl(
+    _$EducationDataResponseImpl _value,
+    $Res Function(_$EducationDataResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of EducationDataResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -150,45 +161,48 @@ class __$$EducationDataResponseImplCopyWithImpl<$Res>
     Object? startdate = null,
     Object? enddate = null,
   }) {
-    return _then(_$EducationDataResponseImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-      school: null == school
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as String,
-      degree: null == degree
-          ? _value.degree
-          : degree // ignore: cast_nullable_to_non_nullable
-              as String,
-      startdate: null == startdate
-          ? _value.startdate
-          : startdate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      enddate: null == enddate
-          ? _value.enddate
-          : enddate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$EducationDataResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as int,
+        school: null == school
+            ? _value.school
+            : school // ignore: cast_nullable_to_non_nullable
+                  as String,
+        degree: null == degree
+            ? _value.degree
+            : degree // ignore: cast_nullable_to_non_nullable
+                  as String,
+        startdate: null == startdate
+            ? _value.startdate
+            : startdate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        enddate: null == enddate
+            ? _value.enddate
+            : enddate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$EducationDataResponseImpl implements _EducationDataResponse {
-  const _$EducationDataResponseImpl(
-      {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "uid") required this.uid,
-      @JsonKey(name: "school") required this.school,
-      @JsonKey(name: "degree") required this.degree,
-      @JsonKey(name: "startdate") required this.startdate,
-      @JsonKey(name: "enddate") required this.enddate});
+  const _$EducationDataResponseImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "uid") required this.uid,
+    @JsonKey(name: "school") required this.school,
+    @JsonKey(name: "degree") required this.degree,
+    @JsonKey(name: "startdate") required this.startdate,
+    @JsonKey(name: "enddate") required this.enddate,
+  });
 
   factory _$EducationDataResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$EducationDataResponseImplFromJson(json);
@@ -242,26 +256,27 @@ class _$EducationDataResponseImpl implements _EducationDataResponse {
   @override
   @pragma('vm:prefer-inline')
   _$$EducationDataResponseImplCopyWith<_$EducationDataResponseImpl>
-      get copyWith => __$$EducationDataResponseImplCopyWithImpl<
-          _$EducationDataResponseImpl>(this, _$identity);
+  get copyWith =>
+      __$$EducationDataResponseImplCopyWithImpl<_$EducationDataResponseImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$EducationDataResponseImplToJson(
-      this,
-    );
+    return _$$EducationDataResponseImplToJson(this);
   }
 }
 
 abstract class _EducationDataResponse implements EducationDataResponse {
-  const factory _EducationDataResponse(
-          {@JsonKey(name: "id") required final int id,
-          @JsonKey(name: "uid") required final int uid,
-          @JsonKey(name: "school") required final String school,
-          @JsonKey(name: "degree") required final String degree,
-          @JsonKey(name: "startdate") required final DateTime startdate,
-          @JsonKey(name: "enddate") required final DateTime enddate}) =
-      _$EducationDataResponseImpl;
+  const factory _EducationDataResponse({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "uid") required final int uid,
+    @JsonKey(name: "school") required final String school,
+    @JsonKey(name: "degree") required final String degree,
+    @JsonKey(name: "startdate") required final DateTime startdate,
+    @JsonKey(name: "enddate") required final DateTime enddate,
+  }) = _$EducationDataResponseImpl;
 
   factory _EducationDataResponse.fromJson(Map<String, dynamic> json) =
       _$EducationDataResponseImpl.fromJson;
@@ -290,5 +305,5 @@ abstract class _EducationDataResponse implements EducationDataResponse {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EducationDataResponseImplCopyWith<_$EducationDataResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gll/feature/event/domain/model/event/event_data_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -8,15 +9,10 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../../common/theme/colors.dart';
 import '../../../../../common/theme/fonts.dart';
 import '../../../../../common/widget/custom_button.dart';
-import '../../../../../core/data/local/user/model/user_model.dart';
 import '../../../../../core/data/local/user/user_service.dart';
-import '../../../../../core/data/remote/network_service.dart';
 import '../../../../../core/route/route_name.dart';
 import '../../../../bottom_bar/presentation/ui/provider/nav_provider.dart';
-import '../../../../events/application/survey_upload_service.dart';
-import '../../../../events/data/event.dart';
-import '../../../../events/data/event_provider.dart';
-import '../../../../events/presentation/ui/provider/survey_state_notifier.dart';
+import '../../../../event/presentation/controller/event/event_controller.dart';
 import '../../../../other/presentation/controller/profile/profile_controller.dart';
 import '../../../../other/presentation/ui/widget/map_view_widget.dart';
 
@@ -45,26 +41,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         : DateFormat('yyyy_MM_dd').format(startDate);
   }
 
-  String getPreSurveyName(Event event) {
+  String getPreSurveyName(EventDataModel event) {
     final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
-    return 'Pre_Survey_${event.title}_$eventDateIdentifier';
+    return 'Pre_Survey_${event.name}_$eventDateIdentifier';
   }
 
-  String getPostSurveyName(Event event) {
+  String getPostSurveyName(EventDataModel event) {
     final String eventDateIdentifier = getEventDateIdentifier(event.startDate);
-    return 'Post_Survey_${event.title}_$eventDateIdentifier';
+    return 'Post_Survey_${event.name}_$eventDateIdentifier';
   }
 
-  String _getButtonTextForEvent(Event event, List<String> surveyNames) {
-    final preSurveyName = getPreSurveyName(event);
-    final postSurveyName = getPostSurveyName(event);
-
-    final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
-    final hasFilledPostSurvey = surveyNames.contains(postSurveyName);
-
-    if (!hasFilledPreSurvey && !hasFilledPostSurvey) {
+  String _getButtonTextForEvent(List<UserEventDataModel> userEventModel) {
+    if(userEventModel.isEmpty){
       return "Register Now";
-    } else if (hasFilledPreSurvey && !hasFilledPostSurvey) {
+    }
+    if (userEventModel.first.surveySubmitted ==false) {
+      return "Register Now";
+    } else if (userEventModel.first.postSurveySubmitted == false) {
       return "Complete Post Survey";
     } else {
       return "Explore More";
@@ -74,9 +67,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     Future.microtask(() {
       ref.read(profileControllerProvider.notifier).updateFormData();
+      ref.read(eventControllerProvider.notifier).getEvents();
     });
   }
 
@@ -84,6 +77,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(profileControllerProvider).isLoading;
     final userData = ref.read(profileControllerProvider).form;
+    final eventState = ref.watch(eventControllerProvider);
+    final firstEvent = eventState.events.isNotEmpty ? eventState.events.first : null;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -217,9 +212,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     _buildWelcomeSection(),
                     Transform.translate(
                       offset: Offset(0, -30),
-                      child: _buildHowItWorksSection(),
+                      child: _buildHowItWorksSectionWithEvent(context, ref, eventState, firstEvent),
                     ),
-                    _buildEventSection(ref),
                     _buildSipMapSection(context),
                   ],
                 ),
@@ -274,54 +268,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildEventSection(WidgetRef ref) {
-    final surveyRefresh = ref.watch(surveyRefreshProvider);
-    final events = ref.watch(eventProvider);
-    final dio = ref.watch(networkServiceProvider);
-    final userService = ref.watch(userServiceProvider(dio));
-
-    if (events.isEmpty) {
-      return Center(child: Text("No events available."));
-    }
-
-    final event = events.first;
-
-    return FutureBuilder<UserModel?>(
-      future: userService.getUser(),
-      builder: (context, userSnapshot) {
-        if (userSnapshot.connectionState == ConnectionState.waiting) {
-          return _buildEventLoadingState(event);
-        }
-
-        if (userSnapshot.hasError || userSnapshot.data == null) {
-          return _buildEventContent(context, ref, event, "Register Now");
-        }
-
-        final user = userSnapshot.data!;
-        final userEmail = user.email;
-
-        if (userEmail.isEmpty) {
-          return _buildEventContent(context, ref, event, "Register Now");
-        }
-
-        return FutureBuilder<List<String>>(
-          future: retrieveSurveyNames(userEmail),
-          builder: (context, surveySnapshot) {
-            if (surveySnapshot.connectionState == ConnectionState.waiting) {
-              return _buildEventLoadingState(event);
-            }
-
-            final surveyNames = surveySnapshot.data ?? [];
-            final buttonText = _getButtonTextForEvent(event, surveyNames);
-
-            return _buildEventContent(context, ref, event, buttonText);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildEventLoadingState(Event event) {
+  Widget _buildEventContent(BuildContext context, WidgetRef ref, EventDataModel event, String buttonText) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -332,86 +279,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Start Training", style: PhinexaFont.headingLarge),
-              TextButton(
-                onPressed: () {
-                  ref.read(navProvider.notifier).onItemTapped(2);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.chevron_right_rounded,
-                      size: 30,
-                      color: PhinexaColor.darkGrey,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              event.image,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) =>
-                  Icon(Icons.broken_image, size: 100),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 12),
-              Text(
-                event.title,
-                style: PhinexaFont.featureAccent,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.calendar_today,
-                    size: 14,
-                    color: PhinexaColor.grey,
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    _formatDate(event.startDate, event.endDate),
-                    style: PhinexaFont.captionRegular.copyWith(
-                      color: PhinexaColor.grey,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              CustomButton(
-                label: "Loading...",
-                height: 40,
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEventContent(BuildContext context, WidgetRef ref, Event event, String buttonText) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Start Training", style: PhinexaFont.headingLarge),
+              Text("Register For Event", style: PhinexaFont.headingLarge),
               TextButton(
                 onPressed: () {
                   ref.read(navProvider.notifier).onItemTapped(2);
@@ -437,7 +305,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
-                event.image,
+                "assets/events/event_5.png",
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) =>
@@ -450,7 +318,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               SizedBox(height: 12),
               Text(
-                event.title,
+                event.name,
                 style: PhinexaFont.featureAccent,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -480,21 +348,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     context.pushNamed(
                       RouteName.registrationForm,
                       extra: {
-                        'isTTT': event.isTTT,
-                        'eventIdentity':
-                        '${event.title}_${getEventDateIdentifier(event.startDate)}',
+                        'isTTT': event.eventType == 'TTT'?true:false,
+                        'eventID':event.id,
                       },
                     );
                   } else if (buttonText == "Complete Post Survey") {
-                    if (event.isTTT) {
+                    if (event.eventType == 'TTT') {
                       context.pushNamed(
                         RouteName.tttOverallProgramFeedbackScreen,
-                        extra: '${event.title}_${getEventDateIdentifier(event.startDate)}',
+                        extra: event.id,
                       );
                     } else {
                       context.pushNamed(
                         RouteName.laOverallProgramFeedbackScreen,
-                        extra: '${event.title}_${getEventDateIdentifier(event.startDate)}',
+                        extra: event.id,
                       );
                     }
                   } else {
@@ -502,6 +369,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   }
                 },
               ),
+              SizedBox(height: 24),
             ],
           ),
         ],
@@ -509,7 +377,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildHowItWorksSection() {
+  Widget _buildHowItWorksSectionWithEvent(BuildContext context, WidgetRef ref, eventState, firstEvent) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -525,129 +394,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 12),
-              Text(
-                "Your Leadership Journey: LA → SIP → TTT",
-                style: PhinexaFont.headingSmall,
+        if (eventState.isLoading)
+          const Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Center(child: CircularProgressIndicator()),
+          )
+        else if (firstEvent != null )
+          _buildEventContent(
+            context,
+            ref,
+            firstEvent,
+            _getButtonTextForEvent(firstEvent.userEvents),
+          )
+        else if (eventState.isFailure == true)
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text(
+                'Failed to load events',
+                style: PhinexaFont.contentRegular,
               ),
-              SizedBox(height: 12),
-              Text(
-                "Leadership Academy (LA):",
-                style: PhinexaFont.highlightAccent,
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "Where it all begins. LA is hands-on, real-world, and all about you—building the mindset, skills, and confidence to lead positive change. During LA, you'll create the vision and foundation for your Sustainable Impact Project (SIP).",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12),
-              Text(
-                "Sustainable Impact Project (SIP):",
-                style: PhinexaFont.highlightAccent,
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text: "Your chance to say:",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "\"I see something that needs to change, and I'm going to do something about it.\"",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "You design it. You lead it. You make it real. Whether it's a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12),
-              Text(
-                "Train the Trainer (TTT):",
-                style: PhinexaFont.highlightAccent,
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "Ready to lead others? TTT is your next step. You'll build the confidence, tools, and facilitation skills to train future changemakers and lead your own Leadership Academies.",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12),
-              Text(
-                "LA + SIP + TTT = a global ripple effect.",
-                style: PhinexaFont.highlightAccent,
-              ),
-              SizedBox(height: 24),
-              Text(
-                "Sustainable Impact Project (SIP):",
-                style: PhinexaFont.headingSmall,
-              ),
-              SizedBox(height: 12),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text: "Your chance to say:   ",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "\"I see something that needs to change, and I'm going to do something about it.\"",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "You design it. You lead it. You make it real. Whether it's a campaign, workshop, garden, or podcast—your SIP creates lasting impact in your community, with mentorship and support along the way.",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: SvgPicture.asset(
@@ -661,48 +427,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  text: "Path to Global Trainer",
-                  style: PhinexaFont.featureEmphasis,
-                ),
-              ),
+
+
               SizedBox(height: 16),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text: "From participant to leader to global change maker.",
-                  style: PhinexaFont.highlightEmphasis,
-                ),
-              ),
-              SizedBox(height: 4),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  text:
-                  "The path to becoming a Global Trainer starts with the Leadership Academy and continues through your Sustainable Impact Project, and grows through experience, mentorship, and impact. It's a journey of leadership, facilitation, and paying what you have received forward.",
-                  style: PhinexaFont.contentRegular.copyWith(
-                    color: PhinexaColor.darkGrey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  text: "Ready to see how it all connects?",
-                  style: PhinexaFont.highlightRegular,
-                ),
-              ),
               SizedBox(height: 16),
               CustomButton(
-                label: "Explore the Cascading Model",
+                label: "Your Leadership Journey",
                 height: 40,
                 onPressed: () {
                   context.pushNamed(
                     RouteName.pdfViewer,
-                    extra: "assets/pdf/casacading_model.pdf",
+                    extra: "assets/pdf/leadership_journey.pdf",
                   );
                 },
               ),
@@ -722,7 +457,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 48),
               Text(
                 "Explore the Global Wave of Change",
                 style: PhinexaFont.headingLarge,
@@ -760,7 +494,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               SizedBox(height: 24),
               CustomButton(
-                label: "Explore More",
+                label: "Explore Map",
                 height: 40,
                 onPressed: () {
                   context.pushNamed(RouteName.worldMap);

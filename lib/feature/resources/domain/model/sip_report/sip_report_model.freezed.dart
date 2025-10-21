@@ -12,7 +12,8 @@ part of 'sip_report_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SipReportModel {
@@ -34,17 +35,19 @@ mixin _$SipReportModel {
 /// @nodoc
 abstract class $SipReportModelCopyWith<$Res> {
   factory $SipReportModelCopyWith(
-          SipReportModel value, $Res Function(SipReportModel) then) =
-      _$SipReportModelCopyWithImpl<$Res, SipReportModel>;
+    SipReportModel value,
+    $Res Function(SipReportModel) then,
+  ) = _$SipReportModelCopyWithImpl<$Res, SipReportModel>;
   @useResult
-  $Res call(
-      {int id,
-      String title,
-      String description,
-      String image,
-      String? link,
-      int approved,
-      int uid});
+  $Res call({
+    int id,
+    String title,
+    String description,
+    String image,
+    String? link,
+    int approved,
+    int uid,
+  });
 }
 
 /// @nodoc
@@ -70,55 +73,60 @@ class _$SipReportModelCopyWithImpl<$Res, $Val extends SipReportModel>
     Object? approved = null,
     Object? uid = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      approved: null == approved
-          ? _value.approved
-          : approved // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            image: null == image
+                ? _value.image
+                : image // ignore: cast_nullable_to_non_nullable
+                      as String,
+            link: freezed == link
+                ? _value.link
+                : link // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            approved: null == approved
+                ? _value.approved
+                : approved // ignore: cast_nullable_to_non_nullable
+                      as int,
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SipReportModelImplCopyWith<$Res>
     implements $SipReportModelCopyWith<$Res> {
-  factory _$$SipReportModelImplCopyWith(_$SipReportModelImpl value,
-          $Res Function(_$SipReportModelImpl) then) =
-      __$$SipReportModelImplCopyWithImpl<$Res>;
+  factory _$$SipReportModelImplCopyWith(
+    _$SipReportModelImpl value,
+    $Res Function(_$SipReportModelImpl) then,
+  ) = __$$SipReportModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String title,
-      String description,
-      String image,
-      String? link,
-      int approved,
-      int uid});
+  $Res call({
+    int id,
+    String title,
+    String description,
+    String image,
+    String? link,
+    int approved,
+    int uid,
+  });
 }
 
 /// @nodoc
@@ -126,8 +134,9 @@ class __$$SipReportModelImplCopyWithImpl<$Res>
     extends _$SipReportModelCopyWithImpl<$Res, _$SipReportModelImpl>
     implements _$$SipReportModelImplCopyWith<$Res> {
   __$$SipReportModelImplCopyWithImpl(
-      _$SipReportModelImpl _value, $Res Function(_$SipReportModelImpl) _then)
-      : super(_value, _then);
+    _$SipReportModelImpl _value,
+    $Res Function(_$SipReportModelImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SipReportModel
   /// with the given fields replaced by the non-null parameter values.
@@ -142,50 +151,53 @@ class __$$SipReportModelImplCopyWithImpl<$Res>
     Object? approved = null,
     Object? uid = null,
   }) {
-    return _then(_$SipReportModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      approved: null == approved
-          ? _value.approved
-          : approved // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$SipReportModelImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        image: null == image
+            ? _value.image
+            : image // ignore: cast_nullable_to_non_nullable
+                  as String,
+        link: freezed == link
+            ? _value.link
+            : link // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        approved: null == approved
+            ? _value.approved
+            : approved // ignore: cast_nullable_to_non_nullable
+                  as int,
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SipReportModelImpl implements _SipReportModel {
-  const _$SipReportModelImpl(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.image,
-      this.link,
-      required this.approved,
-      required this.uid});
+  const _$SipReportModelImpl({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.image,
+    this.link,
+    required this.approved,
+    required this.uid,
+  });
 
   @override
   final int id;
@@ -225,7 +237,15 @@ class _$SipReportModelImpl implements _SipReportModel {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, description, image, link, approved, uid);
+    runtimeType,
+    id,
+    title,
+    description,
+    image,
+    link,
+    approved,
+    uid,
+  );
 
   /// Create a copy of SipReportModel
   /// with the given fields replaced by the non-null parameter values.
@@ -234,18 +254,21 @@ class _$SipReportModelImpl implements _SipReportModel {
   @pragma('vm:prefer-inline')
   _$$SipReportModelImplCopyWith<_$SipReportModelImpl> get copyWith =>
       __$$SipReportModelImplCopyWithImpl<_$SipReportModelImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _SipReportModel implements SipReportModel {
-  const factory _SipReportModel(
-      {required final int id,
-      required final String title,
-      required final String description,
-      required final String image,
-      final String? link,
-      required final int approved,
-      required final int uid}) = _$SipReportModelImpl;
+  const factory _SipReportModel({
+    required final int id,
+    required final String title,
+    required final String description,
+    required final String image,
+    final String? link,
+    required final int approved,
+    required final int uid,
+  }) = _$SipReportModelImpl;
 
   @override
   int get id;

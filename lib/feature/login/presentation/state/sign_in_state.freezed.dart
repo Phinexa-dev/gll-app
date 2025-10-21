@@ -12,7 +12,8 @@ part of 'sign_in_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignInState {
@@ -32,15 +33,17 @@ mixin _$SignInState {
 /// @nodoc
 abstract class $SignInStateCopyWith<$Res> {
   factory $SignInStateCopyWith(
-          SignInState value, $Res Function(SignInState) then) =
-      _$SignInStateCopyWithImpl<$Res, SignInState>;
+    SignInState value,
+    $Res Function(SignInState) then,
+  ) = _$SignInStateCopyWithImpl<$Res, SignInState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? signInForm});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? signInForm,
+  });
 }
 
 /// @nodoc
@@ -64,28 +67,31 @@ class _$SignInStateCopyWithImpl<$Res, $Val extends SignInState>
     Object? errorMessage = freezed,
     Object? signInForm = freezed,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      signInForm: freezed == signInForm
-          ? _value.signInForm
-          : signInForm // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            signInForm: freezed == signInForm
+                ? _value.signInForm
+                : signInForm // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -93,16 +99,18 @@ class _$SignInStateCopyWithImpl<$Res, $Val extends SignInState>
 abstract class _$$SignInStateImplCopyWith<$Res>
     implements $SignInStateCopyWith<$Res> {
   factory _$$SignInStateImplCopyWith(
-          _$SignInStateImpl value, $Res Function(_$SignInStateImpl) then) =
-      __$$SignInStateImplCopyWithImpl<$Res>;
+    _$SignInStateImpl value,
+    $Res Function(_$SignInStateImpl) then,
+  ) = __$$SignInStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? signInForm});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? signInForm,
+  });
 }
 
 /// @nodoc
@@ -110,8 +118,9 @@ class __$$SignInStateImplCopyWithImpl<$Res>
     extends _$SignInStateCopyWithImpl<$Res, _$SignInStateImpl>
     implements _$$SignInStateImplCopyWith<$Res> {
   __$$SignInStateImplCopyWithImpl(
-      _$SignInStateImpl _value, $Res Function(_$SignInStateImpl) _then)
-      : super(_value, _then);
+    _$SignInStateImpl _value,
+    $Res Function(_$SignInStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInState
   /// with the given fields replaced by the non-null parameter values.
@@ -124,41 +133,43 @@ class __$$SignInStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? signInForm = freezed,
   }) {
-    return _then(_$SignInStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      signInForm: freezed == signInForm
-          ? _value._signInForm
-          : signInForm // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$SignInStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        signInForm: freezed == signInForm
+            ? _value._signInForm
+            : signInForm // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SignInStateImpl implements _SignInState {
-  _$SignInStateImpl(
-      {this.isLoading = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      final Map<String, dynamic>? signInForm = const {}})
-      : _signInForm = signInForm;
+  _$SignInStateImpl({
+    this.isLoading = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    final Map<String, dynamic>? signInForm = const {},
+  }) : _signInForm = signInForm;
 
   @override
   @JsonKey()
@@ -198,13 +209,21 @@ class _$SignInStateImpl implements _SignInState {
                 other.isFailure == isFailure) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality()
-                .equals(other._signInForm, _signInForm));
+            const DeepCollectionEquality().equals(
+              other._signInForm,
+              _signInForm,
+            ));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSuccess, isFailure,
-      errorMessage, const DeepCollectionEquality().hash(_signInForm));
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLoading,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    const DeepCollectionEquality().hash(_signInForm),
+  );
 
   /// Create a copy of SignInState
   /// with the given fields replaced by the non-null parameter values.
@@ -216,12 +235,13 @@ class _$SignInStateImpl implements _SignInState {
 }
 
 abstract class _SignInState implements SignInState {
-  factory _SignInState(
-      {final bool isLoading,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final Map<String, dynamic>? signInForm}) = _$SignInStateImpl;
+  factory _SignInState({
+    final bool isLoading,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final Map<String, dynamic>? signInForm,
+  }) = _$SignInStateImpl;
 
   @override
   bool get isLoading;

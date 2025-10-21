@@ -12,7 +12,8 @@ part of 'skill_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SkillResponse _$SkillResponseFromJson(Map<String, dynamic> json) {
   return _SkillResponse.fromJson(json);
@@ -40,13 +41,15 @@ mixin _$SkillResponse {
 /// @nodoc
 abstract class $SkillResponseCopyWith<$Res> {
   factory $SkillResponseCopyWith(
-          SkillResponse value, $Res Function(SkillResponse) then) =
-      _$SkillResponseCopyWithImpl<$Res, SkillResponse>;
+    SkillResponse value,
+    $Res Function(SkillResponse) then,
+  ) = _$SkillResponseCopyWithImpl<$Res, SkillResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "skill") String skill,
-      @JsonKey(name: "uid") int uid});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "skill") String skill,
+    @JsonKey(name: "uid") int uid,
+  });
 }
 
 /// @nodoc
@@ -63,25 +66,24 @@ class _$SkillResponseCopyWithImpl<$Res, $Val extends SkillResponse>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? skill = null,
-    Object? uid = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      skill: null == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? id = null, Object? skill = null, Object? uid = null}) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            skill: null == skill
+                ? _value.skill
+                : skill // ignore: cast_nullable_to_non_nullable
+                      as String,
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -89,14 +91,16 @@ class _$SkillResponseCopyWithImpl<$Res, $Val extends SkillResponse>
 abstract class _$$SkillResponseImplCopyWith<$Res>
     implements $SkillResponseCopyWith<$Res> {
   factory _$$SkillResponseImplCopyWith(
-          _$SkillResponseImpl value, $Res Function(_$SkillResponseImpl) then) =
-      __$$SkillResponseImplCopyWithImpl<$Res>;
+    _$SkillResponseImpl value,
+    $Res Function(_$SkillResponseImpl) then,
+  ) = __$$SkillResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "skill") String skill,
-      @JsonKey(name: "uid") int uid});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "skill") String skill,
+    @JsonKey(name: "uid") int uid,
+  });
 }
 
 /// @nodoc
@@ -104,42 +108,42 @@ class __$$SkillResponseImplCopyWithImpl<$Res>
     extends _$SkillResponseCopyWithImpl<$Res, _$SkillResponseImpl>
     implements _$$SkillResponseImplCopyWith<$Res> {
   __$$SkillResponseImplCopyWithImpl(
-      _$SkillResponseImpl _value, $Res Function(_$SkillResponseImpl) _then)
-      : super(_value, _then);
+    _$SkillResponseImpl _value,
+    $Res Function(_$SkillResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SkillResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-    Object? skill = null,
-    Object? uid = null,
-  }) {
-    return _then(_$SkillResponseImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      skill: null == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? id = null, Object? skill = null, Object? uid = null}) {
+    return _then(
+      _$SkillResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        skill: null == skill
+            ? _value.skill
+            : skill // ignore: cast_nullable_to_non_nullable
+                  as String,
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SkillResponseImpl implements _SkillResponse {
-  const _$SkillResponseImpl(
-      {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "skill") required this.skill,
-      @JsonKey(name: "uid") required this.uid});
+  const _$SkillResponseImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "skill") required this.skill,
+    @JsonKey(name: "uid") required this.uid,
+  });
 
   factory _$SkillResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$SkillResponseImplFromJson(json);
@@ -183,17 +187,16 @@ class _$SkillResponseImpl implements _SkillResponse {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SkillResponseImplToJson(
-      this,
-    );
+    return _$$SkillResponseImplToJson(this);
   }
 }
 
 abstract class _SkillResponse implements SkillResponse {
-  const factory _SkillResponse(
-      {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "skill") required final String skill,
-      @JsonKey(name: "uid") required final int uid}) = _$SkillResponseImpl;
+  const factory _SkillResponse({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "skill") required final String skill,
+    @JsonKey(name: "uid") required final int uid,
+  }) = _$SkillResponseImpl;
 
   factory _SkillResponse.fromJson(Map<String, dynamic> json) =
       _$SkillResponseImpl.fromJson;

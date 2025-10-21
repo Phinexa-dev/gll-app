@@ -12,7 +12,8 @@ part of 'edit_profile_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 EditProfileRequest _$EditProfileRequestFromJson(Map<String, dynamic> json) {
   return _EditProfileRequest.fromJson(json);
@@ -48,17 +49,19 @@ mixin _$EditProfileRequest {
 /// @nodoc
 abstract class $EditProfileRequestCopyWith<$Res> {
   factory $EditProfileRequestCopyWith(
-          EditProfileRequest value, $Res Function(EditProfileRequest) then) =
-      _$EditProfileRequestCopyWithImpl<$Res, EditProfileRequest>;
+    EditProfileRequest value,
+    $Res Function(EditProfileRequest) then,
+  ) = _$EditProfileRequestCopyWithImpl<$Res, EditProfileRequest>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "fullName") String? fullName,
-      @JsonKey(name: "dialCode") String? dialCode,
-      @JsonKey(name: "mobileNumber") String? mobileNumber,
-      @JsonKey(name: "userLanguages") String? userLanguages,
-      @JsonKey(name: "country") String? country,
-      @JsonKey(name: "userIntrests") String? userIntrests,
-      @JsonKey(name: "userProfilePicture") String? profileImage});
+  $Res call({
+    @JsonKey(name: "fullName") String? fullName,
+    @JsonKey(name: "dialCode") String? dialCode,
+    @JsonKey(name: "mobileNumber") String? mobileNumber,
+    @JsonKey(name: "userLanguages") String? userLanguages,
+    @JsonKey(name: "country") String? country,
+    @JsonKey(name: "userIntrests") String? userIntrests,
+    @JsonKey(name: "userProfilePicture") String? profileImage,
+  });
 }
 
 /// @nodoc
@@ -84,64 +87,70 @@ class _$EditProfileRequestCopyWithImpl<$Res, $Val extends EditProfileRequest>
     Object? userIntrests = freezed,
     Object? profileImage = freezed,
   }) {
-    return _then(_value.copyWith(
-      fullName: freezed == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dialCode: freezed == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userLanguages: freezed == userLanguages
-          ? _value.userLanguages
-          : userLanguages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            fullName: freezed == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            dialCode: freezed == dialCode
+                ? _value.dialCode
+                : dialCode // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            mobileNumber: freezed == mobileNumber
+                ? _value.mobileNumber
+                : mobileNumber // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            userLanguages: freezed == userLanguages
+                ? _value.userLanguages
+                : userLanguages // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            country: freezed == country
+                ? _value.country
+                : country // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            userIntrests: freezed == userIntrests
+                ? _value.userIntrests
+                : userIntrests // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            profileImage: freezed == profileImage
+                ? _value.profileImage
+                : profileImage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$EditProfileRequestImplCopyWith<$Res>
     implements $EditProfileRequestCopyWith<$Res> {
-  factory _$$EditProfileRequestImplCopyWith(_$EditProfileRequestImpl value,
-          $Res Function(_$EditProfileRequestImpl) then) =
-      __$$EditProfileRequestImplCopyWithImpl<$Res>;
+  factory _$$EditProfileRequestImplCopyWith(
+    _$EditProfileRequestImpl value,
+    $Res Function(_$EditProfileRequestImpl) then,
+  ) = __$$EditProfileRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "fullName") String? fullName,
-      @JsonKey(name: "dialCode") String? dialCode,
-      @JsonKey(name: "mobileNumber") String? mobileNumber,
-      @JsonKey(name: "userLanguages") String? userLanguages,
-      @JsonKey(name: "country") String? country,
-      @JsonKey(name: "userIntrests") String? userIntrests,
-      @JsonKey(name: "userProfilePicture") String? profileImage});
+  $Res call({
+    @JsonKey(name: "fullName") String? fullName,
+    @JsonKey(name: "dialCode") String? dialCode,
+    @JsonKey(name: "mobileNumber") String? mobileNumber,
+    @JsonKey(name: "userLanguages") String? userLanguages,
+    @JsonKey(name: "country") String? country,
+    @JsonKey(name: "userIntrests") String? userIntrests,
+    @JsonKey(name: "userProfilePicture") String? profileImage,
+  });
 }
 
 /// @nodoc
 class __$$EditProfileRequestImplCopyWithImpl<$Res>
     extends _$EditProfileRequestCopyWithImpl<$Res, _$EditProfileRequestImpl>
     implements _$$EditProfileRequestImplCopyWith<$Res> {
-  __$$EditProfileRequestImplCopyWithImpl(_$EditProfileRequestImpl _value,
-      $Res Function(_$EditProfileRequestImpl) _then)
-      : super(_value, _then);
+  __$$EditProfileRequestImplCopyWithImpl(
+    _$EditProfileRequestImpl _value,
+    $Res Function(_$EditProfileRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of EditProfileRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -156,50 +165,53 @@ class __$$EditProfileRequestImplCopyWithImpl<$Res>
     Object? userIntrests = freezed,
     Object? profileImage = freezed,
   }) {
-    return _then(_$EditProfileRequestImpl(
-      fullName: freezed == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dialCode: freezed == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userLanguages: freezed == userLanguages
-          ? _value.userLanguages
-          : userLanguages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$EditProfileRequestImpl(
+        fullName: freezed == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        dialCode: freezed == dialCode
+            ? _value.dialCode
+            : dialCode // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        mobileNumber: freezed == mobileNumber
+            ? _value.mobileNumber
+            : mobileNumber // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userLanguages: freezed == userLanguages
+            ? _value.userLanguages
+            : userLanguages // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        country: freezed == country
+            ? _value.country
+            : country // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userIntrests: freezed == userIntrests
+            ? _value.userIntrests
+            : userIntrests // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        profileImage: freezed == profileImage
+            ? _value.profileImage
+            : profileImage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$EditProfileRequestImpl implements _EditProfileRequest {
-  const _$EditProfileRequestImpl(
-      {@JsonKey(name: "fullName") this.fullName,
-      @JsonKey(name: "dialCode") this.dialCode,
-      @JsonKey(name: "mobileNumber") this.mobileNumber,
-      @JsonKey(name: "userLanguages") this.userLanguages,
-      @JsonKey(name: "country") this.country,
-      @JsonKey(name: "userIntrests") this.userIntrests,
-      @JsonKey(name: "userProfilePicture") this.profileImage});
+  const _$EditProfileRequestImpl({
+    @JsonKey(name: "fullName") this.fullName,
+    @JsonKey(name: "dialCode") this.dialCode,
+    @JsonKey(name: "mobileNumber") this.mobileNumber,
+    @JsonKey(name: "userLanguages") this.userLanguages,
+    @JsonKey(name: "country") this.country,
+    @JsonKey(name: "userIntrests") this.userIntrests,
+    @JsonKey(name: "userProfilePicture") this.profileImage,
+  });
 
   factory _$EditProfileRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$EditProfileRequestImplFromJson(json);
@@ -253,8 +265,16 @@ class _$EditProfileRequestImpl implements _EditProfileRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, fullName, dialCode, mobileNumber,
-      userLanguages, country, userIntrests, profileImage);
+  int get hashCode => Object.hash(
+    runtimeType,
+    fullName,
+    dialCode,
+    mobileNumber,
+    userLanguages,
+    country,
+    userIntrests,
+    profileImage,
+  );
 
   /// Create a copy of EditProfileRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -263,26 +283,26 @@ class _$EditProfileRequestImpl implements _EditProfileRequest {
   @pragma('vm:prefer-inline')
   _$$EditProfileRequestImplCopyWith<_$EditProfileRequestImpl> get copyWith =>
       __$$EditProfileRequestImplCopyWithImpl<_$EditProfileRequestImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$EditProfileRequestImplToJson(
-      this,
-    );
+    return _$$EditProfileRequestImplToJson(this);
   }
 }
 
 abstract class _EditProfileRequest implements EditProfileRequest {
-  const factory _EditProfileRequest(
-          {@JsonKey(name: "fullName") final String? fullName,
-          @JsonKey(name: "dialCode") final String? dialCode,
-          @JsonKey(name: "mobileNumber") final String? mobileNumber,
-          @JsonKey(name: "userLanguages") final String? userLanguages,
-          @JsonKey(name: "country") final String? country,
-          @JsonKey(name: "userIntrests") final String? userIntrests,
-          @JsonKey(name: "userProfilePicture") final String? profileImage}) =
-      _$EditProfileRequestImpl;
+  const factory _EditProfileRequest({
+    @JsonKey(name: "fullName") final String? fullName,
+    @JsonKey(name: "dialCode") final String? dialCode,
+    @JsonKey(name: "mobileNumber") final String? mobileNumber,
+    @JsonKey(name: "userLanguages") final String? userLanguages,
+    @JsonKey(name: "country") final String? country,
+    @JsonKey(name: "userIntrests") final String? userIntrests,
+    @JsonKey(name: "userProfilePicture") final String? profileImage,
+  }) = _$EditProfileRequestImpl;
 
   factory _EditProfileRequest.fromJson(Map<String, dynamic> json) =
       _$EditProfileRequestImpl.fromJson;

@@ -12,7 +12,8 @@ part of 'forgot_password_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$ForgotPasswordState {
@@ -32,15 +33,17 @@ mixin _$ForgotPasswordState {
 /// @nodoc
 abstract class $ForgotPasswordStateCopyWith<$Res> {
   factory $ForgotPasswordStateCopyWith(
-          ForgotPasswordState value, $Res Function(ForgotPasswordState) then) =
-      _$ForgotPasswordStateCopyWithImpl<$Res, ForgotPasswordState>;
+    ForgotPasswordState value,
+    $Res Function(ForgotPasswordState) then,
+  ) = _$ForgotPasswordStateCopyWithImpl<$Res, ForgotPasswordState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      String? email});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    String? email,
+  });
 }
 
 /// @nodoc
@@ -64,54 +67,60 @@ class _$ForgotPasswordStateCopyWithImpl<$Res, $Val extends ForgotPasswordState>
     Object? errorMessage = freezed,
     Object? email = freezed,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            email: freezed == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$ForgotPasswordStateImplCopyWith<$Res>
     implements $ForgotPasswordStateCopyWith<$Res> {
-  factory _$$ForgotPasswordStateImplCopyWith(_$ForgotPasswordStateImpl value,
-          $Res Function(_$ForgotPasswordStateImpl) then) =
-      __$$ForgotPasswordStateImplCopyWithImpl<$Res>;
+  factory _$$ForgotPasswordStateImplCopyWith(
+    _$ForgotPasswordStateImpl value,
+    $Res Function(_$ForgotPasswordStateImpl) then,
+  ) = __$$ForgotPasswordStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      String? email});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    String? email,
+  });
 }
 
 /// @nodoc
 class __$$ForgotPasswordStateImplCopyWithImpl<$Res>
     extends _$ForgotPasswordStateCopyWithImpl<$Res, _$ForgotPasswordStateImpl>
     implements _$$ForgotPasswordStateImplCopyWith<$Res> {
-  __$$ForgotPasswordStateImplCopyWithImpl(_$ForgotPasswordStateImpl _value,
-      $Res Function(_$ForgotPasswordStateImpl) _then)
-      : super(_value, _then);
+  __$$ForgotPasswordStateImplCopyWithImpl(
+    _$ForgotPasswordStateImpl _value,
+    $Res Function(_$ForgotPasswordStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
@@ -124,40 +133,43 @@ class __$$ForgotPasswordStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? email = freezed,
   }) {
-    return _then(_$ForgotPasswordStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$ForgotPasswordStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        email: freezed == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
-  _$ForgotPasswordStateImpl(
-      {this.isLoading = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      this.email});
+  _$ForgotPasswordStateImpl({
+    this.isLoading = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    this.email,
+  });
 
   @override
   @JsonKey()
@@ -194,7 +206,13 @@ class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isLoading, isSuccess, isFailure, errorMessage, email);
+    runtimeType,
+    isLoading,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    email,
+  );
 
   /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
@@ -203,16 +221,19 @@ class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
   @pragma('vm:prefer-inline')
   _$$ForgotPasswordStateImplCopyWith<_$ForgotPasswordStateImpl> get copyWith =>
       __$$ForgotPasswordStateImplCopyWithImpl<_$ForgotPasswordStateImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _ForgotPasswordState implements ForgotPasswordState {
-  factory _ForgotPasswordState(
-      {final bool isLoading,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final String? email}) = _$ForgotPasswordStateImpl;
+  factory _ForgotPasswordState({
+    final bool isLoading,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final String? email,
+  }) = _$ForgotPasswordStateImpl;
 
   @override
   bool get isLoading;

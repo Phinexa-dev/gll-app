@@ -9,7 +9,7 @@ import 'package:gll/feature/signup/presentation/controller/sign_up_contoller.dar
 import 'package:gll/feature/system_feedback/model/feedback.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../events/presentation/ui/widgets/custom_dropdown.dart';
+import '../../../../event/presentation/ui/widgets/custom_dropdown.dart';
 import '../../../../system_feedback/provider/feedback_provider.dart';
 import '../../../../welcome/presentation/ui/widget/logo.dart';
 import '../../state/sign_up_state.dart';

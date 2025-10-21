@@ -12,7 +12,8 @@ part of 'sign_up_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignUpState {
@@ -37,8 +38,9 @@ mixin _$SignUpState {
 /// @nodoc
 abstract class $SignUpStateCopyWith<$Res> {
   factory $SignUpStateCopyWith(
-          SignUpState value, $Res Function(SignUpState) then) =
-      _$SignUpStateCopyWithImpl<$Res, SignUpState>;
+    SignUpState value,
+    $Res Function(SignUpState) then,
+  ) = _$SignUpStateCopyWithImpl<$Res, SignUpState>;
   @useResult
   $Res call(
       {bool isLoading,
@@ -128,8 +130,9 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
 abstract class _$$SignUpStateImplCopyWith<$Res>
     implements $SignUpStateCopyWith<$Res> {
   factory _$$SignUpStateImplCopyWith(
-          _$SignUpStateImpl value, $Res Function(_$SignUpStateImpl) then) =
-      __$$SignUpStateImplCopyWithImpl<$Res>;
+    _$SignUpStateImpl value,
+    $Res Function(_$SignUpStateImpl) then,
+  ) = __$$SignUpStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -150,8 +153,9 @@ class __$$SignUpStateImplCopyWithImpl<$Res>
     extends _$SignUpStateCopyWithImpl<$Res, _$SignUpStateImpl>
     implements _$$SignUpStateImplCopyWith<$Res> {
   __$$SignUpStateImplCopyWithImpl(
-      _$SignUpStateImpl _value, $Res Function(_$SignUpStateImpl) _then)
-      : super(_value, _then);
+    _$SignUpStateImpl _value,
+    $Res Function(_$SignUpStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignUpState
   /// with the given fields replaced by the non-null parameter values.

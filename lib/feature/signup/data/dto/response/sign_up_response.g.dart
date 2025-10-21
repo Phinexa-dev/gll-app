@@ -13,8 +13,5 @@ _$SignUpResponseImpl _$$SignUpResponseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$SignUpResponseImplToJson(
-        _$SignUpResponseImpl instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-      'userId': instance.userId,
-    };
+  _$SignUpResponseImpl instance,
+) => <String, dynamic>{'message': instance.message, 'userId': instance.userId};

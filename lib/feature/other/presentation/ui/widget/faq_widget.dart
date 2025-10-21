@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
+import 'package:gll/common/widget/custom_button.dart';
+import 'package:gll/core/route/route_name.dart';
+import 'package:go_router/go_router.dart';
 
 /// A single FAQ entry: tap the row (or icon) to expand/collapse the answer.
 class FAQItem extends StatefulWidget {
@@ -72,9 +75,24 @@ class _FAQItemState extends State<FAQItem> with SingleTickerProviderStateMixin {
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      widget.answer,
-                      style: PhinexaFont.captionRegular,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildFormattedAnswer(),
+                        if (widget.answer.contains('Tap below to explore')) ...[
+                          CustomButton(
+                            label: "Explore the Cascading Model",
+                            height: 40,
+                            onPressed: () {
+                              context.pushNamed(
+                                RouteName.pdfViewer,
+                                extra: "assets/pdf/casacading_model.pdf",
+                              );
+                            },
+                          ),
+                          SizedBox(height: 24,)
+                        ],
+                      ],
                     ),
                   ),
                 ),
@@ -83,6 +101,32 @@ class _FAQItemState extends State<FAQItem> with SingleTickerProviderStateMixin {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFormattedAnswer() {
+    final lines = widget.answer.split('\n');
+    List<TextSpan> spans = [];
+
+    for (int i = 0; i < lines.length; i++) {
+      final line = lines[i];
+
+      // Check if line should be bold (contains → or ends with :)
+      bool isBold = line.contains('→') ||
+                    (line.trim().endsWith(':') && line.trim().isNotEmpty);
+
+      spans.add(
+        TextSpan(
+          text: line + (i < lines.length - 1 ? '\n' : ''),
+          style: isBold
+              ? PhinexaFont.contentAccent.copyWith(fontSize: 14)
+              : PhinexaFont.captionRegular,
+        ),
+      );
+    }
+
+    return RichText(
+      text: TextSpan(children: spans),
     );
   }
 

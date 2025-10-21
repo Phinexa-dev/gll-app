@@ -12,7 +12,8 @@ part of 'sign_up_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) {
   return _SignUpResponse.fromJson(json);
@@ -38,12 +39,14 @@ mixin _$SignUpResponse {
 /// @nodoc
 abstract class $SignUpResponseCopyWith<$Res> {
   factory $SignUpResponseCopyWith(
-          SignUpResponse value, $Res Function(SignUpResponse) then) =
-      _$SignUpResponseCopyWithImpl<$Res, SignUpResponse>;
+    SignUpResponse value,
+    $Res Function(SignUpResponse) then,
+  ) = _$SignUpResponseCopyWithImpl<$Res, SignUpResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "message") String message,
-      @JsonKey(name: "userId") int userId});
+  $Res call({
+    @JsonKey(name: "message") String message,
+    @JsonKey(name: "userId") int userId,
+  });
 }
 
 /// @nodoc
@@ -60,34 +63,36 @@ class _$SignUpResponseCopyWithImpl<$Res, $Val extends SignUpResponse>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? userId = null,
-  }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? message = null, Object? userId = null}) {
+    return _then(
+      _value.copyWith(
+            message: null == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                      as String,
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SignUpResponseImplCopyWith<$Res>
     implements $SignUpResponseCopyWith<$Res> {
-  factory _$$SignUpResponseImplCopyWith(_$SignUpResponseImpl value,
-          $Res Function(_$SignUpResponseImpl) then) =
-      __$$SignUpResponseImplCopyWithImpl<$Res>;
+  factory _$$SignUpResponseImplCopyWith(
+    _$SignUpResponseImpl value,
+    $Res Function(_$SignUpResponseImpl) then,
+  ) = __$$SignUpResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "message") String message,
-      @JsonKey(name: "userId") int userId});
+  $Res call({
+    @JsonKey(name: "message") String message,
+    @JsonKey(name: "userId") int userId,
+  });
 }
 
 /// @nodoc
@@ -95,36 +100,37 @@ class __$$SignUpResponseImplCopyWithImpl<$Res>
     extends _$SignUpResponseCopyWithImpl<$Res, _$SignUpResponseImpl>
     implements _$$SignUpResponseImplCopyWith<$Res> {
   __$$SignUpResponseImplCopyWithImpl(
-      _$SignUpResponseImpl _value, $Res Function(_$SignUpResponseImpl) _then)
-      : super(_value, _then);
+    _$SignUpResponseImpl _value,
+    $Res Function(_$SignUpResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignUpResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? userId = null,
-  }) {
-    return _then(_$SignUpResponseImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? message = null, Object? userId = null}) {
+    return _then(
+      _$SignUpResponseImpl(
+        message: null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SignUpResponseImpl implements _SignUpResponse {
-  const _$SignUpResponseImpl(
-      {@JsonKey(name: "message") required this.message,
-      @JsonKey(name: "userId") required this.userId});
+  const _$SignUpResponseImpl({
+    @JsonKey(name: "message") required this.message,
+    @JsonKey(name: "userId") required this.userId,
+  });
 
   factory _$SignUpResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpResponseImplFromJson(json);
@@ -161,21 +167,21 @@ class _$SignUpResponseImpl implements _SignUpResponse {
   @pragma('vm:prefer-inline')
   _$$SignUpResponseImplCopyWith<_$SignUpResponseImpl> get copyWith =>
       __$$SignUpResponseImplCopyWithImpl<_$SignUpResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignUpResponseImplToJson(
-      this,
-    );
+    return _$$SignUpResponseImplToJson(this);
   }
 }
 
 abstract class _SignUpResponse implements SignUpResponse {
-  const factory _SignUpResponse(
-          {@JsonKey(name: "message") required final String message,
-          @JsonKey(name: "userId") required final int userId}) =
-      _$SignUpResponseImpl;
+  const factory _SignUpResponse({
+    @JsonKey(name: "message") required final String message,
+    @JsonKey(name: "userId") required final int userId,
+  }) = _$SignUpResponseImpl;
 
   factory _SignUpResponse.fromJson(Map<String, dynamic> json) =
       _$SignUpResponseImpl.fromJson;

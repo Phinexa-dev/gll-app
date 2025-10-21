@@ -12,7 +12,8 @@ part of 'certificate_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 CertificateResponse _$CertificateResponseFromJson(Map<String, dynamic> json) {
   return _CertificateResponse.fromJson(json);
@@ -38,8 +39,9 @@ mixin _$CertificateResponse {
 /// @nodoc
 abstract class $CertificateResponseCopyWith<$Res> {
   factory $CertificateResponseCopyWith(
-          CertificateResponse value, $Res Function(CertificateResponse) then) =
-      _$CertificateResponseCopyWithImpl<$Res, CertificateResponse>;
+    CertificateResponse value,
+    $Res Function(CertificateResponse) then,
+  ) = _$CertificateResponseCopyWithImpl<$Res, CertificateResponse>;
   @useResult
   $Res call({int id, String name, String organization, String description});
 }
@@ -64,33 +66,37 @@ class _$CertificateResponseCopyWithImpl<$Res, $Val extends CertificateResponse>
     Object? organization = null,
     Object? description = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      organization: null == organization
-          ? _value.organization
-          : organization // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            organization: null == organization
+                ? _value.organization
+                : organization // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CertificateResponseImplCopyWith<$Res>
     implements $CertificateResponseCopyWith<$Res> {
-  factory _$$CertificateResponseImplCopyWith(_$CertificateResponseImpl value,
-          $Res Function(_$CertificateResponseImpl) then) =
-      __$$CertificateResponseImplCopyWithImpl<$Res>;
+  factory _$$CertificateResponseImplCopyWith(
+    _$CertificateResponseImpl value,
+    $Res Function(_$CertificateResponseImpl) then,
+  ) = __$$CertificateResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String name, String organization, String description});
@@ -100,9 +106,10 @@ abstract class _$$CertificateResponseImplCopyWith<$Res>
 class __$$CertificateResponseImplCopyWithImpl<$Res>
     extends _$CertificateResponseCopyWithImpl<$Res, _$CertificateResponseImpl>
     implements _$$CertificateResponseImplCopyWith<$Res> {
-  __$$CertificateResponseImplCopyWithImpl(_$CertificateResponseImpl _value,
-      $Res Function(_$CertificateResponseImpl) _then)
-      : super(_value, _then);
+  __$$CertificateResponseImplCopyWithImpl(
+    _$CertificateResponseImpl _value,
+    $Res Function(_$CertificateResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CertificateResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -114,35 +121,38 @@ class __$$CertificateResponseImplCopyWithImpl<$Res>
     Object? organization = null,
     Object? description = null,
   }) {
-    return _then(_$CertificateResponseImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      organization: null == organization
-          ? _value.organization
-          : organization // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$CertificateResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        organization: null == organization
+            ? _value.organization
+            : organization // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CertificateResponseImpl implements _CertificateResponse {
-  const _$CertificateResponseImpl(
-      {required this.id,
-      required this.name,
-      required this.organization,
-      required this.description});
+  const _$CertificateResponseImpl({
+    required this.id,
+    required this.name,
+    required this.organization,
+    required this.description,
+  });
 
   factory _$CertificateResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CertificateResponseImplFromJson(json);
@@ -186,22 +196,23 @@ class _$CertificateResponseImpl implements _CertificateResponse {
   @pragma('vm:prefer-inline')
   _$$CertificateResponseImplCopyWith<_$CertificateResponseImpl> get copyWith =>
       __$$CertificateResponseImplCopyWithImpl<_$CertificateResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CertificateResponseImplToJson(
-      this,
-    );
+    return _$$CertificateResponseImplToJson(this);
   }
 }
 
 abstract class _CertificateResponse implements CertificateResponse {
-  const factory _CertificateResponse(
-      {required final int id,
-      required final String name,
-      required final String organization,
-      required final String description}) = _$CertificateResponseImpl;
+  const factory _CertificateResponse({
+    required final int id,
+    required final String name,
+    required final String organization,
+    required final String description,
+  }) = _$CertificateResponseImpl;
 
   factory _CertificateResponse.fromJson(Map<String, dynamic> json) =
       _$CertificateResponseImpl.fromJson;

@@ -12,10 +12,12 @@ part of 'forgot_password_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
-    Map<String, dynamic> json) {
+  Map<String, dynamic> json,
+) {
   return _ForgotPasswordRequest.fromJson(json);
 }
 
@@ -36,16 +38,19 @@ mixin _$ForgotPasswordRequest {
 
 /// @nodoc
 abstract class $ForgotPasswordRequestCopyWith<$Res> {
-  factory $ForgotPasswordRequestCopyWith(ForgotPasswordRequest value,
-          $Res Function(ForgotPasswordRequest) then) =
-      _$ForgotPasswordRequestCopyWithImpl<$Res, ForgotPasswordRequest>;
+  factory $ForgotPasswordRequestCopyWith(
+    ForgotPasswordRequest value,
+    $Res Function(ForgotPasswordRequest) then,
+  ) = _$ForgotPasswordRequestCopyWithImpl<$Res, ForgotPasswordRequest>;
   @useResult
   $Res call({@JsonKey(name: "email") String email});
 }
 
 /// @nodoc
-class _$ForgotPasswordRequestCopyWithImpl<$Res,
-        $Val extends ForgotPasswordRequest>
+class _$ForgotPasswordRequestCopyWithImpl<
+  $Res,
+  $Val extends ForgotPasswordRequest
+>
     implements $ForgotPasswordRequestCopyWith<$Res> {
   _$ForgotPasswordRequestCopyWithImpl(this._value, this._then);
 
@@ -58,15 +63,16 @@ class _$ForgotPasswordRequestCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-  }) {
-    return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? email = null}) {
+    return _then(
+      _value.copyWith(
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -74,9 +80,9 @@ class _$ForgotPasswordRequestCopyWithImpl<$Res,
 abstract class _$$ForgotPasswordRequestImplCopyWith<$Res>
     implements $ForgotPasswordRequestCopyWith<$Res> {
   factory _$$ForgotPasswordRequestImplCopyWith(
-          _$ForgotPasswordRequestImpl value,
-          $Res Function(_$ForgotPasswordRequestImpl) then) =
-      __$$ForgotPasswordRequestImplCopyWithImpl<$Res>;
+    _$ForgotPasswordRequestImpl value,
+    $Res Function(_$ForgotPasswordRequestImpl) then,
+  ) = __$$ForgotPasswordRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(name: "email") String email});
@@ -84,34 +90,36 @@ abstract class _$$ForgotPasswordRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ForgotPasswordRequestImplCopyWithImpl<$Res>
-    extends _$ForgotPasswordRequestCopyWithImpl<$Res,
-        _$ForgotPasswordRequestImpl>
+    extends
+        _$ForgotPasswordRequestCopyWithImpl<$Res, _$ForgotPasswordRequestImpl>
     implements _$$ForgotPasswordRequestImplCopyWith<$Res> {
-  __$$ForgotPasswordRequestImplCopyWithImpl(_$ForgotPasswordRequestImpl _value,
-      $Res Function(_$ForgotPasswordRequestImpl) _then)
-      : super(_value, _then);
+  __$$ForgotPasswordRequestImplCopyWithImpl(
+    _$ForgotPasswordRequestImpl _value,
+    $Res Function(_$ForgotPasswordRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ForgotPasswordRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-  }) {
-    return _then(_$ForgotPasswordRequestImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? email = null}) {
+    return _then(
+      _$ForgotPasswordRequestImpl(
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ForgotPasswordRequestImpl implements _ForgotPasswordRequest {
-  const _$ForgotPasswordRequestImpl(
-      {@JsonKey(name: "email") required this.email});
+  const _$ForgotPasswordRequestImpl({
+    @JsonKey(name: "email") required this.email,
+  });
 
   factory _$ForgotPasswordRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ForgotPasswordRequestImplFromJson(json);
@@ -143,21 +151,22 @@ class _$ForgotPasswordRequestImpl implements _ForgotPasswordRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$ForgotPasswordRequestImplCopyWith<_$ForgotPasswordRequestImpl>
-      get copyWith => __$$ForgotPasswordRequestImplCopyWithImpl<
-          _$ForgotPasswordRequestImpl>(this, _$identity);
+  get copyWith =>
+      __$$ForgotPasswordRequestImplCopyWithImpl<_$ForgotPasswordRequestImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ForgotPasswordRequestImplToJson(
-      this,
-    );
+    return _$$ForgotPasswordRequestImplToJson(this);
   }
 }
 
 abstract class _ForgotPasswordRequest implements ForgotPasswordRequest {
-  const factory _ForgotPasswordRequest(
-          {@JsonKey(name: "email") required final String email}) =
-      _$ForgotPasswordRequestImpl;
+  const factory _ForgotPasswordRequest({
+    @JsonKey(name: "email") required final String email,
+  }) = _$ForgotPasswordRequestImpl;
 
   factory _ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =
       _$ForgotPasswordRequestImpl.fromJson;
@@ -171,5 +180,5 @@ abstract class _ForgotPasswordRequest implements ForgotPasswordRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ForgotPasswordRequestImplCopyWith<_$ForgotPasswordRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

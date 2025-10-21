@@ -12,7 +12,8 @@ part of 'profile_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$ProfileState {
@@ -33,16 +34,18 @@ mixin _$ProfileState {
 /// @nodoc
 abstract class $ProfileStateCopyWith<$Res> {
   factory $ProfileStateCopyWith(
-          ProfileState value, $Res Function(ProfileState) then) =
-      _$ProfileStateCopyWithImpl<$Res, ProfileState>;
+    ProfileState value,
+    $Res Function(ProfileState) then,
+  ) = _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isEditingSocials,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? form});
+  $Res call({
+    bool isLoading,
+    bool isEditingSocials,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? form,
+  });
 }
 
 /// @nodoc
@@ -67,32 +70,35 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? errorMessage = freezed,
     Object? form = freezed,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEditingSocials: null == isEditingSocials
-          ? _value.isEditingSocials
-          : isEditingSocials // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      form: freezed == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isEditingSocials: null == isEditingSocials
+                ? _value.isEditingSocials
+                : isEditingSocials // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            form: freezed == form
+                ? _value.form
+                : form // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -100,17 +106,19 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
 abstract class _$$ProfileStateImplCopyWith<$Res>
     implements $ProfileStateCopyWith<$Res> {
   factory _$$ProfileStateImplCopyWith(
-          _$ProfileStateImpl value, $Res Function(_$ProfileStateImpl) then) =
-      __$$ProfileStateImplCopyWithImpl<$Res>;
+    _$ProfileStateImpl value,
+    $Res Function(_$ProfileStateImpl) then,
+  ) = __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isEditingSocials,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? form});
+  $Res call({
+    bool isLoading,
+    bool isEditingSocials,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? form,
+  });
 }
 
 /// @nodoc
@@ -118,8 +126,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     extends _$ProfileStateCopyWithImpl<$Res, _$ProfileStateImpl>
     implements _$$ProfileStateImplCopyWith<$Res> {
   __$$ProfileStateImplCopyWithImpl(
-      _$ProfileStateImpl _value, $Res Function(_$ProfileStateImpl) _then)
-      : super(_value, _then);
+    _$ProfileStateImpl _value,
+    $Res Function(_$ProfileStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -133,46 +142,48 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? form = freezed,
   }) {
-    return _then(_$ProfileStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEditingSocials: null == isEditingSocials
-          ? _value.isEditingSocials
-          : isEditingSocials // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      form: freezed == form
-          ? _value._form
-          : form // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$ProfileStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isEditingSocials: null == isEditingSocials
+            ? _value.isEditingSocials
+            : isEditingSocials // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        form: freezed == form
+            ? _value._form
+            : form // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$ProfileStateImpl implements _ProfileState {
-  _$ProfileStateImpl(
-      {this.isLoading = false,
-      this.isEditingSocials = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      final Map<String, dynamic>? form = const {}})
-      : _form = form;
+  _$ProfileStateImpl({
+    this.isLoading = false,
+    this.isEditingSocials = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    final Map<String, dynamic>? form = const {},
+  }) : _form = form;
 
   @override
   @JsonKey()
@@ -222,13 +233,14 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isEditingSocials,
-      isSuccess,
-      isFailure,
-      errorMessage,
-      const DeepCollectionEquality().hash(_form));
+    runtimeType,
+    isLoading,
+    isEditingSocials,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    const DeepCollectionEquality().hash(_form),
+  );
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -240,13 +252,14 @@ class _$ProfileStateImpl implements _ProfileState {
 }
 
 abstract class _ProfileState implements ProfileState {
-  factory _ProfileState(
-      {final bool isLoading,
-      final bool isEditingSocials,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final Map<String, dynamic>? form}) = _$ProfileStateImpl;
+  factory _ProfileState({
+    final bool isLoading,
+    final bool isEditingSocials,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final Map<String, dynamic>? form,
+  }) = _$ProfileStateImpl;
 
   @override
   bool get isLoading;
