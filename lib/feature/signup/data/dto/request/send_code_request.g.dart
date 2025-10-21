@@ -7,13 +7,9 @@ part of 'send_code_request.dart';
 // **************************************************************************
 
 _$SendCodeRequestImpl _$$SendCodeRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SendCodeRequestImpl(
-      email: json['email'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$SendCodeRequestImpl(email: json['email'] as String);
 
 Map<String, dynamic> _$$SendCodeRequestImplToJson(
-        _$SendCodeRequestImpl instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-    };
+  _$SendCodeRequestImpl instance,
+) => <String, dynamic>{'email': instance.email};

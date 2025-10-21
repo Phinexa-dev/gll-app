@@ -12,7 +12,8 @@ part of 'user_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$UserState {
@@ -35,12 +36,13 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res, UserState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      UserModel? user});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    UserModel? user,
+  });
 
   $UserModelCopyWith<$Res>? get user;
 }
@@ -66,28 +68,31 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
     Object? errorMessage = freezed,
     Object? user = freezed,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            user: freezed == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                      as UserModel?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of UserState
@@ -109,16 +114,18 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
 abstract class _$$UserStateImplCopyWith<$Res>
     implements $UserStateCopyWith<$Res> {
   factory _$$UserStateImplCopyWith(
-          _$UserStateImpl value, $Res Function(_$UserStateImpl) then) =
-      __$$UserStateImplCopyWithImpl<$Res>;
+    _$UserStateImpl value,
+    $Res Function(_$UserStateImpl) then,
+  ) = __$$UserStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      UserModel? user});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    UserModel? user,
+  });
 
   @override
   $UserModelCopyWith<$Res>? get user;
@@ -129,8 +136,9 @@ class __$$UserStateImplCopyWithImpl<$Res>
     extends _$UserStateCopyWithImpl<$Res, _$UserStateImpl>
     implements _$$UserStateImplCopyWith<$Res> {
   __$$UserStateImplCopyWithImpl(
-      _$UserStateImpl _value, $Res Function(_$UserStateImpl) _then)
-      : super(_value, _then);
+    _$UserStateImpl _value,
+    $Res Function(_$UserStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -143,54 +151,57 @@ class __$$UserStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$UserStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
-    ));
+    return _then(
+      _$UserStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        user: freezed == user
+            ? _value.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as UserModel?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$UserStateImpl implements _UserState {
-  const _$UserStateImpl(
-      {this.isLoading = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      this.user});
+  const _$UserStateImpl({
+    this.isLoading = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    this.user,
+  });
 
   @override
   @JsonKey()
   final bool isLoading;
-// Loading state
+  // Loading state
   @override
   final bool? isSuccess;
-// Success state
+  // Success state
   @override
   final bool? isFailure;
-// Failure state
+  // Failure state
   @override
   final String? errorMessage;
-// Error message
+  // Error message
   @override
   final UserModel? user;
 
@@ -217,7 +228,13 @@ class _$UserStateImpl implements _UserState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isLoading, isSuccess, isFailure, errorMessage, user);
+    runtimeType,
+    isLoading,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    user,
+  );
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -229,12 +246,13 @@ class _$UserStateImpl implements _UserState {
 }
 
 abstract class _UserState implements UserState {
-  const factory _UserState(
-      {final bool isLoading,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final UserModel? user}) = _$UserStateImpl;
+  const factory _UserState({
+    final bool isLoading,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final UserModel? user,
+  }) = _$UserStateImpl;
 
   @override
   bool get isLoading; // Loading state

@@ -56,6 +56,11 @@ final class SipReportService implements IsipReportService {
       link: sipReportDataResponse.link,
       approved: sipReportDataResponse.approved,
       uid: sipReportDataResponse.uid,
+      user: SipReportUser(
+        id: sipReportDataResponse.user.id,
+        fullName: sipReportDataResponse.user.fullName,
+        email: sipReportDataResponse.user.email,
+      ),
     );
   }
 }

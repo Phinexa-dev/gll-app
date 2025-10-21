@@ -41,7 +41,8 @@ final class SignUpRepository implements ISignUpRepository {
   Future<bool> verifyCode(Map<String, dynamic> payload) async {
     try {
       final resp = await _signupApi.verifyCode(payload);
-      return resp['success'] == true || resp['verified'] == true;
+      // Check if the response contains the success message
+      return resp['message'] == 'Code verified successfully';
     } on DioException catch (_) {
       rethrow;
     }

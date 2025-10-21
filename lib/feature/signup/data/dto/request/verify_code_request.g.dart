@@ -7,15 +7,12 @@ part of 'verify_code_request.dart';
 // **************************************************************************
 
 _$VerifyCodeRequestImpl _$$VerifyCodeRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$VerifyCodeRequestImpl(
-      email: json['email'] as String,
-      code: json['code'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$VerifyCodeRequestImpl(
+  email: json['email'] as String,
+  code: json['code'] as String,
+);
 
 Map<String, dynamic> _$$VerifyCodeRequestImplToJson(
-        _$VerifyCodeRequestImpl instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-      'code': instance.code,
-    };
+  _$VerifyCodeRequestImpl instance,
+) => <String, dynamic>{'email': instance.email, 'code': instance.code};

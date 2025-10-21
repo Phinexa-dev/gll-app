@@ -12,7 +12,8 @@ part of 'verify_code_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 VerifyCodeRequest _$VerifyCodeRequestFromJson(Map<String, dynamic> json) {
   return _VerifyCodeRequest.fromJson(json);
@@ -36,8 +37,9 @@ mixin _$VerifyCodeRequest {
 /// @nodoc
 abstract class $VerifyCodeRequestCopyWith<$Res> {
   factory $VerifyCodeRequestCopyWith(
-          VerifyCodeRequest value, $Res Function(VerifyCodeRequest) then) =
-      _$VerifyCodeRequestCopyWithImpl<$Res, VerifyCodeRequest>;
+    VerifyCodeRequest value,
+    $Res Function(VerifyCodeRequest) then,
+  ) = _$VerifyCodeRequestCopyWithImpl<$Res, VerifyCodeRequest>;
   @useResult
   $Res call({String email, String code});
 }
@@ -56,29 +58,30 @@ class _$VerifyCodeRequestCopyWithImpl<$Res, $Val extends VerifyCodeRequest>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-    Object? code = null,
-  }) {
-    return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? email = null, Object? code = null}) {
+    return _then(
+      _value.copyWith(
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            code: null == code
+                ? _value.code
+                : code // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$VerifyCodeRequestImplCopyWith<$Res>
     implements $VerifyCodeRequestCopyWith<$Res> {
-  factory _$$VerifyCodeRequestImplCopyWith(_$VerifyCodeRequestImpl value,
-          $Res Function(_$VerifyCodeRequestImpl) then) =
-      __$$VerifyCodeRequestImplCopyWithImpl<$Res>;
+  factory _$$VerifyCodeRequestImplCopyWith(
+    _$VerifyCodeRequestImpl value,
+    $Res Function(_$VerifyCodeRequestImpl) then,
+  ) = __$$VerifyCodeRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String email, String code});
@@ -88,28 +91,28 @@ abstract class _$$VerifyCodeRequestImplCopyWith<$Res>
 class __$$VerifyCodeRequestImplCopyWithImpl<$Res>
     extends _$VerifyCodeRequestCopyWithImpl<$Res, _$VerifyCodeRequestImpl>
     implements _$$VerifyCodeRequestImplCopyWith<$Res> {
-  __$$VerifyCodeRequestImplCopyWithImpl(_$VerifyCodeRequestImpl _value,
-      $Res Function(_$VerifyCodeRequestImpl) _then)
-      : super(_value, _then);
+  __$$VerifyCodeRequestImplCopyWithImpl(
+    _$VerifyCodeRequestImpl _value,
+    $Res Function(_$VerifyCodeRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of VerifyCodeRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-    Object? code = null,
-  }) {
-    return _then(_$VerifyCodeRequestImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? email = null, Object? code = null}) {
+    return _then(
+      _$VerifyCodeRequestImpl(
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        code: null == code
+            ? _value.code
+            : code // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -151,20 +154,21 @@ class _$VerifyCodeRequestImpl implements _VerifyCodeRequest {
   @pragma('vm:prefer-inline')
   _$$VerifyCodeRequestImplCopyWith<_$VerifyCodeRequestImpl> get copyWith =>
       __$$VerifyCodeRequestImplCopyWithImpl<_$VerifyCodeRequestImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VerifyCodeRequestImplToJson(
-      this,
-    );
+    return _$$VerifyCodeRequestImplToJson(this);
   }
 }
 
 abstract class _VerifyCodeRequest implements VerifyCodeRequest {
-  factory _VerifyCodeRequest(
-      {required final String email,
-      required final String code}) = _$VerifyCodeRequestImpl;
+  factory _VerifyCodeRequest({
+    required final String email,
+    required final String code,
+  }) = _$VerifyCodeRequestImpl;
 
   factory _VerifyCodeRequest.fromJson(Map<String, dynamic> json) =
       _$VerifyCodeRequestImpl.fromJson;

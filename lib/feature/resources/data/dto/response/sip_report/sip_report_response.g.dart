@@ -6,6 +6,22 @@ part of 'sip_report_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$SipReportUserResponseImpl _$$SipReportUserResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$SipReportUserResponseImpl(
+  id: (json['id'] as num).toInt(),
+  fullName: json['fullName'] as String,
+  email: json['email'] as String,
+);
+
+Map<String, dynamic> _$$SipReportUserResponseImplToJson(
+  _$SipReportUserResponseImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'fullName': instance.fullName,
+  'email': instance.email,
+};
+
 _$SipReportResponseImpl _$$SipReportResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$SipReportResponseImpl(
@@ -16,6 +32,7 @@ _$SipReportResponseImpl _$$SipReportResponseImplFromJson(
   link: json['link'] as String?,
   approved: (json['approved'] as num).toInt(),
   uid: (json['uid'] as num).toInt(),
+  user: SipReportUserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$SipReportResponseImplToJson(
@@ -28,4 +45,5 @@ Map<String, dynamic> _$$SipReportResponseImplToJson(
   'link': instance.link,
   'approved': instance.approved,
   'uid': instance.uid,
+  'user': instance.user,
 };

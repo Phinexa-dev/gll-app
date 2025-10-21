@@ -33,6 +33,9 @@ class _SignUpState extends ConsumerState<SignUp> {
   late TextEditingController phoneNumberController;
   late TextEditingController verificationCodeController;
 
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -73,15 +76,8 @@ class _SignUpState extends ConsumerState<SignUp> {
     final signUpState = ref.watch(signUpControllerProvider);
     final isLoading = signUpState.isLoading;
     ref.listen<SignUpState>(signUpControllerProvider, (previous, next) {
-      if (next.isSuccess != null && next.isSuccess == true) {
-        feedBackService.showToast(
-          "Registration successful",
-          type: FeedbackType.success,
-        );
-        ref.read(signUpControllerProvider.notifier).clearStates();
-        ref.read(genderProvider.notifier).state = '';
-        // context.goNamed(RouteName.signIn);
-      } else if (next.isFailure != null && next.isFailure == true) {
+      // Only show error messages here, success is handled in the controller
+      if (next.isFailure != null && next.isFailure == true) {
         final errorMessage = ref.watch(signUpControllerProvider).errorMessage;
         ref.read(signUpControllerProvider.notifier).clearStates();
         feedBackService.showToast(
@@ -331,23 +327,50 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 CustomTextField(
                                   labelText: 'Password',
                                   controller: passwordController,
-                                  obscureText: true,
+                                  obscureText: !_isPasswordVisible,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp(r'^[a-zA-Z0-9@#\$%\^&\+=]*$'),
                                     ),
                                   ],
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _isPasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isPasswordVisible = !_isPasswordVisible;
+                                      });
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(height: 8),
                                 CustomTextField(
                                   labelText: 'Confirm Password',
                                   controller: confirmPasswordController,
-                                  obscureText: true,
+                                  obscureText: !_isConfirmPasswordVisible,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp(r'^[a-zA-Z0-9@#\$%\^&\+=]*$'),
                                     ),
                                   ],
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _isConfirmPasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isConfirmPasswordVisible =
+                                            !_isConfirmPasswordVisible;
+                                      });
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(height: 8),
                                 Align(

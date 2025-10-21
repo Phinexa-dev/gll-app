@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatters;
   final int? minLines;
   final int? maxLines;
+  final Widget? suffixIcon;
 
   const CustomTextField({
     super.key,
@@ -22,6 +23,7 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters =  const [],
     this.minLines,
     this.maxLines,
+    this.suffixIcon,
   });
 
   @override
@@ -41,6 +43,7 @@ class CustomTextField extends StatelessWidget {
           labelStyle: PhinexaFont.labelRegular.copyWith(
             color: Colors.grey,
           ),
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
           ),

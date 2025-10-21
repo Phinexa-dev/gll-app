@@ -15,6 +15,229 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+SipReportUserResponse _$SipReportUserResponseFromJson(
+  Map<String, dynamic> json,
+) {
+  return _SipReportUserResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SipReportUserResponse {
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "fullName")
+  String get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: "email")
+  String get email => throw _privateConstructorUsedError;
+
+  /// Serializes this SipReportUserResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SipReportUserResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SipReportUserResponseCopyWith<SipReportUserResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SipReportUserResponseCopyWith<$Res> {
+  factory $SipReportUserResponseCopyWith(
+    SipReportUserResponse value,
+    $Res Function(SipReportUserResponse) then,
+  ) = _$SipReportUserResponseCopyWithImpl<$Res, SipReportUserResponse>;
+  @useResult
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+  });
+}
+
+/// @nodoc
+class _$SipReportUserResponseCopyWithImpl<
+  $Res,
+  $Val extends SipReportUserResponse
+>
+    implements $SipReportUserResponseCopyWith<$Res> {
+  _$SipReportUserResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SipReportUserResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? email = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fullName: null == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$SipReportUserResponseImplCopyWith<$Res>
+    implements $SipReportUserResponseCopyWith<$Res> {
+  factory _$$SipReportUserResponseImplCopyWith(
+    _$SipReportUserResponseImpl value,
+    $Res Function(_$SipReportUserResponseImpl) then,
+  ) = __$$SipReportUserResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+  });
+}
+
+/// @nodoc
+class __$$SipReportUserResponseImplCopyWithImpl<$Res>
+    extends
+        _$SipReportUserResponseCopyWithImpl<$Res, _$SipReportUserResponseImpl>
+    implements _$$SipReportUserResponseImplCopyWith<$Res> {
+  __$$SipReportUserResponseImplCopyWithImpl(
+    _$SipReportUserResponseImpl _value,
+    $Res Function(_$SipReportUserResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SipReportUserResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? email = null,
+  }) {
+    return _then(
+      _$SipReportUserResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fullName: null == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SipReportUserResponseImpl implements _SipReportUserResponse {
+  const _$SipReportUserResponseImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "fullName") required this.fullName,
+    @JsonKey(name: "email") required this.email,
+  });
+
+  factory _$SipReportUserResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SipReportUserResponseImplFromJson(json);
+
+  @override
+  @JsonKey(name: "id")
+  final int id;
+  @override
+  @JsonKey(name: "fullName")
+  final String fullName;
+  @override
+  @JsonKey(name: "email")
+  final String email;
+
+  @override
+  String toString() {
+    return 'SipReportUserResponse(id: $id, fullName: $fullName, email: $email)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SipReportUserResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, fullName, email);
+
+  /// Create a copy of SipReportUserResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SipReportUserResponseImplCopyWith<_$SipReportUserResponseImpl>
+  get copyWith =>
+      __$$SipReportUserResponseImplCopyWithImpl<_$SipReportUserResponseImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SipReportUserResponseImplToJson(this);
+  }
+}
+
+abstract class _SipReportUserResponse implements SipReportUserResponse {
+  const factory _SipReportUserResponse({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "fullName") required final String fullName,
+    @JsonKey(name: "email") required final String email,
+  }) = _$SipReportUserResponseImpl;
+
+  factory _SipReportUserResponse.fromJson(Map<String, dynamic> json) =
+      _$SipReportUserResponseImpl.fromJson;
+
+  @override
+  @JsonKey(name: "id")
+  int get id;
+  @override
+  @JsonKey(name: "fullName")
+  String get fullName;
+  @override
+  @JsonKey(name: "email")
+  String get email;
+
+  /// Create a copy of SipReportUserResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SipReportUserResponseImplCopyWith<_$SipReportUserResponseImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
 SipReportResponse _$SipReportResponseFromJson(Map<String, dynamic> json) {
   return _SipReportResponse.fromJson(json);
 }
@@ -35,6 +258,8 @@ mixin _$SipReportResponse {
   int get approved => throw _privateConstructorUsedError;
   @JsonKey(name: "uid")
   int get uid => throw _privateConstructorUsedError;
+  @JsonKey(name: "user")
+  SipReportUserResponse get user => throw _privateConstructorUsedError;
 
   /// Serializes this SipReportResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -61,7 +286,10 @@ abstract class $SipReportResponseCopyWith<$Res> {
     @JsonKey(name: "link") String? link,
     @JsonKey(name: "approved") int approved,
     @JsonKey(name: "uid") int uid,
+    @JsonKey(name: "user") SipReportUserResponse user,
   });
+
+  $SipReportUserResponseCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -86,6 +314,7 @@ class _$SipReportResponseCopyWithImpl<$Res, $Val extends SipReportResponse>
     Object? link = freezed,
     Object? approved = null,
     Object? uid = null,
+    Object? user = null,
   }) {
     return _then(
       _value.copyWith(
@@ -117,9 +346,23 @@ class _$SipReportResponseCopyWithImpl<$Res, $Val extends SipReportResponse>
                 ? _value.uid
                 : uid // ignore: cast_nullable_to_non_nullable
                       as int,
+            user: null == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                      as SipReportUserResponse,
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of SipReportResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SipReportUserResponseCopyWith<$Res> get user {
+    return $SipReportUserResponseCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -140,7 +383,11 @@ abstract class _$$SipReportResponseImplCopyWith<$Res>
     @JsonKey(name: "link") String? link,
     @JsonKey(name: "approved") int approved,
     @JsonKey(name: "uid") int uid,
+    @JsonKey(name: "user") SipReportUserResponse user,
   });
+
+  @override
+  $SipReportUserResponseCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -164,6 +411,7 @@ class __$$SipReportResponseImplCopyWithImpl<$Res>
     Object? link = freezed,
     Object? approved = null,
     Object? uid = null,
+    Object? user = null,
   }) {
     return _then(
       _$SipReportResponseImpl(
@@ -195,6 +443,10 @@ class __$$SipReportResponseImplCopyWithImpl<$Res>
             ? _value.uid
             : uid // ignore: cast_nullable_to_non_nullable
                   as int,
+        user: null == user
+            ? _value.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as SipReportUserResponse,
       ),
     );
   }
@@ -211,6 +463,7 @@ class _$SipReportResponseImpl implements _SipReportResponse {
     @JsonKey(name: "link") this.link,
     @JsonKey(name: "approved") required this.approved,
     @JsonKey(name: "uid") required this.uid,
+    @JsonKey(name: "user") required this.user,
   });
 
   factory _$SipReportResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -237,10 +490,13 @@ class _$SipReportResponseImpl implements _SipReportResponse {
   @override
   @JsonKey(name: "uid")
   final int uid;
+  @override
+  @JsonKey(name: "user")
+  final SipReportUserResponse user;
 
   @override
   String toString() {
-    return 'SipReportResponse(id: $id, title: $title, description: $description, image: $image, link: $link, approved: $approved, uid: $uid)';
+    return 'SipReportResponse(id: $id, title: $title, description: $description, image: $image, link: $link, approved: $approved, uid: $uid, user: $user)';
   }
 
   @override
@@ -256,7 +512,8 @@ class _$SipReportResponseImpl implements _SipReportResponse {
             (identical(other.link, link) || other.link == link) &&
             (identical(other.approved, approved) ||
                 other.approved == approved) &&
-            (identical(other.uid, uid) || other.uid == uid));
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -270,6 +527,7 @@ class _$SipReportResponseImpl implements _SipReportResponse {
     link,
     approved,
     uid,
+    user,
   );
 
   /// Create a copy of SipReportResponse
@@ -298,6 +556,7 @@ abstract class _SipReportResponse implements SipReportResponse {
     @JsonKey(name: "link") final String? link,
     @JsonKey(name: "approved") required final int approved,
     @JsonKey(name: "uid") required final int uid,
+    @JsonKey(name: "user") required final SipReportUserResponse user,
   }) = _$SipReportResponseImpl;
 
   factory _SipReportResponse.fromJson(Map<String, dynamic> json) =
@@ -324,6 +583,9 @@ abstract class _SipReportResponse implements SipReportResponse {
   @override
   @JsonKey(name: "uid")
   int get uid;
+  @override
+  @JsonKey(name: "user")
+  SipReportUserResponse get user;
 
   /// Create a copy of SipReportResponse
   /// with the given fields replaced by the non-null parameter values.

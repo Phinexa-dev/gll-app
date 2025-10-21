@@ -23,7 +23,7 @@ class _SipReportPostWidgetState extends ConsumerState<SipReportPostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final authorName = _getAuthorNameFromUrl(widget.report.image);
+    final authorName = widget.report.user.fullName;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -206,28 +206,5 @@ class _SipReportPostWidgetState extends ConsumerState<SipReportPostWidget> {
         ),
       ),
     );
-  }
-
-  // --- FINAL WORKING FUNCTION FOR FIREBASE URLS ---
-  String _getAuthorNameFromUrl(String url) {
-    try {
-      // 1. Create a Uri object from the full URL string.
-      final uri = Uri.parse(url);
-
-      final encodedPath = uri.pathSegments.last;
-
-      final decodedPath = Uri.decodeComponent(encodedPath);
-
-      final pathParts = decodedPath.split('/');
-
-      if (pathParts.length >= 2) {
-        return pathParts[pathParts.length - 2];
-      }
-
-      return 'Unknown Author'; // Fallback
-    } catch (e) {
-      print("Error parsing Firebase URL: $e");
-      return 'Unknown Author'; // Fallback
-    }
   }
 }
