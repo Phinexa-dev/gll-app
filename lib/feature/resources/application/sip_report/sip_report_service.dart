@@ -23,8 +23,8 @@ final class SipReportService implements IsipReportService {
     try {
       final response = await _sipReportRepository.uploadSipReport(data);
 
-      // final educationDataModel = _mapToEducationDataModel(response);
-      return true;
+      // Check if upload was successful
+      return response.success == true || response.message != null;
     } on DioException catch (_) {
       rethrow;
     }

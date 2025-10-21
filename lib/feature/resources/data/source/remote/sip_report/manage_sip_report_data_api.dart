@@ -5,6 +5,7 @@ import 'package:gll/feature/resources/data/dto/request/sip_report/upload_sip_rep
 import 'package:retrofit/retrofit.dart';
 
 import '../../../dto/response/sip_report/sip_report_response.dart';
+import '../../../dto/response/sip_report/upload_sip_report_response.dart';
 
 part 'manage_sip_report_data_api.g.dart';
 
@@ -22,6 +23,6 @@ abstract class ManageSipReportDataApi {
   Future<List<SipReportResponse>> getSipReports();
 
   @POST('/sip')
-  Future<SipReportResponse> uploadSipReport(
+  Future<UploadSipReportResponse> uploadSipReport(
       @Body() UploadSipReportRequest data);
 }

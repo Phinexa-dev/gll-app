@@ -50,12 +50,14 @@ class _ManageSipReportDataApi implements ManageSipReportDataApi {
   }
 
   @override
-  Future<SipReportResponse> uploadSipReport(UploadSipReportRequest data) async {
+  Future<UploadSipReportResponse> uploadSipReport(
+    UploadSipReportRequest data,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = data;
-    final _options = _setStreamType<SipReportResponse>(
+    final _options = _setStreamType<UploadSipReportResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -66,9 +68,9 @@ class _ManageSipReportDataApi implements ManageSipReportDataApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SipReportResponse _value;
+    late UploadSipReportResponse _value;
     try {
-      _value = SipReportResponse.fromJson(_result.data!);
+      _value = UploadSipReportResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
