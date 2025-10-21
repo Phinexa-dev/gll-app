@@ -12,7 +12,8 @@ part of 'sign_up_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignUpState {
@@ -32,15 +33,17 @@ mixin _$SignUpState {
 /// @nodoc
 abstract class $SignUpStateCopyWith<$Res> {
   factory $SignUpStateCopyWith(
-          SignUpState value, $Res Function(SignUpState) then) =
-      _$SignUpStateCopyWithImpl<$Res, SignUpState>;
+    SignUpState value,
+    $Res Function(SignUpState) then,
+  ) = _$SignUpStateCopyWithImpl<$Res, SignUpState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? signUpForm});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? signUpForm,
+  });
 }
 
 /// @nodoc
@@ -64,28 +67,31 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
     Object? errorMessage = freezed,
     Object? signUpForm = freezed,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      signUpForm: freezed == signUpForm
-          ? _value.signUpForm
-          : signUpForm // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            signUpForm: freezed == signUpForm
+                ? _value.signUpForm
+                : signUpForm // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -93,16 +99,18 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
 abstract class _$$SignUpStateImplCopyWith<$Res>
     implements $SignUpStateCopyWith<$Res> {
   factory _$$SignUpStateImplCopyWith(
-          _$SignUpStateImpl value, $Res Function(_$SignUpStateImpl) then) =
-      __$$SignUpStateImplCopyWithImpl<$Res>;
+    _$SignUpStateImpl value,
+    $Res Function(_$SignUpStateImpl) then,
+  ) = __$$SignUpStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? signUpForm});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? signUpForm,
+  });
 }
 
 /// @nodoc
@@ -110,8 +118,9 @@ class __$$SignUpStateImplCopyWithImpl<$Res>
     extends _$SignUpStateCopyWithImpl<$Res, _$SignUpStateImpl>
     implements _$$SignUpStateImplCopyWith<$Res> {
   __$$SignUpStateImplCopyWithImpl(
-      _$SignUpStateImpl _value, $Res Function(_$SignUpStateImpl) _then)
-      : super(_value, _then);
+    _$SignUpStateImpl _value,
+    $Res Function(_$SignUpStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignUpState
   /// with the given fields replaced by the non-null parameter values.
@@ -124,41 +133,43 @@ class __$$SignUpStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? signUpForm = freezed,
   }) {
-    return _then(_$SignUpStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      signUpForm: freezed == signUpForm
-          ? _value._signUpForm
-          : signUpForm // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$SignUpStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        signUpForm: freezed == signUpForm
+            ? _value._signUpForm
+            : signUpForm // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SignUpStateImpl implements _SignUpState {
-  _$SignUpStateImpl(
-      {this.isLoading = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      final Map<String, dynamic>? signUpForm = const {}})
-      : _signUpForm = signUpForm;
+  _$SignUpStateImpl({
+    this.isLoading = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    final Map<String, dynamic>? signUpForm = const {},
+  }) : _signUpForm = signUpForm;
 
   @override
   @JsonKey()
@@ -198,13 +209,21 @@ class _$SignUpStateImpl implements _SignUpState {
                 other.isFailure == isFailure) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality()
-                .equals(other._signUpForm, _signUpForm));
+            const DeepCollectionEquality().equals(
+              other._signUpForm,
+              _signUpForm,
+            ));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSuccess, isFailure,
-      errorMessage, const DeepCollectionEquality().hash(_signUpForm));
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLoading,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    const DeepCollectionEquality().hash(_signUpForm),
+  );
 
   /// Create a copy of SignUpState
   /// with the given fields replaced by the non-null parameter values.
@@ -216,12 +235,13 @@ class _$SignUpStateImpl implements _SignUpState {
 }
 
 abstract class _SignUpState implements SignUpState {
-  factory _SignUpState(
-      {final bool isLoading,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final Map<String, dynamic>? signUpForm}) = _$SignUpStateImpl;
+  factory _SignUpState({
+    final bool isLoading,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final Map<String, dynamic>? signUpForm,
+  }) = _$SignUpStateImpl;
 
   @override
   bool get isLoading;

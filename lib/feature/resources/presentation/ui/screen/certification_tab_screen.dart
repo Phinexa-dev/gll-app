@@ -5,7 +5,7 @@ import 'package:gll/feature/other/application/certification/certification_servic
 import 'package:gll/feature/resources/presentation/controller/certificate/certificate_controller.dart';
 
 import '../../../../../core/data/local/ countries.dart';
-import '../../../../events/presentation/ui/widgets/custom_searchable_dropdown.dart';
+import '../../../../event/presentation/ui/widgets/custom_searchable_dropdown.dart';
 import '../provider/certification_preview_provider.dart';
 
 class CertificationTabScreen extends ConsumerStatefulWidget {

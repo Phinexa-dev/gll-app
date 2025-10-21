@@ -12,7 +12,8 @@ part of 'sign_in_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SignInResponse _$SignInResponseFromJson(Map<String, dynamic> json) {
   return _SignInResponse.fromJson(json);
@@ -38,12 +39,14 @@ mixin _$SignInResponse {
 /// @nodoc
 abstract class $SignInResponseCopyWith<$Res> {
   factory $SignInResponseCopyWith(
-          SignInResponse value, $Res Function(SignInResponse) then) =
-      _$SignInResponseCopyWithImpl<$Res, SignInResponse>;
+    SignInResponse value,
+    $Res Function(SignInResponse) then,
+  ) = _$SignInResponseCopyWithImpl<$Res, SignInResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "access_token") String accessToken,
-      @JsonKey(name: "user") User user});
+  $Res call({
+    @JsonKey(name: "access_token") String accessToken,
+    @JsonKey(name: "user") User user,
+  });
 
   $UserCopyWith<$Res> get user;
 }
@@ -62,20 +65,20 @@ class _$SignInResponseCopyWithImpl<$Res, $Val extends SignInResponse>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? accessToken = null,
-    Object? user = null,
-  }) {
-    return _then(_value.copyWith(
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
-    ) as $Val);
+  $Res call({Object? accessToken = null, Object? user = null}) {
+    return _then(
+      _value.copyWith(
+            accessToken: null == accessToken
+                ? _value.accessToken
+                : accessToken // ignore: cast_nullable_to_non_nullable
+                      as String,
+            user: null == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                      as User,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of SignInResponse
@@ -92,14 +95,16 @@ class _$SignInResponseCopyWithImpl<$Res, $Val extends SignInResponse>
 /// @nodoc
 abstract class _$$SignInResponseImplCopyWith<$Res>
     implements $SignInResponseCopyWith<$Res> {
-  factory _$$SignInResponseImplCopyWith(_$SignInResponseImpl value,
-          $Res Function(_$SignInResponseImpl) then) =
-      __$$SignInResponseImplCopyWithImpl<$Res>;
+  factory _$$SignInResponseImplCopyWith(
+    _$SignInResponseImpl value,
+    $Res Function(_$SignInResponseImpl) then,
+  ) = __$$SignInResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "access_token") String accessToken,
-      @JsonKey(name: "user") User user});
+  $Res call({
+    @JsonKey(name: "access_token") String accessToken,
+    @JsonKey(name: "user") User user,
+  });
 
   @override
   $UserCopyWith<$Res> get user;
@@ -110,36 +115,37 @@ class __$$SignInResponseImplCopyWithImpl<$Res>
     extends _$SignInResponseCopyWithImpl<$Res, _$SignInResponseImpl>
     implements _$$SignInResponseImplCopyWith<$Res> {
   __$$SignInResponseImplCopyWithImpl(
-      _$SignInResponseImpl _value, $Res Function(_$SignInResponseImpl) _then)
-      : super(_value, _then);
+    _$SignInResponseImpl _value,
+    $Res Function(_$SignInResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? accessToken = null,
-    Object? user = null,
-  }) {
-    return _then(_$SignInResponseImpl(
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
-    ));
+  $Res call({Object? accessToken = null, Object? user = null}) {
+    return _then(
+      _$SignInResponseImpl(
+        accessToken: null == accessToken
+            ? _value.accessToken
+            : accessToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        user: null == user
+            ? _value.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as User,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SignInResponseImpl implements _SignInResponse {
-  const _$SignInResponseImpl(
-      {@JsonKey(name: "access_token") required this.accessToken,
-      @JsonKey(name: "user") required this.user});
+  const _$SignInResponseImpl({
+    @JsonKey(name: "access_token") required this.accessToken,
+    @JsonKey(name: "user") required this.user,
+  });
 
   factory _$SignInResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignInResponseImplFromJson(json);
@@ -177,20 +183,21 @@ class _$SignInResponseImpl implements _SignInResponse {
   @pragma('vm:prefer-inline')
   _$$SignInResponseImplCopyWith<_$SignInResponseImpl> get copyWith =>
       __$$SignInResponseImplCopyWithImpl<_$SignInResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignInResponseImplToJson(
-      this,
-    );
+    return _$$SignInResponseImplToJson(this);
   }
 }
 
 abstract class _SignInResponse implements SignInResponse {
-  const factory _SignInResponse(
-      {@JsonKey(name: "access_token") required final String accessToken,
-      @JsonKey(name: "user") required final User user}) = _$SignInResponseImpl;
+  const factory _SignInResponse({
+    @JsonKey(name: "access_token") required final String accessToken,
+    @JsonKey(name: "user") required final User user,
+  }) = _$SignInResponseImpl;
 
   factory _SignInResponse.fromJson(Map<String, dynamic> json) =
       _$SignInResponseImpl.fromJson;
@@ -255,19 +262,20 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "dialCode") String dialCode,
-      @JsonKey(name: "mobileNumber") String mobileNumber,
-      @JsonKey(name: "country") dynamic country,
-      @JsonKey(name: "faceBook") dynamic faceBook,
-      @JsonKey(name: "blog") dynamic blog,
-      @JsonKey(name: "twitter") dynamic twitter,
-      @JsonKey(name: "x") dynamic x,
-      @JsonKey(name: "instagram") dynamic instagram,
-      @JsonKey(name: "userIntrests") dynamic userIntrests});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "dialCode") String dialCode,
+    @JsonKey(name: "mobileNumber") String mobileNumber,
+    @JsonKey(name: "country") dynamic country,
+    @JsonKey(name: "faceBook") dynamic faceBook,
+    @JsonKey(name: "blog") dynamic blog,
+    @JsonKey(name: "twitter") dynamic twitter,
+    @JsonKey(name: "x") dynamic x,
+    @JsonKey(name: "instagram") dynamic instagram,
+    @JsonKey(name: "userIntrests") dynamic userIntrests,
+  });
 }
 
 /// @nodoc
@@ -298,79 +306,84 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? instagram = freezed,
     Object? userIntrests = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fullName: null == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dialCode: null == dialCode
+                ? _value.dialCode
+                : dialCode // ignore: cast_nullable_to_non_nullable
+                      as String,
+            mobileNumber: null == mobileNumber
+                ? _value.mobileNumber
+                : mobileNumber // ignore: cast_nullable_to_non_nullable
+                      as String,
+            country: freezed == country
+                ? _value.country
+                : country // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            faceBook: freezed == faceBook
+                ? _value.faceBook
+                : faceBook // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            blog: freezed == blog
+                ? _value.blog
+                : blog // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            twitter: freezed == twitter
+                ? _value.twitter
+                : twitter // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            x: freezed == x
+                ? _value.x
+                : x // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            instagram: freezed == instagram
+                ? _value.instagram
+                : instagram // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+            userIntrests: freezed == userIntrests
+                ? _value.userIntrests
+                : userIntrests // ignore: cast_nullable_to_non_nullable
+                      as dynamic,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$UserImplCopyWith(
-          _$UserImpl value, $Res Function(_$UserImpl) then) =
-      __$$UserImplCopyWithImpl<$Res>;
+    _$UserImpl value,
+    $Res Function(_$UserImpl) then,
+  ) = __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "dialCode") String dialCode,
-      @JsonKey(name: "mobileNumber") String mobileNumber,
-      @JsonKey(name: "country") dynamic country,
-      @JsonKey(name: "faceBook") dynamic faceBook,
-      @JsonKey(name: "blog") dynamic blog,
-      @JsonKey(name: "twitter") dynamic twitter,
-      @JsonKey(name: "x") dynamic x,
-      @JsonKey(name: "instagram") dynamic instagram,
-      @JsonKey(name: "userIntrests") dynamic userIntrests});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "dialCode") String dialCode,
+    @JsonKey(name: "mobileNumber") String mobileNumber,
+    @JsonKey(name: "country") dynamic country,
+    @JsonKey(name: "faceBook") dynamic faceBook,
+    @JsonKey(name: "blog") dynamic blog,
+    @JsonKey(name: "twitter") dynamic twitter,
+    @JsonKey(name: "x") dynamic x,
+    @JsonKey(name: "instagram") dynamic instagram,
+    @JsonKey(name: "userIntrests") dynamic userIntrests,
+  });
 }
 
 /// @nodoc
@@ -378,7 +391,7 @@ class __$$UserImplCopyWithImpl<$Res>
     extends _$UserCopyWithImpl<$Res, _$UserImpl>
     implements _$$UserImplCopyWith<$Res> {
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -398,75 +411,78 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? instagram = freezed,
     Object? userIntrests = freezed,
   }) {
-    return _then(_$UserImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ));
+    return _then(
+      _$UserImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fullName: null == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dialCode: null == dialCode
+            ? _value.dialCode
+            : dialCode // ignore: cast_nullable_to_non_nullable
+                  as String,
+        mobileNumber: null == mobileNumber
+            ? _value.mobileNumber
+            : mobileNumber // ignore: cast_nullable_to_non_nullable
+                  as String,
+        country: freezed == country
+            ? _value.country
+            : country // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        faceBook: freezed == faceBook
+            ? _value.faceBook
+            : faceBook // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        blog: freezed == blog
+            ? _value.blog
+            : blog // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        twitter: freezed == twitter
+            ? _value.twitter
+            : twitter // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        x: freezed == x
+            ? _value.x
+            : x // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        instagram: freezed == instagram
+            ? _value.instagram
+            : instagram // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+        userIntrests: freezed == userIntrests
+            ? _value.userIntrests
+            : userIntrests // ignore: cast_nullable_to_non_nullable
+                  as dynamic,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  const _$UserImpl(
-      {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email,
-      @JsonKey(name: "dialCode") required this.dialCode,
-      @JsonKey(name: "mobileNumber") required this.mobileNumber,
-      @JsonKey(name: "country") required this.country,
-      @JsonKey(name: "faceBook") required this.faceBook,
-      @JsonKey(name: "blog") required this.blog,
-      @JsonKey(name: "twitter") required this.twitter,
-      @JsonKey(name: "x") required this.x,
-      @JsonKey(name: "instagram") required this.instagram,
-      @JsonKey(name: "userIntrests") required this.userIntrests});
+  const _$UserImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "fullName") required this.fullName,
+    @JsonKey(name: "email") required this.email,
+    @JsonKey(name: "dialCode") required this.dialCode,
+    @JsonKey(name: "mobileNumber") required this.mobileNumber,
+    @JsonKey(name: "country") required this.country,
+    @JsonKey(name: "faceBook") required this.faceBook,
+    @JsonKey(name: "blog") required this.blog,
+    @JsonKey(name: "twitter") required this.twitter,
+    @JsonKey(name: "x") required this.x,
+    @JsonKey(name: "instagram") required this.instagram,
+    @JsonKey(name: "userIntrests") required this.userIntrests,
+  });
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -532,26 +548,29 @@ class _$UserImpl implements _User {
             const DeepCollectionEquality().equals(other.twitter, twitter) &&
             const DeepCollectionEquality().equals(other.x, x) &&
             const DeepCollectionEquality().equals(other.instagram, instagram) &&
-            const DeepCollectionEquality()
-                .equals(other.userIntrests, userIntrests));
+            const DeepCollectionEquality().equals(
+              other.userIntrests,
+              userIntrests,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      fullName,
-      email,
-      dialCode,
-      mobileNumber,
-      const DeepCollectionEquality().hash(country),
-      const DeepCollectionEquality().hash(faceBook),
-      const DeepCollectionEquality().hash(blog),
-      const DeepCollectionEquality().hash(twitter),
-      const DeepCollectionEquality().hash(x),
-      const DeepCollectionEquality().hash(instagram),
-      const DeepCollectionEquality().hash(userIntrests));
+    runtimeType,
+    id,
+    fullName,
+    email,
+    dialCode,
+    mobileNumber,
+    const DeepCollectionEquality().hash(country),
+    const DeepCollectionEquality().hash(faceBook),
+    const DeepCollectionEquality().hash(blog),
+    const DeepCollectionEquality().hash(twitter),
+    const DeepCollectionEquality().hash(x),
+    const DeepCollectionEquality().hash(instagram),
+    const DeepCollectionEquality().hash(userIntrests),
+  );
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -563,27 +582,25 @@ class _$UserImpl implements _User {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserImplToJson(
-      this,
-    );
+    return _$$UserImplToJson(this);
   }
 }
 
 abstract class _User implements User {
-  const factory _User(
-          {@JsonKey(name: "id") required final int id,
-          @JsonKey(name: "fullName") required final String fullName,
-          @JsonKey(name: "email") required final String email,
-          @JsonKey(name: "dialCode") required final String dialCode,
-          @JsonKey(name: "mobileNumber") required final String mobileNumber,
-          @JsonKey(name: "country") required final dynamic country,
-          @JsonKey(name: "faceBook") required final dynamic faceBook,
-          @JsonKey(name: "blog") required final dynamic blog,
-          @JsonKey(name: "twitter") required final dynamic twitter,
-          @JsonKey(name: "x") required final dynamic x,
-          @JsonKey(name: "instagram") required final dynamic instagram,
-          @JsonKey(name: "userIntrests") required final dynamic userIntrests}) =
-      _$UserImpl;
+  const factory _User({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "fullName") required final String fullName,
+    @JsonKey(name: "email") required final String email,
+    @JsonKey(name: "dialCode") required final String dialCode,
+    @JsonKey(name: "mobileNumber") required final String mobileNumber,
+    @JsonKey(name: "country") required final dynamic country,
+    @JsonKey(name: "faceBook") required final dynamic faceBook,
+    @JsonKey(name: "blog") required final dynamic blog,
+    @JsonKey(name: "twitter") required final dynamic twitter,
+    @JsonKey(name: "x") required final dynamic x,
+    @JsonKey(name: "instagram") required final dynamic instagram,
+    @JsonKey(name: "userIntrests") required final dynamic userIntrests,
+  }) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 

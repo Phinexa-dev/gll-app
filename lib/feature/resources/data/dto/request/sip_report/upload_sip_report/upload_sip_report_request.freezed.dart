@@ -12,10 +12,12 @@ part of 'upload_sip_report_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 UploadSipReportRequest _$UploadSipReportRequestFromJson(
-    Map<String, dynamic> json) {
+  Map<String, dynamic> json,
+) {
   return _UploadSipReportRequest.fromJson(json);
 }
 
@@ -42,20 +44,24 @@ mixin _$UploadSipReportRequest {
 
 /// @nodoc
 abstract class $UploadSipReportRequestCopyWith<$Res> {
-  factory $UploadSipReportRequestCopyWith(UploadSipReportRequest value,
-          $Res Function(UploadSipReportRequest) then) =
-      _$UploadSipReportRequestCopyWithImpl<$Res, UploadSipReportRequest>;
+  factory $UploadSipReportRequestCopyWith(
+    UploadSipReportRequest value,
+    $Res Function(UploadSipReportRequest) then,
+  ) = _$UploadSipReportRequestCopyWithImpl<$Res, UploadSipReportRequest>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "image") String image,
-      @JsonKey(name: "link") String? link});
+  $Res call({
+    @JsonKey(name: "title") String title,
+    @JsonKey(name: "description") String description,
+    @JsonKey(name: "image") String image,
+    @JsonKey(name: "link") String? link,
+  });
 }
 
 /// @nodoc
-class _$UploadSipReportRequestCopyWithImpl<$Res,
-        $Val extends UploadSipReportRequest>
+class _$UploadSipReportRequestCopyWithImpl<
+  $Res,
+  $Val extends UploadSipReportRequest
+>
     implements $UploadSipReportRequestCopyWith<$Res> {
   _$UploadSipReportRequestCopyWithImpl(this._value, this._then);
 
@@ -74,24 +80,27 @@ class _$UploadSipReportRequestCopyWithImpl<$Res,
     Object? image = null,
     Object? link = freezed,
   }) {
-    return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            image: null == image
+                ? _value.image
+                : image // ignore: cast_nullable_to_non_nullable
+                      as String,
+            link: freezed == link
+                ? _value.link
+                : link // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -99,27 +108,28 @@ class _$UploadSipReportRequestCopyWithImpl<$Res,
 abstract class _$$UploadSipReportRequestImplCopyWith<$Res>
     implements $UploadSipReportRequestCopyWith<$Res> {
   factory _$$UploadSipReportRequestImplCopyWith(
-          _$UploadSipReportRequestImpl value,
-          $Res Function(_$UploadSipReportRequestImpl) then) =
-      __$$UploadSipReportRequestImplCopyWithImpl<$Res>;
+    _$UploadSipReportRequestImpl value,
+    $Res Function(_$UploadSipReportRequestImpl) then,
+  ) = __$$UploadSipReportRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "image") String image,
-      @JsonKey(name: "link") String? link});
+  $Res call({
+    @JsonKey(name: "title") String title,
+    @JsonKey(name: "description") String description,
+    @JsonKey(name: "image") String image,
+    @JsonKey(name: "link") String? link,
+  });
 }
 
 /// @nodoc
 class __$$UploadSipReportRequestImplCopyWithImpl<$Res>
-    extends _$UploadSipReportRequestCopyWithImpl<$Res,
-        _$UploadSipReportRequestImpl>
+    extends
+        _$UploadSipReportRequestCopyWithImpl<$Res, _$UploadSipReportRequestImpl>
     implements _$$UploadSipReportRequestImplCopyWith<$Res> {
   __$$UploadSipReportRequestImplCopyWithImpl(
-      _$UploadSipReportRequestImpl _value,
-      $Res Function(_$UploadSipReportRequestImpl) _then)
-      : super(_value, _then);
+    _$UploadSipReportRequestImpl _value,
+    $Res Function(_$UploadSipReportRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UploadSipReportRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -131,35 +141,38 @@ class __$$UploadSipReportRequestImplCopyWithImpl<$Res>
     Object? image = null,
     Object? link = freezed,
   }) {
-    return _then(_$UploadSipReportRequestImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$UploadSipReportRequestImpl(
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        image: null == image
+            ? _value.image
+            : image // ignore: cast_nullable_to_non_nullable
+                  as String,
+        link: freezed == link
+            ? _value.link
+            : link // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UploadSipReportRequestImpl implements _UploadSipReportRequest {
-  const _$UploadSipReportRequestImpl(
-      {@JsonKey(name: "title") required this.title,
-      @JsonKey(name: "description") required this.description,
-      @JsonKey(name: "image") required this.image,
-      @JsonKey(name: "link") this.link});
+  const _$UploadSipReportRequestImpl({
+    @JsonKey(name: "title") required this.title,
+    @JsonKey(name: "description") required this.description,
+    @JsonKey(name: "image") required this.image,
+    @JsonKey(name: "link") this.link,
+  });
 
   factory _$UploadSipReportRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$UploadSipReportRequestImplFromJson(json);
@@ -204,24 +217,25 @@ class _$UploadSipReportRequestImpl implements _UploadSipReportRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$UploadSipReportRequestImplCopyWith<_$UploadSipReportRequestImpl>
-      get copyWith => __$$UploadSipReportRequestImplCopyWithImpl<
-          _$UploadSipReportRequestImpl>(this, _$identity);
+  get copyWith =>
+      __$$UploadSipReportRequestImplCopyWithImpl<_$UploadSipReportRequestImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UploadSipReportRequestImplToJson(
-      this,
-    );
+    return _$$UploadSipReportRequestImplToJson(this);
   }
 }
 
 abstract class _UploadSipReportRequest implements UploadSipReportRequest {
-  const factory _UploadSipReportRequest(
-          {@JsonKey(name: "title") required final String title,
-          @JsonKey(name: "description") required final String description,
-          @JsonKey(name: "image") required final String image,
-          @JsonKey(name: "link") final String? link}) =
-      _$UploadSipReportRequestImpl;
+  const factory _UploadSipReportRequest({
+    @JsonKey(name: "title") required final String title,
+    @JsonKey(name: "description") required final String description,
+    @JsonKey(name: "image") required final String image,
+    @JsonKey(name: "link") final String? link,
+  }) = _$UploadSipReportRequestImpl;
 
   factory _UploadSipReportRequest.fromJson(Map<String, dynamic> json) =
       _$UploadSipReportRequestImpl.fromJson;
@@ -244,5 +258,5 @@ abstract class _UploadSipReportRequest implements UploadSipReportRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UploadSipReportRequestImplCopyWith<_$UploadSipReportRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

@@ -12,7 +12,8 @@ part of 'sip_report_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SipReportResponse _$SipReportResponseFromJson(Map<String, dynamic> json) {
   return _SipReportResponse.fromJson(json);
@@ -48,17 +49,19 @@ mixin _$SipReportResponse {
 /// @nodoc
 abstract class $SipReportResponseCopyWith<$Res> {
   factory $SipReportResponseCopyWith(
-          SipReportResponse value, $Res Function(SipReportResponse) then) =
-      _$SipReportResponseCopyWithImpl<$Res, SipReportResponse>;
+    SipReportResponse value,
+    $Res Function(SipReportResponse) then,
+  ) = _$SipReportResponseCopyWithImpl<$Res, SipReportResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "image") String image,
-      @JsonKey(name: "link") String? link,
-      @JsonKey(name: "approved") int approved,
-      @JsonKey(name: "uid") int uid});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "title") String title,
+    @JsonKey(name: "description") String description,
+    @JsonKey(name: "image") String image,
+    @JsonKey(name: "link") String? link,
+    @JsonKey(name: "approved") int approved,
+    @JsonKey(name: "uid") int uid,
+  });
 }
 
 /// @nodoc
@@ -84,64 +87,70 @@ class _$SipReportResponseCopyWithImpl<$Res, $Val extends SipReportResponse>
     Object? approved = null,
     Object? uid = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      approved: null == approved
-          ? _value.approved
-          : approved // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            image: null == image
+                ? _value.image
+                : image // ignore: cast_nullable_to_non_nullable
+                      as String,
+            link: freezed == link
+                ? _value.link
+                : link // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            approved: null == approved
+                ? _value.approved
+                : approved // ignore: cast_nullable_to_non_nullable
+                      as int,
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SipReportResponseImplCopyWith<$Res>
     implements $SipReportResponseCopyWith<$Res> {
-  factory _$$SipReportResponseImplCopyWith(_$SipReportResponseImpl value,
-          $Res Function(_$SipReportResponseImpl) then) =
-      __$$SipReportResponseImplCopyWithImpl<$Res>;
+  factory _$$SipReportResponseImplCopyWith(
+    _$SipReportResponseImpl value,
+    $Res Function(_$SipReportResponseImpl) then,
+  ) = __$$SipReportResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "image") String image,
-      @JsonKey(name: "link") String? link,
-      @JsonKey(name: "approved") int approved,
-      @JsonKey(name: "uid") int uid});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "title") String title,
+    @JsonKey(name: "description") String description,
+    @JsonKey(name: "image") String image,
+    @JsonKey(name: "link") String? link,
+    @JsonKey(name: "approved") int approved,
+    @JsonKey(name: "uid") int uid,
+  });
 }
 
 /// @nodoc
 class __$$SipReportResponseImplCopyWithImpl<$Res>
     extends _$SipReportResponseCopyWithImpl<$Res, _$SipReportResponseImpl>
     implements _$$SipReportResponseImplCopyWith<$Res> {
-  __$$SipReportResponseImplCopyWithImpl(_$SipReportResponseImpl _value,
-      $Res Function(_$SipReportResponseImpl) _then)
-      : super(_value, _then);
+  __$$SipReportResponseImplCopyWithImpl(
+    _$SipReportResponseImpl _value,
+    $Res Function(_$SipReportResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SipReportResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -156,50 +165,53 @@ class __$$SipReportResponseImplCopyWithImpl<$Res>
     Object? approved = null,
     Object? uid = null,
   }) {
-    return _then(_$SipReportResponseImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      approved: null == approved
-          ? _value.approved
-          : approved // ignore: cast_nullable_to_non_nullable
-              as int,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$SipReportResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        image: null == image
+            ? _value.image
+            : image // ignore: cast_nullable_to_non_nullable
+                  as String,
+        link: freezed == link
+            ? _value.link
+            : link // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        approved: null == approved
+            ? _value.approved
+            : approved // ignore: cast_nullable_to_non_nullable
+                  as int,
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SipReportResponseImpl implements _SipReportResponse {
-  const _$SipReportResponseImpl(
-      {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "description") required this.description,
-      @JsonKey(name: "image") required this.image,
-      @JsonKey(name: "link") this.link,
-      @JsonKey(name: "approved") required this.approved,
-      @JsonKey(name: "uid") required this.uid});
+  const _$SipReportResponseImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "title") required this.title,
+    @JsonKey(name: "description") required this.description,
+    @JsonKey(name: "image") required this.image,
+    @JsonKey(name: "link") this.link,
+    @JsonKey(name: "approved") required this.approved,
+    @JsonKey(name: "uid") required this.uid,
+  });
 
   factory _$SipReportResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$SipReportResponseImplFromJson(json);
@@ -250,7 +262,15 @@ class _$SipReportResponseImpl implements _SipReportResponse {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, description, image, link, approved, uid);
+    runtimeType,
+    id,
+    title,
+    description,
+    image,
+    link,
+    approved,
+    uid,
+  );
 
   /// Create a copy of SipReportResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -259,25 +279,26 @@ class _$SipReportResponseImpl implements _SipReportResponse {
   @pragma('vm:prefer-inline')
   _$$SipReportResponseImplCopyWith<_$SipReportResponseImpl> get copyWith =>
       __$$SipReportResponseImplCopyWithImpl<_$SipReportResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SipReportResponseImplToJson(
-      this,
-    );
+    return _$$SipReportResponseImplToJson(this);
   }
 }
 
 abstract class _SipReportResponse implements SipReportResponse {
-  const factory _SipReportResponse(
-      {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "title") required final String title,
-      @JsonKey(name: "description") required final String description,
-      @JsonKey(name: "image") required final String image,
-      @JsonKey(name: "link") final String? link,
-      @JsonKey(name: "approved") required final int approved,
-      @JsonKey(name: "uid") required final int uid}) = _$SipReportResponseImpl;
+  const factory _SipReportResponse({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "title") required final String title,
+    @JsonKey(name: "description") required final String description,
+    @JsonKey(name: "image") required final String image,
+    @JsonKey(name: "link") final String? link,
+    @JsonKey(name: "approved") required final int approved,
+    @JsonKey(name: "uid") required final int uid,
+  }) = _$SipReportResponseImpl;
 
   factory _SipReportResponse.fromJson(Map<String, dynamic> json) =
       _$SipReportResponseImpl.fromJson;

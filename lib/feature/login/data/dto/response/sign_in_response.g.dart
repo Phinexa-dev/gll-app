@@ -13,26 +13,26 @@ _$SignInResponseImpl _$$SignInResponseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$SignInResponseImplToJson(
-        _$SignInResponseImpl instance) =>
-    <String, dynamic>{
-      'access_token': instance.accessToken,
-      'user': instance.user,
-    };
+  _$SignInResponseImpl instance,
+) => <String, dynamic>{
+  'access_token': instance.accessToken,
+  'user': instance.user,
+};
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      id: (json['id'] as num).toInt(),
-      fullName: json['fullName'] as String,
-      email: json['email'] as String,
-      dialCode: json['dialCode'] as String,
-      mobileNumber: json['mobileNumber'] as String,
-      country: json['country'],
-      faceBook: json['faceBook'],
-      blog: json['blog'],
-      twitter: json['twitter'],
-      x: json['x'],
-      instagram: json['instagram'],
-      userIntrests: json['userIntrests'],
-    );
+  id: (json['id'] as num).toInt(),
+  fullName: json['fullName'] as String,
+  email: json['email'] as String,
+  dialCode: json['dialCode'] as String,
+  mobileNumber: json['mobileNumber'] as String,
+  country: json['country'],
+  faceBook: json['faceBook'],
+  blog: json['blog'],
+  twitter: json['twitter'],
+  x: json['x'],
+  instagram: json['instagram'],
+  userIntrests: json['userIntrests'],
+);
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
     <String, dynamic>{

@@ -12,7 +12,8 @@ part of 'sip_report_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SipReportState {
@@ -33,16 +34,18 @@ mixin _$SipReportState {
 /// @nodoc
 abstract class $SipReportStateCopyWith<$Res> {
   factory $SipReportStateCopyWith(
-          SipReportState value, $Res Function(SipReportState) then) =
-      _$SipReportStateCopyWithImpl<$Res, SipReportState>;
+    SipReportState value,
+    $Res Function(SipReportState) then,
+  ) = _$SipReportStateCopyWithImpl<$Res, SipReportState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? form,
-      List<SipReportModel> sipReportsData});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? form,
+    List<SipReportModel> sipReportsData,
+  });
 }
 
 /// @nodoc
@@ -67,50 +70,55 @@ class _$SipReportStateCopyWithImpl<$Res, $Val extends SipReportState>
     Object? form = freezed,
     Object? sipReportsData = null,
   }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      form: freezed == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      sipReportsData: null == sipReportsData
-          ? _value.sipReportsData
-          : sipReportsData // ignore: cast_nullable_to_non_nullable
-              as List<SipReportModel>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSuccess: freezed == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            isFailure: freezed == isFailure
+                ? _value.isFailure
+                : isFailure // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            form: freezed == form
+                ? _value.form
+                : form // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            sipReportsData: null == sipReportsData
+                ? _value.sipReportsData
+                : sipReportsData // ignore: cast_nullable_to_non_nullable
+                      as List<SipReportModel>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SipReportStateImplCopyWith<$Res>
     implements $SipReportStateCopyWith<$Res> {
-  factory _$$SipReportStateImplCopyWith(_$SipReportStateImpl value,
-          $Res Function(_$SipReportStateImpl) then) =
-      __$$SipReportStateImplCopyWithImpl<$Res>;
+  factory _$$SipReportStateImplCopyWith(
+    _$SipReportStateImpl value,
+    $Res Function(_$SipReportStateImpl) then,
+  ) = __$$SipReportStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool? isSuccess,
-      bool? isFailure,
-      String? errorMessage,
-      Map<String, dynamic>? form,
-      List<SipReportModel> sipReportsData});
+  $Res call({
+    bool isLoading,
+    bool? isSuccess,
+    bool? isFailure,
+    String? errorMessage,
+    Map<String, dynamic>? form,
+    List<SipReportModel> sipReportsData,
+  });
 }
 
 /// @nodoc
@@ -118,8 +126,9 @@ class __$$SipReportStateImplCopyWithImpl<$Res>
     extends _$SipReportStateCopyWithImpl<$Res, _$SipReportStateImpl>
     implements _$$SipReportStateImplCopyWith<$Res> {
   __$$SipReportStateImplCopyWithImpl(
-      _$SipReportStateImpl _value, $Res Function(_$SipReportStateImpl) _then)
-      : super(_value, _then);
+    _$SipReportStateImpl _value,
+    $Res Function(_$SipReportStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SipReportState
   /// with the given fields replaced by the non-null parameter values.
@@ -133,47 +142,49 @@ class __$$SipReportStateImplCopyWithImpl<$Res>
     Object? form = freezed,
     Object? sipReportsData = null,
   }) {
-    return _then(_$SipReportStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSuccess: freezed == isSuccess
-          ? _value.isSuccess
-          : isSuccess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isFailure: freezed == isFailure
-          ? _value.isFailure
-          : isFailure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      form: freezed == form
-          ? _value._form
-          : form // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      sipReportsData: null == sipReportsData
-          ? _value._sipReportsData
-          : sipReportsData // ignore: cast_nullable_to_non_nullable
-              as List<SipReportModel>,
-    ));
+    return _then(
+      _$SipReportStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSuccess: freezed == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isFailure: freezed == isFailure
+            ? _value.isFailure
+            : isFailure // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        form: freezed == form
+            ? _value._form
+            : form // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        sipReportsData: null == sipReportsData
+            ? _value._sipReportsData
+            : sipReportsData // ignore: cast_nullable_to_non_nullable
+                  as List<SipReportModel>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SipReportStateImpl implements _SipReportState {
-  _$SipReportStateImpl(
-      {this.isLoading = false,
-      this.isSuccess,
-      this.isFailure,
-      this.errorMessage,
-      final Map<String, dynamic>? form = const {},
-      final List<SipReportModel> sipReportsData = const []})
-      : _form = form,
-        _sipReportsData = sipReportsData;
+  _$SipReportStateImpl({
+    this.isLoading = false,
+    this.isSuccess,
+    this.isFailure,
+    this.errorMessage,
+    final Map<String, dynamic>? form = const {},
+    final List<SipReportModel> sipReportsData = const [],
+  }) : _form = form,
+       _sipReportsData = sipReportsData;
 
   @override
   @JsonKey()
@@ -223,19 +234,22 @@ class _$SipReportStateImpl implements _SipReportState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._form, _form) &&
-            const DeepCollectionEquality()
-                .equals(other._sipReportsData, _sipReportsData));
+            const DeepCollectionEquality().equals(
+              other._sipReportsData,
+              _sipReportsData,
+            ));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isSuccess,
-      isFailure,
-      errorMessage,
-      const DeepCollectionEquality().hash(_form),
-      const DeepCollectionEquality().hash(_sipReportsData));
+    runtimeType,
+    isLoading,
+    isSuccess,
+    isFailure,
+    errorMessage,
+    const DeepCollectionEquality().hash(_form),
+    const DeepCollectionEquality().hash(_sipReportsData),
+  );
 
   /// Create a copy of SipReportState
   /// with the given fields replaced by the non-null parameter values.
@@ -244,17 +258,20 @@ class _$SipReportStateImpl implements _SipReportState {
   @pragma('vm:prefer-inline')
   _$$SipReportStateImplCopyWith<_$SipReportStateImpl> get copyWith =>
       __$$SipReportStateImplCopyWithImpl<_$SipReportStateImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _SipReportState implements SipReportState {
-  factory _SipReportState(
-      {final bool isLoading,
-      final bool? isSuccess,
-      final bool? isFailure,
-      final String? errorMessage,
-      final Map<String, dynamic>? form,
-      final List<SipReportModel> sipReportsData}) = _$SipReportStateImpl;
+  factory _SipReportState({
+    final bool isLoading,
+    final bool? isSuccess,
+    final bool? isFailure,
+    final String? errorMessage,
+    final Map<String, dynamic>? form,
+    final List<SipReportModel> sipReportsData,
+  }) = _$SipReportStateImpl;
 
   @override
   bool get isLoading;

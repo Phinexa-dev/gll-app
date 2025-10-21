@@ -2,15 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gll/common/widget/event_view_screen_widget.dart';
 import 'package:gll/core/route/route_name.dart';
 import 'package:gll/feature/bottom_bar/presentation/ui/screen/bottom_bar.dart';
-import 'package:gll/feature/events/data/event.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/application_of_skills_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/module_specific_feedback_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_LA_survey/trainer_facilitation_feedback_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/leadership_growth_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_impact_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
-import 'package:gll/feature/events/presentation/ui/screen/registration_form.dart';
+import 'package:gll/feature/event/domain/model/event/event_data_model.dart';
 import 'package:gll/feature/login/presentation/ui/screen/login.dart';
 import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/forget_password_screen.dart';
 import 'package:gll/feature/login/presentation/ui/screen/password_reset_screens/otp_screen.dart';
@@ -26,18 +18,26 @@ import 'package:gll/feature/resources/presentation/ui/widgets/sip_report_detail_
 import 'package:gll/feature/signup/presentation/ui/screen/signup.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../feature/events/presentation/ui/screen/events_screen.dart';
-import '../../feature/events/presentation/ui/screen/post_surveys/post_LA_survey/overall_program_feedback_screen.dart';
-import '../../feature/events/presentation/ui/screen/post_surveys/post_TTT_survey/application_of_skills_screen.dart';
-import '../../feature/events/presentation/ui/screen/post_surveys/post_TTT_survey/module_specific_feedback_screen.dart';
-import '../../feature/events/presentation/ui/screen/post_surveys/post_TTT_survey/overall_program_feedback_screen.dart';
-import '../../feature/events/presentation/ui/screen/post_surveys/post_TTT_survey/trainer_facilitation_feedback_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/background_information_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/goals_expectations_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_LA/interests_and_engagement_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/background_information_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
-import '../../feature/events/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
+import '../../feature/event/presentation/ui/screen/events_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_LA_survey/application_of_skills_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_LA_survey/module_specific_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_LA_survey/overall_program_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_LA_survey/trainer_facilitation_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_SIP_survey/leadership_growth_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_SIP_survey/project_impact_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_SIP_survey/project_overview_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_SIP_survey/skills_application_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_TTT_survey/application_of_skills_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_TTT_survey/module_specific_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_TTT_survey/overall_program_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/post_surveys/post_TTT_survey/trainer_facilitation_feedback_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_LA/background_information_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_LA/goals_expectations_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_LA/interests_and_engagement_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_TTT/background_information_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_TTT/goals_expectations_screen.dart';
+import '../../feature/event/presentation/ui/screen/pre_surveys/pre_survay_TTT/interests_and_engagement_screen.dart';
+import '../../feature/event/presentation/ui/screen/registration_form.dart';
 import '../../feature/home/presentation/ui/widgets/pdf_viewer.dart';
 import '../../feature/other/presentation/ui/screen/about_us/about_us.dart';
 import '../../feature/other/presentation/ui/screen/edit_profile_screen.dart';
@@ -122,7 +122,7 @@ final appRoutes = [
     name: RouteName.eventDetails,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final event = state.extra as Event;
+      final event = state.extra as EventDataModel;
       return EventViewScreenWidget(event: event);
     },
   ),
@@ -139,9 +139,9 @@ final appRoutes = [
 
       final extras = state.extra as Map<String, dynamic>;
       final isTTT = extras['isTTT'] as bool;
-      final eventIdentity = extras['eventIdentity'] as String;
+      final eventID = extras['eventID'] as int;
 
-      return RegistrationForm(isTTT: isTTT, eventIdentity: eventIdentity);
+      return RegistrationForm(isTTT: isTTT, eventID: eventID);
     },
   ),
 
@@ -151,8 +151,8 @@ final appRoutes = [
     name: RouteName.preSurvey,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return BackgroundInformationScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return BackgroundInformationScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -160,8 +160,8 @@ final appRoutes = [
     name: RouteName.goalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return GoalsExpectationsScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return GoalsExpectationsScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -169,8 +169,8 @@ final appRoutes = [
     name: RouteName.interestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return InterestsAndEngagementScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return InterestsAndEngagementScreen(eventID: eventID);
     },
   ),
 
@@ -180,8 +180,8 @@ final appRoutes = [
     name: RouteName.ttPreSurvey,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTBackgroundInformationScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTBackgroundInformationScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -189,8 +189,8 @@ final appRoutes = [
     name: RouteName.ttGoalsExpectationsScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTGoalsExpectationsScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTGoalsExpectationsScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -198,8 +198,8 @@ final appRoutes = [
     name: RouteName.ttInterestsAndEngagementScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTInterestsAndEngagementScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTInterestsAndEngagementScreen(eventID: eventID);
     },
   ),
 
@@ -209,8 +209,8 @@ final appRoutes = [
     name: RouteName.laOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return LAOverallProgramFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return LAOverallProgramFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -218,8 +218,8 @@ final appRoutes = [
     name: RouteName.laModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return LAModuleSpecificFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return LAModuleSpecificFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -227,8 +227,8 @@ final appRoutes = [
     name: RouteName.laTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return LATrainerFacilitationFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return LATrainerFacilitationFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -236,8 +236,8 @@ final appRoutes = [
     name: RouteName.laApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return LAApplicationOfSkillsScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return LAApplicationOfSkillsScreen(eventID: eventID);
     },
   ),
 
@@ -247,8 +247,8 @@ final appRoutes = [
     name: RouteName.tttOverallProgramFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTTOverallProgramFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTTOverallProgramFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -256,8 +256,8 @@ final appRoutes = [
     name: RouteName.tttModuleSpecificFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTTModuleSpecificFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTTModuleSpecificFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -265,8 +265,8 @@ final appRoutes = [
     name: RouteName.tttTrainerFacilitationFeedbackScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTTTrainerFacilitationFeedbackScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTTTrainerFacilitationFeedbackScreen(eventID: eventID);
     },
   ),
   GoRoute(
@@ -274,8 +274,8 @@ final appRoutes = [
     name: RouteName.tttApplicationOfSkillsScreen,
     parentNavigatorKey: navigationKey,
     builder: (context, state) {
-      final eventIdentity = state.extra as String;
-      return TTTApplicationOfSkillsScreen(eventIdentity: eventIdentity);
+      final eventID = state.extra as int;
+      return TTTApplicationOfSkillsScreen(eventID: eventID);
     },
   ),
 

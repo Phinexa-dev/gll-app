@@ -12,7 +12,8 @@ part of 'sign_in_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SignInRequest _$SignInRequestFromJson(Map<String, dynamic> json) {
   return _SignInRequest.fromJson(json);
@@ -38,12 +39,14 @@ mixin _$SignInRequest {
 /// @nodoc
 abstract class $SignInRequestCopyWith<$Res> {
   factory $SignInRequestCopyWith(
-          SignInRequest value, $Res Function(SignInRequest) then) =
-      _$SignInRequestCopyWithImpl<$Res, SignInRequest>;
+    SignInRequest value,
+    $Res Function(SignInRequest) then,
+  ) = _$SignInRequestCopyWithImpl<$Res, SignInRequest>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "email") String email,
-      @JsonKey(name: "password") String password});
+  $Res call({
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "password") String password,
+  });
 }
 
 /// @nodoc
@@ -60,20 +63,20 @@ class _$SignInRequestCopyWithImpl<$Res, $Val extends SignInRequest>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-    Object? password = null,
-  }) {
-    return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? email = null, Object? password = null}) {
+    return _then(
+      _value.copyWith(
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            password: null == password
+                ? _value.password
+                : password // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -81,13 +84,15 @@ class _$SignInRequestCopyWithImpl<$Res, $Val extends SignInRequest>
 abstract class _$$SignInRequestImplCopyWith<$Res>
     implements $SignInRequestCopyWith<$Res> {
   factory _$$SignInRequestImplCopyWith(
-          _$SignInRequestImpl value, $Res Function(_$SignInRequestImpl) then) =
-      __$$SignInRequestImplCopyWithImpl<$Res>;
+    _$SignInRequestImpl value,
+    $Res Function(_$SignInRequestImpl) then,
+  ) = __$$SignInRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "email") String email,
-      @JsonKey(name: "password") String password});
+  $Res call({
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "password") String password,
+  });
 }
 
 /// @nodoc
@@ -95,36 +100,37 @@ class __$$SignInRequestImplCopyWithImpl<$Res>
     extends _$SignInRequestCopyWithImpl<$Res, _$SignInRequestImpl>
     implements _$$SignInRequestImplCopyWith<$Res> {
   __$$SignInRequestImplCopyWithImpl(
-      _$SignInRequestImpl _value, $Res Function(_$SignInRequestImpl) _then)
-      : super(_value, _then);
+    _$SignInRequestImpl _value,
+    $Res Function(_$SignInRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-    Object? password = null,
-  }) {
-    return _then(_$SignInRequestImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? email = null, Object? password = null}) {
+    return _then(
+      _$SignInRequestImpl(
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        password: null == password
+            ? _value.password
+            : password // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SignInRequestImpl implements _SignInRequest {
-  const _$SignInRequestImpl(
-      {@JsonKey(name: "email") required this.email,
-      @JsonKey(name: "password") required this.password});
+  const _$SignInRequestImpl({
+    @JsonKey(name: "email") required this.email,
+    @JsonKey(name: "password") required this.password,
+  });
 
   factory _$SignInRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignInRequestImplFromJson(json);
@@ -165,17 +171,15 @@ class _$SignInRequestImpl implements _SignInRequest {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignInRequestImplToJson(
-      this,
-    );
+    return _$$SignInRequestImplToJson(this);
   }
 }
 
 abstract class _SignInRequest implements SignInRequest {
-  const factory _SignInRequest(
-          {@JsonKey(name: "email") required final String email,
-          @JsonKey(name: "password") required final String password}) =
-      _$SignInRequestImpl;
+  const factory _SignInRequest({
+    @JsonKey(name: "email") required final String email,
+    @JsonKey(name: "password") required final String password,
+  }) = _$SignInRequestImpl;
 
   factory _SignInRequest.fromJson(Map<String, dynamic> json) =
       _$SignInRequestImpl.fromJson;

@@ -2,50 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/common/theme/colors.dart';
 import 'package:gll/common/theme/fonts.dart';
-import 'package:gll/feature/events/data/event.dart';
+import 'package:gll/feature/event/domain/model/event/event_data_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
-import '../../core/data/local/user/model/user_model.dart';
-import '../../core/data/local/user/user_service.dart';
-import '../../core/data/remote/network_service.dart';
 import '../../core/route/route_name.dart';
-import '../../feature/events/application/survey_upload_service.dart';
 import 'custom_button.dart';
 
 class EventViewScreenWidget extends ConsumerWidget {
-  final Event event;
+  final EventDataModel event;
 
   const EventViewScreenWidget({super.key, required this.event});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dio = ref.watch(networkServiceProvider);
-    final userFuture = ref.watch(userServiceProvider(dio)).getUser();
+    var hasFilledPreSurvey = false;
+    var hasFilledPostSurvey = false;
 
-    return FutureBuilder<UserModel?>(
-      future: userFuture,
-      builder: (context, userSnapshot) {
-        if (userSnapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    if (event.userEvents.isNotEmpty) {
+      hasFilledPreSurvey = event.userEvents.first.surveySubmitted;
+      hasFilledPostSurvey = event.userEvents.first.postSurveySubmitted;
+    }
 
-        if (userSnapshot.hasError || userSnapshot.data == null) {
-          return const Center(child: Text("User not logged in."));
-        }
-
-        final user = userSnapshot.data!;
-        final userEmail = user.email;
-
-        if (userEmail == null) {
-          return const Center(child: Text("User email not found."));
-        }
-
-        // Retrieve survey names for the current user
-        final surveyNamesFuture = _getUserSurveyNames(ref, userEmail);
+    String eventDateIdentifier =
+    (event.startDate.day == 1 && event.startDate.hour == 0)
+        ? DateFormat('yyyy_MM').format(event.startDate)
+        : DateFormat('yyyy_MM_dd').format(event.startDate);
 
         return Scaffold(
           appBar: AppBar(
+            title: Text(
+              'Event Details',
+              style: PhinexaFont.headingSmall.copyWith(color: PhinexaColor.black),
+            ),
             backgroundColor: PhinexaColor.transparent,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: PhinexaColor.black),
@@ -54,43 +42,12 @@ class EventViewScreenWidget extends ConsumerWidget {
               },
             ),
           ),
-          body: FutureBuilder<List<String>>(
-            future: surveyNamesFuture,
-            builder: (context, surveySnapshot) {
-              // Handle loading state for survey names
-              if (surveySnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              // Handle error for survey names
-              if (surveySnapshot.hasError) {
-                return const Center(child: Text("Failed to load survey data."));
-              }
-
-              final surveyNames = surveySnapshot.data ?? [];
-
-              // Generate the survey names for this event
-              // Note: The format is dependent on the `startDate` having a day.
-              final String eventDateIdentifier =
-                  (event.startDate.day == 1 && event.startDate.hour == 0)
-                      ? DateFormat('yyyy_MM').format(event.startDate)
-                      : DateFormat('yyyy_MM_dd').format(event.startDate);
-
-              final preSurveyName =
-                  'Pre_Survey_${event.title}_$eventDateIdentifier';
-              final postSurveyName =
-                  'Post_Survey_${event.title}_$eventDateIdentifier';
-
-              // Check if the user has filled out the surveys
-              final hasFilledPreSurvey = surveyNames.contains(preSurveyName);
-              final hasFilledPostSurvey = surveyNames.contains(postSurveyName);
-
-              return SingleChildScrollView(
+          body: SingleChildScrollView(
                 child: Column(
                   children: [
                     ClipRRect(
                       child: Image.asset(
-                        event.image, // Change this to your asset path
+                        event.image,
                         fit: BoxFit.cover,
                         width: double.infinity,
                         errorBuilder: (context, error, stackTrace) =>
@@ -100,135 +57,101 @@ class EventViewScreenWidget extends ConsumerWidget {
                     const SizedBox(height: 24),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            event.title,
-                            style: PhinexaFont.headingMedium,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          const SizedBox(height: 12),
-                          // Display formatted date and time
-                          Text(
-                            formatEventDateTime(event.startDate, event.endDate),
-                            style: PhinexaFont.contentRegular
-                                .copyWith(color: PhinexaColor.darkGrey),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          Text(
-                            event.venue,
-                            style: PhinexaFont.captionRegular
-                                .copyWith(color: PhinexaColor.darkGrey),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            event.subTitle,
-                            style: PhinexaFont.headingMedium,
-                          ),
-                          const SizedBox(height: 10),
-                          ...event.subEvents
-                              .map((subEvent) =>
-                                  _buildSubEventComponent(context, subEvent))
-                              .toList(),
-                          const SizedBox(height: 10),
-                          // Text(
-                          //   event.ledBy,
-                          //   style: PhinexaFont.highlightEmphasis
-                          //       .copyWith(color: PhinexaColor.primaryLightBlue),
-                          // ),
-                          if (!hasFilledPreSurvey)
-                            Column(
-                              children: [
-                                const SizedBox(height: 20),
-                                CustomButton(
-                                  label: "Register Now",
-                                  height: 40,
-                                  onPressed: () {
-                                    context.pushNamed(
-                                        RouteName.registrationForm,
-                                        extra: {
-                                          'isTTT': event.isTTT ? true : false,
-                                          'eventIdentity':
-                                              '${event.title}_$eventDateIdentifier',
-                                        });
-                                  },
-                                ),
-                              ],
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              event.name,
+                              style: PhinexaFont.featureAccent,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
-                          // Conditionally render Post Survey button
-                          if (!hasFilledPostSurvey && hasFilledPreSurvey)
-                            Column(
-                              children: [
-                                const SizedBox(height: 20),
-                                CustomButton(
-                                  label: "Post Survey",
-                                  height: 40,
-                                  onPressed: () {
-                                    if (event.isTTT) {
-                                      context.pushNamed(
-                                          RouteName
-                                              .tttOverallProgramFeedbackScreen,
-                                          extra:
-                                              '${event.title}_$eventDateIdentifier');
-                                    } else {
-                                      context.pushNamed(
-                                          RouteName
-                                              .laOverallProgramFeedbackScreen,
-                                          extra:
-                                              '${event.title}_$eventDateIdentifier');
-                                    }
-                                  },
-                                ),
-                              ],
+                            if(event.subtitle.isNotEmpty) Text(
+                              event.subtitle,
+                              style: PhinexaFont.highlightRegular.copyWith(color: PhinexaColor.grey),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
-                        ],
+
+                            const SizedBox(height: 12),
+                            // Display formatted date and time
+                            Text(
+                              formatEventDateTime(event.startDate, event.endDate),
+                              style: PhinexaFont.contentRegular
+                                  .copyWith(color: PhinexaColor.darkGrey),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            Text(
+                              event.location,
+                              style: PhinexaFont.captionRegular
+                                  .copyWith(color: PhinexaColor.darkGrey),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            const SizedBox(height: 24),
+                            if (event.description != null && event.description!.isNotEmpty)
+                              Text(
+                                event.description!,
+                                style: PhinexaFont.contentRegular.copyWith(color: PhinexaColor.black),
+                              ),
+                            if (!hasFilledPreSurvey)
+                              Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  CustomButton(
+                                    label: "Register Now",
+                                    height: 40,
+                                    onPressed: () {
+                                      context.pushNamed(
+                                          RouteName.registrationForm,
+                                          extra: {
+                                            'isTTT': event.eventType =='TTT' ? true : false,
+                                            'eventID': event.id
+                                          });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            // Conditionally render Post Survey button
+                            if (!hasFilledPostSurvey && hasFilledPreSurvey)
+                              Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  CustomButton(
+                                    label: "Post Survey",
+                                    height: 40,
+                                    onPressed: () {
+                                      if (event.eventType=='TTT') {
+                                        context.pushNamed(
+                                            RouteName
+                                                .tttOverallProgramFeedbackScreen,
+                                            extra:
+                                            event.id);
+                                      } else {
+                                        context.pushNamed(
+                                            RouteName
+                                                .laOverallProgramFeedbackScreen,
+                                            extra:
+                                                event.id);
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
                   ],
                 ),
-              );
-            },
-          ),
+              )
         );
-      },
-    );
-  }
-}
 
-Widget _buildSubEventComponent(BuildContext context, SubEvent subEvent) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        RichText(
-          text: TextSpan(
-            style: PhinexaFont.highlightRegular,
-            children: [
-              TextSpan(
-                style: PhinexaFont.highlightRegular.copyWith(
-                    color: PhinexaColor.primaryLightBlue,
-                    fontWeight: FontWeight.bold),
-                text: formatSubEventDateRange(
-                    subEvent.startDate, subEvent.endDate),
-              ),
-              TextSpan(
-                text: subEvent.description,
-                style: PhinexaFont.highlightRegular
-                    .copyWith(color: PhinexaColor.darkGrey),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
+  }
 }
 
 // Updated formatting function for the main event date/time
@@ -283,14 +206,5 @@ String formatSubEventDateRange(DateTime startDate, DateTime endDate) {
     final monthFormat = DateFormat('MMMM');
     String formattedMonth = monthFormat.format(startDate);
     return "$formattedMonth : ";
-  }
-}
-
-Future<List<String>> _getUserSurveyNames(WidgetRef ref, String email) async {
-  try {
-    return await retrieveSurveyNames(email);
-  } catch (error) {
-    print("Failed to retrieve survey names: $error");
-    return [];
   }
 }

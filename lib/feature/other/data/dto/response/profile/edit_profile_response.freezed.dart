@@ -12,7 +12,8 @@ part of 'edit_profile_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 EditProfileResponse _$EditProfileResponseFromJson(Map<String, dynamic> json) {
   return _EditProfileResponse.fromJson(json);
@@ -66,26 +67,28 @@ mixin _$EditProfileResponse {
 /// @nodoc
 abstract class $EditProfileResponseCopyWith<$Res> {
   factory $EditProfileResponseCopyWith(
-          EditProfileResponse value, $Res Function(EditProfileResponse) then) =
-      _$EditProfileResponseCopyWithImpl<$Res, EditProfileResponse>;
+    EditProfileResponse value,
+    $Res Function(EditProfileResponse) then,
+  ) = _$EditProfileResponseCopyWithImpl<$Res, EditProfileResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "dialCode") String dialCode,
-      @JsonKey(name: "mobileNumber") String mobileNumber,
-      @JsonKey(name: "password") String password,
-      @JsonKey(name: "country") String? country,
-      @JsonKey(name: "faceBook") String? faceBook,
-      @JsonKey(name: "blog") String? blog,
-      @JsonKey(name: "twitter") String? twitter,
-      @JsonKey(name: "x") String? x,
-      @JsonKey(name: "instagram") String? instagram,
-      @JsonKey(name: "userIntrests") String? userIntrests,
-      @JsonKey(name: "userLanguages") String? languages,
-      @JsonKey(name: "userProfilePicture") String? profileImage,
-      @JsonKey(name: "gender") String? gender});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "dialCode") String dialCode,
+    @JsonKey(name: "mobileNumber") String mobileNumber,
+    @JsonKey(name: "password") String password,
+    @JsonKey(name: "country") String? country,
+    @JsonKey(name: "faceBook") String? faceBook,
+    @JsonKey(name: "blog") String? blog,
+    @JsonKey(name: "twitter") String? twitter,
+    @JsonKey(name: "x") String? x,
+    @JsonKey(name: "instagram") String? instagram,
+    @JsonKey(name: "userIntrests") String? userIntrests,
+    @JsonKey(name: "userLanguages") String? languages,
+    @JsonKey(name: "userProfilePicture") String? profileImage,
+    @JsonKey(name: "gender") String? gender,
+  });
 }
 
 /// @nodoc
@@ -120,109 +123,115 @@ class _$EditProfileResponseCopyWithImpl<$Res, $Val extends EditProfileResponse>
     Object? profileImage = freezed,
     Object? gender = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as String?,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as String?,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fullName: null == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dialCode: null == dialCode
+                ? _value.dialCode
+                : dialCode // ignore: cast_nullable_to_non_nullable
+                      as String,
+            mobileNumber: null == mobileNumber
+                ? _value.mobileNumber
+                : mobileNumber // ignore: cast_nullable_to_non_nullable
+                      as String,
+            password: null == password
+                ? _value.password
+                : password // ignore: cast_nullable_to_non_nullable
+                      as String,
+            country: freezed == country
+                ? _value.country
+                : country // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            faceBook: freezed == faceBook
+                ? _value.faceBook
+                : faceBook // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            blog: freezed == blog
+                ? _value.blog
+                : blog // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            twitter: freezed == twitter
+                ? _value.twitter
+                : twitter // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            x: freezed == x
+                ? _value.x
+                : x // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            instagram: freezed == instagram
+                ? _value.instagram
+                : instagram // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            userIntrests: freezed == userIntrests
+                ? _value.userIntrests
+                : userIntrests // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            languages: freezed == languages
+                ? _value.languages
+                : languages // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            profileImage: freezed == profileImage
+                ? _value.profileImage
+                : profileImage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            gender: freezed == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$EditProfileResponseImplCopyWith<$Res>
     implements $EditProfileResponseCopyWith<$Res> {
-  factory _$$EditProfileResponseImplCopyWith(_$EditProfileResponseImpl value,
-          $Res Function(_$EditProfileResponseImpl) then) =
-      __$$EditProfileResponseImplCopyWithImpl<$Res>;
+  factory _$$EditProfileResponseImplCopyWith(
+    _$EditProfileResponseImpl value,
+    $Res Function(_$EditProfileResponseImpl) then,
+  ) = __$$EditProfileResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "id") int id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "dialCode") String dialCode,
-      @JsonKey(name: "mobileNumber") String mobileNumber,
-      @JsonKey(name: "password") String password,
-      @JsonKey(name: "country") String? country,
-      @JsonKey(name: "faceBook") String? faceBook,
-      @JsonKey(name: "blog") String? blog,
-      @JsonKey(name: "twitter") String? twitter,
-      @JsonKey(name: "x") String? x,
-      @JsonKey(name: "instagram") String? instagram,
-      @JsonKey(name: "userIntrests") String? userIntrests,
-      @JsonKey(name: "userLanguages") String? languages,
-      @JsonKey(name: "userProfilePicture") String? profileImage,
-      @JsonKey(name: "gender") String? gender});
+  $Res call({
+    @JsonKey(name: "id") int id,
+    @JsonKey(name: "fullName") String fullName,
+    @JsonKey(name: "email") String email,
+    @JsonKey(name: "dialCode") String dialCode,
+    @JsonKey(name: "mobileNumber") String mobileNumber,
+    @JsonKey(name: "password") String password,
+    @JsonKey(name: "country") String? country,
+    @JsonKey(name: "faceBook") String? faceBook,
+    @JsonKey(name: "blog") String? blog,
+    @JsonKey(name: "twitter") String? twitter,
+    @JsonKey(name: "x") String? x,
+    @JsonKey(name: "instagram") String? instagram,
+    @JsonKey(name: "userIntrests") String? userIntrests,
+    @JsonKey(name: "userLanguages") String? languages,
+    @JsonKey(name: "userProfilePicture") String? profileImage,
+    @JsonKey(name: "gender") String? gender,
+  });
 }
 
 /// @nodoc
 class __$$EditProfileResponseImplCopyWithImpl<$Res>
     extends _$EditProfileResponseCopyWithImpl<$Res, _$EditProfileResponseImpl>
     implements _$$EditProfileResponseImplCopyWith<$Res> {
-  __$$EditProfileResponseImplCopyWithImpl(_$EditProfileResponseImpl _value,
-      $Res Function(_$EditProfileResponseImpl) _then)
-      : super(_value, _then);
+  __$$EditProfileResponseImplCopyWithImpl(
+    _$EditProfileResponseImpl _value,
+    $Res Function(_$EditProfileResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -246,95 +255,98 @@ class __$$EditProfileResponseImplCopyWithImpl<$Res>
     Object? profileImage = freezed,
     Object? gender = freezed,
   }) {
-    return _then(_$EditProfileResponseImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as String?,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as String?,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$EditProfileResponseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fullName: null == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dialCode: null == dialCode
+            ? _value.dialCode
+            : dialCode // ignore: cast_nullable_to_non_nullable
+                  as String,
+        mobileNumber: null == mobileNumber
+            ? _value.mobileNumber
+            : mobileNumber // ignore: cast_nullable_to_non_nullable
+                  as String,
+        password: null == password
+            ? _value.password
+            : password // ignore: cast_nullable_to_non_nullable
+                  as String,
+        country: freezed == country
+            ? _value.country
+            : country // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        faceBook: freezed == faceBook
+            ? _value.faceBook
+            : faceBook // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        blog: freezed == blog
+            ? _value.blog
+            : blog // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        twitter: freezed == twitter
+            ? _value.twitter
+            : twitter // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        x: freezed == x
+            ? _value.x
+            : x // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        instagram: freezed == instagram
+            ? _value.instagram
+            : instagram // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userIntrests: freezed == userIntrests
+            ? _value.userIntrests
+            : userIntrests // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        languages: freezed == languages
+            ? _value.languages
+            : languages // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        profileImage: freezed == profileImage
+            ? _value.profileImage
+            : profileImage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        gender: freezed == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$EditProfileResponseImpl implements _EditProfileResponse {
-  const _$EditProfileResponseImpl(
-      {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email,
-      @JsonKey(name: "dialCode") required this.dialCode,
-      @JsonKey(name: "mobileNumber") required this.mobileNumber,
-      @JsonKey(name: "password") required this.password,
-      @JsonKey(name: "country") required this.country,
-      @JsonKey(name: "faceBook") required this.faceBook,
-      @JsonKey(name: "blog") required this.blog,
-      @JsonKey(name: "twitter") required this.twitter,
-      @JsonKey(name: "x") required this.x,
-      @JsonKey(name: "instagram") required this.instagram,
-      @JsonKey(name: "userIntrests") required this.userIntrests,
-      @JsonKey(name: "userLanguages") required this.languages,
-      @JsonKey(name: "userProfilePicture") required this.profileImage,
-      @JsonKey(name: "gender") required this.gender});
+  const _$EditProfileResponseImpl({
+    @JsonKey(name: "id") required this.id,
+    @JsonKey(name: "fullName") required this.fullName,
+    @JsonKey(name: "email") required this.email,
+    @JsonKey(name: "dialCode") required this.dialCode,
+    @JsonKey(name: "mobileNumber") required this.mobileNumber,
+    @JsonKey(name: "password") required this.password,
+    @JsonKey(name: "country") required this.country,
+    @JsonKey(name: "faceBook") required this.faceBook,
+    @JsonKey(name: "blog") required this.blog,
+    @JsonKey(name: "twitter") required this.twitter,
+    @JsonKey(name: "x") required this.x,
+    @JsonKey(name: "instagram") required this.instagram,
+    @JsonKey(name: "userIntrests") required this.userIntrests,
+    @JsonKey(name: "userLanguages") required this.languages,
+    @JsonKey(name: "userProfilePicture") required this.profileImage,
+    @JsonKey(name: "gender") required this.gender,
+  });
 
   factory _$EditProfileResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$EditProfileResponseImplFromJson(json);
@@ -428,23 +440,24 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      fullName,
-      email,
-      dialCode,
-      mobileNumber,
-      password,
-      country,
-      faceBook,
-      blog,
-      twitter,
-      x,
-      instagram,
-      userIntrests,
-      languages,
-      profileImage,
-      gender);
+    runtimeType,
+    id,
+    fullName,
+    email,
+    dialCode,
+    mobileNumber,
+    password,
+    country,
+    faceBook,
+    blog,
+    twitter,
+    x,
+    instagram,
+    userIntrests,
+    languages,
+    profileImage,
+    gender,
+  );
 
   /// Create a copy of EditProfileResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -453,35 +466,35 @@ class _$EditProfileResponseImpl implements _EditProfileResponse {
   @pragma('vm:prefer-inline')
   _$$EditProfileResponseImplCopyWith<_$EditProfileResponseImpl> get copyWith =>
       __$$EditProfileResponseImplCopyWithImpl<_$EditProfileResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$EditProfileResponseImplToJson(
-      this,
-    );
+    return _$$EditProfileResponseImplToJson(this);
   }
 }
 
 abstract class _EditProfileResponse implements EditProfileResponse {
-  const factory _EditProfileResponse(
-      {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "fullName") required final String fullName,
-      @JsonKey(name: "email") required final String email,
-      @JsonKey(name: "dialCode") required final String dialCode,
-      @JsonKey(name: "mobileNumber") required final String mobileNumber,
-      @JsonKey(name: "password") required final String password,
-      @JsonKey(name: "country") required final String? country,
-      @JsonKey(name: "faceBook") required final String? faceBook,
-      @JsonKey(name: "blog") required final String? blog,
-      @JsonKey(name: "twitter") required final String? twitter,
-      @JsonKey(name: "x") required final String? x,
-      @JsonKey(name: "instagram") required final String? instagram,
-      @JsonKey(name: "userIntrests") required final String? userIntrests,
-      @JsonKey(name: "userLanguages") required final String? languages,
-      @JsonKey(name: "userProfilePicture") required final String? profileImage,
-      @JsonKey(name: "gender")
-      required final String? gender}) = _$EditProfileResponseImpl;
+  const factory _EditProfileResponse({
+    @JsonKey(name: "id") required final int id,
+    @JsonKey(name: "fullName") required final String fullName,
+    @JsonKey(name: "email") required final String email,
+    @JsonKey(name: "dialCode") required final String dialCode,
+    @JsonKey(name: "mobileNumber") required final String mobileNumber,
+    @JsonKey(name: "password") required final String password,
+    @JsonKey(name: "country") required final String? country,
+    @JsonKey(name: "faceBook") required final String? faceBook,
+    @JsonKey(name: "blog") required final String? blog,
+    @JsonKey(name: "twitter") required final String? twitter,
+    @JsonKey(name: "x") required final String? x,
+    @JsonKey(name: "instagram") required final String? instagram,
+    @JsonKey(name: "userIntrests") required final String? userIntrests,
+    @JsonKey(name: "userLanguages") required final String? languages,
+    @JsonKey(name: "userProfilePicture") required final String? profileImage,
+    @JsonKey(name: "gender") required final String? gender,
+  }) = _$EditProfileResponseImpl;
 
   factory _EditProfileResponse.fromJson(Map<String, dynamic> json) =
       _$EditProfileResponseImpl.fromJson;

@@ -12,7 +12,8 @@ part of 'profile_data_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$ProfileDataModel {
@@ -43,25 +44,27 @@ mixin _$ProfileDataModel {
 /// @nodoc
 abstract class $ProfileDataModelCopyWith<$Res> {
   factory $ProfileDataModelCopyWith(
-          ProfileDataModel value, $Res Function(ProfileDataModel) then) =
-      _$ProfileDataModelCopyWithImpl<$Res, ProfileDataModel>;
+    ProfileDataModel value,
+    $Res Function(ProfileDataModel) then,
+  ) = _$ProfileDataModelCopyWithImpl<$Res, ProfileDataModel>;
   @useResult
-  $Res call(
-      {int id,
-      String fullName,
-      String email,
-      String dialCode,
-      String mobileNumber,
-      String? languages,
-      String? country,
-      String? faceBook,
-      String? blog,
-      String? twitter,
-      String? x,
-      String? instagram,
-      String? userIntrests,
-      String? profileImage,
-      String? gender});
+  $Res call({
+    int id,
+    String fullName,
+    String email,
+    String dialCode,
+    String mobileNumber,
+    String? languages,
+    String? country,
+    String? faceBook,
+    String? blog,
+    String? twitter,
+    String? x,
+    String? instagram,
+    String? userIntrests,
+    String? profileImage,
+    String? gender,
+  });
 }
 
 /// @nodoc
@@ -95,104 +98,110 @@ class _$ProfileDataModelCopyWithImpl<$Res, $Val extends ProfileDataModel>
     Object? profileImage = freezed,
     Object? gender = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as String?,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as String?,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fullName: null == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dialCode: null == dialCode
+                ? _value.dialCode
+                : dialCode // ignore: cast_nullable_to_non_nullable
+                      as String,
+            mobileNumber: null == mobileNumber
+                ? _value.mobileNumber
+                : mobileNumber // ignore: cast_nullable_to_non_nullable
+                      as String,
+            languages: freezed == languages
+                ? _value.languages
+                : languages // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            country: freezed == country
+                ? _value.country
+                : country // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            faceBook: freezed == faceBook
+                ? _value.faceBook
+                : faceBook // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            blog: freezed == blog
+                ? _value.blog
+                : blog // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            twitter: freezed == twitter
+                ? _value.twitter
+                : twitter // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            x: freezed == x
+                ? _value.x
+                : x // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            instagram: freezed == instagram
+                ? _value.instagram
+                : instagram // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            userIntrests: freezed == userIntrests
+                ? _value.userIntrests
+                : userIntrests // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            profileImage: freezed == profileImage
+                ? _value.profileImage
+                : profileImage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            gender: freezed == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$ProfileDataModelImplCopyWith<$Res>
     implements $ProfileDataModelCopyWith<$Res> {
-  factory _$$ProfileDataModelImplCopyWith(_$ProfileDataModelImpl value,
-          $Res Function(_$ProfileDataModelImpl) then) =
-      __$$ProfileDataModelImplCopyWithImpl<$Res>;
+  factory _$$ProfileDataModelImplCopyWith(
+    _$ProfileDataModelImpl value,
+    $Res Function(_$ProfileDataModelImpl) then,
+  ) = __$$ProfileDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String fullName,
-      String email,
-      String dialCode,
-      String mobileNumber,
-      String? languages,
-      String? country,
-      String? faceBook,
-      String? blog,
-      String? twitter,
-      String? x,
-      String? instagram,
-      String? userIntrests,
-      String? profileImage,
-      String? gender});
+  $Res call({
+    int id,
+    String fullName,
+    String email,
+    String dialCode,
+    String mobileNumber,
+    String? languages,
+    String? country,
+    String? faceBook,
+    String? blog,
+    String? twitter,
+    String? x,
+    String? instagram,
+    String? userIntrests,
+    String? profileImage,
+    String? gender,
+  });
 }
 
 /// @nodoc
 class __$$ProfileDataModelImplCopyWithImpl<$Res>
     extends _$ProfileDataModelCopyWithImpl<$Res, _$ProfileDataModelImpl>
     implements _$$ProfileDataModelImplCopyWith<$Res> {
-  __$$ProfileDataModelImplCopyWithImpl(_$ProfileDataModelImpl _value,
-      $Res Function(_$ProfileDataModelImpl) _then)
-      : super(_value, _then);
+  __$$ProfileDataModelImplCopyWithImpl(
+    _$ProfileDataModelImpl _value,
+    $Res Function(_$ProfileDataModelImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ProfileDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -215,90 +224,93 @@ class __$$ProfileDataModelImplCopyWithImpl<$Res>
     Object? profileImage = freezed,
     Object? gender = freezed,
   }) {
-    return _then(_$ProfileDataModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      dialCode: null == dialCode
-          ? _value.dialCode
-          : dialCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      mobileNumber: null == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      languages: freezed == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as String?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      faceBook: freezed == faceBook
-          ? _value.faceBook
-          : faceBook // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blog: freezed == blog
-          ? _value.blog
-          : blog // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twitter: freezed == twitter
-          ? _value.twitter
-          : twitter // ignore: cast_nullable_to_non_nullable
-              as String?,
-      x: freezed == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as String?,
-      instagram: freezed == instagram
-          ? _value.instagram
-          : instagram // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userIntrests: freezed == userIntrests
-          ? _value.userIntrests
-          : userIntrests // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$ProfileDataModelImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fullName: null == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dialCode: null == dialCode
+            ? _value.dialCode
+            : dialCode // ignore: cast_nullable_to_non_nullable
+                  as String,
+        mobileNumber: null == mobileNumber
+            ? _value.mobileNumber
+            : mobileNumber // ignore: cast_nullable_to_non_nullable
+                  as String,
+        languages: freezed == languages
+            ? _value.languages
+            : languages // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        country: freezed == country
+            ? _value.country
+            : country // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        faceBook: freezed == faceBook
+            ? _value.faceBook
+            : faceBook // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        blog: freezed == blog
+            ? _value.blog
+            : blog // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        twitter: freezed == twitter
+            ? _value.twitter
+            : twitter // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        x: freezed == x
+            ? _value.x
+            : x // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        instagram: freezed == instagram
+            ? _value.instagram
+            : instagram // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userIntrests: freezed == userIntrests
+            ? _value.userIntrests
+            : userIntrests // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        profileImage: freezed == profileImage
+            ? _value.profileImage
+            : profileImage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        gender: freezed == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$ProfileDataModelImpl implements _ProfileDataModel {
-  _$ProfileDataModelImpl(
-      {required this.id,
-      required this.fullName,
-      required this.email,
-      required this.dialCode,
-      required this.mobileNumber,
-      required this.languages,
-      required this.country,
-      required this.faceBook,
-      required this.blog,
-      required this.twitter,
-      required this.x,
-      required this.instagram,
-      required this.userIntrests,
-      required this.profileImage,
-      required this.gender});
+  _$ProfileDataModelImpl({
+    required this.id,
+    required this.fullName,
+    required this.email,
+    required this.dialCode,
+    required this.mobileNumber,
+    required this.languages,
+    required this.country,
+    required this.faceBook,
+    required this.blog,
+    required this.twitter,
+    required this.x,
+    required this.instagram,
+    required this.userIntrests,
+    required this.profileImage,
+    required this.gender,
+  });
 
   @override
   final int id;
@@ -310,7 +322,7 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
   final String dialCode;
   @override
   final String mobileNumber;
-// required String password,
+  // required String password,
   @override
   final String? languages;
   @override
@@ -369,22 +381,23 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      fullName,
-      email,
-      dialCode,
-      mobileNumber,
-      languages,
-      country,
-      faceBook,
-      blog,
-      twitter,
-      x,
-      instagram,
-      userIntrests,
-      profileImage,
-      gender);
+    runtimeType,
+    id,
+    fullName,
+    email,
+    dialCode,
+    mobileNumber,
+    languages,
+    country,
+    faceBook,
+    blog,
+    twitter,
+    x,
+    instagram,
+    userIntrests,
+    profileImage,
+    gender,
+  );
 
   /// Create a copy of ProfileDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -393,26 +406,29 @@ class _$ProfileDataModelImpl implements _ProfileDataModel {
   @pragma('vm:prefer-inline')
   _$$ProfileDataModelImplCopyWith<_$ProfileDataModelImpl> get copyWith =>
       __$$ProfileDataModelImplCopyWithImpl<_$ProfileDataModelImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _ProfileDataModel implements ProfileDataModel {
-  factory _ProfileDataModel(
-      {required final int id,
-      required final String fullName,
-      required final String email,
-      required final String dialCode,
-      required final String mobileNumber,
-      required final String? languages,
-      required final String? country,
-      required final String? faceBook,
-      required final String? blog,
-      required final String? twitter,
-      required final String? x,
-      required final String? instagram,
-      required final String? userIntrests,
-      required final String? profileImage,
-      required final String? gender}) = _$ProfileDataModelImpl;
+  factory _ProfileDataModel({
+    required final int id,
+    required final String fullName,
+    required final String email,
+    required final String dialCode,
+    required final String mobileNumber,
+    required final String? languages,
+    required final String? country,
+    required final String? faceBook,
+    required final String? blog,
+    required final String? twitter,
+    required final String? x,
+    required final String? instagram,
+    required final String? userIntrests,
+    required final String? profileImage,
+    required final String? gender,
+  }) = _$ProfileDataModelImpl;
 
   @override
   int get id;
