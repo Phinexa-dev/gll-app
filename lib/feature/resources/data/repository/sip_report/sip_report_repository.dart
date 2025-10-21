@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/resources/data/dto/request/sip_report/upload_sip_report/upload_sip_report_request.dart';
 import 'package:gll/feature/resources/data/dto/response/sip_report/sip_report_response.dart';
+import 'package:gll/feature/resources/data/dto/response/sip_report/upload_sip_report_response.dart';
 
 import '../../source/remote/sip_report/manage_sip_report_data_api.dart';
 import 'isip_report_repository.dart';
@@ -28,7 +29,7 @@ final class SipReportRepository implements ISipReportRepository {
   }
 
   @override
-  Future<SipReportResponse> uploadSipReport(UploadSipReportRequest data) async {
+  Future<UploadSipReportResponse> uploadSipReport(UploadSipReportRequest data) async {
     try {
       final response = await _manageSipReportDataApi.uploadSipReport(data);
       return response;
