@@ -7,13 +7,9 @@ part of 'add_skill_request.dart';
 // **************************************************************************
 
 _$AddSkillRequestImpl _$$AddSkillRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AddSkillRequestImpl(
-      skill: json['skill'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$AddSkillRequestImpl(skill: json['skill'] as String);
 
 Map<String, dynamic> _$$AddSkillRequestImplToJson(
-        _$AddSkillRequestImpl instance) =>
-    <String, dynamic>{
-      'skill': instance.skill,
-    };
+  _$AddSkillRequestImpl instance,
+) => <String, dynamic>{'skill': instance.skill};

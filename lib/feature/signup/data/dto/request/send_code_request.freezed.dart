@@ -12,7 +12,8 @@ part of 'send_code_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SendCodeRequest _$SendCodeRequestFromJson(Map<String, dynamic> json) {
   return _SendCodeRequest.fromJson(json);
@@ -35,8 +36,9 @@ mixin _$SendCodeRequest {
 /// @nodoc
 abstract class $SendCodeRequestCopyWith<$Res> {
   factory $SendCodeRequestCopyWith(
-          SendCodeRequest value, $Res Function(SendCodeRequest) then) =
-      _$SendCodeRequestCopyWithImpl<$Res, SendCodeRequest>;
+    SendCodeRequest value,
+    $Res Function(SendCodeRequest) then,
+  ) = _$SendCodeRequestCopyWithImpl<$Res, SendCodeRequest>;
   @useResult
   $Res call({String email});
 }
@@ -55,24 +57,26 @@ class _$SendCodeRequestCopyWithImpl<$Res, $Val extends SendCodeRequest>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-  }) {
-    return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? email = null}) {
+    return _then(
+      _value.copyWith(
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SendCodeRequestImplCopyWith<$Res>
     implements $SendCodeRequestCopyWith<$Res> {
-  factory _$$SendCodeRequestImplCopyWith(_$SendCodeRequestImpl value,
-          $Res Function(_$SendCodeRequestImpl) then) =
-      __$$SendCodeRequestImplCopyWithImpl<$Res>;
+  factory _$$SendCodeRequestImplCopyWith(
+    _$SendCodeRequestImpl value,
+    $Res Function(_$SendCodeRequestImpl) then,
+  ) = __$$SendCodeRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String email});
@@ -83,22 +87,23 @@ class __$$SendCodeRequestImplCopyWithImpl<$Res>
     extends _$SendCodeRequestCopyWithImpl<$Res, _$SendCodeRequestImpl>
     implements _$$SendCodeRequestImplCopyWith<$Res> {
   __$$SendCodeRequestImplCopyWithImpl(
-      _$SendCodeRequestImpl _value, $Res Function(_$SendCodeRequestImpl) _then)
-      : super(_value, _then);
+    _$SendCodeRequestImpl _value,
+    $Res Function(_$SendCodeRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SendCodeRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? email = null,
-  }) {
-    return _then(_$SendCodeRequestImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? email = null}) {
+    return _then(
+      _$SendCodeRequestImpl(
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -137,13 +142,13 @@ class _$SendCodeRequestImpl implements _SendCodeRequest {
   @pragma('vm:prefer-inline')
   _$$SendCodeRequestImplCopyWith<_$SendCodeRequestImpl> get copyWith =>
       __$$SendCodeRequestImplCopyWithImpl<_$SendCodeRequestImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SendCodeRequestImplToJson(
-      this,
-    );
+    return _$$SendCodeRequestImplToJson(this);
   }
 }
 

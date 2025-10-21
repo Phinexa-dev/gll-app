@@ -12,7 +12,8 @@ part of 'add_education_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 AddEducationRequest _$AddEducationRequestFromJson(Map<String, dynamic> json) {
   return _AddEducationRequest.fromJson(json);
@@ -42,14 +43,16 @@ mixin _$AddEducationRequest {
 /// @nodoc
 abstract class $AddEducationRequestCopyWith<$Res> {
   factory $AddEducationRequestCopyWith(
-          AddEducationRequest value, $Res Function(AddEducationRequest) then) =
-      _$AddEducationRequestCopyWithImpl<$Res, AddEducationRequest>;
+    AddEducationRequest value,
+    $Res Function(AddEducationRequest) then,
+  ) = _$AddEducationRequestCopyWithImpl<$Res, AddEducationRequest>;
   @useResult
-  $Res call(
-      {@JsonKey(name: "school") String school,
-      @JsonKey(name: "degree") String degree,
-      @JsonKey(name: "startdate") DateTime startdate,
-      @JsonKey(name: "enddate") DateTime enddate});
+  $Res call({
+    @JsonKey(name: "school") String school,
+    @JsonKey(name: "degree") String degree,
+    @JsonKey(name: "startdate") DateTime startdate,
+    @JsonKey(name: "enddate") DateTime enddate,
+  });
 }
 
 /// @nodoc
@@ -72,49 +75,55 @@ class _$AddEducationRequestCopyWithImpl<$Res, $Val extends AddEducationRequest>
     Object? startdate = null,
     Object? enddate = null,
   }) {
-    return _then(_value.copyWith(
-      school: null == school
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as String,
-      degree: null == degree
-          ? _value.degree
-          : degree // ignore: cast_nullable_to_non_nullable
-              as String,
-      startdate: null == startdate
-          ? _value.startdate
-          : startdate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      enddate: null == enddate
-          ? _value.enddate
-          : enddate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            school: null == school
+                ? _value.school
+                : school // ignore: cast_nullable_to_non_nullable
+                      as String,
+            degree: null == degree
+                ? _value.degree
+                : degree // ignore: cast_nullable_to_non_nullable
+                      as String,
+            startdate: null == startdate
+                ? _value.startdate
+                : startdate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            enddate: null == enddate
+                ? _value.enddate
+                : enddate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$AddEducationRequestImplCopyWith<$Res>
     implements $AddEducationRequestCopyWith<$Res> {
-  factory _$$AddEducationRequestImplCopyWith(_$AddEducationRequestImpl value,
-          $Res Function(_$AddEducationRequestImpl) then) =
-      __$$AddEducationRequestImplCopyWithImpl<$Res>;
+  factory _$$AddEducationRequestImplCopyWith(
+    _$AddEducationRequestImpl value,
+    $Res Function(_$AddEducationRequestImpl) then,
+  ) = __$$AddEducationRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: "school") String school,
-      @JsonKey(name: "degree") String degree,
-      @JsonKey(name: "startdate") DateTime startdate,
-      @JsonKey(name: "enddate") DateTime enddate});
+  $Res call({
+    @JsonKey(name: "school") String school,
+    @JsonKey(name: "degree") String degree,
+    @JsonKey(name: "startdate") DateTime startdate,
+    @JsonKey(name: "enddate") DateTime enddate,
+  });
 }
 
 /// @nodoc
 class __$$AddEducationRequestImplCopyWithImpl<$Res>
     extends _$AddEducationRequestCopyWithImpl<$Res, _$AddEducationRequestImpl>
     implements _$$AddEducationRequestImplCopyWith<$Res> {
-  __$$AddEducationRequestImplCopyWithImpl(_$AddEducationRequestImpl _value,
-      $Res Function(_$AddEducationRequestImpl) _then)
-      : super(_value, _then);
+  __$$AddEducationRequestImplCopyWithImpl(
+    _$AddEducationRequestImpl _value,
+    $Res Function(_$AddEducationRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AddEducationRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -126,35 +135,38 @@ class __$$AddEducationRequestImplCopyWithImpl<$Res>
     Object? startdate = null,
     Object? enddate = null,
   }) {
-    return _then(_$AddEducationRequestImpl(
-      school: null == school
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as String,
-      degree: null == degree
-          ? _value.degree
-          : degree // ignore: cast_nullable_to_non_nullable
-              as String,
-      startdate: null == startdate
-          ? _value.startdate
-          : startdate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      enddate: null == enddate
-          ? _value.enddate
-          : enddate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$AddEducationRequestImpl(
+        school: null == school
+            ? _value.school
+            : school // ignore: cast_nullable_to_non_nullable
+                  as String,
+        degree: null == degree
+            ? _value.degree
+            : degree // ignore: cast_nullable_to_non_nullable
+                  as String,
+        startdate: null == startdate
+            ? _value.startdate
+            : startdate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        enddate: null == enddate
+            ? _value.enddate
+            : enddate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AddEducationRequestImpl implements _AddEducationRequest {
-  const _$AddEducationRequestImpl(
-      {@JsonKey(name: "school") required this.school,
-      @JsonKey(name: "degree") required this.degree,
-      @JsonKey(name: "startdate") required this.startdate,
-      @JsonKey(name: "enddate") required this.enddate});
+  const _$AddEducationRequestImpl({
+    @JsonKey(name: "school") required this.school,
+    @JsonKey(name: "degree") required this.degree,
+    @JsonKey(name: "startdate") required this.startdate,
+    @JsonKey(name: "enddate") required this.enddate,
+  });
 
   factory _$AddEducationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddEducationRequestImplFromJson(json);
@@ -201,23 +213,23 @@ class _$AddEducationRequestImpl implements _AddEducationRequest {
   @pragma('vm:prefer-inline')
   _$$AddEducationRequestImplCopyWith<_$AddEducationRequestImpl> get copyWith =>
       __$$AddEducationRequestImplCopyWithImpl<_$AddEducationRequestImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AddEducationRequestImplToJson(
-      this,
-    );
+    return _$$AddEducationRequestImplToJson(this);
   }
 }
 
 abstract class _AddEducationRequest implements AddEducationRequest {
-  const factory _AddEducationRequest(
-          {@JsonKey(name: "school") required final String school,
-          @JsonKey(name: "degree") required final String degree,
-          @JsonKey(name: "startdate") required final DateTime startdate,
-          @JsonKey(name: "enddate") required final DateTime enddate}) =
-      _$AddEducationRequestImpl;
+  const factory _AddEducationRequest({
+    @JsonKey(name: "school") required final String school,
+    @JsonKey(name: "degree") required final String degree,
+    @JsonKey(name: "startdate") required final DateTime startdate,
+    @JsonKey(name: "enddate") required final DateTime enddate,
+  }) = _$AddEducationRequestImpl;
 
   factory _AddEducationRequest.fromJson(Map<String, dynamic> json) =
       _$AddEducationRequestImpl.fromJson;

@@ -4,6 +4,18 @@ part 'sip_report_response.freezed.dart';
 part 'sip_report_response.g.dart';
 
 @freezed
+class SipReportUserResponse with _$SipReportUserResponse {
+  const factory SipReportUserResponse({
+    @JsonKey(name: "id") required int id,
+    @JsonKey(name: "fullName") required String fullName,
+    @JsonKey(name: "email") required String email,
+  }) = _SipReportUserResponse;
+
+  factory SipReportUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$SipReportUserResponseFromJson(json);
+}
+
+@freezed
 class SipReportResponse with _$SipReportResponse {
   const factory SipReportResponse({
     @JsonKey(name: "id") required int id,
@@ -13,6 +25,7 @@ class SipReportResponse with _$SipReportResponse {
     @JsonKey(name: "link") String? link,
     @JsonKey(name: "approved") required int approved,
     @JsonKey(name: "uid") required int uid,
+    @JsonKey(name: "user") required SipReportUserResponse user,
   }) = _SipReportResponse;
 
   factory SipReportResponse.fromJson(Map<String, dynamic> json) =>

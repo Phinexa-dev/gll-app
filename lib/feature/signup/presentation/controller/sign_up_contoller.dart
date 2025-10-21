@@ -10,6 +10,8 @@ import 'package:gll/feature/login/data/dto/request/sign_in_request.dart';
 import 'package:gll/core/data/local/auth/auth_notifier.dart';
 import 'package:gll/core/data/remote/network_service.dart';
 import 'package:gll/core/presentation/provider/user_notifier_provider.dart';
+import 'package:gll/feature/system_feedback/provider/feedback_provider.dart';
+import 'package:gll/feature/system_feedback/model/feedback.dart';
 
 final signUpControllerProvider =
     AutoDisposeNotifierProvider<SignUpController, SignUpState>(
@@ -105,8 +107,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
 
     try {
       final payload = {'email': email};
-      // TODO : integrate with backend verification
-      // await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
+       await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
 
       // backend sent code successfully; move to verification stage
       state = state.copyWith(
@@ -155,17 +156,29 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       return;
     }
 
+    // Set loading state immediately to disable button
+    state = state.copyWith(isLoading: true, isFailure: null, errorMessage: null);
+
     try {
       final payload = {'email': email};
-      // TODO : integrate with backend verification
-      // await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
-      // restart cooldown on success
+      await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
+
       state = state.copyWith(
-          resendCooldownSeconds: 60, isFailure: null, errorMessage: null);
+          isLoading: false,
+          resendCooldownSeconds: 60,
+          isFailure: null,
+          errorMessage: null);
       _startResendCountdown();
+
+      // Show success message
+      ref.read(feedbackServiceProvider).showToast(
+        'Verification code resent successfully',
+        type: FeedbackType.success,
+      );
     } on DioException catch (e) {
       final errorMessage = e.response?.data['message'] as String?;
       state = state.copyWith(
+        isLoading: false,
         isFailure: true,
         errorMessage: errorMessage ?? 'Failed to resend verification code',
       );
@@ -215,9 +228,7 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
 
     try {
       final verifyPayload = {'email': email, 'code': entered};
-      // TODO : integrate with backend verification
-      final verified = (DateTime.now().millisecondsSinceEpoch % 2 == 0);
-      // final verified = await ref.read(signUpRepositoryProvider).verifyCode(verifyPayload);
+      final verified = await ref.read(signUpRepositoryProvider).verifyCode(verifyPayload);
 
       if (!verified) {
         state = state.copyWith(
@@ -255,6 +266,14 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
             isSuccess: signInResult.success,
             isFailure: !signInResult.success,
           );
+
+          // Show success message after successful registration
+          if (signInResult.success) {
+            ref.read(feedbackServiceProvider).showToast(
+              'Registration successful! Welcome to Global Learning Lab',
+              type: FeedbackType.success,
+            );
+          }
         } else {
           state = state.copyWith(
               isLoading: false, isSuccess: false, isFailure: true);
