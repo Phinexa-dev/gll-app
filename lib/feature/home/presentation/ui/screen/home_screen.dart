@@ -77,6 +77,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(profileControllerProvider).isLoading;
     final userData = ref.read(profileControllerProvider).form;
+    final eventState = ref.watch(eventControllerProvider);
+    final firstEvent = eventState.events.isNotEmpty ? eventState.events.first : null;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -210,9 +212,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     _buildWelcomeSection(),
                     Transform.translate(
                       offset: Offset(0, -30),
-                      child: _buildHowItWorksSection(),
+                      child: _buildHowItWorksSectionWithEvent(context, ref, eventState, firstEvent),
                     ),
-
                     _buildSipMapSection(context),
                   ],
                 ),
@@ -376,10 +377,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildHowItWorksSection() {
+  Widget _buildHowItWorksSectionWithEvent(BuildContext context, WidgetRef ref, eventState, firstEvent) {
 
-    final eventState = ref.watch(eventControllerProvider);
-    final firstEvent = eventState.events.isNotEmpty ? eventState.events.first : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

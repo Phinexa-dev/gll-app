@@ -13,7 +13,6 @@ class EventController extends AutoDisposeNotifier<EventState> {
 
   @override
   EventState build() {
-    getEvents();
     return EventState(isLoading: true);
   }
 
