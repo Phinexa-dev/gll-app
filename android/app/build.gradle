@@ -2,14 +2,15 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    // Move this to the end
-    id 'com.google.gms.google-services'
+    id 'com.google.gms.google-services' apply false
 }
+
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+
 android {
     namespace = "org.globallearninglab.gll"
     compileSdk = flutter.compileSdkVersion
@@ -23,6 +24,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+
     signingConfigs {
         release {
             if (keystorePropertiesFile.exists()) {
@@ -44,14 +46,11 @@ android {
             }
         }
     }
+
     defaultConfig {
         multiDexEnabled true
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "org.globallearninglab.gll"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-//        minSdk = flutter.minSdkVersion
-        minSdk = 25
+        minSdk = 25  // Your custom minSdk
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -62,10 +61,25 @@ android {
         }
     }
 
-    // Add this block to support 16 KB page sizes
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+        texture {
+            enableSplit = true
+        }
+    }
+
+    // CORRECTED: Change to true for 16KB page support
     packagingOptions {
         jniLibs {
-            useLegacyPackaging = false
+            useLegacyPackaging = true
         }
     }
 
@@ -73,9 +87,9 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            // Disable native library stripping to avoid build errors
+            // CORRECTED: Use FULL or remove this block entirely
             ndk {
-                debugSymbolLevel 'SYMBOL_TABLE'
+                debugSymbolLevel 'FULL'
             }
             signingConfig signingConfigs.release
         }
@@ -91,3 +105,6 @@ dependencies {
 flutter {
     source = "../.."
 }
+
+// Apply google services at the end
+apply plugin: 'com.google.gms.google-services'
