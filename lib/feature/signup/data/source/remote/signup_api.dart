@@ -18,4 +18,10 @@ abstract class SignupApi {
 
   @POST('/auth/signup')
   Future<SignUpResponse> signUp(@Body() SignUpRequest data);
+
+  @POST('/auth/code/send')
+  Future<void> sendVerificationCode(@Body() Map<String, dynamic> data);
+
+  @POST('/auth/code/verify')
+  Future<dynamic> verifyCode(@Body() Map<String, dynamic> data);
 }

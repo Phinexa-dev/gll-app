@@ -12,8 +12,7 @@ part of 'sign_up_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 SignUpRequest _$SignUpRequestFromJson(Map<String, dynamic> json) {
   return _SignUpRequest.fromJson(json);
@@ -49,19 +48,17 @@ mixin _$SignUpRequest {
 /// @nodoc
 abstract class $SignUpRequestCopyWith<$Res> {
   factory $SignUpRequestCopyWith(
-    SignUpRequest value,
-    $Res Function(SignUpRequest) then,
-  ) = _$SignUpRequestCopyWithImpl<$Res, SignUpRequest>;
+          SignUpRequest value, $Res Function(SignUpRequest) then) =
+      _$SignUpRequestCopyWithImpl<$Res, SignUpRequest>;
   @useResult
-  $Res call({
-    @JsonKey(name: "fullName") String fullName,
-    @JsonKey(name: "email") String email,
-    @JsonKey(name: "dialCode") String dialCode,
-    @JsonKey(name: "mobileNumber") String mobileNumber,
-    @JsonKey(name: "password") String password,
-    @JsonKey(name: "confirmPassword") String confirmPassword,
-    @JsonKey(name: "gender") String gender,
-  });
+  $Res call(
+      {@JsonKey(name: "fullName") String fullName,
+      @JsonKey(name: "email") String email,
+      @JsonKey(name: "dialCode") String dialCode,
+      @JsonKey(name: "mobileNumber") String mobileNumber,
+      @JsonKey(name: "password") String password,
+      @JsonKey(name: "confirmPassword") String confirmPassword,
+      @JsonKey(name: "gender") String gender});
 }
 
 /// @nodoc
@@ -87,39 +84,36 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
     Object? confirmPassword = null,
     Object? gender = null,
   }) {
-    return _then(
-      _value.copyWith(
-            fullName: null == fullName
-                ? _value.fullName
-                : fullName // ignore: cast_nullable_to_non_nullable
-                      as String,
-            email: null == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String,
-            dialCode: null == dialCode
-                ? _value.dialCode
-                : dialCode // ignore: cast_nullable_to_non_nullable
-                      as String,
-            mobileNumber: null == mobileNumber
-                ? _value.mobileNumber
-                : mobileNumber // ignore: cast_nullable_to_non_nullable
-                      as String,
-            password: null == password
-                ? _value.password
-                : password // ignore: cast_nullable_to_non_nullable
-                      as String,
-            confirmPassword: null == confirmPassword
-                ? _value.confirmPassword
-                : confirmPassword // ignore: cast_nullable_to_non_nullable
-                      as String,
-            gender: null == gender
-                ? _value.gender
-                : gender // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      dialCode: null == dialCode
+          ? _value.dialCode
+          : dialCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      mobileNumber: null == mobileNumber
+          ? _value.mobileNumber
+          : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      confirmPassword: null == confirmPassword
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
   }
 }
 
@@ -127,20 +121,18 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
 abstract class _$$SignUpRequestImplCopyWith<$Res>
     implements $SignUpRequestCopyWith<$Res> {
   factory _$$SignUpRequestImplCopyWith(
-    _$SignUpRequestImpl value,
-    $Res Function(_$SignUpRequestImpl) then,
-  ) = __$$SignUpRequestImplCopyWithImpl<$Res>;
+          _$SignUpRequestImpl value, $Res Function(_$SignUpRequestImpl) then) =
+      __$$SignUpRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: "fullName") String fullName,
-    @JsonKey(name: "email") String email,
-    @JsonKey(name: "dialCode") String dialCode,
-    @JsonKey(name: "mobileNumber") String mobileNumber,
-    @JsonKey(name: "password") String password,
-    @JsonKey(name: "confirmPassword") String confirmPassword,
-    @JsonKey(name: "gender") String gender,
-  });
+  $Res call(
+      {@JsonKey(name: "fullName") String fullName,
+      @JsonKey(name: "email") String email,
+      @JsonKey(name: "dialCode") String dialCode,
+      @JsonKey(name: "mobileNumber") String mobileNumber,
+      @JsonKey(name: "password") String password,
+      @JsonKey(name: "confirmPassword") String confirmPassword,
+      @JsonKey(name: "gender") String gender});
 }
 
 /// @nodoc
@@ -148,9 +140,8 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
     extends _$SignUpRequestCopyWithImpl<$Res, _$SignUpRequestImpl>
     implements _$$SignUpRequestImplCopyWith<$Res> {
   __$$SignUpRequestImplCopyWithImpl(
-    _$SignUpRequestImpl _value,
-    $Res Function(_$SignUpRequestImpl) _then,
-  ) : super(_value, _then);
+      _$SignUpRequestImpl _value, $Res Function(_$SignUpRequestImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SignUpRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -165,53 +156,50 @@ class __$$SignUpRequestImplCopyWithImpl<$Res>
     Object? confirmPassword = null,
     Object? gender = null,
   }) {
-    return _then(
-      _$SignUpRequestImpl(
-        fullName: null == fullName
-            ? _value.fullName
-            : fullName // ignore: cast_nullable_to_non_nullable
-                  as String,
-        email: null == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String,
-        dialCode: null == dialCode
-            ? _value.dialCode
-            : dialCode // ignore: cast_nullable_to_non_nullable
-                  as String,
-        mobileNumber: null == mobileNumber
-            ? _value.mobileNumber
-            : mobileNumber // ignore: cast_nullable_to_non_nullable
-                  as String,
-        password: null == password
-            ? _value.password
-            : password // ignore: cast_nullable_to_non_nullable
-                  as String,
-        confirmPassword: null == confirmPassword
-            ? _value.confirmPassword
-            : confirmPassword // ignore: cast_nullable_to_non_nullable
-                  as String,
-        gender: null == gender
-            ? _value.gender
-            : gender // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
+    return _then(_$SignUpRequestImpl(
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      dialCode: null == dialCode
+          ? _value.dialCode
+          : dialCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      mobileNumber: null == mobileNumber
+          ? _value.mobileNumber
+          : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      confirmPassword: null == confirmPassword
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SignUpRequestImpl implements _SignUpRequest {
-  const _$SignUpRequestImpl({
-    @JsonKey(name: "fullName") required this.fullName,
-    @JsonKey(name: "email") required this.email,
-    @JsonKey(name: "dialCode") required this.dialCode,
-    @JsonKey(name: "mobileNumber") required this.mobileNumber,
-    @JsonKey(name: "password") required this.password,
-    @JsonKey(name: "confirmPassword") required this.confirmPassword,
-    @JsonKey(name: "gender") required this.gender,
-  });
+  const _$SignUpRequestImpl(
+      {@JsonKey(name: "fullName") required this.fullName,
+      @JsonKey(name: "email") required this.email,
+      @JsonKey(name: "dialCode") required this.dialCode,
+      @JsonKey(name: "mobileNumber") required this.mobileNumber,
+      @JsonKey(name: "password") required this.password,
+      @JsonKey(name: "confirmPassword") required this.confirmPassword,
+      @JsonKey(name: "gender") required this.gender});
 
   factory _$SignUpRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpRequestImplFromJson(json);
@@ -264,16 +252,8 @@ class _$SignUpRequestImpl implements _SignUpRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    fullName,
-    email,
-    dialCode,
-    mobileNumber,
-    password,
-    confirmPassword,
-    gender,
-  );
+  int get hashCode => Object.hash(runtimeType, fullName, email, dialCode,
+      mobileNumber, password, confirmPassword, gender);
 
   /// Create a copy of SignUpRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -285,20 +265,22 @@ class _$SignUpRequestImpl implements _SignUpRequest {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignUpRequestImplToJson(this);
+    return _$$SignUpRequestImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _SignUpRequest implements SignUpRequest {
-  const factory _SignUpRequest({
-    @JsonKey(name: "fullName") required final String fullName,
-    @JsonKey(name: "email") required final String email,
-    @JsonKey(name: "dialCode") required final String dialCode,
-    @JsonKey(name: "mobileNumber") required final String mobileNumber,
-    @JsonKey(name: "password") required final String password,
-    @JsonKey(name: "confirmPassword") required final String confirmPassword,
-    @JsonKey(name: "gender") required final String gender,
-  }) = _$SignUpRequestImpl;
+  const factory _SignUpRequest(
+      {@JsonKey(name: "fullName") required final String fullName,
+      @JsonKey(name: "email") required final String email,
+      @JsonKey(name: "dialCode") required final String dialCode,
+      @JsonKey(name: "mobileNumber") required final String mobileNumber,
+      @JsonKey(name: "password") required final String password,
+      @JsonKey(name: "confirmPassword") required final String confirmPassword,
+      @JsonKey(name: "gender")
+      required final String gender}) = _$SignUpRequestImpl;
 
   factory _SignUpRequest.fromJson(Map<String, dynamic> json) =
       _$SignUpRequestImpl.fromJson;
