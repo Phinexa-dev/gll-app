@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gll/feature/signup/application/sign_up_service.dart';
 import 'package:gll/feature/signup/presentation/state/sign_up_state.dart';
 import '../../data/dto/request/sign_up_request.dart';
+import '../../data/repository/sign_up_repository.dart';
 import 'package:gll/feature/login/application/sign_in_service.dart';
 import 'package:gll/feature/login/data/dto/request/sign_in_request.dart';
 import 'package:gll/core/data/local/auth/auth_notifier.dart';
@@ -11,10 +13,12 @@ import 'package:gll/core/presentation/provider/user_notifier_provider.dart';
 
 final signUpControllerProvider =
     AutoDisposeNotifierProvider<SignUpController, SignUpState>(
-      SignUpController.new,
-    );
+  SignUpController.new,
+);
 
 class SignUpController extends AutoDisposeNotifier<SignUpState> {
+  Timer? _resendTimer;
+
   @override
   SignUpState build() {
     return SignUpState();
@@ -36,9 +40,6 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
     final confirmPassword = state.signUpForm?['confirmPassword'];
     final dialCode = state.signUpForm?['dialCode'];
     final phoneNumber = state.signUpForm?['phoneNumber'];
-    final gender = state.signUpForm?['gender'];
-
-    // --- FIX APPLIED HERE ---
     // The `gender` field has been removed from this validation check.
     // An empty string for gender is now considered a valid, optional field.
     if (fullName.isEmpty ||
@@ -98,24 +99,141 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
       return;
     }
 
-    try {
-      state = state.copyWith(isLoading: true, isSuccess: null, isFailure: null);
+    // Call backend to send verification code
+    state =
+        state.copyWith(isLoading: true, isFailure: null, errorMessage: null);
 
-      final signUpRequest = SignUpRequest(
-        fullName: fullName,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
-        dialCode: dialCode,
-        mobileNumber: phoneNumber,
-        gender: gender,
+    try {
+      final payload = {'email': email};
+      // TODO : integrate with backend verification
+      // await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
+
+      // backend sent code successfully; move to verification stage
+      state = state.copyWith(
+        isLoading: false,
+        stage: 2,
+        enteredCode: null,
+        resendCooldownSeconds: 60,
       );
 
-      final result = await ref.read(signUpServiceProvider).signUp(signUpRequest);
+      _startResendCountdown();
+    } on DioException catch (e) {
+      final errorMessage = e.response?.data['message'] as String?;
+      state = state.copyWith(
+        isLoading: false,
+        isFailure: true,
+        errorMessage: errorMessage ?? 'Failed to send verification code',
+      );
+    }
+  }
 
-      // If signup successful, attempt to sign the user in automatically
-      if (result == true) {
-        try {
+  void _startResendCountdown() {
+    _resendTimer?.cancel();
+    state = state.copyWith(resendCooldownSeconds: 60);
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final current = state.resendCooldownSeconds;
+      if (current <= 1) {
+        timer.cancel();
+        state = state.copyWith(resendCooldownSeconds: 0);
+      } else {
+        state = state.copyWith(resendCooldownSeconds: current - 1);
+      }
+    });
+  }
+
+  void setEnteredCode(String code) {
+    state = state.copyWith(enteredCode: code);
+  }
+
+  Future<void> resendCode() async {
+    if (state.resendCooldownSeconds > 0) return; // still cooling down
+
+    final email = state.signUpForm?['email'] as String?;
+    if (email == null || email.isEmpty) {
+      state = state.copyWith(
+          isFailure: true, errorMessage: 'No email available to resend code');
+      return;
+    }
+
+    try {
+      final payload = {'email': email};
+      // TODO : integrate with backend verification
+      // await ref.read(signUpRepositoryProvider).sendVerificationCode(payload);
+      // restart cooldown on success
+      state = state.copyWith(
+          resendCooldownSeconds: 60, isFailure: null, errorMessage: null);
+      _startResendCountdown();
+    } on DioException catch (e) {
+      final errorMessage = e.response?.data['message'] as String?;
+      state = state.copyWith(
+        isFailure: true,
+        errorMessage: errorMessage ?? 'Failed to resend verification code',
+      );
+    }
+  }
+
+  void cancelVerification() {
+    _resendTimer?.cancel();
+    state = state.copyWith(
+      stage: 1,
+      enteredCode: null,
+      resendCooldownSeconds: 0,
+      isLoading: false,
+      isFailure: null,
+      errorMessage: null,
+    );
+  }
+
+  Future<void> verifyAndSignup() async {
+    final entered = state.enteredCode ?? '';
+
+    if (entered.isEmpty) {
+      state = state.copyWith(
+          isFailure: true, errorMessage: 'Enter verification code');
+      return;
+    }
+
+    // Call backend to verify code
+    state =
+        state.copyWith(isLoading: true, isFailure: null, errorMessage: null);
+    final fullName = state.signUpForm?['fullName'];
+    final email = state.signUpForm?['email'];
+    final password = state.signUpForm?['password'];
+    final confirmPassword = state.signUpForm?['confirmPassword'];
+    final dialCode = state.signUpForm?['dialCode'];
+    final phoneNumber = state.signUpForm?['phoneNumber'];
+
+    final signUpRequest = SignUpRequest(
+      fullName: fullName,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      dialCode: dialCode,
+      mobileNumber: phoneNumber,
+      gender: state.signUpForm?['gender'],
+    );
+
+    try {
+      final verifyPayload = {'email': email, 'code': entered};
+      // TODO : integrate with backend verification
+      final verified = (DateTime.now().millisecondsSinceEpoch % 2 == 0);
+      // final verified = await ref.read(signUpRepositoryProvider).verifyCode(verifyPayload);
+
+      if (!verified) {
+        state = state.copyWith(
+            isLoading: false,
+            isFailure: true,
+            errorMessage: 'Verification failed');
+        return;
+      }
+
+      // proceed with signup API call after successful verification
+      try {
+        final result =
+            await ref.read(signUpServiceProvider).signUp(signUpRequest);
+
+        // If signup successful, attempt to sign the user in automatically
+        if (result == true) {
           final signInRequest = SignInRequest(
             email: email,
             password: password,
@@ -130,35 +248,32 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
           await authNotifier.updateAuthState();
           ref.read(userNotifierProvider.notifier).loadUser();
 
+          _resendTimer?.cancel();
+
           state = state.copyWith(
             isLoading: false,
             isSuccess: signInResult.success,
             isFailure: !signInResult.success,
           );
-        } on DioException catch (e) {
-          final errorMessage = e.response?.data['message'] as String?;
+        } else {
           state = state.copyWith(
-            isLoading: false,
-            isSuccess: false,
-            isFailure: true,
-            errorMessage: errorMessage ?? 'Sign in after signup failed',
-          );
+              isLoading: false, isSuccess: false, isFailure: true);
         }
-      } else {
+      } on DioException catch (e) {
+        final errorMessage = e.response?.data['message'] as String?;
         state = state.copyWith(
           isLoading: false,
           isSuccess: false,
           isFailure: true,
+          errorMessage: errorMessage ?? 'An error occurred during signup',
         );
       }
     } on DioException catch (e) {
       final errorMessage = e.response?.data['message'] as String?;
       state = state.copyWith(
-        isLoading: false,
-        isSuccess: false,
-        isFailure: true,
-        errorMessage: errorMessage ?? 'An error occurred',
-      );
+          isLoading: false,
+          isFailure: true,
+          errorMessage: errorMessage ?? 'Verification failed');
     }
   }
 
