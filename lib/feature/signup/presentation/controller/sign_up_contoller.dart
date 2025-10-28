@@ -297,114 +297,36 @@ class SignUpController extends AutoDisposeNotifier<SignUpState> {
   }
 
   bool validatePhoneNo(String dialCode, String phoneNumber) {
-    // Validate phone number length
-    bool isPhoneNumberValid = true;
-    String? errorMessage;
+    // Remove non-digit characters for safety
+    phoneNumber = phoneNumber.replaceAll(RegExp(r'\D'), '');
 
-    switch (dialCode) {
-      case '+1': // USA
-        if (phoneNumber.length != 10) {
-          isPhoneNumberValid = false;
-          errorMessage = 'US phone numbers must be 10 digits';
-        }
-        break;
-      case '+91': // India
-        if (phoneNumber.length != 10) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Indian phone numbers must be 10 digits';
-        }
-        break;
-      case '+94': // Sri Lanka
-        if (phoneNumber.length != 9) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Sri Lankan phone numbers must be 9 digits';
-        }
-        break;
-      case '+355': // Albania
-        if (phoneNumber.length != 9 && phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage =
-              'Albanian phone numbers must be 9 (mobile) or 8 (landline) digits';
-        }
-        break;
-      case '+381': // Serbia
-        if (phoneNumber.length != 9 &&
-            phoneNumber.length != 7 &&
-            phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage =
-              'Serbian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
-        }
-        break;
-      case '+382': // Montenegro
-        if (phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Montenegrin phone numbers must be 8 digits';
-        }
-        break;
-      case '+383': // Kosovo
-        if (phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Kosovo phone numbers must be 8 digits';
-        }
-        break;
-      case '+385': // Croatia
-        if (phoneNumber.length != 9 && phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage =
-              'Croatian phone numbers must be 9 (mobile) or 8–9 (landline) digits';
-        }
-        break;
-      case '+386': // Slovenia
-        if (phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Slovenian phone numbers must be 8 digits';
-        }
-        break;
-      case '+387': // Bosnia and Herzegovina
-        if (phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Bosnian phone numbers must be 8 digits';
-        }
-        break;
-      case '+359': // Bulgaria
-        if (phoneNumber.length != 9 &&
-            phoneNumber.length != 7 &&
-            phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage =
-              'Bulgarian phone numbers must be 9 (mobile) or 7–8 (landline) digits';
-        }
-        break;
-      case '+389': // North Macedonia
-        if (phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage = 'Macedonian phone numbers must be 8 digits';
-        }
-        break;
-      case '+977': // Nepal
-        if (phoneNumber.length != 10 && phoneNumber.length != 8) {
-          isPhoneNumberValid = false;
-          errorMessage =
-              'Nepalese phone numbers must be 10 (mobile) or 8 (landline) digits';
-        }
-        break;
-      default:
-        isPhoneNumberValid = false;
-        errorMessage = 'Unsupported country code';
-    }
-
-    if (!isPhoneNumberValid) {
+    // Basic validation: ensure it has at least some reasonable length
+    if (phoneNumber.length < 5 || phoneNumber.length > 15) {
       state = state.copyWith(
         isLoading: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: errorMessage,
+        errorMessage: 'Invalid phone number length',
       );
+      return false;
     }
 
-    return isPhoneNumberValid;
+    // Optionally, you can also check if it’s purely numeric
+    if (!RegExp(r'^\d+$').hasMatch(phoneNumber)) {
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        isFailure: true,
+        errorMessage: 'Phone number must contain only digits',
+      );
+      return false;
+    }
+
+    // If passed all checks, it’s valid for any country
+    return true;
   }
+
+
 
   void setFormData(Map<String, dynamic> formData) {
     state = state.copyWith(signUpForm: formData);
