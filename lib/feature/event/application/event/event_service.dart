@@ -15,12 +15,14 @@ final class EventService implements IEventService {
   final IEventRepository _eventRepository;
 
   static const List<String> _eventImages = [
+    "assets/events/event_1.png",
+    "assets/events/event_2.png",
     "assets/events/event_3.png",
     "assets/events/event_4.png",
-    "assets/events/event_8.png",
     "assets/events/event_5.png",
-    "assets/events/event_7.png",
     "assets/events/event_6.png",
+    "assets/events/event_7.png",
+    "assets/events/event_8.png",
   ];
 
   EventService(this._eventRepository);
