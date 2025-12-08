@@ -24,6 +24,7 @@ plugins {
     // END: FlutterFire Configuration
 
     id "org.jetbrains.kotlin.android" version "2.2.21" apply false
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
 include ":app"
